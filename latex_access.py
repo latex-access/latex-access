@@ -28,9 +28,10 @@ def translate(input,translation_table):
             curr=input[i]
 
         if curr in translation_table:
+            i+=len(curr)
             if type(translation_table[curr]) == types.StringType:
                 output += translation_table[curr]
-                i+=len(curr)
+
             elif type(translation_table[curr]) == types.FunctionType:
                 translation=translation_table[curr](input,i)
                 output+=translation[0]
