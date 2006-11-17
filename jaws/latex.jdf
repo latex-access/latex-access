@@ -1,0 +1,41 @@
+.\,. .
+.\alpha*. alpha .
+.\beta*. beta .
+.\cdot*. dot .
+,\cdots*,...,
+.\con*. congruent to .
+.\cos*. cos .
+.\ddot. d dot.
+.\delta*. delta .
+.\geq*. greater than or equal to .
+.\infty*. infinity .
+.\lambda*. lambda .
+,\ldots, ... ,
+.\left(*.(.
+.\left[*. [ .
+.\leq*. less than or equal to .
+.\log*. log .
+.\mid.divides.
+.\mu*. mu .
+.\neq*. not equal to .
+.\pi*. pi .
+.\pm*. plus or minus .
+.\ra*. goes to .
+.\right)*.).
+.\right]*. ] .
+.\rightarrow*. goes to .
+.\Sigma*. Cap sigma .
+.\sin*. sine .
+.\tan*. tan .
+.\textbf*. .
+.\theta.theta.
+.\times.times.
+.\wedge . cross .
+.^.to the.
+.^2.squared.
+.^3.cubed.
+.f(a). f of ay .
+.f(x).f of x.
+.s_{xx}.s suffix xx.
+.to the 2.squared.
+.to the 3.cubed.

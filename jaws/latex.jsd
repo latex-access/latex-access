@@ -1,0 +1,68 @@
+:function ProcessFromToCommand
+:Synopsis Processes commands like integrals and sums which have an upper and lower limit
+:Param string/input The text containing the latex to be processed
+:Param string/command The command to be searched for
+:Param string/translation The text with which the command should be replaced
+
+:function AutoStartEvent
+
+:function ProcessMaths
+:Returns string The processed string
+:Synopsis Processes the mathematical, or other latex commands, in a string of text.
+:Description Place the cursor on the delimitor where you want to start.
+:Param string/text The text to be processed.
+
+:function NextNonSpace
+:Returns int The position of said character.
+:Synopsis Finds the next character in a string which is not a space.
+:Param string/text The text string to search
+:Param int/StartPos The Position to start at
+
+:function IsInteger
+:Returns int true if a natural number, false otherwise.
+:Synopsis Tests the string passed in to see if it is a positive integer
+:Param string/numberxt. the string to test.
+
+:function GetContents
+:Returns string No Return Description
+:Synopsis gets the contents of an expression in braces.
+:Param string/text No Description
+:Param int/pos No Description
+
+:function SayLine
+:Synopsis An overidden version of the default, which processes maths before it is spoken.
+
+:script ToggleMaths
+:Synopsis Toggles the speaking of mathematical expressions as either straight latex or a more verbal rendering.
+
+:function Process2ArgCommand
+:Param string/input/ByRef The string to be processed.
+:Param string/command/ByRef The command to be translated.
+:Param string/beginning/ByRef The string to be placed at the beginning.
+:Param string/delimitor/ByRef the text to place between the 2 arguments
+:Param string/end/ByRef The text to place after the command
+:Param string/short/ByRef the string to use in simple cases, when it is not necessary to dilimit the beginning and end.
+:Param int/spaces????/ByRef No Description
+
+:function BrailleBuildLine
+:Returns int No Return Description
+
+:function ProcessFraction
+:Returns string No Return Description
+:Synopsis Processes fractions, to identify things like derivatives and simple numerical fractions.
+:Param string/numerator Thenumerator of the fraction to b processed
+:Param string/denominator The denominator of the fraction.
+:Param string/beginning String to put at the beginning of general fractions.
+:Param string/delimitor The string to place between the numerator and denominator of general fractions.
+:Param string/end The string to place at the end of general fractions.
+:Param string/short No Description
+
+:function Process1argCommand
+:Synopsis Replaces a specified latex command, with one argument, with an appropriate text string.
+:Param string/Input/ByRef No Description
+:Param string/command/ByRef No Description
+:Param string/Beginning/ByRef The text to place at the beginning of the construct
+:Param string/end/ByRef No Description
+:Param string/short/ByRef No Description
+:Param int/spacenction/ByRef insert spaces?  True for speech, generally false for braille.
+
