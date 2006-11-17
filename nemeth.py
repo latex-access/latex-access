@@ -10,7 +10,6 @@ def nemeth_super(input,start):
 
     Returns a tourple with translated string and index of
     first char after end of super.'''
-    start+=1
     arg=get_arg(input,start)
     #Handle squared and cubed as special cases
     if arg[0] == "2":
@@ -27,7 +26,6 @@ def nemeth_sub(input,start):
     '''Translates nemeth subscripts.
 
     Returns a touple, as above'''
-    start+=1
     arg=get_arg(input,start)
     if arg[0].isdigit():
         translation=arg[0]
@@ -39,7 +37,6 @@ def nemeth_sqrt(input,start):
     '''Translatesroots in latex.
 
     Returns a touple as above.'''
-    start+=5
     arg=get_arg(input,start)
     if arg[0].isdigit() or len(arg[0])==1:
         translation=">"+arg[0]
@@ -51,7 +48,6 @@ def nemeth_frac(input,start):
     '''Translates fractions into Nemeth.
 
     Returnstouple as above'''
-    start+=5
     numerator=get_arg(input,start)
     if numerator[1]<len(input):
         denominator=get_arg(input,numerator[1])
@@ -67,7 +63,6 @@ def nemeth_bold(input,start):
     '''Handles bold letters in equations, for example for vectors and matrices.
 
     Returns touple.'''
-    start+=7
     arg=get_arg(input,start)
     translation="_%s" % translate(arg[0],nemeth_table)
     return (translation,arg[1]) 
@@ -77,7 +72,6 @@ def nemeth_colvec(input,start):
     This is a custom command which I find useful to define.
 
     Returns touple as above.'''
-    start+=7
     x=get_arg(input,start)
     if x[1]<len(input):
         y=get_arg(input,x[1])
@@ -91,7 +85,6 @@ def nemeth_tcolvec(input,start):
     Like colvec, I reckomend defining this command.
 
     Returns touple as above'''
-    start+=8
     x=get_arg(input,start)
     if x[1]<len(input):
         y=get_arg(input,x[1])
@@ -108,7 +101,6 @@ def nemeth_dot(input, start):
     '''Used to translate dot, as in differentiation
 
     returns touple.'''
-    start+=4
     arg=get_arg(input,start)
     translation="%s'" % translate(arg[0],nemeth_table)
     return (translation,arg[1]) 
@@ -118,7 +110,6 @@ def nemeth_ddot(input, start):
     '''Used to translate ddot, as in differentiation
 
     returns touple.'''
-    start+=5
     arg=get_arg(input,start)
     translation="%s''" % translate(arg[0],nemeth_table)
     return (translation,arg[1])
@@ -127,7 +118,6 @@ def nemeth_text(input, start):
     '''Used to translate text, as in mbox and text
     
     returns touple.'''
-    start+=5
     arg=get_arg(input,start)
     translation="%s" % translate(arg[0],nemeth_table)
     return (translation,arg[1]) 
