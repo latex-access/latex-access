@@ -119,11 +119,10 @@ def nemeth_text(input, start):
     
     returns touple.'''
     arg=get_arg(input,start)
-    translation="%s" % translate(arg[0],nemeth_table)
-    return (translation,arg[1]) 
+    return (arg[0],arg[1]) 
 
 nemeth_table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*","\\wedge":"*",
-              "<":" \"k ",">":" .1 ","\\leq":" \"k.k ","\\geq":" .1.k ", 
+              "<":" \"k ",">":" .1 ","\\leq":" \"k.k ","\\geq":" .1.k ","\\ne":" ./k ", 
               "\\alpha":".a","\\beta":".b","\\theta":".?","\\pi":".p","\\phi":".f",
               "\\gamma":".g","\\delta":".d","\\lambda":".l","\\mu":".m","\\nu":".n","\\sigma":".s",
               "\\kappa":".k","\\rho":".r","\\tau":".t","\\omega":".w","\\psi":".y","\\epsilon":".e",
@@ -131,10 +130,10 @@ nemeth_table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*"
               "\\sin":"sin ","\\cos":"cos ","\\tan":"tan ",
               "\\Sec":"sec ","\\csc":"cosec ","\\cot":"cot ",
               "\\sinh":"sinh ","\\cosh":"cosh ","\\tanh":"tanh ",
-              "\\rightarrow":" 33o","\\leftarrow":" {33","\\equiv":" _l ",
+              "\\rightarrow":" 33o","\\leftarrow":" {33","\\leftrightarrow":" {33o ","\\equiv":" _l ",
               "\\partial":"_d","\\int":"!","\\dot":nemeth_dot,"\\ddot":nemeth_ddot,
               
               "^":nemeth_super,"_":nemeth_sub,"\\sqrt":nemeth_sqrt,"\\frac":nemeth_frac,
               "\mathbf":nemeth_bold,"\\colvec":nemeth_colvec,"\\tcolvec":nemeth_tcolvec,
-              "\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\mbox":nemeth_text,"\\text":nemeth_text}
+              "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\mbox":nemeth_text,"\\text":nemeth_text,"\\textrm":nemeth_text}
 
