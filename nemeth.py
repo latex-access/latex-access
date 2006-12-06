@@ -5,7 +5,7 @@ from latex_access import get_arg
 from latex_access import translate
 
 
-def nemeth_super(input,start):
+def super(input,start):
     '''Translate  superscripts into Nemeth.
 
     Returns a tourple with translated string and index of
@@ -17,12 +17,12 @@ def nemeth_super(input,start):
     elif arg[0]=="3":
         translation="%"
     else:
-        translation = "~" + translate(arg[0],nemeth_table) + "\""
+        translation = "~" + translate(arg[0],table) + "\""
     return (translation,arg[1])
     
 
 
-def nemeth_sub(input,start):
+def sub(input,start):
     '''Translates nemeth subscripts.
 
     Returns a touple, as above'''
@@ -30,10 +30,10 @@ def nemeth_sub(input,start):
     if arg[0].isdigit():
         translation=arg[0]
     else:
-        translation = ";"+translate(arg[0],nemeth_table) + "\""
+        translation = ";"+translate(arg[0],table) + "\""
     return (translation,arg[1])
 
-def nemeth_sqrt(input,start):
+def sqrt(input,start):
     '''Translatesroots in latex.
 
     Returns a touple as above.'''
@@ -41,10 +41,10 @@ def nemeth_sqrt(input,start):
     if arg[0].isdigit() or len(arg[0])==1:
         translation=">"+arg[0]
     else:
-        translation=">"+translate(arg[0],nemeth_table)+"}"
+        translation=">"+translate(arg[0],table)+"}"
     return (translation,arg[1])
 
-def nemeth_frac(input,start):
+def frac(input,start):
     '''Translates fractions into Nemeth.
 
     Returnstouple as above'''
@@ -56,18 +56,18 @@ def nemeth_frac(input,start):
     if numerator[0].isdigit() and denominator[0].isdigit():
             translation=numerator[0]+"/"+denominator[0]
     else:
-        translation="?"+translate(numerator[0],nemeth_table)+"/"+translate(denominator[0],nemeth_table)+"#"
+        translation="?"+translate(numerator[0],table)+"/"+translate(denominator[0],table)+"#"
     return (translation,denominator[1])
 
-def nemeth_bold(input,start):
+def bold(input,start):
     '''Handles bold letters in equations, for example for vectors and matrices.
 
     Returns touple.'''
     arg=get_arg(input,start)
-    translation="_%s" % translate(arg[0],nemeth_table)
+    translation="_%s" % translate(arg[0],table)
     return (translation,arg[1]) 
         
-def nemeth_colvec(input,start):
+def colvec(input,start):
     '''Handles 2d column vectors created with a \colvec command.
     This is a custom command which I find useful to define.
 
@@ -77,10 +77,10 @@ def nemeth_colvec(input,start):
         y=get_arg(input,x[1])
     else:
         y=("",x[1])
-    translation="{%s %so" % (translate(x[0],nemeth_table),translate(y[0],nemeth_table))
+    translation="{%s %so" % (translate(x[0],table),translate(y[0],table))
     return (translation,y[1])
 
-def nemeth_tcolvec(input,start):
+def tcolvec(input,start):
     '''This is intended to handle 3d column vectors created by a tcolvec command.
     Like colvec, I reckomend defining this command.
 
@@ -94,34 +94,34 @@ def nemeth_tcolvec(input,start):
         z=get_arg(input,y[1])
     else:
         z=("",y[1])
-    translation="{%s %s %so" % (translate(x[0],nemeth_table),translate(y[0],nemeth_table),translate(z[0],nemeth_table))
+    translation="{%s %s %so" % (translate(x[0],table),translate(y[0],table),translate(z[0],table))
     return (translation,z[1])
 
-def nemeth_dot(input, start):
+def dot(input, start):
     '''Used to translate dot, as in differentiation
 
     returns touple.'''
     arg=get_arg(input,start)
-    translation="%s'" % translate(arg[0],nemeth_table)
+    translation="%s'" % translate(arg[0],table)
     return (translation,arg[1]) 
 
 
-def nemeth_ddot(input, start):
+def ddot(input, start):
     '''Used to translate ddot, as in differentiation
 
     returns touple.'''
     arg=get_arg(input,start)
-    translation="%s''" % translate(arg[0],nemeth_table)
+    translation="%s''" % translate(arg[0],table)
     return (translation,arg[1])
 
-def nemeth_text(input, start):
+def text(input, start):
     '''Used to translate text, as in mbox and text
     
     returns touple.'''
     arg=get_arg(input,start)
     return (arg[0],arg[1]) 
 
-nemeth_table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*","\\wedge":"*",
+table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*","\\wedge":"*",
               "<":" \"k ",">":" .1 ","\\leq":" \"k.k ","\\geq":" .1.k ","\\ne":" ./k ", 
               "\\alpha":".a","\\beta":".b","\\theta":".?","\\pi":".p","\\phi":".f",
               "\\gamma":".g","\\delta":".d","\\lambda":".l","\\mu":".m","\\nu":".n","\\sigma":".s",
@@ -131,9 +131,9 @@ nemeth_table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*"
               "\\Sec":"sec ","\\csc":"cosec ","\\cot":"cot ",
               "\\sinh":"sinh ","\\cosh":"cosh ","\\tanh":"tanh ",
               "\\rightarrow":" 33o","\\leftarrow":" {33","\\leftrightarrow":" {33o ","\\equiv":" _l ",
-              "\\partial":"_d","\\int":"!","\\dot":nemeth_dot,"\\ddot":nemeth_ddot,
+              "\\partial":"_d","\\int":"!","\\dot":dot,"\\ddot":ddot,
               
-              "^":nemeth_super,"_":nemeth_sub,"\\sqrt":nemeth_sqrt,"\\frac":nemeth_frac,
-              "\mathbf":nemeth_bold,"\\colvec":nemeth_colvec,"\\tcolvec":nemeth_tcolvec,
-              "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\mbox":nemeth_text,"\\text":nemeth_text,"\\textrm":nemeth_text}
+              "^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,
+              "\mathbf":bold,"\\colvec":colvec,"\\tcolvec":tcolvec,
+              "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\mbox":text,"\\text":text,"\\textrm":text}
 
