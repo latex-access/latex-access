@@ -8,7 +8,7 @@ import nemeth
 
 while True:
     input = sys.stdin.readline()
-    output=latex_access.translate(input,nemeth.nemeth_table)
+    output=latex_access.translate(input,nemeth.table)
     print output
 
     
