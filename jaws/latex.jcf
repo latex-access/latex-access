@@ -1,6 +1,5 @@
 [OSM]
 IncludeGraphics=1
-
 [eloq-GlobalContext]
 Speed=96
 Pitch=65
@@ -67,35 +66,20 @@ PitchIncrements=20|7|-15
 Parent=Global
 VoiceName=Glen
 Language=American English
-
 [WindowClasses]
 TMDIChild=MultilineEdit
-
 [Options]
 Scheme=latex
-
-
-
-
-
-
-
 Repetitions=0
 Filter=0
 [eloq Voice Aliases]
 SubscriptVoice=*|-25%|0
 SuperscriptVoice=*|25%|0
-
-
-
-
 [Voyager]
 Grade2Translation=0
-
-
 [RichEdit and Edit Control Options]
 UseOSM=0
-
-
-
-
+[Braille]
+Grade2Translation=0
+BrailleMessages=0
+BrailleMoveActiveCursor=1
