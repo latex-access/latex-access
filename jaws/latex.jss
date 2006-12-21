@@ -1,7 +1,10 @@
 include "hjconst.jsh"
 
 globals int ProcessMaths,
-object latex_access
+object latex_access,
+object matrix,
+int row,
+int column
 
 
 Void Function AutoStartEvent ()
@@ -270,3 +273,78 @@ let i = i +1
 endwhile
 return true
 EndFunction
+
+
+Script InputMatrix ()
+let matrix=CreateObject ("latex_access_matrix")
+let row=1
+let column=1
+matrix.tex_init(GetSelectedText ())
+var string msg
+let msg ="Initialised "
+let msg=msg+inttostring(matrix.rows)
+let msg=msg+" by "
+let msg=msg+inttostring(matrix.columns)
+let msg=msg +" matrix"
+saystring(msg)
+EndScript
+
+
+Script MatrixRight ()
+if column < matrix.columns then
+let column = column+1
+saystring(matrix.get_cell(row,column))
+else
+saystring("end row")
+endif
+EndScript
+
+
+Script MatrixLeft ()
+if column > 1 then 
+let column = column - 1
+saystring(matrix.get_cell(row,column))
+else
+saystring("start row")
+endif
+EndScript
+
+
+Script MatrixDown ()
+if row < matrix.rows then
+let row = row+1
+saystring(matrix.get_cell(row,column))
+else
+saystring("end column")
+endif
+EndScript
+
+
+Script MatrixUp ()
+if row > 1 then
+let row = row - 1
+saystring(matrix.get_cell(row,column))
+else
+saystring("start columnd")
+endif
+EndScript
+
+
+
+Script SayRow (int i)
+if i>0 && i <= matrix.rows then 
+saystring(matrix.get_row(i," "))
+else 
+saystring("Invalid row")
+endif
+EndScript
+
+Script SayColumn (int i)
+if i>0 && i <=matrix.columns then
+saystring(matrix.get_col(i," "))
+else
+saystring("Invalid column")
+endif
+EndScript
+
+
