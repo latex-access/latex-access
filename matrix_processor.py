@@ -20,6 +20,10 @@ class matrix:
         #1st split the matrix into rows.
         rows=tex.split(r"\\")
         self.rows=len(rows)
+        #Remove a final blank row, if it exists.  This results from a trailing \\.
+        if rows[self.rows-1]=="":
+            rows.pop()
+            self.rows-=1
         #Now split into columns
         for row in rows:
             entries=row.split("&")
