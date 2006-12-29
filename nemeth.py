@@ -121,7 +121,7 @@ def text(input, start):
     arg=get_arg(input,start)
     return (arg[0],arg[1]) 
 
-table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*","\\wedge":"*",
+table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*","\\wedge":"*","\\ldots":"'''",
               "<":" \"k ",">":" .1 ","\\leq":" \"k.k ","\\geq":" .1.k ","\\ne":" ./k ", 
               "\\alpha":".a","\\beta":".b","\\theta":".?","\\pi":".p","\\phi":".f",
               "\\gamma":".g","\\delta":".d","\\lambda":".l","\\mu":".m","\\nu":".n","\\sigma":".s",
