@@ -14,9 +14,9 @@ class latex_access_com:
         return latex_access.translate(str(input),nemeth.table)
 
 
-    def nemeth_add(input,translation,self):
-    	'''A function to add entries to the nemeth dictionary.'''
-	nemeth.nemeth_table[str(input)]=str(translation)
+    def nemeth_add(self,input,translation):
+        '''A function to add entries to the nemeth dictionary.'''
+        nemeth.table[str(input)]=str(translation)
 
 #Register the object
 if __name__=='__main__':

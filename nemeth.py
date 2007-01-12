@@ -135,5 +135,5 @@ table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*","\\wed
               
               "^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,
               "\mathbf":bold,"\\colvec":colvec,"\\tcolvec":tcolvec,
-              "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\mbox":text,"\\text":text,"\\textrm":text}
+              "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\mbox":text,"\\text":text,"\\textrm":text,"\\mathrm":text}
 
