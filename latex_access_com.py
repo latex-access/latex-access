@@ -9,7 +9,7 @@ import nemeth
 class latex_access_com:
     _reg_clsid_ = "{436BC4EC-405C-49ED-A0E7-84945B0BAC03}"
     _reg_progid_ = "latex_access"
-    _public_methods_ =["nemeth","preprocessor_add"]
+    _public_methods_ =["nemeth","preprocessor_add","load_csv"]
     def nemeth(self, input):
         '''Translates the input into Nemeth Braille.'''
         input=preprocessor.process(str(input))
@@ -19,6 +19,11 @@ class latex_access_com:
     def preprocessor_add(self,input,translation):
         '''A function to add entries to the preprocessor'''
         preprocessor.table[str(input)]=str(translation)
+
+    def load_csv(self,file):
+        '''Load a csv file into the preprocessor'''
+        preprocessor.load_csv(str(file))
+
 
 #Register the object
 if __name__=='__main__':
