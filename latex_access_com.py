@@ -2,21 +2,23 @@
 #screenreaders and the latex access scripts
 
 import latex_access
+import preprocessor
 import nemeth
 
 
 class latex_access_com:
     _reg_clsid_ = "{436BC4EC-405C-49ED-A0E7-84945B0BAC03}"
     _reg_progid_ = "latex_access"
-    _public_methods_ =["nemeth","nemeth_add"]
+    _public_methods_ =["nemeth","preprocessor_add"]
     def nemeth(self, input):
         '''Translates the input into Nemeth Braille.'''
-        return latex_access.translate(str(input),nemeth.table)
+        input=preprocessor.process(str(input))
+        return latex_access.translate(input,nemeth.table)
 
 
-    def nemeth_add(self,input,translation):
-        '''A function to add entries to the nemeth dictionary.'''
-        nemeth.table[str(input)]=str(translation)
+    def preprocessor_add(self,input,translation):
+        '''A function to add entries to the preprocessor'''
+        preprocessor.table[str(input)]=str(translation)
 
 #Register the object
 if __name__=='__main__':
