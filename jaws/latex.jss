@@ -348,3 +348,23 @@ endif
 EndScript
 
 
+
+Script preprocessorAdd ()
+var string input, string translation
+InputBox ("Enter the custom LaTeX you wish to re-define.", "Initial LaTeX", input)
+InputBox ("Enter the definition of the custom command, that is, the standard LaTeX to which it is equivalent.", "Translation", translation)
+latex_access.preprocessor_add(input,translation)
+EndScript
+
+
+
+Script PreprocessorCsv ()
+var string filename
+InputBox ("Enter the name of the CSV file you wish to load", "Filename", filename)
+if FileExists (filename) then 
+latex_access.load_csv(filename)
+else 
+saystring("File not found")
+endif
+
+EndScript
