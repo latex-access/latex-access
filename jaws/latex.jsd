@@ -1,3 +1,6 @@
+:script PreprocessorCsv
+:Synopsis Loads a csv file into the preprocessor.
+
 :script InputMatrix
 :Synopsis Highlight a matrix and then run this script to have it created as an object.
 
@@ -75,6 +78,9 @@
 :script MatrixRight
 :Synopsis Moves the matrix cursor to the right and speaks the new cell.
 
+:script preprocessorAdd
+:Synopsis Adds a custom command to the preprocessor.
+
 :function Process1argCommand
 :Synopsis Replaces a specified latex command, with one argument, with an appropriate text string.
 :Param string/Input/ByRef No Description
@@ -86,4 +92,7 @@
 
 :script SayRow
 :Synopsis Speaks the required row of the matrix.
+
+:script PreprocessorA
+:Synopsis Adds a custom command  to the preprocessor
 
