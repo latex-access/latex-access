@@ -132,8 +132,9 @@ table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*","\\wed
               "\\sinh":"sinh ","\\cosh":"cosh ","\\tanh":"tanh ",
               "\\rightarrow":" 33o","\\leftarrow":" {33","\\leftrightarrow":" {33o ","\\equiv":" _l ",
               "\\partial":"_d","\\int":"!","\\dot":dot,"\\ddot":ddot,
-              
               "^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,
-              "\mathbf":bold,"\\colvec":colvec,"\\tcolvec":tcolvec,
+              "\\mathbf":bold,"\\colvec":colvec,"\\tcolvec":tcolvec,
+              "\\cup":".+","\\cap":".%","\\subseteq":"_\"k:","\\subset":"_\"k","\\supseteq":"_.1:","\\supset":"_.1",
+              "\\setminus":"_*","\\emptyset":"_0",
               "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\mbox":text,"\\text":text,"\\textrm":text,"\\mathrm":text}
 
