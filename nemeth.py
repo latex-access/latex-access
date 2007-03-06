@@ -19,7 +19,7 @@ def super(input,start):
     else:
         translation = "~" + translate(arg[0],table) + "\""
     return (translation,arg[1])
-    
+
 
 
 def sub(input,start):
@@ -65,8 +65,8 @@ def bold(input,start):
     Returns touple.'''
     arg=get_arg(input,start)
     translation="_%s" % translate(arg[0],table)
-    return (translation,arg[1]) 
-        
+    return (translation,arg[1])
+
 def colvec(input,start):
     '''Handles 2d column vectors created with a \colvec command.
     This is a custom command which I find useful to define.
@@ -103,7 +103,7 @@ def dot(input, start):
     returns touple.'''
     arg=get_arg(input,start)
     translation="%s'" % translate(arg[0],table)
-    return (translation,arg[1]) 
+    return (translation,arg[1])
 
 
 def ddot(input, start):
@@ -116,13 +116,14 @@ def ddot(input, start):
 
 def text(input, start):
     '''Used to translate text, as in mbox and text
-    
+
     returns touple.'''
     arg=get_arg(input,start)
-    return (arg[0],arg[1]) 
+    return (arg[0],arg[1])
 
-table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*","\\wedge":"*","\\ldots":"'''",
-              "<":" \"k ",">":" .1 ","\\leq":" \"k.k ","\\geq":" .1.k ","\\ne":" ./k ", 
+table={"+":"+","-":"-","=":" .k
+","\\times":"*","\\pm":"+-","\\cdot":"_*","\\wedge":"*","\\ldots":"'''","\\cdots":"'''","\\dots":"'''",
+              "<":" \"k ",">":" .1 ","\\leq":" \"k.k ","\\geq":" .1.k ","\\ne":" ./k ",
               "\\alpha":".a","\\beta":".b","\\theta":".?","\\pi":".p","\\phi":".f",
               "\\gamma":".g","\\delta":".d","\\lambda":".l","\\mu":".m","\\nu":".n","\\sigma":".s",
               "\\kappa":".k","\\rho":".r","\\tau":".t","\\omega":".w","\\psi":".y","\\epsilon":".e",
@@ -137,4 +138,3 @@ table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*","\\wed
               "\\cup":".+","\\cap":".%","\\subseteq":"_\"k:","\\subset":"_\"k","\\supseteq":"_.1:","\\supset":"_.1",
               "\\setminus":"_*","\\emptyset":"_0",
        "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\,":" ","\\mbox":text,"\\text":text,"\\textrm":text,"\\mathrm":text}
-
