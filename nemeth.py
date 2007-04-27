@@ -121,6 +121,17 @@ def text(input, start):
     arg=get_arg(input,start)
     return (arg[0],arg[1])
 
+def remove(input,start):
+    '''Used to remove a command and its argument totally from the translation.
+    Useful for phantom commands.  
+
+    Returns touple.'''
+    arg=get_arg(input,start)
+    return("",arg[1])
+
+    
+
+
 table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*","\\wedge":"*","\\ldots":"'''","\\cdots":"'''","\\dots":"'''",
               "<":" \"k ",">":" .1 ","\\leq":" \"k.k ","\\geq":" .1.k ","\\ne":" ./k ",
               "\\alpha":".a","\\beta":".b","\\theta":".?","\\pi":".p","\\phi":".f",
@@ -136,4 +147,5 @@ table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*","\\wed
               "\\mathbf":bold,"\\colvec":colvec,"\\tcolvec":tcolvec,
               "\\cup":".+","\\cap":".%","\\subseteq":"_\"k:","\\subset":"_\"k","\\supseteq":"_.1:","\\supset":"_.1",
               "\\setminus":"_*","\\emptyset":"_0",
-       "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\,":" ","\\mbox":text,"\\text":text,"\\textrm":text,"\\mathrm":text,"\\textbf":text}
+       "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\,":" ","\\mbox":text,"\\text":text,"\\textrm":text,"\\mathrm":text,"\\textbf":text,
+       "\\phantom":remove}
