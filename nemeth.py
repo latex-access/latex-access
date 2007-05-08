@@ -114,6 +114,18 @@ def ddot(input, start):
     translation="%s''" % translate(arg[0],table)
     return (translation,arg[1])
 
+def bar(input, start):
+    '''Handles bar/overline.
+
+    Returns toutple'''
+    arg=get_arg(input,start)
+    if len(arg[0])==1:
+        translation=":%s" % arg[0]
+    else:
+        translation=":{%so" % translate(arg[0],table)
+    return (translation,arg[1])
+
+
 def text(input, start):
     '''Used to translate text, as in mbox and text
 
@@ -144,7 +156,7 @@ table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*","\\wed
               "\\rightarrow":" 33o","\\Rightarrow":" 33o","\\leftarrow":" {33","\\leftrightarrow":" {33o ","\\equiv":" _l ",
        "\\partial":"$","\\int":"!","\\sum":".s","\\prod":"_p","\\dot":dot,"\\ddot":ddot,
               "^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,
-              "\\mathbf":bold,"\\colvec":colvec,"\\tcolvec":tcolvec,
+       "\\mathbf":bold,"\\colvec":colvec,"\\tcolvec":tcolvec,"\\bar":bar,"\\overline":bar,
               "\\cup":".+","\\cap":".%","\\subseteq":"_\"k:","\\subset":"_\"k","\\supseteq":"_.1:","\\supset":"_.1",
               "\\setminus":"_*","\\emptyset":"_0",
        "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\,":" ","\\mbox":text,"\\text":text,"\\textrm":text,"\\mathrm":text,"\\textbf":text,
