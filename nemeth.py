@@ -142,7 +142,7 @@ table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*","\\wed
               "\\Sec":"sec ","\\csc":"cosec ","\\cot":"cot ",
               "\\sinh":"sinh ","\\cosh":"cosh ","\\tanh":"tanh ",
               "\\rightarrow":" 33o","\\Rightarrow":" 33o","\\leftarrow":" {33","\\leftrightarrow":" {33o ","\\equiv":" _l ",
-       "\\partial":"_d","\\int":"!","\\sum":".s","\\prod":"_p","\\dot":dot,"\\ddot":ddot,
+       "\\partial":"$","\\int":"!","\\sum":".s","\\prod":"_p","\\dot":dot,"\\ddot":ddot,
               "^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,
               "\\mathbf":bold,"\\colvec":colvec,"\\tcolvec":tcolvec,
               "\\cup":".+","\\cap":".%","\\subseteq":"_\"k:","\\subset":"_\"k","\\supseteq":"_.1:","\\supset":"_.1",
