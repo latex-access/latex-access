@@ -145,7 +145,7 @@ def remove(input,start):
 
 
 table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*","\\wedge":"*","\\ldots":"'''","\\cdots":"'''","\\dots":"'''","!":"&",
-       "\\infty":"=","<":" \"k ",">":" .1 ","\\leq":" \"k.k ","\\geq":" .1.k ","\\ne":" ./k ",
+       "\\infty":"=","<":" \"k ",">":" .1 ","\\leq":" \"k.k ","\\geq":" .1.k ","\\le":" \"k.k ","\ge":" .1.k ","\\neq":" ./k ","\\ne":" ./k ",
               "\\alpha":".a","\\beta":".b","\\theta":".?","\\pi":".p","\\phi":".f",
               "\\gamma":".g","\\delta":".d","\\lambda":".l","\\mu":".m","\\nu":".n","\\sigma":".s",
               "\\kappa":".k","\\rho":".r","\\tau":".t","\\omega":".w","\\psi":".y","\\epsilon":".e",
