@@ -102,7 +102,7 @@ def dot(input, start):
 
     returns touple.'''
     arg=get_arg(input,start)
-    translation="%s'" % translate(arg[0],table)
+    translation="%s`" % translate(arg[0],table)
     return (translation,arg[1])
 
 
@@ -111,7 +111,7 @@ def ddot(input, start):
 
     returns touple.'''
     arg=get_arg(input,start)
-    translation="%s''" % translate(arg[0],table)
+    translation="%s``" % translate(arg[0],table)
     return (translation,arg[1])
 
 def bar(input, start):
