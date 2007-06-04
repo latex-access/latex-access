@@ -4,7 +4,7 @@ import re
 import types
 
 # Regular expression to match LaTeX commands
-latex_command=re.compile(r"\\([a-zA-Z]+)|[,!;]")
+latex_command=re.compile(r"\\(([a-zA-Z]+)|[,!;])")
 
 
 def translate(input,translation_table):
