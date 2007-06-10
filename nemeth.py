@@ -156,7 +156,7 @@ table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*","\\cir
               "\\rightarrow":" 33o","\\Rightarrow":" 33o","\\leftarrow":" {33","\\leftrightarrow":" {33o ","\\equiv":" _l ",
        "\\partial":"$","\\int":"!","\\sum":".s","\\prod":"_p","\\dot":dot,"\\ddot":ddot,
               "^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,
-       "\\mathbf":bold,"\\colvec":colvec,"\\tcolvec":tcolvec,"\\bar":bar,"\\overline":bar,
+       "\\mathbf":bold,"\\colvec":colvec,"\\tcolvec":tcolvec,"\\bar":bar,"\\hat":bar,"\\overline":bar,
               "\\cup":".+","\\cap":".%","\\subseteq":"_\"k:","\\subset":"_\"k","\\supseteq":"_.1:","\\supset":"_.1",
               "\\setminus":"_*","\\emptyset":"_0",
        "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\,":"","\\;":" ","\\:":" ","\\mbox":text,"\\text":text,"\\textrm":text,"\\mathrm":text,"\\textbf":text,
