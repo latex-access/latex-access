@@ -8,7 +8,7 @@ from latex_access import translate
 def super(input,start):
     '''Translate  superscripts into Nemeth.
 
-    Returns a tourple with translated string and index of
+    Returns a touple with translated string and index of
     first char after end of super.'''
     arg=get_arg(input,start)
     #Handle squared and cubed as special cases
