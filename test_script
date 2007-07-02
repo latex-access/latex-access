@@ -1,14 +1,16 @@
 #!/usr/bin/python
-'''Script to translate lines of laTeX from stdin to nemeth braille in stdout.'''
+'''Script to translate lines of laTeX from stdin to nemeth braille and speech in stdout.'''
 
 
 import sys
 import latex_access
 import nemeth
-
+import speech
 while True:
     input = sys.stdin.readline()
     output=latex_access.translate(input,nemeth.table)
     print output
 
+    output=latex_access.translate(input,speech.table)
+    print output
     
