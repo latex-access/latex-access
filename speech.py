@@ -4,6 +4,8 @@
 import latex_access
 from latex_access import get_arg
 from latex_access import translate
+from latex_access import text
+from latex_access import remove
 
 
 def super(input,start):
@@ -23,4 +25,45 @@ def super(input,start):
 
 
 
-table={"^":super}
+def sqrt(input,start):
+    '''Translates squareroots into speech.
+     
+    returns touple.'''
+    arg=get_arg(input,start)
+    if arg[0].isdigit() or len(arg[0])==1:
+        translation=" root "+arg[0]
+    else:
+        translation=" begin root "+translate(arg[0],table)+" end root "
+    return (translation,arg[1])
+
+#Define a list of words to use as denominators of simple fractions
+denominators=[" over zero"," over1 "," half"," third"," quarter"," fifth"," sixth"," seventh"," eight"," ninth"]
+
+def frac(input,start):
+    '''Translate fractions into speech.
+
+    Returns touple.'''
+    numerator=get_arg(input,start)
+    if numerator[1]<len(input):
+        denominator=get_arg(input,numerator[1])
+    else:
+        denominator=("",numerator[1])
+    if len(numerator[0])==1 and len(denominator[0])==1:
+        if numerator[0].isdigit() and denominator[0].isdigit():
+            translation = numerator[0]+denominators[int(denominator[0])]
+            if int(numerator[0])>1:
+                translation+="s"
+        else:
+            translation =" %s over %s " % (numerator[0], denominator[0])
+    else:
+        translation=" begin frac %s over %s end frac " % (translate(numerator[0],table), translate(denominator[0],table))
+    return (translation,denominator[1])
+
+
+
+
+table={"+":" plus ","-":" minus ","\\pm":" plus or minus ","\\times":" times ",
+"=":" equals ","<":" less than ",">":" greater than ","\\le":" less than or equal to ","\\leq":" less than or equal to ","\\ge":" greater than or equal to ","\\geq":" greater than or equal to ",
+"\\cdot":" dot ","\\ldots":" dot dot dot ","\\cdots":" dot dot dot ","\\dots":" dot dot dot ",
+"^":super,"\\sqrt":sqrt,"\\frac":frac,
+"\\mbox":text,"\\text":text,"\\mathrm":text,"\\textbf":text}
