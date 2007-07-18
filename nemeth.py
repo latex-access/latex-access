@@ -3,6 +3,8 @@
 import latex_access
 from latex_access import get_arg
 from latex_access import translate
+from latex_access import text
+from latex_access import remove
 
 
 def super(input,start):
@@ -126,20 +128,7 @@ def bar(input, start):
     return (translation,arg[1])
 
 
-def text(input, start):
-    '''Used to translate text, as in mbox and text
 
-    returns touple.'''
-    arg=get_arg(input,start)
-    return (arg[0],arg[1])
-
-def remove(input,start):
-    '''Used to remove a command and its argument totally from the translation.
-    Useful for phantom commands.  
-
-    Returns touple.'''
-    arg=get_arg(input,start)
-    return("",arg[1])
 
     
 

@@ -68,3 +68,17 @@ def get_arg(input,start):
 
 
 
+def text(input, start):
+    '''Used to translate text, as in mbox and text
+
+    returns touple.'''
+    arg=get_arg(input,start)
+    return (arg[0],arg[1])
+
+def remove(input,start):
+    '''Used to remove a command and its argument totally from the translation.
+    Useful for phantom commands.  
+
+    Returns touple.'''
+    arg=get_arg(input,start)
+    return("",arg[1])
