@@ -23,6 +23,14 @@ def super(input,start):
         translation = " to the %s end super " % translate(arg[0],table)  
     return (translation,arg[1])
 
+def sub(input,start):
+    '''Translates subscripts.  The output uses html style tags to denote start and end.
+    
+    Returns touple.'''
+    arg=get_arg(input,start)
+    translation="<begsub>%s<endsub>" % translate(arg[0],table)
+    return (translation,arg[1])
+
 
 
 def sqrt(input,start):
@@ -65,5 +73,5 @@ def frac(input,start):
 table={"+":" plus ","-":" minus ","\\pm":" plus or minus ","\\times":" times ",
 "=":" equals ","<":" less than ",">":" greater than ","\\le":" less than or equal to ","\\leq":" less than or equal to ","\\ge":" greater than or equal to ","\\geq":" greater than or equal to ",
 "\\cdot":" dot ","\\ldots":" dot dot dot ","\\cdots":" dot dot dot ","\\dots":" dot dot dot ",
-"^":super,"\\sqrt":sqrt,"\\frac":frac,
+"^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,
 "\\mbox":text,"\\text":text,"\\mathrm":text,"\\textbf":text}
