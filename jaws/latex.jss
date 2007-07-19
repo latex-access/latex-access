@@ -1,3 +1,4 @@
+
 include "hjconst.jsh"
 
 globals int ProcessMaths,
@@ -19,6 +20,9 @@ if stringisblank(input) then
 let input = "blank"
 else
 let input = latex_access.speech(input)
+let input = StringReplaceSubstrings (input, "<begsub>", smmGetStartMarkupForAttributes (attrib_subscript|attrib_text))
+let input = StringReplaceSubstrings (input, "<endsub>", smmGetEndMarkupForAttributes (attrib_subscript|attrib_text))
+
 endif
 Say (input, ot_selected_item, true)
 else
@@ -153,3 +157,9 @@ saystring("File not found")
 endif
 
 EndScript
+
+
+
+
+
+
