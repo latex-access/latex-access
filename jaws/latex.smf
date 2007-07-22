@@ -4,6 +4,7 @@ default=0|MessageVoice|||
 3=3|||BoldVoice|
 1025=3|||SuperscriptVoice|
 2049=3|||SubscriptVoice|
+4097=3|||SubscriptVoice|
 [Indentation Behavior Table]
 default=1|MessageVoice|||
 [HTML Attribute Behavior Table]
@@ -124,11 +125,3 @@ default=1|NormalVoice|||
 default=1|NormalVoice|||
 [Information]
 Description=special scheme for use with latex.
-
-
-
-
-
-
-
-
