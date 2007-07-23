@@ -20,6 +20,7 @@ if stringisblank(input) then
 let input = "blank"
 else
 let input = latex_access.speech(input)
+let input = StringReplaceSubstrings (input, "&", "&amp;")
 let input = StringReplaceSubstrings (input, "<begsub>", smmGetStartMarkupForAttributes (attrib_subscript|attrib_text))
 let input = StringReplaceSubstrings (input, "<endsub>", smmGetEndMarkupForAttributes (attrib_subscript|attrib_text))
 
