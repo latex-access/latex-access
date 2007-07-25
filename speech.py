@@ -86,4 +86,5 @@ table={"+":" plus ","-":" minus ","\\pm":" plus or minus ","\\times":" times ",
 "\\alpha":" alpha ","\\Alpha":" cap alpha ","\\beta":" beta ","\\Beta":" cap beta ","\\gamma":" gamma ","\\Gamma":" cap gamma ",
 "\\delta":" delta ","\\Delta":" cap delta ","\\epsilon":" epsilon ","\\omega":" omega ","\\Omega":" cap omega ","\\phi":" phi ","\\lambda":" lambda ","\\mu":" mu ","\\pi":" pi ",
 "\\theta":" theta ","\\sigma":" sigma ","\\Sigma":" Sigma ","\\rho":" rho ",
-"\\infty":" infinity ","\\rightarrow":" goes to "}
+"\\infty":" infinity ","\\rightarrow":" goes to ",
+"\\sin":" sine ","\\cos":" coz ","\\tan":"tan","\\sinh":" shine ","\\cosh":" cosh ","\\tanh":" thann "}
