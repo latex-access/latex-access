@@ -28,7 +28,7 @@ def sub(input,start):
     
     Returns touple.'''
     arg=get_arg(input,start)
-    translation="<begsub>%s<endsub>" % translate(arg[0],table)
+    translation="<sub>%s</sub>" % translate(arg[0],table)
     return (translation,arg[1])
 
 
