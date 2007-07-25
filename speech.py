@@ -67,11 +67,23 @@ def frac(input,start):
         translation=" begin frac %s over %s end frac " % (translate(numerator[0],table), translate(denominator[0],table))
     return (translation,denominator[1])
 
+def bold(input,start):
+    '''Translates characters in bold.
+    
+    Returns toutple'''
+    arg=get_arg(input,start)
+    translation="<bold>%s</bold>" % translate(arg[0],table)
+    return (translation,arg[1])
+
 
 
 
 table={"+":" plus ","-":" minus ","\\pm":" plus or minus ","\\times":" times ",
 "=":" equals ","<":" less than ",">":" greater than ","\\le":" less than or equal to ","\\leq":" less than or equal to ","\\ge":" greater than or equal to ","\\geq":" greater than or equal to ",
 "\\cdot":" dot ","\\ldots":" dot dot dot ","\\cdots":" dot dot dot ","\\dots":" dot dot dot ",
-"^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,
-"\\mbox":text,"\\text":text,"\\mathrm":text,"\\textbf":text}
+"^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,"\\mathbf":bold,"\\mathbb":"bold",
+"\\mbox":text,"\\text":text,"\\mathrm":text,"\\textbf":text,
+"\\alpha":" alpha ","\\Alpha":" cap alpha ","\\beta":" beta ","\\Beta":" cap beta ","\\gamma":" gamma ","\\Gamma":" cap gamma ",
+"\\delta":" delta ","\\Delta":" cap delta ","\\epsilon":" epsilon ","\\omega":" omega ","\\Omega":" cap omega ","\\phi":" phi ","\\lambda":" lambda ","\\mu":" mu ","\\pi":" pi ",
+"\\theta":" theta ","\\sigma":" sigma ","\\Sigma":" Sigma ","\\rho":" rho ",
+"\\infty":" infinity ","\\rightarrow":" goes to "}
