@@ -61,6 +61,7 @@ def frac(input,start):
             translation = numerator[0]+denominators[int(denominator[0])]
             if int(numerator[0])>1:
                 translation+="s"
+            translation+=" "
         else:
             translation =" %s over %s " % (numerator[0], denominator[0])
     else:
