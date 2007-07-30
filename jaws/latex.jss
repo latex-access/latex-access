@@ -24,7 +24,7 @@ let input = StringReplaceSubstrings (input, "&", "&amp;")
 let input = StringReplaceSubstrings (input, "<sub>", smmGetStartMarkupForAttributes (attrib_subscript|attrib_text))
 let input = StringReplaceSubstrings (input, "</sub>", smmGetEndMarkupForAttributes (attrib_subscript|attrib_text))
 let input = StringReplaceSubstrings (input, "<bold>", smmGetStartMarkupForAttributes (attrib_bold|attrib_text))
-let input = StringReplaceSubstrings (input, "</bold>", smmGetStartMarkupForAttributes (attrib_bold|attrib_text))
+let input = StringReplaceSubstrings (input, "</bold>", smmGetEndMarkupForAttributes (attrib_bold|attrib_text))
 endif
 Say (input, ot_selected_item, true)
 else
