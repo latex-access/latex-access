@@ -68,6 +68,47 @@ def frac(input,start):
         translation=" begin frac %s over %s end frac " % (translate(numerator[0],table), translate(denominator[0],table))
     return (translation,denominator[1])
 
+def int(input,start):
+    '''Translate integrals, including limits of integration.
+    
+    Returns touple.'''
+    arg=get_arg(input,start)
+    #Look for limits
+    lower=None
+    upper=None
+    i=start
+    while input[i]==" " and i < len(input):
+        i+=1
+    if input[i]=="_":
+        lower=get_arg(input,i+1)
+        i=lower[1]
+        if i < len(input):
+            while input[i]==" " and i < len(input):
+                i+=1
+            if input[i]=="^":
+                upper=get_arg(input,i+1)
+                i=upper[1]
+    #Now repeat this the other way round in case upper limit comes first
+    elif input[i]=="^":
+        upper=get_arg(input,i+1)
+        i=upper[1]
+        if i < len(input):
+            while input[i]==" " and i < len(input):
+                i+=1
+            if input[i]=="_":
+                lower=get_arg(input,i+1)
+                i=lower[1]
+    #Now build output string
+    output=" integral "
+    if lower is not None:
+        output+="from "
+        output+=translate(lower[0],table)
+    if upper is not None:
+        output+=" to "
+        output+=translate(upper[0],table)
+    output+=" of "
+    return (output,i)
+
 def bold(input,start):
     '''Translates characters in bold.
     
@@ -82,7 +123,7 @@ def bold(input,start):
 table={"+":" plus ","-":" minus ","\\pm":" plus or minus ","\\times":" times ",
 "=":" equals ","<":" less than ",">":" greater than ","\\le":" less than or equal to ","\\leq":" less than or equal to ","\\ge":" greater than or equal to ","\\geq":" greater than or equal to ",
 "\\cdot":" dot ","\\ldots":" dot dot dot ","\\cdots":" dot dot dot ","\\dots":" dot dot dot ",
-"^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,"\\mathbf":bold,"\\mathbb":bold,
+"^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,"\\int":int,"\\mathbf":bold,"\\mathbb":bold,
 "\\mbox":text,"\\text":text,"\\mathrm":text,"\\textbf":text,
 "\\alpha":" alpha ","\\Alpha":" cap alpha ","\\beta":" beta ","\\Beta":" cap beta ","\\gamma":" gamma ","\\Gamma":" cap gamma ",
 "\\delta":" delta ","\\Delta":" cap delta ","\\epsilon":" epsilon ","\\omega":" omega ","\\Omega":" cap omega ","\\phi":" phi ","\\lambda":" lambda ","\\mu":" mu ","\\pi":" pi ",
