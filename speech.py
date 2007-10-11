@@ -117,6 +117,23 @@ def bold(input,start):
     translation="<bold>%s</bold>" % translate(arg[0],table)
     return (translation,arg[1])
 
+def hat(input,start):
+    '''Translates \hat, as used for vectors.
+    
+    Returns touple.'''
+    arg=get_arg(input,start)
+    translation="%s hat " % translate(arg[0],table)
+    return (translation, arg[0])
+
+def bar(input,start):
+    '''Translates the hat accent.
+    
+    Returns touple.'''
+    arg=get_arg(input,start)
+    translation="%s bar " % translate(arg[0],table)
+    return (translation, arg[0])
+
+
 
 
 
@@ -130,4 +147,5 @@ table={"+":" plus ","-":" minus ","\\pm":" plus or minus ","\\times":" times ",
 "\\delta":" delta ","\\Delta":" cap delta ","\\epsilon":" epsilon ","\\omega":" omega ","\\Omega":" cap omega ","\\phi":" phi ","\\lambda":" lambda ","\\mu":" mu ","\\pi":" pi ",
 "\\theta":" theta ","\\sigma":" sigma ","\\Sigma":" Sigma ","\\rho":" rho ",
 "\\infty":" infinity ","\\rightarrow":" goes to ",
-"\\sin":" sine ","\\cos":" coz ","\\tan":"tan","\\sinh":" shine ","\\cosh":" cosh ","\\tanh":" thann "}
+"\\sin":" sine ","\\cos":" coz ","\\tan":"tan","\\sinh":" shine ","\\cosh":" cosh ","\\tanh":" thann ",
+       "\\hat":hat,"\\widehat":hat,"\\bar":bar,"\\overline":bar}
