@@ -68,7 +68,7 @@ def frac(input,start):
         translation=" begin frac %s over %s end frac " % (translate(numerator[0],table), translate(denominator[0],table))
     return (translation,denominator[1])
 
-def int(input,start):
+def integral(input,start):
     '''Translate integrals, including limits of integration.
     
     Returns touple.'''
@@ -140,7 +140,7 @@ def bar(input,start):
 table={"+":" plus ","-":" minus ","\\pm":" plus or minus ","\\times":" times ",
 "=":" equals ","<":" less than ",">":" greater than ","\\le":" less than or equal to ","\\leq":" less than or equal to ","\\ge":" greater than or equal to ","\\geq":" greater than or equal to ",
 "\\cdot":" dot ","\\ldots":" dot dot dot ","\\cdots":" dot dot dot ","\\dots":" dot dot dot ",
-"^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,"\\int":int,"\\mathbf":bold,"\\mathbb":bold,
+"^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,"\\int":integral,"\\mathbf":bold,"\\mathbb":bold,
 "\\mbox":text,"\\text":text,"\\mathrm":text,"\\textbf":text,
        "\\quad":"","\\qquad":"","\\left":"","\\right":"",
 "\\alpha":" alpha ","\\Alpha":" cap alpha ","\\beta":" beta ","\\Beta":" cap beta ","\\gamma":" gamma ","\\Gamma":" cap gamma ",
