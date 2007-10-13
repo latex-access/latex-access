@@ -123,7 +123,7 @@ def hat(input,start):
     Returns touple.'''
     arg=get_arg(input,start)
     translation="%s hat " % translate(arg[0],table)
-    return (translation, arg[0])
+    return (translation, arg[1])
 
 def bar(input,start):
     '''Translates the hat accent.
