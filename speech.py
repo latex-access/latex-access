@@ -130,8 +130,8 @@ def bar(input,start):
     
     Returns touple.'''
     arg=get_arg(input,start)
-    translation="%s bar " % translate(arg[0],table)
-    return (translation, arg[0])
+    translation=" %s bar " % translate(arg[0],table)
+    return (translation, arg[1])
 
 
 
