@@ -64,6 +64,9 @@ def get_arg(input,start):
             if input[i] == "}":
                 j-=1
             i+=1
+        #This is a hack to avoid problems when the braces haven't yet been closed
+        if input[i-1]!="}":
+            i+=1
         return(input[start:i-1],i)
 
 
