@@ -130,7 +130,12 @@ def bar(input, start):
 
 
 
+def displaystyle(input, start):
+    '''Removes the displaystile command but translates its argument.
     
+    Returns touple.'''
+    arg=get_arg(input,start)
+    return (translate(arg[0],table),arg[1])    
 
 
 table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*","\\circ":"_*","\\wedge":"*","\\ldots":"'''","\\cdots":"'''","\\dots":"'''","!":"&",
@@ -148,5 +153,5 @@ table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\cdot":"_*","\\cir
        "\\mathbf":bold,"\\colvec":colvec,"\\tcolvec":tcolvec,"\\bar":bar,"\\hat":bar,"\\overline":bar,
               "\\cup":".+","\\cap":".%","\\subseteq":"_\"k:","\\subset":"_\"k","\\supseteq":"_.1:","\\supset":"_.1",
               "\\setminus":"_*","\\emptyset":"_0",
-       "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\,":"","\\;":" ","\\:":" ","\\mbox":text,"\\text":text,"\\textrm":text,"\\mathrm":text,"\\textbf":text,
+       "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\,":"","\\;":" ","\\:":" ","\\mbox":text,"\\text":text,"\\textrm":text,"\\mathrm":text,"\\textbf":text,"\\displaystyle":displaystyle,
        "\\phantom":remove}

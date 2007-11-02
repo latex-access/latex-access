@@ -133,7 +133,12 @@ def bar(input,start):
     translation=" %s bar " % translate(arg[0],table)
     return (translation, arg[1])
 
-
+def displaystyle(input, start):
+    '''Removes the displaystile command but translates its argument.
+    
+    Returns touple.'''
+    arg=get_arg(input,start)
+    return (translate(arg[0],table),arg[1])
 
 
 
@@ -141,7 +146,7 @@ table={"+":" plus ","-":" minus ","\\pm":" plus or minus ","\\times":" times ",
 "=":" equals ","\\ne":" not equals ","\\neq":" not equals ","<":" less than ",">":" greater than ","\\le":" less than or equal to ","\\leq":" less than or equal to ","\\ge":" greater than or equal to ","\\geq":" greater than or equal to ",
 "\\cdot":" dot ","\\ldots":" dot dot dot ","\\cdots":" dot dot dot ","\\dots":" dot dot dot ",
 "^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,"\\int":integral,"\\mathbf":bold,"\\mathbb":bold,
-"\\mbox":text,"\\text":text,"\\mathrm":text,"\\textbf":text,
+"\\mbox":text,"\\text":text,"\\mathrm":text,"\\textbf":text,"\\displaystyle":displaystyle,
        "\\,":" ","\\;":" ","\\quad":"","\\qquad":"","\\left":"","\\right":"",
 "\\alpha":" alpha ","\\Alpha":" cap alpha ","\\beta":" beta ","\\Beta":" cap beta ","\\gamma":" gamma ","\\Gamma":" cap gamma ",
 "\\delta":" delta ","\\Delta":" cap delta ","\\epsilon":" epsilon ","\\omega":" omega ","\\Omega":" cap omega ","\\phi":" phi ","\\lambda":" lambda ","\\mu":" mu ","\\pi":" pi ",
