@@ -133,6 +133,22 @@ def bar(input,start):
     translation=" %s bar " % translate(arg[0],table)
     return (translation, arg[1])
 
+def dot(input,start):
+    '''Translates the dot as used for time derivative.
+    
+    Returns touple.'''
+    arg=get_arg(input,start)
+    translation=" %s dot " % translate(arg[0],table)
+    return (translation, arg[1])
+
+def ddot(input,start):
+    '''Translates ddot as used as 2nd time derivative.
+    
+    Returns touple.'''
+    arg=get_arg(input,start)
+    translation=" %s double dot  " % translate(arg[0],table)
+    return (translation, arg[1])
+
 def displaystyle(input, start):
     '''Removes the displaystile command but translates its argument.
     
@@ -153,4 +169,4 @@ table={"+":" plus ","-":" minus ","\\pm":" plus or minus ","\\times":" times ",
 "\\theta":" theta ","\\sigma":" sigma ","\\Sigma":" Sigma ","\\rho":" rho ",
 "\\infty":" infinity ","\\rightarrow":" goes to ","\\leftrightarrow":" if and only if ",
 "\\sin":" sine ","\\cos":" coz ","\\tan":"tan","\\sinh":" shine ","\\cosh":" cosh ","\\tanh":" thann ",
-       "\\hat":hat,"\\widehat":hat,"\\bar":bar,"\\overline":bar}
+       "\\hat":hat,"\\widehat":hat,"\\bar":bar,"\\overline":bar,"\\dot":dot,"\\ddot":ddot}
