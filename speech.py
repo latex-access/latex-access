@@ -158,7 +158,7 @@ def displaystyle(input, start):
 
 
 
-table={"+":" plus ","-":" minus ","\\pm":" plus or minus ","\\times":" times ",
+table={"+":" plus ","-":" minus ","\\pm":" plus or minus ","\\mp":" minus or plus ","\\times":" times ",
 "=":" equals ","\\ne":" not equals ","\\neq":" not equals ","<":" less than ",">":" greater than ","\\le":" less than or equal to ","\\leq":" less than or equal to ","\\ge":" greater than or equal to ","\\geq":" greater than or equal to ",
 "\\cdot":" dot ","\\ldots":" dot dot dot ","\\cdots":" dot dot dot ","\\dots":" dot dot dot ",
 "^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,"\\int":integral,"\\mathbf":bold,"\\mathbb":bold,
