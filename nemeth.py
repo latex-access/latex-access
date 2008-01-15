@@ -1,4 +1,5 @@
-'''Module to provide Nemeth translations for the latex_access module.'''
+'''Module to provide Nemeth translations for the latex_access
+module.'''
 
 import latex_access
 from latex_access import get_arg
@@ -132,10 +133,10 @@ def bar(input, start):
 
 def displaystyle(input, start):
     '''Removes the displaystile command but translates its argument.
-    
+
     Returns touple.'''
     arg=get_arg(input,start)
-    return (translate(arg[0],table),arg[1])    
+    return (translate(arg[0],table),arg[1])
 
 
 table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\mp":"-+","\\cdot":"_*","\\circ":"_*","\\wedge":"*","\\ldots":"'''","\\cdots":"'''","\\dots":"'''","!":"&",
@@ -150,8 +151,8 @@ table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\mp":"-+","\\cdot"
               "\\rightarrow":" 33o","\\Rightarrow":" 33o","\\leftarrow":" {33","\\leftrightarrow":" {33o ","\\equiv":" _l ",
        "\\partial":"$","\\int":"!","\\sum":".s","\\prod":"_p","\\dot":dot,"\\ddot":ddot,
               "^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,
-       "\\mathbf":bold,"\\colvec":colvec,"\\tcolvec":tcolvec,"\\bar":bar,"\\hat":bar,"\\overline":bar,
+       "\\mathbf":bold,"\\mathbb":bold,"\\colvec":colvec,"\\tcolvec":tcolvec,"\\bar":bar,"\\hat":bar,"\\overline":bar,
               "\\cup":".+","\\cap":".%","\\subseteq":"_\"k:","\\subset":"_\"k","\\supseteq":"_.1:","\\supset":"_.1",
               "\\setminus":"_*","\\emptyset":"_0",
-       "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\,":"","\\;":" ","\\:":" ","\\mbox":text,"\\text":text,"\\textrm":text,"\\mathrm":text,"\\textbf":text,"\\displaystyle":displaystyle,
+       "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\,":"","\\;":" ","\\:":" ","\\mbox":text,"\\text":text,"\\textrm":text,"\\textit":text,"\\mathrm":text,"\\textbf":text,"\\displaystyle":displaystyle,
        "\\phantom":remove}
