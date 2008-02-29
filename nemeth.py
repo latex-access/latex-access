@@ -148,7 +148,7 @@ table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\mp":"-+","\\cdot"
               "\\sin":"sin ","\\cos":"cos ","\\tan":"tan ",
               "\\sec":"sec ","\\cosec":"cosec ","\\cot":"cot ",
               "\\sinh":"sinh ","\\cosh":"cosh ","\\tanh":"tanh ",
-              "\\rightarrow":" 33o","\\Rightarrow":" 33o","\\leftarrow":" {33","\\leftrightarrow":" {33o ","\\equiv":" _l ",
+              "\\rightarrow":" 33o","\\Rightarrow":" 33o","\\leftarrow":" {33","\\leftrightarrow":" {33o ","\\Leftrightarrow":" {33o ","\\equiv":" _l ",
        "\\partial":"$","\\int":"!","\\sum":".s","\\prod":"_p","\\dot":dot,"\\ddot":ddot,
               "^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,
        "\\mathbf":bold,"\\mathbb":bold,"\\colvec":colvec,"\\tcolvec":tcolvec,"\\bar":bar,"\\hat":bar,"\\overline":bar,
