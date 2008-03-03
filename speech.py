@@ -169,4 +169,5 @@ table={"+":" plus ","-":" minus ","\\pm":" plus or minus ","\\mp":" minus or plu
 "\\theta":" theta ","\\sigma":" sigma ","\\Sigma":" Sigma ","\\rho":" rho ",
 "\\infty":" infinity ","\\rightarrow":" goes to ","\\leftrightarrow":" if and only if ","\\Rightarrow":" goes to","\\Leftrightarrow":" if and only if ",
 "\\sin":" sine ","\\cos":" coz ","\\tan":"tan","\\sinh":" shine ","\\cosh":" cosh ","\\tanh":" thann ",
-       "\\hat":hat,"\\widehat":hat,"\\bar":bar,"\\overline":bar,"\\dot":dot,"\\ddot":ddot}
+       "\\hat":hat,"\\widehat":hat,"\\bar":bar,"\\overline":bar,"\\dot":dot,"\\ddot":ddot,
+"\\partial":" partial ","\\nabla":" nabla ","\\wedge":" vec "}
