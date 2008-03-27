@@ -55,8 +55,8 @@ if  ProcessMaths then
 var string input
 let input = GetLine()
 let input = latex_access.nemeth(input)
-; BrailleAddString (SubString (input, 1, 1), 0, 0, ATTRIB_HIGHLIGHT)
-; BrailleAddString (SubString (input, 2, StringLength (input)), 0, 0, 0)
+; now sort out bad dots 456 
+let input =StringReplaceSubstrings (input, "_", "\127") 
 BrailleAddString (input, 0, 0, 0)
 
 endif
