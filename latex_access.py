@@ -52,6 +52,16 @@ def get_arg(input,start):
     #Skip space
     while input[i]==" " and i < len(input):
         i+=1
+    #Handle unbraced LaTeX commands
+    if input[i] == "\\":
+        match=latex_command.match(input[i:])
+        if (match):
+            arg=match.group()
+            i+=len(arg)
+        else:
+            arg="\\"
+            i+=1
+        return (arg,i)
     if input[i] != "{":
         return (input[i],i+1)
     else:
