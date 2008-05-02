@@ -166,9 +166,9 @@ table={"+":" plus ","-":" minus ","\\pm":" plus or minus ","\\mp":" minus or plu
        "\\,":" ","\\;":" ","\\quad":"","\\qquad":"","\\left":"","\\right":"",
 "\\alpha":" alpha ","\\Alpha":" cap alpha ","\\beta":" beta ","\\Beta":" cap beta ","\\gamma":" gamma ","\\Gamma":" cap gamma ",
 "\\delta":" delta ","\\Delta":" cap delta ","\\epsilon":" epsilon ","\\omega":" omega ","\\Omega":" cap omega ","\\phi":" phi ","\\Phi":" cap phi ","\\lambda":" lambda ","\\mu":" mu ","\\pi":" pi ",
-"\\theta":" theta ","\\sigma":" sigma ","\\Sigma":" Sigma ","\\rho":" rho ",
+"\\theta":" theta ","\\sigma":" sigma ","\\Sigma":" Sigma ","\\rho":" rho ","\\tau":" tau ","\\Tau":" cap tau ",
        "\\zeta":" zeta ","\\eta":"  eta ",
 "\\infty":" infinity ","\\rightarrow":" goes to ","\\leftrightarrow":" if and only if ","\\Rightarrow":" goes to","\\Leftrightarrow":" if and only if ",
 "\\sin":" sine ","\\cos":" coz ","\\tan":"tan","\\sinh":" shine ","\\cosh":" cosh ","\\tanh":" thann ",
        "\\hat":hat,"\\widehat":hat,"\\bar":bar,"\\overline":bar,"\\dot":dot,"\\ddot":ddot,
-"\\partial":" partial ","\\nabla":" nabla ","\\wedge":" vec "}
+"\\partial":" partial ","\\nabla":" nabla ","\\wedge":" vec ","\\lim":" limit ","\\sum":" sum "}
