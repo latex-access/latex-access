@@ -155,4 +155,4 @@ table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\mp":"-+","\\cdot"
               "\\cup":".+","\\cap":".%","\\subseteq":"_\"k:","\\subset":"_\"k","\\supseteq":"_.1:","\\supset":"_.1",
               "\\setminus":"_*","\\emptyset":"_0",
        "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\,":"","\\;":" ","\\:":" ","\\mbox":text,"\\text":text,"\\textrm":text,"\\textit":text,"\\mathrm":text,"\\textbf":text,"\\displaystyle":displaystyle,
-       "\\phantom":remove}
+       "\\phantom":remove,"\\nabla":".$","\\therefore":" ,*","\\forall":"`&"}
