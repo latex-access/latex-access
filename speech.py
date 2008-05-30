@@ -159,16 +159,16 @@ def displaystyle(input, start):
 
 
 table={"+":" plus ","-":" minus ","\\pm":" plus or minus ","\\mp":" minus or plus ","\\times":" times ",
-"=":" equals ","\\ne":" not equals ","\\neq":" not equals ","<":" less than ",">":" greater than ","\\le":" less than or equal to ","\\leq":" less than or equal to ","\\ge":" greater than or equal to ","\\geq":" greater than or equal to ",
-"\\cdot":" dot ","\\ldots":" dot dot dot ","\\cdots":" dot dot dot ","\\dots":" dot dot dot ",
-"^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,"\\int":integral,"\\mathbf":bold,"\\mathbb":bold,
-"\\mbox":text,"\\text":text,"\\mathrm":text,"\\textbf":text,"\\textit":text,"\\displaystyle":displaystyle,
+       "=":" equals ","\\equiv":" equiv ","\\ne":" not equals ","\\neq":" not equals ","<":" less than ",">":" greater than ","\\le":" less than or equal to ","\\leq":" less than or equal to ","\\ge":" greater than or equal to ","\\geq":" greater than or equal to ",
+       "\\cdot":" dot ","\\ldots":" dot dot dot ","\\cdots":" dot dot dot ","\\dots":" dot dot dot ",
+       "^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,"\\int":integral,"\\mathbf":bold,"\\mathbb":bold,
+       "\\mbox":text,"\\text":text,"\\mathrm":text,"\\textbf":text,"\\textit":text,"\\displaystyle":displaystyle,
        "\\,":" ","\\;":" ","\\quad":"","\\qquad":"","\\left":"","\\right":"",
-"\\alpha":" alpha ","\\Alpha":" cap alpha ","\\beta":" beta ","\\Beta":" cap beta ","\\gamma":" gamma ","\\Gamma":" cap gamma ",
-"\\delta":" delta ","\\Delta":" cap delta ","\\epsilon":" epsilon ","\\omega":" omega ","\\Omega":" cap omega ","\\phi":" phi ","\\Phi":" cap phi ","\\lambda":" lambda ","\\mu":" mu ","\\pi":" pi ",
-"\\theta":" theta ","\\sigma":" sigma ","\\Sigma":" Sigma ","\\rho":" rho ","\\tau":" tau ","\\Tau":" cap tau ",
+       "\\alpha":" alpha ","\\Alpha":" cap alpha ","\\beta":" beta ","\\Beta":" cap beta ","\\gamma":" gamma ","\\Gamma":" cap gamma ",
+       "\\delta":" delta ","\\Delta":" cap delta ","\\epsilon":" epsilon ","\\omega":" omega ","\\Omega":" cap omega ","\\phi":" phi ","\\Phi":" cap phi ","\\lambda":" lambda ","\\mu":" mu ","\\pi":" pi ",
+       "\\theta":" theta ","\\sigma":" sigma ","\\Sigma":" Sigma ","\\rho":" rho ","\\tau":" tau ","\\Tau":" cap tau ",
        "\\zeta":" zeta ","\\eta":"  eta ","\\psi":" psi ","\\Psi":" cap psi",
-"\\infty":" infinity ","\\rightarrow":" goes to ","\\leftrightarrow":" if and only if ","\\Rightarrow":" goes to","\\Leftrightarrow":" if and only if ",
-"\\sin":" sine ","\\cos":" coz ","\\tan":"tan","\\sinh":" shine ","\\cosh":" cosh ","\\tanh":" thann ",
+       "\\infty":" infinity ","\\rightarrow":" goes to ","\\leftrightarrow":" if and only if ","\\Rightarrow":" goes to","\\Leftrightarrow":" if and only if ",
+       "\\sin":" sine ","\\cos":" coz ","\\tan":"tan","\\sinh":" shine ","\\cosh":" cosh ","\\tanh":" thann ",
        "\\hat":hat,"\\widehat":hat,"\\bar":bar,"\\overline":bar,"\\dot":dot,"\\ddot":ddot,
-"\\partial":" partial ","\\nabla":" nabla ","\\wedge":" vec ","\\lim":" limit ","\\sum":" sum ","\\therefore":" therefore ","\\forall":" for all "}
+       "\\partial":" partial ","\\nabla":" nabla ","\\wedge":" vec ","\\lim":" limit ","\\sum":" sum ","\\therefore":" therefore ","\\forall":" for all "}
