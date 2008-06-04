@@ -144,7 +144,7 @@ table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\mp":"-+","\\cdot"
               "\\alpha":".a","\\beta":".b","\\theta":".?","\\pi":".p","\\phi":".f",
               "\\gamma":".g","\\delta":".d","\\lambda":".l","\\mu":".m","\\nu":".n","\\sigma":".s",
               "\\kappa":".k","\\rho":".r","\\tau":".t","\\omega":".w","\\psi":".y","\\epsilon":".e","\\eta":".h","\\zeta":".z",
-              "\\Alpha":"_a","\\Beta":"_b","\\Gamma":"_g","\\Delta":"_d","\\Omega":"_w","\\Sigma":"_s","\\Phi":"_f","\Psi":"_y",
+              "\\Alpha":"_a","\\Beta":"_b","\\Gamma":"_g","\\Delta":"_d","\\Omega":"_w","\\Sigma":"_s","\\Phi":"_f","\Psi":"_y","\\Theta":"_?",
               "\\sin":"sin ","\\cos":"cos ","\\tan":"tan ",
               "\\sec":"sec ","\\cosec":"cosec ","\\cot":"cot ",
               "\\sinh":"sinh ","\\cosh":"cosh ","\\tanh":"tanh ",
