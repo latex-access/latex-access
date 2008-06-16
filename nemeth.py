@@ -7,6 +7,19 @@ from latex_access import translate
 from latex_access import text
 from latex_access import remove
 
+remove_dollars=False
+
+
+def dollar(input,start):
+    '''Handles dollars, either ignoring or removing them.
+    
+    Returns touple.'''
+    if (remove_dollars):
+        translation=""
+    else:
+        translation="$"
+    return (translation, start)
+
 
 def super(input,start):
     '''Translate  superscripts into Nemeth.
@@ -139,7 +152,7 @@ def displaystyle(input, start):
     return (translate(arg[0],table),arg[1])
 
 
-table={"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\mp":"-+","\\cdot":"_*","\\circ":"_*","\\wedge":"*","\\ldots":"'''","\\cdots":"'''","\\dots":"'''","!":"&",
+table={"$":dollar,"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\mp":"-+","\\cdot":"_*","\\circ":"_*","\\wedge":"*","\\ldots":"'''","\\cdots":"'''","\\dots":"'''","!":"&",
        "\\infty":"=","<":" \"k ",">":" .1 ","\\leq":" \"k.k ","\\geq":" .1.k ","\\le":" \"k.k ","\ge":" .1.k ","\\neq":" ./k ","\\ne":" ./k ",
               "\\alpha":".a","\\beta":".b","\\theta":".?","\\pi":".p","\\phi":".f",
               "\\gamma":".g","\\delta":".d","\\lambda":".l","\\mu":".m","\\nu":".n","\\sigma":".s",
