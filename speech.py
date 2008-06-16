@@ -7,6 +7,19 @@ from latex_access import translate
 from latex_access import text
 from latex_access import remove
 
+remove_dollars=False
+
+
+def dollar(input,start):
+    '''Handles dollars, either ignoring or removing them.
+    
+    Returns touple.'''
+    if (remove_dollars):
+        translation=""
+    else:
+        translation="$"
+    return (translation, start)
+
 
 def super(input,start):
     '''Translate  superscripts into speech.
@@ -158,7 +171,7 @@ def displaystyle(input, start):
 
 
 
-table={"+":" plus ","-":" minus ","\\pm":" plus or minus ","\\mp":" minus or plus ","\\times":" times ",
+table={"$":dollar,"+":" plus ","-":" minus ","\\pm":" plus or minus ","\\mp":" minus or plus ","\\times":" times ",
        "=":" equals ","\\equiv":" equiv ","\\ne":" not equals ","\\neq":" not equals ","<":" less than ",">":" greater than ","\\le":" less than or equal to ","\\leq":" less than or equal to ","\\ge":" greater than or equal to ","\\geq":" greater than or equal to ",
        "\\cdot":" dot ","\\ldots":" dot dot dot ","\\cdots":" dot dot dot ","\\dots":" dot dot dot ",
        "^":super,"_":sub,"\\sqrt":sqrt,"\\frac":frac,"\\int":integral,"\\mathbf":bold,"\\mathbb":bold,
