@@ -6,6 +6,12 @@
 :script ToggleMaths
 :Synopsis Toggles the speaking of mathematical expressions as either straight latex or a more verbal rendering.
 
+:script ToggleDollarsNemeth
+:Synopsis Toggles whether or not dollars are removed in nemeth.
+
+:script ToggleDollarsSpeech
+:Synopsis Toggles the speaking of dollars.
+
 :function BrailleBuildLine
 :Returns int No Return Description
 

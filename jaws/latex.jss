@@ -48,6 +48,30 @@ endif
 
 EndScript
 
+Script ToggleDollarsNemeth ()
+var bool result 
+let result=latex_access.toggle_dollars_nemeth()
+if result then 
+SayMessage (ot_status, "Dollars will now be ignored in nemeth", "nemeth dollars off")
+else
+SayMessage (ot_status, "Dollars will now be shown in nemeth", "nemeth dollars on")
+
+endif
+EndScript
+
+
+Script ToggleDollarsSpeech ()
+var bool result 
+let result=latex_access.toggle_dollars_speech()
+if result then 
+SayMessage (ot_status, "Dollars will now be ignored in speech", "speech dollars off")
+else
+SayMessage (ot_status, "Dollars will now be shown in speech", "speech dollars on")
+endif
+EndScript
+
+
+
 
 
 Int Function BrailleBuildLine ()

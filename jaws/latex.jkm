@@ -25,5 +25,7 @@ Control+Alt+8=SayColumn(8)
 Control+Alt+9=SayColumn(9)
 Control+Shift+A=PreprocessorA
 Control+Shift+F=PreprocessorCsv
+Control+D=ToggleDollarsNemeth
+Control+Shift+D=ToggleDollarsSpeech
 [Laptop Keys]
 Control+Shift+A=preprocessorAdd
