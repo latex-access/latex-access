@@ -7,10 +7,9 @@ import nemeth
 import speech
 
 class latex_access_com:
-    def __init__(self):
-        self._reg_clsid_ = "{436BC4EC-405C-49ED-A0E7-84945B0BAC03}"
-        self._reg_progid_ = "latex_access"
-        self._public_methods_ =["nemeth","speech","preprocessor_add","load_csv","toggle_dollars_nemeth","toggle_dollars_speech"]
+    _reg_clsid_ = "{436BC4EC-405C-49ED-A0E7-84945B0BAC03}"
+    _reg_progid_ = "latex_access"
+    _public_methods_ =["nemeth","speech","preprocessor_add","load_csv","toggle_dollars_nemeth","toggle_dollars_speech"]
     def nemeth(self, input):
         '''Translates the input into Nemeth Braille.'''
         input=preprocessor.process(str(input))
