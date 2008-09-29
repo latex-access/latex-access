@@ -3,14 +3,16 @@
 
 
 import sys
-import latex_access
+
 import nemeth
 import speech
+n=nemeth.nemeth()
+s=speech.speech()
 while True:
     input = sys.stdin.readline()
-    output=latex_access.translate(input,nemeth.table)
+    output=n.translate(input)
     print output
 
-    output=latex_access.translate(input,speech.table)
+    output=s.translate(input)
     print output
     
