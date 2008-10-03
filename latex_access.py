@@ -33,11 +33,15 @@ class translator:
                 
             if curr in self.table:
                 i+=len(curr)
-                if type(self.table[curr]) == types.StringType:
-                    output += self.table[curr]
-
-                elif type(self.table[curr]) == types.MethodType:
-                    translation=self.table[curr](input,i)
+                result=self.table[curr]
+                if type(result) == types.StringType:
+                    output += result
+                elif type(result)==types.TupleType:
+                    translation=self.general_command(input,i,result)
+                    output+=translation[0]
+                    i=translation[1]                    
+                elif type(result) == types.MethodType:
+                    translation=result(input,i)
                     output+=translation[0]
                     i=translation[1]
             
