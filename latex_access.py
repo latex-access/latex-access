@@ -9,7 +9,8 @@ latex_command=re.compile(r"\\(([a-zA-Z]+)|[,!;])")
 class translator:
     '''Class from which all translators will inherit.'''
     def __init__(self):
-        self.table={}
+        self.table={"\\mbox":self.text,"\\text":self.text,"\\textrm":self.text,"\\textit":self.text,"\\mathrm":self.text,"\\textbf":self.text,"\\displaystyle":self.displaystyle,"\\phantom":self.remove}
+        
         self.remove_dollars=False
     def translate(self,input):        
         '''This translates the string in input using the translation table
@@ -53,6 +54,13 @@ class translator:
         arg=get_arg(input,start)
         return (arg[0],arg[1])
 
+    def displaystyle(self,input, start):
+        '''Removes the displaystile command but translates its argument.
+
+        Returns touple.'''
+        arg=get_arg(input,start)
+        return (self.translate(arg[0]),arg[1])
+    
     def remove(self,input,start):
         '''Used to remove a command and its argument totally from the translation.
         Useful for phantom commands.  
