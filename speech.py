@@ -15,7 +15,7 @@ class speech(latex_access.translator):
         new_table={"$":self.dollar,"+":" plus ","-":" minus ","\\pm":" plus or minus ","\\mp":" minus or plus ","\\times":" times ",
                    "=":" equals ","\\equiv":" equiv ","\\ne":" not equals ","\\neq":" not equals ","<":" less than ",">":" greater than ","\\le":" less than or equal to ","\\leq":" less than or equal to ","\\ge":" greater than or equal to ","\\geq":" greater than or equal to ",
                    "\\cdot":" dot ","\\ldots":" dot dot dot ","\\cdots":" dot dot dot ","\\dots":" dot dot dot ",
-                   "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,"\\int":self.integral,"\\mathbf":self.bold,"\\mathbb":self.bold,
+                   "^":self.super,"_":("<sub>","</sub>"),"\\sqrt":self.sqrt,"\\frac":self.frac,"\\int":self.integral,"\\mathbf":("<bold>","</bold>"),"\\mathbb":("<bold>","</bold>"),
 
                    "\\,":" ","\\;":" ","\\quad":"","\\qquad":"","\\left":"","\\right":"",
                    "\\alpha":" alpha ","\\Alpha":" cap alpha ","\\beta":" beta ","\\Beta":" cap beta ","\\gamma":" gamma ","\\Gamma":" cap gamma ",
@@ -24,7 +24,7 @@ class speech(latex_access.translator):
                    "\\zeta":" zeta ","\\eta":"  eta ","\\psi":" psi ","\\Psi":" cap psi","\\Theta":" cap theta ",
                    "\\infty":" infinity ","\\rightarrow":" goes to ","\\leftrightarrow":" if and only if ","\\Rightarrow":" goes to","\\Leftrightarrow":" if and only if ",
                    "\\sin":" sine ","\\cos":" coz ","\\tan":"tan","\\sinh":" shine ","\\cosh":" cosh ","\\tanh":" thann ",
-                   "\\hat":self.hat,"\\widehat":self.hat,"\\bar":self.bar,"\\overline":self.bar,"\\dot":self.dot,"\\ddot":self.ddot,
+                   "\\hat":(" "," hat "),"\\widehat":(" "," hat "),"\\bar":(" "," bar "),"\\overline":(" "," bar "),"\\dot":(" "," dot "),"\\ddot":(" "," double dot "),
                    "\\partial":" partial ","\\nabla":" nabla ","\\wedge":" vec ","\\lim":" limit ","\\sum":" sum ","\\therefore":" therefore ","\\forall":" for all "}
         for (k,v) in new_table.iteritems():
             self.table[k]=v        
@@ -47,15 +47,6 @@ class speech(latex_access.translator):
         else:
             translation = " to the %s end super " % self.translate(arg[0])  
         return (translation,arg[1])
-
-    def sub(self,input,start):
-        '''Translates subscripts.  The output uses html style tags to denote start and end.
-    
-        Returns touple.'''
-        arg=get_arg(input,start)
-        translation="<sub>%s</sub>" % self.translate(arg[0])
-        return (translation,arg[1])
-
 
 
     def sqrt(self,input,start):
@@ -132,48 +123,4 @@ class speech(latex_access.translator):
             output+=self.translate(upper[0])
         output+=" of "
         return (output,i)
-
-    def bold(self,input,start):
-        '''Translates characters in bold.
-    
-        Returns toutple'''
-        arg=get_arg(input,start)
-        translation="<bold>%s</bold>" % self.translate(arg[0])
-        return (translation,arg[1])
-
-    def hat(self,input,start):
-        '''Translates \hat, as used for vectors.
-    
-        Returns touple.'''
-        arg=get_arg(input,start)
-        translation="%s hat " % self.translate(arg[0])
-        return (translation, arg[1])
-
-    def bar(self,input,start):
-        '''Translates the hat accent.
-    
-        Returns touple.'''
-        arg=get_arg(input,start)
-        translation=" %s bar " % self.translate(arg[0])
-        return (translation, arg[1])
-
-    def dot(self,input,start):
-        '''Translates the dot as used for time derivative.
-    
-        Returns touple.'''
-        arg=get_arg(input,start)
-        translation=" %s dot " % self.translate(arg[0])
-        return (translation, arg[1])
-
-    def ddot(self,input,start):
-        '''Translates ddot as used as 2nd time derivative.
-        
-        Returns touple.'''
-        arg=get_arg(input,start)
-        translation=" %s double dot  " % self.translate(arg[0])
-        return (translation, arg[1])
-
-
-
-
 

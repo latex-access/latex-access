@@ -19,9 +19,9 @@ class nemeth(latex_access.translator):
                    "\\sec":"sec ","\\cosec":"cosec ","\\cot":"cot ",
                    "\\sinh":"sinh ","\\cosh":"cosh ","\\tanh":"tanh ",
                    "\\rightarrow":" 33o","\\Rightarrow":" 33o","\\leftarrow":" {33","\\leftrightarrow":" {33o ","\\Leftrightarrow":" {33o ","\\equiv":" _l ",
-                   "\\partial":"$","\\int":"!","\\sum":".s","\\prod":"_p","\\dot":self.dot,"\\ddot":self.ddot,
+                   "\\partial":"$","\\int":"!","\\sum":".s","\\prod":"_p","\\dot":("","`"),"\\ddot":("","``"),
                    "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,
-                   "\\mathbf":self.bold,"\\mathbb":self.bold,"\\colvec":self.colvec,"\\tcolvec":self.tcolvec,"\\bar":self.bar,"\\hat":self.bar,"\\overline":self.bar,
+                   "\\mathbf":("_",""),"\\mathbb":("_",""),"\\colvec":("{"," ","o"),"\\tcolvec":("{"," "," ","o"),"\\bar":self.bar,"\\hat":self.bar,"\\overline":self.bar,
                    "\\cup":".+","\\cap":".%","\\subseteq":"_\"k:","\\subset":"_\"k","\\supseteq":"_.1:","\\supset":"_.1",
                    "\\setminus":"_*","\\emptyset":"_0",
                    "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\,":"","\\;":" ","\\:":" ",
@@ -88,60 +88,6 @@ class nemeth(latex_access.translator):
             translation="?"+self.translate(numerator[0])+"/"+self.translate(denominator[0])+"#"
         return (translation,denominator[1])
 
-    def bold(self,input,start):
-        '''Handles bold letters in equations, for example for vectors and matrices.
-        
-        Returns touple.'''
-        arg=get_arg(input,start)
-        translation="_%s" % self.translate(arg[0])
-        return (translation,arg[1])
-
-    def colvec(self,input,start):
-        '''Handles 2d column vectors created with a \colvec command.
-        This is a custom command which I find useful to define.
-
-        Returns touple as above.'''
-        x=get_arg(input,start)
-        if x[1]<len(input):
-            y=get_arg(input,x[1])
-        else:
-            y=("",x[1])
-        translation="{%s %so" % (self.translate(x[0]),self.translate(y[0]))
-        return (translation,y[1])
-
-    def tcolvec(self,input,start):
-        '''This is intended to handle 3d column vectors created by a tcolvec command.
-        Like colvec, I reckomend defining this command.
-
-        Returns touple as above'''
-        x=get_arg(input,start)
-        if x[1]<len(input):
-            y=get_arg(input,x[1])
-        else:
-            y=("",x[1])
-        if y[1]<len(input):
-            z=get_arg(input,y[1])
-        else:
-            z=("",y[1])
-        translation="{%s %s %so" % (self.translate(x[0]),self.translate(y[0]),self.translate(z[0]))
-        return (translation,z[1])
-
-    def dot(self,input, start):
-        '''Used to translate dot, as in differentiation
-
-        returns touple.'''
-        arg=get_arg(input,start)
-        translation="%s`" % self.translate(arg[0])
-        return (translation,arg[1])
-
-
-    def ddot(self,input, start):
-        '''Used to translate ddot, as in differentiation
-
-        returns touple.'''
-        arg=get_arg(input,start)
-        translation="%s``" % self.translate(arg[0])
-        return (translation,arg[1])
 
     def bar(self, input, start):
         '''Handles bar/overline.
