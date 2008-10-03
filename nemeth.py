@@ -24,8 +24,8 @@ class nemeth(latex_access.translator):
                    "\\mathbf":self.bold,"\\mathbb":self.bold,"\\colvec":self.colvec,"\\tcolvec":self.tcolvec,"\\bar":self.bar,"\\hat":self.bar,"\\overline":self.bar,
                    "\\cup":".+","\\cap":".%","\\subseteq":"_\"k:","\\subset":"_\"k","\\supseteq":"_.1:","\\supset":"_.1",
                    "\\setminus":"_*","\\emptyset":"_0",
-                   "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\,":"","\\;":" ","\\:":" ","\\mbox":self.text,"\\text":self.text,"\\textrm":self.text,"\\textit":self.text,"\\mathrm":self.text,"\\textbf":self.text,"\\displaystyle":self.displaystyle,
-                   "\\phantom":self.remove,"\\nabla":".$","\\therefore":" ,*","\\forall":"`&"}
+                   "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\,":"","\\;":" ","\\:":" ",
+                   "\\nabla":".$","\\therefore":" ,*","\\forall":"`&"}
         for (k,v) in new_table.iteritems():
             self.table[k]=v
 
@@ -157,11 +157,6 @@ class nemeth(latex_access.translator):
 
 
 
-    def displaystyle(self,input, start):
-        '''Removes the display[1~stile command but translates its argument.
 
-        Returns touple.'''
-        arg=get_arg(input,start)
-        return (self.translate(arg[0]),arg[1])
 
 
