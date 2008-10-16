@@ -82,7 +82,7 @@ class translator:
         translation=delimitors[0]
         for delim  in delimitors[1:]:
             arg=get_arg(input,start)
-            translation+=arg[0]
+            translation+=self.translate(arg[0])
             translation+=delim
             start=arg[1]
         return (translation,start)
