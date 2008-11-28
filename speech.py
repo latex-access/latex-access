@@ -19,9 +19,9 @@ class speech(latex_access.translator):
 
                    "\\,":" ","\\;":" ","\\quad":"","\\qquad":"","\\left":"","\\right":"",
                    "\\alpha":" alpha ","\\Alpha":" cap alpha ","\\beta":" beta ","\\Beta":" cap beta ","\\gamma":" gamma ","\\Gamma":" cap gamma ",
-                   "\\delta":" delta ","\\Delta":" cap delta ","\\epsilon":" epsilon ","\\omega":" omega ","\\Omega":" cap omega ","\\phi":" phi ","\\Phi":" cap phi ","\\lambda":" lambda ","\\mu":" mu ","\\pi":" pi ",
+                   "\\delta":" delta ","\\Delta":" cap delta ","\\epsilon":" epsilon ","\\omega":" omega ","\\Omega":" cap omega ","\\phi":" phi ","\\Phi":" cap phi ","\\lambda":" lambda ","\\mu":" mu ","\\nu":" nu ","\\pi":" pi ",
                    "\\theta":" theta ","\\sigma":" sigma ","\\Sigma":" Sigma ","\\rho":" rho ","\\tau":" tau ","\\Tau":" cap tau ",
-                   "\\zeta":" zeta ","\\eta":"  eta ","\\psi":" psi ","\\Psi":" cap psi","\\Theta":" cap theta ",
+                   "\\zeta":" zeta ","\\eta":"  eta ","\\psi":" psi ","\\Psi":" cap psi","\\Theta":" cap theta ","\\xi":" xi ","\\chi":" chi ",
                    "\\infty":" infinity ","\\rightarrow":" goes to ","\\leftrightarrow":" if and only if ","\\Rightarrow":" goes to","\\Leftrightarrow":" if and only if ",
                    "\\sin":" sine ","\\cos":" coz ","\\tan":"tan","\\sinh":" shine ","\\cosh":" cosh ","\\tanh":" thann ",
                    "\\hat":(" "," hat "),"\\widehat":(" "," hat "),"\\bar":(" "," bar "),"\\overline":(" "," bar "),"\\dot":(" "," dot "),"\\ddot":(" "," double dot "),
