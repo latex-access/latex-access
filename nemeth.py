@@ -14,7 +14,7 @@ class nemeth(latex_access.translator):
                    "\\alpha":".a","\\beta":".b","\\theta":".?","\\pi":".p","\\phi":".f",
                    "\\gamma":".g","\\delta":".d","\\lambda":".l","\\mu":".m","\\nu":".n","\\sigma":".s",
                    "\\kappa":".k","\\rho":".r","\\tau":".t","\\omega":".w","\\psi":".y","\\epsilon":".e","\\eta":".h","\\zeta":".z",
-                   "\\Alpha":"_a","\\Beta":"_b","\\Gamma":"_g","\\Delta":"_d","\\Omega":"_w","\\Sigma":"_s","\\Phi":"_f","\Psi":"_y","\\Theta":"_?",
+                   "\\Alpha":"_a","\\Beta":"_b","\\Gamma":"_g","\\Delta":"_d","\\Omega":"_w","\\Sigma":"_s","\\Phi":"_f","\Psi":"_y","\\Theta":"_?","\\Lambda":"_l",
                    "\\sin":"sin ","\\cos":"cos ","\\tan":"tan ",
                    "\\sec":"sec ","\\cosec":"cosec ","\\cot":"cot ",
                    "\\sinh":"sinh ","\\cosh":"cosh ","\\tanh":"tanh ",
@@ -36,7 +36,7 @@ class nemeth(latex_access.translator):
 
     def super(self,input,start):
         '''Translate  superscripts into Nemeth.
-        
+
         Returns a touple with translated string and index of
         first char after end of super.'''
         arg=get_arg(input,start)
@@ -53,7 +53,7 @@ class nemeth(latex_access.translator):
 
     def sub(self,input,start):
         '''Translates nemeth subscripts.
-        
+
         Returns a touple, as above'''
         arg=get_arg(input,start)
         if arg[0].isdigit():
@@ -75,7 +75,7 @@ class nemeth(latex_access.translator):
 
     def frac(self,input,start):
         '''Translates fractions into Nemeth.
-        
+
         Returns touple as above'''
         numerator=get_arg(input,start)
         if numerator[1]<len(input):
