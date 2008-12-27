@@ -10,17 +10,18 @@ class latex_access_com:
     def __init__(self):
         self.nemeth_translator=nemeth.nemeth()
         self.speech_translator=speech.speech()
+        self.preprocessor=preprocessor.preprocessor()
     _reg_clsid_ = "{436BC4EC-405C-49ED-A0E7-84945B0BAC03}"
     _reg_progid_ = "latex_access"
-    _public_methods_ =["nemeth","speech","preprocessor_add","load_csv","toggle_dollars_nemeth","toggle_dollars_speech"]
+    _public_methods_ =["nemeth","speech","preprocessor_add","preprocessor_read","preprocessor_write""toggle_dollars_nemeth","toggle_dollars_speech"]
     def nemeth(self, input):
         '''Translates the input into Nemeth Braille.'''
-        input=preprocessor.process(str(input))
+        input=self.preprocessor.translate(input)
         return self.nemeth_translator.translate(input)
     
     def speech(self,input):
         '''Translates the input into english speech.'''
-        input=preprocessor.process(str(input))
+        input=self.preprocessor.translate(input)
         return self.speech_translator.translate(input)
 
     def toggle_dollars_nemeth(self):
@@ -45,15 +46,17 @@ class latex_access_com:
             self.speech_translator.remove_dollars=True
             return True
 
-    def preprocessor_add(self,input,translation):
-        '''A function to add entries to the preprocessor'''
-        preprocessor.table[str(input)]=str(translation)
+    def preprocessor_add(self,command,delimitors):
+        '''A function to add entries to the preprocessor
 
-    def load_csv(self,file):
-        '''Load a csv file into the preprocessor'''
-        preprocessor.load_csv(str(file))
+Delimitors should be a # delimited string.'''
+        self.preprocessor.add(command,delimitors.split("#"))
 
+    def preprocessor_read(self, filename):
+        return self.preprocessor.read(filename)
 
+    def preprocessor_write(self, filename):
+        return self.preprocessor.write(filename)
 #Register the object
 if __name__=='__main__':
     import pythoncom,win32com.server.register

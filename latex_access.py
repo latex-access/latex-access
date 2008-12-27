@@ -36,7 +36,7 @@ class translator:
                 result=self.table[curr]
                 if type(result) == types.StringType:
                     output += result
-                elif type(result)==types.TupleType:
+                elif type(result)==types.TupleType or type(result)==types.ListType:
                     translation=self.general_command(input,i,result)
                     output+=translation[0]
                     i=translation[1]                    
