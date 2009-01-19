@@ -77,14 +77,31 @@ class translator:
     def general_command(self,input, start, delimitors):
         '''Used to process a command when the required translation is just the arguments joined by appropriate delimitors. 
         The 3rd argument is a list of such delimitors, the 1st element of which goes before the 1st argument of the command, etc.
+        Alternatively, if the 1st element is a number then it is interpreted as the number of arguments and subsequent arguments are treated as follows:
+        A string is treated as a delimitor 
+        An integer refers to the corresponding argument which is translated and inserted into the string.
 
         Returns usual touple.'''
-        translation=delimitors[0]
-        for delim  in delimitors[1:]:
-            arg=get_arg(input,start)
-            translation+=self.translate(arg[0])
-            translation+=delim
-            start=arg[1]
+        if type(delimitors[0])==types.StringType:
+            translation=delimitors[0]
+            for delim  in delimitors[1:]:
+                arg=get_arg(input,start)
+                translation+=self.translate(arg[0])
+                translation+=delim
+                start=arg[1]
+        else:
+            arguments=[]
+            for i in range(0,delimitors[0]):
+                arg=get_arg(input,start)
+                arguments.append(arg[0])
+                start=arg[1]
+            translation=""
+            for x in delimitors[1:]:
+                if type(x)==types.StringType:
+                    translation+=x
+                else:
+                    translation+=self.translate(arguments[x-1])
+
         return (translation,start)
 
     def dollar(self,input,start):
