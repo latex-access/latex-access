@@ -13,7 +13,7 @@ class latex_access_com:
         self.preprocessor=preprocessor.preprocessor()
     _reg_clsid_ = "{436BC4EC-405C-49ED-A0E7-84945B0BAC03}"
     _reg_progid_ = "latex_access"
-    _public_methods_ =["nemeth","speech","preprocessor_add","toggle_dollars_nemeth","toggle_dollars_speech"]
+    _public_methods_ =["nemeth","speech","preprocessor_add","preprocessor_write","preprocessor_read","toggle_dollars_nemeth","toggle_dollars_speech"]
     def nemeth(self, input):
         '''Translates the input into Nemeth Braille.'''
         input=self.preprocessor.translate(input)
@@ -47,10 +47,16 @@ class latex_access_com:
             return True
 
     def preprocessor_add(self,command,args,translation_string):
-        '''A function to add entries to the preprocessor
+        '''A function to add entries to the preprocessor'''
 
-Delimitors should be a # delimited string.'''
         self.preprocessor.add_from_string(command,args,translation_string)
+
+    def preprocessor_write(self, filename):
+        self.preprocessor.write(filename)
+
+    def preprocessor_read(self, filename):
+        self.preprocessor.read(filename)
+
 
 #Register the object
 if __name__=='__main__':
