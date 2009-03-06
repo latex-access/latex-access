@@ -2,6 +2,7 @@
 
 For example it can be used to handle commands defined by \newcommand.'''
 
+import cPickle as pickle
 import latex_access
 
 
@@ -28,3 +29,18 @@ class preprocessor(latex_access.translator):
             translation.append(int(s[0]))
             translation.append(s[1:])
         self.table[command]=translation
+
+    def write(self, filename):
+        '''Saves the preprocessor entries to a file.'''
+        f=open(filename,"w")
+        pickle.dump(self.table,f)
+        f.close()
+
+    def read(self, filename):
+        '''Reads preprocessor entries from a file and appends them to the dictionary.'''
+        f=open(filename)
+        newtable=pickle.load(f)
+        f.close()
+        for (k,v) in newtable.iteritems():
+            self.table[k]=v
+
