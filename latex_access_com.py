@@ -49,7 +49,7 @@ class latex_access_com:
     def preprocessor_add(self,command,args,translation_string):
         '''A function to add entries to the preprocessor'''
 
-        self.preprocessor.add_from_string(command,args,translation_string)
+        self.preprocessor.add_from_string(str(command),args,str(translation_string))
 
     def preprocessor_write(self, filename):
         self.preprocessor.write(filename)
