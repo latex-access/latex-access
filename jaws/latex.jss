@@ -169,24 +169,37 @@ EndScript
 
 
 Script preprocessorAdd ()
-var string input, string translation
-InputBox ("Enter the custom LaTeX you wish to re-define.", "Initial LaTeX", input)
-InputBox ("Enter the definition of the custom command, that is, the standard LaTeX to which it is equivalent.", "Translation", translation)
-latex_access.preprocessor_add(input,translation)
+var string input, int args, string strargs, string translation
+if InputBox ("Enter the command you wish to re-define.", "Initial LaTeX", input) then 
+if InputBox ("Enter the number of arguments of the command.", "Number of arguments", strargs) then 
+if InputBox ("Enter the definition of the custom command, that is, the standard LaTeX to which it is equivalent.", "Translation", translation) then 
+let args=StringToInt (strargs)
+latex_access.preprocessor_add(input,args,translation)
+endif
+endif
+endif
 EndScript
 
 
-
-Script PreprocessorCsv ()
+Script PreprocessorWrite ()
 var string filename
-InputBox ("Enter the name of the CSV file you wish to load", "Filename", filename)
-if FileExists (filename) then 
-latex_access.load_csv(filename)
-else 
-saystring("File not found")
+if InputBox ("enter full filename to save to", "Filename", filename) then 
+latex_access.preprocessor_write(filename)
+endif
+EndScript
+
+
+Script PreprocessorRead ()
+var string filename
+if InputBox ("enter full filename to read from ", "Filename", filename) then 
+latex_access.preprocessor_read(filename)
 endif
 
+
+
 EndScript
+
+
 
 
 
