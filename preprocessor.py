@@ -4,6 +4,7 @@ For example it can be used to handle commands defined by \newcommand.'''
 
 import latex_access
 
+
 class preprocessor(latex_access.translator):
     '''Preprocessor translator
 
@@ -15,28 +16,15 @@ class preprocessor(latex_access.translator):
         '''Add a translation to the table.'''
         self.table[command]=translation
 
-    def write(self,file):
-        '''Save preprocessor entries to a # delimited file.'''
-        try:
-            f=open(file,"w")
-        except IOError:
-            return False
-        for (k, v) in self.table.iteritems():
-            output="%s#%s\n" % (k,"#".join(v))
-            f.write(output)
-        f.close()
-        return True
-    
+    def add_from_string(self, command, args, translation_string):
+        '''This adds a command to the preprocessor given its number of arguments as well as its output in the form of an argument to \newcommand.
 
-                  
-    def read(self, filename):
-        '''Reads preprocessor entries from a # delimited file.'''
-        try:
-            f=open(filename,"r")
-        except IOError:
-            return False
-        for l in f:
-            input=l.split("#")
-            self.table[input[0]]=input[1:]
-        f.close()
-        return True
+        Therefore the final argument is a string using #n to denote the nth argument.'''
+        translation=[]
+        translation.append(args)
+        l=translation_string.split("#")
+        translation.append(l[0])
+        for s in l[1:]:
+            translation.append(int(s[0]))
+            translation.append(s[1:])
+        self.table[command]=translation
