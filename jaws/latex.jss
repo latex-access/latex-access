@@ -1,7 +1,8 @@
 
 include "hjconst.jsh"
 
-globals int ProcessMaths,
+globals int initialised,
+int ProcessMaths,
 object latex_access,
 object matrix,
 int row,
@@ -9,7 +10,10 @@ int column
 
 
 Void Function AutoStartEvent ()
+if !initialised then
 let latex_access=CreateObject ("latex_access")
+let initialised=true
+endif
 EndFunction
 
 Void Function SayLine ()
