@@ -39,9 +39,9 @@
 :script preprocessorAdd
 :Synopsis Adds a custom command to the preprocessor.
 
-:script PreprocessorCsv
-:Synopsis Loads a csv file into the preprocessor.
+:script PreprocessorWrite
+:Synopsis Saves the preprocessor to a file.
 
-:script PreprocessorA
-:Synopsis Adds a custom command  to the preprocessor
+:script PreprocessorRead
+:Synopsis Reads preprepreprocessor entries from a file.
 
