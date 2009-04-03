@@ -16,7 +16,7 @@ class speech(latex_access.translator):
                    "=":" equals ","\\equiv":" equiv ","\\ne":" not equals ","\\neq":" not equals ","<":" less than ",">":" greater than ","\\le":" less than or equal to ","\\leq":" less than or equal to ","\\ge":" greater than or equal to ","\\geq":" greater than or equal to ",
                    "\\cdot":" dot ","\\ldots":" dot dot dot ","\\cdots":" dot dot dot ","\\dots":" dot dot dot ",
                    "^":self.super,"_":("<sub>","</sub>"),"\\sqrt":self.sqrt,"\\frac":self.frac,"\\int":self.integral,"\\mathbf":("<bold>","</bold>"),"\\mathbb":("<bold>","</bold>"),
-
+                   "\\cap":" intersection ","\\cup":" union ","\\emptyset":" empty set ","\\bigcup":" union ","\\bigcap":" intersection ","\\in":" in ",
                    "\\,":" ","\\;":" ","\\quad":"","\\qquad":"","\\left":"","\\right":"",
                    "\\alpha":" alpha ","\\Alpha":" cap alpha ","\\beta":" beta ","\\Beta":" cap beta ","\\gamma":" gamma ","\\Gamma":" cap gamma ",
                    "\\delta":" delta ","\\Delta":" cap delta ","\\epsilon":" epsilon ","\\omega":" omega ","\\Omega":" cap omega ","\\phi":" phi ","\\Phi":" cap phi ","\\lambda":" lambda ","\\mu":" mu ","\\nu":" nu ","\\pi":" pi ",
