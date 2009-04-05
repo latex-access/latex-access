@@ -184,6 +184,13 @@ EndScript
 Script PreprocessorWrite ()
 var string filename
 if InputBox ("enter full filename to save to", "Filename", filename) then 
+if FileExists (filename) then 
+var int result
+let result=ExMessageBox ("The file you specified already exists.  Do you wish to replace it?", "File Exists", MB_YESNO)
+if result==IDNO then 
+return 
+endif
+endif
 latex_access.preprocessor_write(filename)
 endif
 EndScript
@@ -192,11 +199,12 @@ EndScript
 Script PreprocessorRead ()
 var string filename
 if InputBox ("enter full filename to read from ", "Filename", filename) then 
+if FileExists (filename) then 
 latex_access.preprocessor_read(filename)
+else
+MessageBox ("File does not exist")
 endif
-
-
-
+endif
 EndScript
 
 
