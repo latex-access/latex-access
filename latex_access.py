@@ -54,14 +54,14 @@ class translator:
     def text(self,input, start):
         '''Used to translate text, as in mbox and text
 
-        returns touple.'''
+        returns tuple.'''
         arg=get_arg(input,start)
         return (arg[0],arg[1])
 
     def displaystyle(self,input, start):
         '''Removes the displaystile command but translates its argument.
 
-        Returns touple.'''
+        Returns tuple.'''
         arg=get_arg(input,start)
         return (self.translate(arg[0]),arg[1])
     
@@ -69,7 +69,7 @@ class translator:
         '''Used to remove a command and its argument totally from the translation.
         Useful for phantom commands.  
 
-        Returns touple.'''
+        Returns tuple.'''
         arg=get_arg(input,start)
         return("",arg[1])
 
@@ -81,7 +81,7 @@ class translator:
         A string is treated as a delimitor 
         An integer refers to the corresponding argument which is translated and inserted into the string.
 
-        Returns usual touple.'''
+        Returns usual tuple.'''
         if type(delimitors[0])==types.StringType:
             translation=delimitors[0]
             for delim  in delimitors[1:]:
@@ -107,7 +107,7 @@ class translator:
     def dollar(self,input,start):
         '''Handles dollars, either ignoring or removing them.
     
-        Returns touple.'''
+        Returns tuple.'''
         if (self.remove_dollars):
             translation=""
         else:
@@ -118,7 +118,7 @@ class translator:
 def get_arg(input,start):
     '''Returns the argument of a latex command, starting at start.
         
-    Returns a touple containing the contents of the argument
+    Returns a tuple containing the contents of the argument
     and the index of the next character after the argument.'''
     i=start
     #Skip space
@@ -150,5 +150,33 @@ def get_arg(input,start):
         if input[i-1]!="}":
             i+=1
         return(input[start:i-1],i)
+
+def get_optional_arg(input,start):
+    '''Returns the optional argument of a latex command, if it exists, starting at start.
+        
+    Returns a tuple containing the contents of the argument
+    and the index of the next character after the argument, and an empty tuple if no argument is found.'''
+    i=start
+    #Skip space
+    while input[i]==" " and i < len(input):
+        i+=1
+    if input[i] != "[":
+        return ()
+    else:
+        i+=1
+        start=i
+        j=1 #Variable to track nested brackets
+        while j!=0 and i < len(input):
+            if input[i] == "[":
+                j+=1
+            if input[i] == "]":
+                j-=1
+            i+=1
+        #This is a hack to avoid problems when the brackets haven't yet been closed
+        if input[i-1]!="]":
+            i+=1
+        return(input[start:i-1],i)
+
+
 
 
