@@ -17,7 +17,7 @@ class speech(latex_access.translator):
                    "\\cdot":" dot ","\\ldots":" dot dot dot ","\\cdots":" dot dot dot ","\\dots":" dot dot dot ",
                    "^":self.super,"_":("<sub>","</sub>"),"\\sqrt":self.sqrt,"\\frac":self.frac,"\\int":self.integral,"\\mathbf":("<bold>","</bold>"),"\\mathbb":("<bold>","</bold>"),
                    "\\cap":" intersection ","\\cup":" union ","\\emptyset":" empty set ","\\bigcup":" union ","\\bigcap":" intersection ","\\in":" in ",
-                   "\\subset":" subset ","\\subseteq":" subset or equal to ","\\supset":" superset ","\\supseteq":" superset or equal to ",
+                   "\\subset":" subset ","\\subseteq":" subset or equal to ","\\supset":" superset ","\\supseteq":" superset or equal to ","\\triangleleft":" normal subgroup ",
                    "\\,":" ","\\;":" ","\\quad":"","\\qquad":"","\\left":"","\\right":"",
                    "\\alpha":" alpha ","\\Alpha":" cap alpha ","\\beta":" beta ","\\Beta":" cap beta ","\\gamma":" gamma ","\\Gamma":" cap gamma ",
                    "\\delta":" delta ","\\Delta":" cap delta ","\\epsilon":" epsilon ","\\omega":" omega ","\\Omega":" cap omega ","\\phi":" phi ","\\Phi":" cap phi ","\\lambda":" lambda ","\\mu":" mu ","\\nu":" nu ","\\pi":" pi ",

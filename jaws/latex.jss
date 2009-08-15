@@ -17,9 +17,10 @@ endif
 EndFunction
 
 Void Function SayLine ()
+if  ProcessMaths then
 var string input
 let input = GetLine ()
-if  ProcessMaths then
+
 if stringisblank(input) then
 let input = "blank"
 else
