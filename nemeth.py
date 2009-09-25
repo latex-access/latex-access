@@ -45,6 +45,9 @@ class nemeth(latex_access.translator):
             translation="<"
         elif arg[0]=="3":
             translation="%"
+        #Handle primes
+        elif latex_access.primes.match(arg[0]):
+            translation="'"*arg[0].count("\\prime")
         else:
             translation = "~" + self.translate(arg[0]) + "\""
         return (translation,arg[1])

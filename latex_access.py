@@ -5,6 +5,9 @@ import types
 
 # Regular expression to match LaTeX commands
 latex_command=re.compile(r"\\(([a-zA-Z]+)|[,!;])")
+#Regexp for testing if a string contains only primes
+primes=re.compile(r"^\s*(\\prime\s*)+$")
+
 
 class translator:
     '''Class from which all translators will inherit.'''
