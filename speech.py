@@ -46,7 +46,7 @@ class speech(latex_access.translator):
         elif arg[0]=="3":
             translation=" cubed "
         #Handle primes
-        if latex_access.primes.match(arg[0]):
+        elif latex_access.primes.match(arg[0]):
             translation=" prime "*arg[0].count("\\prime")
         else:
             translation = " to the %s end super " % self.translate(arg[0])  
