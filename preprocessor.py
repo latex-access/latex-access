@@ -44,3 +44,24 @@ class preprocessor(latex_access.translator):
         for (k,v) in newtable.iteritems():
             self.table[k]=v
 
+class newcommands(latex_access.translator):
+    '''Provides a translator to extract all \newcommand commands from a string.'''
+    def __init__(self,preprocessor):
+        self.table={}
+        self.table["\\newcommand"]=self.newcommand
+        self.preprocessor=preprocessor
+        
+    def newcommand(self, input, start):
+        command=latex_access.get_arg(input,start)
+        args=latex_access.get_optional_arg(input,command[1])
+        if args:
+            start=args[1]
+            args=int(args[0])
+        else:
+            args=0
+            start=command[1]
+        translation=latex_access.get_arg(input,start)
+        self.preprocessor.add_from_string(command[0],args,translation[0])
+        return ("",translation[1])
+    
+
