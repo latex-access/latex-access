@@ -172,7 +172,7 @@ def get_optional_arg(input,start):
         while j!=0 and i < len(input):
             if input[i] == "[":
                 j+=1
-            if input[i] == "]":
+            elif input[i] == "]":
                 j-=1
             i+=1
         #This is a hack to avoid problems when the brackets haven't yet been closed
