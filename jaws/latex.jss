@@ -83,6 +83,8 @@ Int Function BrailleBuildLine ()
 if  ProcessMaths then
 var string input
 let input = GetLine()
+let input = StringReplaceSubstrings (input, "scroll down symbol", "")
+let input=StringTrimTrailingBlanks (input)
 let input = latex_access.nemeth(input)
 ; now sort out bad dots 456 
 let input =StringReplaceSubstrings (input, "_", "\127") 
@@ -180,6 +182,14 @@ endif
 endif
 endif
 EndScript
+
+
+Script PreprocessorFromString ()
+latex_access.preprocessor_from_string(GetSelectedText ())
+
+
+EndScript
+
 
 
 Script PreprocessorWrite ()
