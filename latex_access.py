@@ -100,7 +100,7 @@ class translator:
                 start=arg[1]
             translation=""
             for x in delimitors[1:]:
-                if type(x)==types.StringType:
+                if type(x) in (types.StringType,types.UnicodeType):
                     translation+=x
                 else:
                     translation+=self.translate(arguments[x-1])
