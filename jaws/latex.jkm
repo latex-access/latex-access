@@ -28,3 +28,4 @@ Control+Shift+D=ToggleDollarsSpeech
 Control+Shift+R=PreprocessorRead
 Control+Shift+A=preprocessorAdd
 Control+Shift+W=PreprocessorWrite
+Control+Shift+H=PreprocessorFromString
