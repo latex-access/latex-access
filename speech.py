@@ -91,33 +91,7 @@ class speech(latex_access.translator):
         '''Translate integrals, including limits of integration.
     
         Returns touple.'''
-        arg=get_arg(input,start)
-        #Look for limits
-        lower=None
-        upper=None
-        i=start
-        while input[i]==" " and i < len(input):
-            i+=1
-        if input[i]=="_":
-            lower=get_arg(input,i+1)
-            i=lower[1]            
-            if i < len(input):
-                while input[i]==" " and i < len(input):
-                    i+=1
-                if input[i]=="^":
-                    upper=get_arg(input,i+1)
-                    i=upper[1]
-        #Now repeat this the other way round in case upper limit comes first
-        elif input[i]=="^":
-            upper=get_arg(input,i+1)
-            i=upper[1]
-            if i < len(input):
-                while input[i]==" " and i < len(input):
-                    i+=1
-                if input[i]=="_":
-                    lower=get_arg(input,i+1)
-                    i=lower[1]
-        #Now build output string
+        (lower,upper,i)=latex_access.get_subsuper(input,start)
         output=" integral "
         if lower is not None:
             output+="from "
