@@ -180,6 +180,34 @@ def get_optional_arg(input,start):
             i+=1
         return(input[start:i-1],i)
 
+def get_subsuper(input,start):
+    '''Function to handle cases where we may have some combination of a super and a sub, for example in limits of integrals and sums.
 
-
+    Returns tupple (sub,super,i)'''
+#This code was copied from a function for integrals, so lower means sub and upper means super.
+    lower=None
+    upper=None
+    i=start
+    while input[i]==" " and i < len(input):
+        i+=1
+    if input[i]=="_":
+        lower=get_arg(input,i+1)
+        i=lower[1]            
+        if i < len(input):
+            while input[i]==" " and i < len(input):
+                i+=1
+            if input[i]=="^":
+                upper=get_arg(input,i+1)
+                i=upper[1]
+        #Now repeat this the other way round in case upper limit comes first
+    elif input[i]=="^":
+        upper=get_arg(input,i+1)
+        i=upper[1]
+        if i < len(input):
+            while input[i]==" " and i < len(input):
+                i+=1
+            if input[i]=="_":
+                lower=get_arg(input,i+1)
+                i=lower[1]    
+    return (lower,upper,i)
 
