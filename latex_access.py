@@ -124,6 +124,8 @@ def get_arg(input,start):
     Returns a tuple containing the contents of the argument
     and the index of the next character after the argument.'''
     i=start
+    #Check we haven't gone past the end of the command
+    if i>=len(input): return ("",i)
     #Skip space
     while input[i]==" " and i < len(input):
         i+=1
@@ -160,6 +162,7 @@ def get_optional_arg(input,start):
     Returns a tuple containing the contents of the argument
     and the index of the next character after the argument, and an empty tuple if no argument is found.'''
     i=start
+    if i>=len(input): return ()
     #Skip space
     while input[i]==" " and i < len(input):
         i+=1
@@ -188,6 +191,7 @@ def get_subsuper(input,start):
     lower=None
     upper=None
     i=start
+    if i>=len(input): return (lower,upper,i)
     while input[i]==" " and i < len(input):
         i+=1
     if input[i]=="_":
