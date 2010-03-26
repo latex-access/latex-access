@@ -24,7 +24,7 @@ class speech(latex_access.translator):
                    "\\theta":" theta ","\\sigma":" sigma ","\\Sigma":" cap sigma ","\\rho":" rho ","\\tau":" tau ","\\Tau":" cap tau ",
                    "\\zeta":" zeta ","\\eta":"  eta ","\\psi":" psi ","\\Psi":" cap psi","\\Theta":" cap theta ","\\xi":" xi ","\\chi":" chi ","\\Lambda":"  cap lambda ",
                    "\\infty":" infinity ","\\rightarrow":" goes to ","\\leftrightarrow":" if and only if ","\\Rightarrow":" goes to","\\Leftrightarrow":" if and only if ",
-                   "\\sin":" sine ","\\cos":" coz ","\\tan":"tan","\\sinh":" shine ","\\cosh":" cosh ","\\tanh":" thann ",
+                   "\\sin":" sine ","\\cos":" coz ","\\tan":"tan","\\sinh":" shine ","\\cosh":" cosh ","\\tanh":" thann ","\\log":" log ",
                    "\\hat":(" "," hat "),"\\widehat":(" "," hat "),"\\bar":(" "," bar "),"\\overline":(" "," bar "),"\\dot":(" "," dot "),"\\ddot":(" "," double dot "),
                    "\\partial":" partial ","\\nabla":" nabla ","\\wedge":" vec ","\\lim":" limit ","\\sum":" sum ","\\prod":" product ","\\therefore":" therefore ","\\forall":" for all "}
         for (k,v) in new_table.iteritems():

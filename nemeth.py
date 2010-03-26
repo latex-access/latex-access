@@ -17,7 +17,7 @@ class nemeth(latex_access.translator):
                    "\\Alpha":"_a","\\Beta":"_b","\\Gamma":"_g","\\Delta":"_d","\\Omega":"_w","\\Sigma":"_s","\\Phi":"_f","\Psi":"_y","\\Theta":"_?","\\Lambda":"_l",
                    "\\sin":"sin ","\\cos":"cos ","\\tan":"tan ",
                    "\\sec":"sec ","\\cosec":"cosec ","\\cot":"cot ",
-                   "\\sinh":"sinh ","\\cosh":"cosh ","\\tanh":"tanh ",
+                   "\\sinh":"sinh ","\\cosh":"cosh ","\\tanh":"tanh ","\\log":"log ",
                    "\\rightarrow":" 33o","\\Rightarrow":" 33o","\\leftarrow":" {33","\\leftrightarrow":" {33o ","\\Leftrightarrow":" {33o ","\\equiv":" _l ",
                    "\\partial":"$","\\int":"!","\\sum":".s","\\prod":"_p","\\dot":("","`"),"\\ddot":("","``"),
                    "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,
