@@ -29,7 +29,8 @@ class speech(latex_access.translator):
                    "\\partial":" partial ","\\nabla":" nabla ","\\wedge":" vec ","\\lim":" limit ","\\sum":" sum ","\\prod":" product ","\\therefore":" therefore ","\\forall":" for all "}
         for (k,v) in new_table.iteritems():
             self.table[k]=v        
-
+        self.space=" "
+    
 
 
 
