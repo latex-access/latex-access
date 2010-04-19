@@ -15,6 +15,7 @@ class translator:
         self.table={"\\mbox":self.text,"\\text":self.text,"\\textrm":self.text,"\\textit":self.text,"\\mathrm":self.text,"\\textbf":self.text,"\\displaystyle":self.displaystyle,"\\phantom":self.remove}
         
         self.remove_dollars=False
+        self.space=""
     def translate(self,input):        
         '''This translates the string in input using the translation table
         
@@ -38,7 +39,9 @@ class translator:
                 i+=len(curr)
                 result=self.table[curr]
                 if type(result) == types.StringType:
+                    output+=self.space
                     output += result
+                    output+=self.space
                 elif type(result)==types.TupleType or type(result)==types.ListType:
                     translation=self.general_command(input,i,result)
                     output+=translation[0]
@@ -86,11 +89,15 @@ class translator:
 
         Returns usual tuple.'''
         if type(delimitors[0])==types.StringType:
-            translation=delimitors[0]
+            translation=self.space
+            translation+=delimitors[0]
+            translation+=self.space
             for delim  in delimitors[1:]:
                 arg=get_arg(input,start)
                 translation+=self.translate(arg[0])
+                translation+=self.space
                 translation+=delim
+                translation+=self.space
                 start=arg[1]
         else:
             arguments=[]
@@ -98,12 +105,14 @@ class translator:
                 arg=get_arg(input,start)
                 arguments.append(arg[0])
                 start=arg[1]
-            translation=""
+            translation=self.space
             for x in delimitors[1:]:
                 if type(x) in (types.StringType,types.UnicodeType):
                     translation+=x
+                    translation+=self.space
                 else:
                     translation+=self.translate(arguments[x-1])
+                    translation+=self.space
 
         return (translation,start)
 
