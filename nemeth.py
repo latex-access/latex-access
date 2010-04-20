@@ -1,6 +1,7 @@
 '''Module to provide Nemeth translations for the latex_access
 module.'''
 
+import os.path
 import latex_access
 from latex_access import get_arg
 
@@ -9,7 +10,7 @@ class nemeth(latex_access.translator):
 
     def __init__(self):
         latex_access.translator.__init__(self)
-        self.files.append("nemeth.table")
+        self.files.append(os.path.join(os.path.normpath(os.path.dirname(__file__)),"nemeth.table"))
         self.load_files()
         new_table={"$":self.dollar,
 
