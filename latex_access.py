@@ -16,6 +16,23 @@ class translator:
         
         self.remove_dollars=False
         self.space=""
+        self.files=[]
+
+    def load_file(self,filename):
+        '''Loads simple string table entries from a file.
+
+        The file is a simple text file, lines beginning with # are ignored.
+        Other lines are split at the first space into a command and translation.'''
+        f=open(filename)
+        for l in f.readlines():
+            if l[0]=="#": continue
+            words=l.split(" ")
+            self.table[words[0]]=(" ".join(words[1:])).strip("\n")
+        f.close()
+
+    def load_files(self):
+        [self.load_file(f) for f in self.files]
+    
     def translate(self,input):        
         '''This translates the string in input using the translation table
         
