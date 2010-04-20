@@ -9,23 +9,14 @@ class nemeth(latex_access.translator):
 
     def __init__(self):
         latex_access.translator.__init__(self)
-        new_table={"$":self.dollar,"+":"+","-":"-","=":" .k ","\\times":"*","\\pm":"+-","\\mp":"-+","\\cdot":"_*","\\circ":"_*","\\wedge":"*","\\ldots":"'''","\\cdots":"'''","\\dots":"'''","!":"&",
-                   "\\infty":"=","<":" \"k ",">":" .1 ","\\leq":" \"k.k ","\\geq":" .1.k ","\\le":" \"k.k ","\ge":" .1.k ","\\neq":" ./k ","\\ne":" ./k ",
-                   "\\alpha":".a","\\beta":".b","\\theta":".?","\\pi":".p","\\phi":".f",
-                   "\\gamma":".g","\\delta":".d","\\lambda":".l","\\mu":".m","\\nu":".n","\\sigma":".s",
-                   "\\kappa":".k","\\rho":".r","\\tau":".t","\\omega":".w","\\psi":".y","\\epsilon":".e","\\eta":".h","\\zeta":".z",
-                   "\\Alpha":"_a","\\Beta":"_b","\\Gamma":"_g","\\Delta":"_d","\\Omega":"_w","\\Sigma":"_s","\\Phi":"_f","\Psi":"_y","\\Theta":"_?","\\Lambda":"_l",
-                   "\\sin":"sin ","\\cos":"cos ","\\tan":"tan ",
-                   "\\sec":"sec ","\\cosec":"cosec ","\\cot":"cot ",
-                   "\\sinh":"sinh ","\\cosh":"cosh ","\\tanh":"tanh ","\\log":"log ",
-                   "\\rightarrow":" 33o","\\Rightarrow":" 33o","\\leftarrow":" {33","\\leftrightarrow":" {33o ","\\Leftrightarrow":" {33o ","\\equiv":" _l ",
-                   "\\partial":"$","\\int":"!","\\sum":".s","\\prod":"_p","\\dot":("","`"),"\\ddot":("","``"),
+        self.files.append("nemeth.table")
+        self.load_files()
+        new_table={"$":self.dollar,
+
+                   "\\dot":("","`"),"\\ddot":("","``"),
                    "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,
-                   "\\mathbf":("_",""),"\\mathbb":("_",""),"\\colvec":("{"," ","o"),"\\tcolvec":("{"," "," ","o"),"\\bar":self.bar,"\\hat":self.bar,"\\overline":self.bar,
-                   "\\cup":".+","\\cap":".%","\\subseteq":"_\"k:","\\subset":"_\"k","\\supseteq":"_.1:","\\supset":"_.1",
-                   "\\setminus":"_*","\\emptyset":"_0",
-                   "(":"{",")":"o","\\left":"","\\right":"","\\quad":"  ","\\qquad":"  ","\\,":"","\\;":" ","\\:":" ",
-                   "\\nabla":".$","\\therefore":" ,*","\\forall":"`&"}
+                   "\\mathbf":("_",""),"\\mathbb":("_",""),"\\colvec":("{"," ","o"),"\\tcolvec":("{"," "," ","o"),"\\bar":self.bar,"\\hat":self.bar,"\\overline":self.bar}
+
         for (k,v) in new_table.iteritems():
             self.table[k]=v
 

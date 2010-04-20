@@ -12,21 +12,12 @@ class speech(latex_access.translator):
     '''Speech translator class.'''
     def __init__(self):
         latex_access.translator.__init__(self)
-        new_table={"$":self.dollar,"+":" plus ","-":" minus ","\\pm":" plus or minus ","\\mp":" minus or plus ","\\times":" times ",
-                   "=":" equals ","\\equiv":" equiv ","\\ne":" not equals ","\\neq":" not equals ","<":" less than ",">":" greater than ","\\le":" less than or equal to ","\\leq":" less than or equal to ","\\ge":" greater than or equal to ","\\geq":" greater than or equal to ",
-                   "\\cdot":" dot ","\\ldots":" dot dot dot ","\\cdots":" dot dot dot ","\\dots":" dot dot dot ",
+        self.files.append("speech.table")
+        self.load_files()
+        new_table={"$":self.dollar,
                    "^":self.super,"_":("<sub>","</sub>"),"\\sqrt":self.sqrt,"\\frac":self.frac,"\\int":self.integral,"\\mathbf":("<bold>","</bold>"),"\\mathbb":("<bold>","</bold>"),
-                   "\\cap":" intersection ","\\cup":" union ","\\emptyset":" empty set ","\\bigcup":" union ","\\bigcap":" intersection ","\\in":" in ",
-                   "\\subset":" subset ","\\subseteq":" subset or equal to ","\\supset":" superset ","\\supseteq":" superset or equal to ","\\triangleleft":" normal subgroup ",
-                   "\\,":" ","\\;":" ","\\quad":"","\\qquad":"","\\left":"","\\right":"",
-                   "\\alpha":" alpha ","\\Alpha":" cap alpha ","\\beta":" beta ","\\Beta":" cap beta ","\\gamma":" gamma ","\\Gamma":" cap gamma ",
-                   "\\delta":" delta ","\\Delta":" cap delta ","\\epsilon":" epsilon ","\\omega":" omega ","\\Omega":" cap omega ","\\phi":" phi ","\\Phi":" cap phi ","\\lambda":" lambda ","\\mu":" mu ","\\nu":" nu ","\\pi":" pi ",
-                   "\\theta":" theta ","\\sigma":" sigma ","\\Sigma":" cap sigma ","\\rho":" rho ","\\tau":" tau ","\\Tau":" cap tau ",
-                   "\\zeta":" zeta ","\\eta":"  eta ","\\psi":" psi ","\\Psi":" cap psi","\\Theta":" cap theta ","\\xi":" xi ","\\chi":" chi ","\\Lambda":"  cap lambda ",
-                   "\\infty":" infinity ","\\rightarrow":" goes to ","\\leftrightarrow":" if and only if ","\\Rightarrow":" goes to","\\Leftrightarrow":" if and only if ",
-                   "\\sin":" sine ","\\cos":" coz ","\\tan":"tan","\\sinh":" shine ","\\cosh":" cosh ","\\tanh":" thann ","\\log":" log ",
-                   "\\hat":(" "," hat "),"\\widehat":(" "," hat "),"\\bar":(" "," bar "),"\\overline":(" "," bar "),"\\dot":(" "," dot "),"\\ddot":(" "," double dot "),
-                   "\\partial":" partial ","\\nabla":" nabla ","\\wedge":" vec ","\\lim":" limit ","\\sum":" sum ","\\prod":" product ","\\therefore":" therefore ","\\forall":" for all "}
+                   "\\hat":("","hat"),"\\widehat":("","hat"),"\\bar":("","bar"),"\\overline":("","bar"),"\\dot":("","dot"),"\\ddot":("","double dot")}
+
         for (k,v) in new_table.iteritems():
             self.table[k]=v        
         self.space=" "
