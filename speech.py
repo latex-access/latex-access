@@ -1,7 +1,6 @@
 '''Module to provide speech output for latex_access.'''
 
 
-import os.path 
 import latex_access
 from latex_access import get_arg
 
@@ -12,7 +11,7 @@ class speech(latex_access.translator):
     '''Speech translator class.'''
     def __init__(self):
         latex_access.translator.__init__(self)
-        self.files.append(os.path.join(os.path.normpath(os.path.dirname(__file__)),"speech.table"))
+        self.files.append("speech.table")
         self.load_files()
         new_table={"$":self.dollar,
                    "^":self.super,"_":("<sub>","</sub>"),"\\sqrt":self.sqrt,"\\frac":self.frac,"\\int":self.integral,"\\mathbf":("<bold>","</bold>"),"\\mathbb":("<bold>","</bold>"),
