@@ -11,6 +11,7 @@ class preprocessor(latex_access.translator):
 
     All translations done by this translator should use the general_command mechanism rather than custom functions.'''
     def __init__(self):
+        latex_access.translator.__init__(self)        
         self.table={}
 
     def add(self,command,translation):
