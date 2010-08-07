@@ -31,8 +31,10 @@ The scripts currently interface to Jaws for Windows, version 5 and
 above.  To install the scripts on a machine running windows and Jaws
 version 5 or higher, do the following.
 
-1. Download the latest stable release of the Python software from
+1. Download the latest stable release of version 2 of the Python software from
 www.python.org and install it.
+
+Note: LaTeX-access has not been tested with python 3 and probably won't work with it.
 
 2. Download the pywin32 package  from
 https://sourceforge.net/projects/pywin32 ensuring you have the correct
@@ -64,11 +66,10 @@ in your start menu).
 Switch to the latex-access directory by typing 'cd %directory%' for
 example, type 'cd c:\latex-access'
 
-8. Now switch Jaws to say all, by pressing jaws key+s. Type
+8. Type
 'latex_access_com.py' you should hear 'latex_access registered'.  Now
 register the matrix processor object by typing 'matrix_processor.py'
-You should hear a similar message.  Switch Jaws back to speak
-highlighted text by pressing jaws key+s twice, and exit the command
+You should hear a similar message.  Exit the command
 prompt by typing exit.
 
 Note: the object here is to run the specified python files with 
