@@ -30,6 +30,8 @@ let input = StringReplaceSubstrings (input, "<sub>", smmGetStartMarkupForAttribu
 let input = StringReplaceSubstrings (input, "</sub>", smmGetEndMarkupForAttributes (attrib_subscript|attrib_text))
 let input = StringReplaceSubstrings (input, "<bold>", smmGetStartMarkupForAttributes (attrib_bold|attrib_text))
 let input = StringReplaceSubstrings (input, "</bold>", smmGetEndMarkupForAttributes (attrib_bold|attrib_text))
+let input=StringReplaceSubstrings (input, "<mathcal>", smmGetStartMarkupForAttributes (attrib_italic|attrib_text))
+let input=StringReplaceSubstrings (input, "</mathcal>", smmGetEndMarkupForAttributes (attrib_italic|attrib_text))
 endif
 Say (input, ot_selected_item, true)
 else
