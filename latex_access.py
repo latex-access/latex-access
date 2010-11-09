@@ -22,11 +22,11 @@ class translator:
     def load_file(self,filename):
         '''Loads simple string table entries from a file.
 
-        The file is a simple text file, lines beginning with # are ignored.
+        The file is a simple text file, lines beginning with ; are ignored.
         Other lines are split at the first space into a command and translation.'''
         f=open(os.path.join(get_path(),filename))
         for l in f.readlines():
-            if l[0]=="#": continue
+            if l[0]==";": continue
             words=l.split(" ")
             self.table[words[0]]=(" ".join(words[1:])).strip("\n")
         f.close()
