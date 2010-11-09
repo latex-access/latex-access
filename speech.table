@@ -1,87 +1,120 @@
+; Basic arrithmetic functions
 + plus
 - minus
 < less than
 = equals
 > greater than
-\,  
-\;  
+\times times
+\pm plus or minus
+\leq  less than or equal to 
+\le less than or equal to 
+\geq  greater than or equal to 
+\ge  greater than or equal to 
+\equiv equiv
+\neq not equals
+\ne not equals
+\sum  sum 
+\prod  product 
+\pm plus or minus
+\mp minus or plus
+\log  log 
+\leftrightarrow  if and only if 
+\Rightarrow  goes to
+\rightarrow  goes to  
+\Leftrightarrow  if and only if 
+\wedge  vec 
+
+
+; trigonometric and hyperbolic functions
+\tanh  thann 
+\tan tan
+\sinh  shine 
+\sin  sine 
+\cosh  cosh 
+\cos  coz 
+
+
+; capital greek letters
 \Alpha  cap alpha 
 \Beta  cap beta 
 \Delta  cap delta 
 \Gamma  cap gamma 
 \Lambda   cap lambda 
-\Leftrightarrow  if and only if 
 \Omega  cap omega 
 \Phi  cap phi 
 \Psi  cap psi
-\Rightarrow  goes to
 \Sigma  cap sigma 
 \Tau  cap tau 
 \Theta  cap theta 
+\Pi  cap pi
+\Xi  cap xi
+\Chi  cap chi 
+\Mu  cap mu
+\Nu  cap nu
+\Rho  cap rho
+\Iota  cap iota
+
+
+; small greek letters
 \alpha  alpha 
 \beta  beta 
+\phi  phi 
+\delta  delta 
+\epsilon  epsilon 
+\gamma  gamma 
+\eta   eta 
+\rho  rho 
+\psi  psi 
+\pi  pi 
+\omega  omega 
+\nu  nu 
+\mu  mu 
+\lambda  lambda 
+\gamma  gamma 
+\zeta  zeta 
+\xi  xi 
+\theta  theta 
+\tau  tau 
+\sigma  sigma 
+\chi  chi 
+\iota  iota
+
+
+; set theory
 \bigcap  intersection 
 \bigcup  union 
 \cap  intersection 
+\triangleleft  normal subgroup 
+\therefore  therefore 
+\supseteq  superset or equal to 
+\supset  superset 
+\subseteq  subset or equal to 
+\subset  subset 
+\in  in 
+\forall  for all 
+\emptyset  empty set 
+\cup  union 
+\lim  limit 
+
+
+; standard LaTeX commands for better reading
 \cdot  dot 
 \cdots  dot dot dot 
-\chi  chi 
-\cos  coz 
-\cosh  cosh 
-\cup  union 
-\delta  delta 
-\dots  dot dot dot 
-\emptyset  empty set 
-\epsilon  epsilon 
-\equiv equiv
-\eta   eta 
-\forall  for all 
-\gamma  gamma 
-\ge  greater than or equal to 
-\geq  greater than or equal to 
-\in  in 
-\infty  infinity 
-\lambda  lambda 
-\ldots  dot dot dot 
-\le less than or equal to 
-\left 
-\leftrightarrow  if and only if 
-\leq  less than or equal to 
-\lim  limit 
-\log  log 
-\mp minus or plus
-\mu  mu 
-\nabla  nabla 
-\ne not equals
-\neq not equals
-\nu  nu 
-\omega  omega 
-\partial  partial 
-\phi  phi 
-\pi  pi 
-\pm plus or minus
-\prod  product 
-\psi  psi 
-\qquad 
-\quad 
-\rho  rho 
 \right 
-\rightarrow  goes to 
-\sigma  sigma 
-\sin  sine 
-\sinh  shine 
-\subset  subset 
-\subseteq  subset or equal to 
-\sum  sum 
-\supset  superset 
-\supseteq  superset or equal to 
-\tan tan
-\tanh  thann 
-\tau  tau 
-\therefore  therefore 
-\theta  theta 
-\times times
-\triangleleft  normal subgroup 
-\wedge  vec 
-\xi  xi 
-\zeta  zeta 
+\quad 
+\qquad 
+\left 
+\ldots  dot dot dot 
+\dots  dot dot dot 
+\dots  dot dot dot 
+\;  
+\,  
+
+
+; calculus
+\partial  partial 
+\nabla  nabla 
+
+
+; special characters
+\infty  infinity
