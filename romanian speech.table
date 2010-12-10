@@ -1,0 +1,99 @@
+! factorial
++ plus
+- minus
+< mai mic ca
+=  egal 
+> mai mare ca
+( paranteza deschisa
+) paranteza inchisa
+[ paranteza patrata deschisa
+] paranteza patrata inchisa
+{ acolada deschisa
+} acolada inchisa
+\,  
+\;  
+\Alpha  alfa mare 
+\Beta  beta mare 
+\Delta delta mare 
+\Gamma gamma mare 
+\Lambda  lambda mare
+\Leftrightarrow  dacã si doar daca
+\Omega  omega mare 
+\Phi  phi mare 
+\Psi  cap psi
+\Rightarrow  tinde la
+\Sigma  sigma mare 
+\Tau  cap tau 
+\Theta  teta mare
+\alpha  alfa 
+\beta  beta 
+\bigcap  intersectat cu 
+\bigcup  reunit cu 
+\cap  intersectat cu 
+\cdot  punct 
+\cdots  puncte puncte puncte
+\chi  chi 
+\cos  cos
+\cosh  cosinus hiberpolic
+\cup  reunit cu 
+\delta  delta 
+\dots  puncte puncte puncte 
+\emptyset  multimea vida 
+\epsilon  epsilon 
+\equiv echivalent
+\eta   eta 
+\forall pentru orice
+\gamma  gamma 
+\ge  mai mare egal ca
+\geq  mai mare egal ca
+\in  apartine 
+\infty  infinit 
+\item simbolo
+\lambda  lambda 
+\ldots  puncte puncte puncte 
+\le mai mic sau egal 
+\left 
+\leftrightarrow  dacã si doar daca 
+\leq  mai mic sau egal ca 
+\lim  limita
+\log  logaritm
+\ln logaritmNatural
+\lg logaritmZecimal
+\mp minusSauPlus
+\mu  miu
+\nabla  nabla 
+\ne  diferit de 
+\neq  diferit de 
+\nrightarrow nu tinde la
+\nu  niu 
+\omega  omega 
+\partial  parþial 
+\phi  fi 
+\pi  pi 
+\pm plus sau minus
+\prod  produs
+\psi  psi 
+\qquad 
+\quad 
+\rho  ro 
+\right 
+\rightarrow  tinde la 
+\sigma  sigma 
+\sin  sin
+\sinh  sinus hiberbolic 
+\subset  inclusIn 
+\subseteq  inclusSauEgalCu 
+\sum  suma 
+\supset  include 
+\supseteq  superset IncludeSauEgalCu 
+\tan tan
+\tanh  tangentã hiperbolicã 
+\tau  tau 
+\therefore  deci 
+\theta  teta 
+\times ori
+\to tinde la
+\triangleleft  normal subgroup 
+\wedge  vec 
+\xi  xi 
+\zeta  zeta 
