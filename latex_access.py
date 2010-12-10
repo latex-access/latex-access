@@ -38,7 +38,7 @@ class translator:
         '''This translates the string in input using the translation table
         
         Returns string.'''
-
+        input=str(input)
         output=""
         i=0
         while (i<len(input)):
