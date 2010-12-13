@@ -26,14 +26,7 @@
 ;;; Code:
 ;; Note: pymacs is required for this to work.
 
-; For some reason it only works when starting emacs from the directory
-; of the modules. Until I figure out how to set pymacs-load-path, please
-; use the old installation method.
-; Commented for now
-; (pymacs-load "sys") ; Do this to initialise pymacs stuff
-; (setq pymacs-load-path latex-access-path) ; Location
-					; of our modules (svn root directory)
-; Make sure this module is in python path!
+; Ensure you have PYTHONPATH set correctly!
 (pymacs-load "latex_access_emacs" "latex_access_emacs") ; load the
 					; relevant modules 
 (setq latex-access nil) ; set initial global value 
