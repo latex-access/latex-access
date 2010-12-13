@@ -3,7 +3,7 @@
 ;; Copyright (C) 2010  Daniel Dalton
 
 ;; Author: Daniel Dalton <daniel.dalton10@gmail.com>
-;; Keywords: 
+;; Keywords: Latex_access emacs implementation 
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,13 +20,19 @@
 
 ;;; Commentary:
 
-;; 
-
+;; A module for gnu/emacs, which interfaces with latex-access providing
+;; access to the python functions so that they can be manipulated from
+;; within emacs.
 ;;; Code:
-; Note: pymacs is required for this to work.
+;; Note: pymacs is required for this to work.
 
-(global-set-key (kbd "C-x \\") 'toggle-latex-access) ; key binding for toggle
+(pymacs-load "sys") ; Do this to initialise pymacs stuff
+(setq pymacs-load-path latex-access-path) ; Location
+					; of our modules (svn root directory)
+(pymacs-load "latex_access_emacs" "latex_access_emacs") ; load the
+					; relevant modules 
 (setq latex-access nil) ; set initial global value 
+(global-set-key (kbd "C-x \\") 'toggle-latex-access) ; key binding for toggle
 
 (defun latex-access-off ()
   "Turn off latex-access."
@@ -71,12 +77,11 @@
   "This function is called by some of the emacs navigation commands"
   "to provide useful Braille and speech output for LaTeX."
   (interactive)
-  (pymacs-load "latex_access_emacs" "latex_access_emacs") ; load python
-					; module 
   (setq currline (thing-at-point 'line)) ; We grab current line 
-  (dtk-speak (latex_access_emacstranssp currline)) ; Speech to pass to emacspeak 
   (message "%s" (latex_access_emacstransbrl currline)) ; Braille translation
 					; -- appears in echo area 
+  (dtk-speak (latex_access_emacstranssp currline)) ; Speech to pass to
+					; emacspeak 
   )
 
 (defun next-latex-access-line (lines)
