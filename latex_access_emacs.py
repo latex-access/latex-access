@@ -23,6 +23,8 @@ def transbrl (arg):
 
   Unless you are using pymacs to call this, please use the function
   nemeth.nemeth.translate() instead. Found in nemeth.py."""
+  if (l.nemeth_translator.remove_dollars):
+    return n.translate(arg).replace("$", "")
   return n.translate(arg)
 
 def transsp (arg):
@@ -30,6 +32,9 @@ def transsp (arg):
 
   Unless calling with pymacs, please use
   speech.speech.translate(). Found in speech.py."""
+
+  if(l.speech_translator.remove_dollars):
+    return s.translate(arg).replace("$", "")
   return s.translate(arg)
 
 def toggle_dollars_nemeth ():
