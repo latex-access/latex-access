@@ -20,15 +20,19 @@ the cursor rooting buttons, and should use standard arrow keys
 instead. It is hoped that cursor rooting will be implemented in the future.
 
 The scripts also translate the current line into English speech which
-  is then spoken by jaws.
+  is then spoken by jaws/emacspeak.
 
 The Python scripts provide output in a large area of
 mathematics, such as fractions, superscripts and subscripts,
 calculus notation, set theory notation, and a large number of
 mathematical symbols.
 
-The scripts currently interface to Jaws for Windows, version 5 and
-above.  To install the scripts on a machine running windows and Jaws
+The scripts currently interface to Jaws for Windows, (version 5 and
+above), as well as emacspeak. For documentation regarding the
+emacspeak interface and installation, please see the "README.emacs" file
+located in the emacs branch of the svn checkout.   
+
+To install the scripts on a machine running windows and Jaws
 version 5 or higher, do the following.
 
 1. Download the latest stable release of version 2 of the Python software from

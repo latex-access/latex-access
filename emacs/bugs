@@ -1,0 +1,12 @@
+BUGS:
+
+This file is to list any bugs you find with the emacs side of the
+package. This will be helpful so we know where to look for a complete
+list of all bugs which require attention.
+
+- For some reason emacspeak says "." (dot) before the translation in speech.
+I disable the Braille and this still occurs, do other users see this?
+It may be something I need to investigate when time permits -- not a huge issue though.
+Fixed of r127 -- load python module only once.
+
+
