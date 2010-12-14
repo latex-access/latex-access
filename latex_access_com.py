@@ -29,23 +29,15 @@ class latex_access_com:
         '''Toggles whether dollars are shown in braille.
 
         Returns a boolian of whether dollars are being removed.'''
-        if(self.nemeth_translator.remove_dollars):
-            self.nemeth_translator.remove_dollars=False
-            return False
-        else:
-            self.nemeth_translator.remove_dollars=True
-            return True
+        self.nemeth_translator.remove_dollars=not self.nemeth_translator.remove_dollars
+        return self.nemeth_translator.remove_dollars
 
     def toggle_dollars_speech(self):
         '''Toggles whether dollars are spken 
 
         Returns a boolian of whether dollars are being removed.'''
-        if(self.speech_translator.remove_dollars):
-            self.speech_translator.remove_dollars=False
-            return False
-        else:
-            self.speech_translator.remove_dollars=True
-            return True
+        self.speech_translator.remove_dollars=not self.speech_translator.remove_dollars
+        return self.speech_translator.remove_dollars
 
     def preprocessor_add(self,command,args,translation_string):
         '''A function to add entries to the preprocessor'''
