@@ -76,11 +76,15 @@
   "to provide useful Braille and speech output for LaTeX."
   (interactive)
   (setq currline (thing-at-point 'line)) ; We grab current line 
-  (message "%s" (latex_access_emacstransbrl currline)) ; Braille translation
+  ; Shut up emacspeak
+  (let ((emacspeak-speak-messages nil))
+    (progn 
+      (message "%s" (latex_access_emacstransbrl currline)) ; Braille translation
 					; -- appears in echo area 
-  (dtk-speak (latex_access_emacstranssp currline)) ; Speech to pass to
+      )
+    (dtk-speak (latex_access_emacstranssp currline)) ; Speech to pass to
 					; emacspeak 
-  )
+  ))
 
 (defun next-latex-access-line (lines)
   "The same as next-line, unless latex-access is enabled."
