@@ -1,0 +1,43 @@
+TODO:
+
+Here is a list of things we feel are important for strong emacs support.
+I believe it is worth while to place this information here for two reasons:
+1. So users can see what ideas are in mind for the future.
+2. So anyone can assist to implement these ideas!
+
+- offer an installation script 
+- Offer an uninstall script.
+Both scripts have been created, please let me know thoughts. I did these
+pretty quickly, so I'm sure the coding could be done better if
+desired, but it works well for me, and will simplify the readme
+
+- Make the toggle-latex-access function accept user interactive input,
+and either be a global or local modification. I.E. support prefix argument.
+- Allow speech and Braille to be disabled independently of each
+other. This won't be terribly hard, I just need to think about the
+best possible implementation. We'll probably need to rework the
+latex-access-on/off functions, having separate functions for speech
+and Braille. Perhaps a global emacs variable determines what
+functionality can be enabled/disabled. Otherwise the functions must be
+called directly e.e. if the global variable for speech is nil, then
+the key stroke and toggle functions won't work, the user will need to
+call latex-access-speech-on/off or similar. This is probably fairly
+urgent to reduce the complexity of the README.
+
+Ideas provided by Alastair:
+
+- Correct handling of my speech markup for bold, etc.
+(I think with some string manipulation in lisp this shouldn't be too hard
+with the available voice-locking functions of emacspeak.)
+- Emacs functions to toggle speaking and brailling of dollar signs.
+- Support for the preprocessor, (the preprocessor should be called
+before  both   translators and there needs to be support for the
+various preprocessor functions).
+- Could the emacs code use lisp advice around the emacs functions so
+that its the functions that we modify rather than the keystroke?  At
+the moment if someone has non-standard keybindings in emacs for
+previous and next line then the code will mess them up.  On a similar
+note, could we advise the character insertion functions so that the
+braille is updated automatically when typing?
+ 
+Daniel Dalton 14/12/2010
