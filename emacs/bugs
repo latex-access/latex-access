@@ -9,4 +9,6 @@ I disable the Braille and this still occurs, do other users see this?
 It may be something I need to investigate when time permits -- not a huge issue though.
 Fixed of r127 -- load python module only once.
 
+- Part of the Braille translation was spoken by emacspeak. (should be
+  fixed now, but awaiting testing from other users...)
 

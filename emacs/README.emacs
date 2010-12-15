@@ -28,6 +28,9 @@ visiting a LaTeX file.
 (of course you can toggle the functionality when desired though with c-x
 \ or m-x toggle-latex-access. There are also latex-access-on and
 latex-access-off functions.)
+* Toggle of Brailling dollar signs in nemeth Braille translation
+* Toggle of speaking dollar signs.
+* Support for the preprocessor functions 
 
 INSTALLATION:
 
@@ -91,19 +94,11 @@ Now emacs should communicate correctly with latex-access.
 
 GENERAL NOTES:
 
-Currently Braille will work independently of emacspeak, but to avoid errors comment out these lines from emacs-latex-access.el:
-after installation if emacspeak is absent!
-
-  (local-set-key (kbd "C-e C-i")
-		 'emacspeak-table-display-table-in-region) 
-
-(which is in the latex-access-off function.)
-
-And the line:
-
-  (dtk-speak (latex_access_emacstranssp currline)) ; Speech to pass to emacspeak 
-
-(Which is in latex-access-current-line)
+If emacspeak is not present, you'll need to edit the lisp code and
+comment out all the references to any emacspeak specific
+functions/variables to avoid errors. Future plans are to make this
+easier
+to disable perhaps by setting a variable.
 
 If Braille is absent, then possibly consider commenting out Braille to avoid annoying symbols appearing in the echo area:
 This is the line to comment:
@@ -126,6 +121,13 @@ function through m-x and the key c-e, c-i or c-e, tab.
 * A hook also exists loading the functionality whenever you visit a
 LaTeX file.
 * c-x \ toggles latex-access for any buffer locally. 
+* Currently no key bindings exist for toggling dollar signs being
+Brailled/spoken. Either make your own, or call the
+toggle-latex-access-dollars-* functions from within emacs (m-x).
+* No key bindings exist for the preprocessor functionality -- you will
+need to call the latex-access-preprocessor-* functions from within
+emacs i.e. using m-x.
+(We will probably develop a consistent keymap after the advice implementation.)
 
 UNINSTALL:
 
@@ -148,5 +150,5 @@ to remove the checked out svn directory if you wish.
 You can of course remove the export PYTHONPATH line from your
 .bash_profile if you wish, though leaving it will do no harm.
 
-Last Updated: 14 December 2010 by Daniel Dalton
+Last Updated: 15 December 2010 by Daniel Dalton
 
