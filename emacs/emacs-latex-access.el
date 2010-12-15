@@ -59,18 +59,19 @@ output when applicable"
   (setq latex-access nil)
   (ad-disable-advice 'emacspeak-speak-line 'around 'latex-access-speak-line)
   (ad-activate 'emacspeak-speak-line)
-  (remove-hook 'after-change-functions 'latex-access-current-line-braille nil t)
+  (remove-hook 'post-command-hook 'latex-access-current-line-braille nil t)
   (message "Latex-access disabled."))
 
 (defun latex-access-on ()
   "Turn on latex-access"
   (interactive)
+  (message "Latex-access enabled.")
   (make-local-variable 'latex-access)
   (setq latex-access t)  
   (ad-enable-advice 'emacspeak-speak-line 'around 'latex-access-speak-line)
   (ad-activate 'emacspeak-speak-line)
-  (add-hook 'after-change-functions 'latex-access-current-line-braille nil t)
-  (message "Latex-access enabled."))
+  (add-hook 'post-command-hook 'latex-access-current-line-braille nil t)
+  )
 
 (defun toggle-latex-access ()
   "Toggle the state of latex-access."
@@ -142,15 +143,10 @@ sEnter the definition of the custom command, that is, the standard LaTex to whic
   translation)
   (message "Added string %s" input))
 
-(defun latex-access-current-line-braille (beg end oldlength)
-(interactive)
+(defun latex-access-current-line-braille ()
+  "Braille the current line"
+  (interactive)
   (let ((emacspeak-speak-messages nil))
     (message "%s" (latex_access_emacstransbrl (thing-at-point 'line)))))
-
-; May be useful leave it for now.
-(defun latex-access-line-braille ()
-  "Braille the current line of LaTeX to the echo area in nemeth."
-  (interactive)
-    (message "%s" (latex_access_emacstransbrl (thing-at-point 'line))))
 
 ;;; emacs-latex-access.el ends here
