@@ -1,4 +1,4 @@
-OB;;; emacs-latex-access.el --- Latex-access implementation for emacs
+;;; emacs-latex-access.el --- Latex-access implementation for emacs
 
 ;; Copyright (C) 2010  Daniel Dalton
 
