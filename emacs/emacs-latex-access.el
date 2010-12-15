@@ -119,4 +119,35 @@
   (message "Dollar signs will %s be spoken."
 	   (if (latex_access_emacstoggle-dollars-speech) "not" "")))
 
+; The preprocessor functions
+(defun latex-access-preprocessor-read ()
+"Prompt user for a file and pass the path to the python function."
+(interactive)
+(let ((filename (read-file-name "Enter full
+filename to read from: "))) 
+(progn 
+(if (file-exists-p filename)
+(progn 
+(message "Reading file %s..." filename)
+(latex_access_emacspreprocessor-read filename))
+(error "File %s doesn't exist." filename)))))
+
+(defun latex-access-preprocessor-write ()
+"Takes user input for filename, then passes the file path to the python
+function."
+(interactive)
+(let ((filename (read-file-name "Enter full
+filename to save to: ")))
+(if (file-exists-p filename)
+(progn 
+(let ((input (yes-or-no-p "File %s exists, overwrite? ")))
+(if input
+(progn 
+(message "Overwriting...")
+(latex_access_emacspreprocessor-write filename))
+(message "Did not write to file %s!" filename))))
+(progn 
+(message "Writing to %s..." filename)
+(latex_access_emacspreprocessor-write filename)))))
+
 ;;; emacs-latex-access.el ends here
