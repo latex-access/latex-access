@@ -121,33 +121,52 @@
 
 ; The preprocessor functions
 (defun latex-access-preprocessor-read ()
-"Prompt user for a file and pass the path to the python function."
-(interactive)
-(let ((filename (read-file-name "Enter full
+  "Prompt user for a file and pass the path to the python function."
+  (interactive)
+  (let ((filename (read-file-name "Enter full
 filename to read from: "))) 
-(progn 
-(if (file-exists-p filename)
-(progn 
-(message "Reading file %s..." filename)
-(latex_access_emacspreprocessor-read filename))
-(error "File %s doesn't exist." filename)))))
+    (progn 
+      (if (file-exists-p filename)
+	  (progn 
+	    (message "Reading file %s..." filename)
+	    (latex_access_emacspreprocessor-read filename))
+	(error "File %s doesn't exist." filename)))))
 
 (defun latex-access-preprocessor-write ()
-"Takes user input for filename, then passes the file path to the python
-function."
-(interactive)
-(let ((filename (read-file-name "Enter full
+  "Takes user input for filename, then passes the file path to the python"
+  "function."
+  (interactive)
+  (let ((filename (read-file-name "Enter full
 filename to save to: ")))
-(if (file-exists-p filename)
-(progn 
-(let ((input (yes-or-no-p "File %s exists, overwrite? ")))
-(if input
-(progn 
-(message "Overwriting...")
-(latex_access_emacspreprocessor-write filename))
-(message "Did not write to file %s!" filename))))
-(progn 
-(message "Writing to %s..." filename)
-(latex_access_emacspreprocessor-write filename)))))
+    (if (file-exists-p filename)
+	(progn 
+	  (let ((input (yes-or-no-p "File %s exists, overwrite? ")))
+	    (if input
+		(progn 
+		  (message "Overwriting...")
+		  (latex_access_emacspreprocessor-write filename))
+	      (message "Did not write to file %s!" filename))))
+      (progn 
+	(message "Writing to %s..." filename)
+	(latex_access_emacspreprocessor-write filename)))))
+
+(defun latex-access-preprocessor-from-string (beg end)
+  "Pass the beginning and end of region to this function. Will pass the"
+  "text in region to the python processor-get-string function."
+  (interactive "r") 
+  (if (mark) 
+      (progn 
+	     (latex_access_emacspreprocessor-from-string
+	      (buffer-substring-no-properties beg end))
+	     (message "Passed region to the preprocessor"))
+    (error "No region set.")))
+
+(defun latex-access-preprocessor-add (input strargs translation)
+  (interactive "sEnter the command you wish to re-define: 
+nEnter the number of arguments of the command: 
+sEnter the definition of the custom command, that is, the standard LaTex to which it is equivalent: ")
+  (latex_access_emacspreprocessor-add input strargs
+  translation)
+  (message "Added string %s" input))
 
 ;;; emacs-latex-access.el ends here

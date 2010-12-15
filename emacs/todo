@@ -30,9 +30,15 @@ Ideas provided by Alastair:
 (I think with some string manipulation in lisp this shouldn't be too hard
 with the available voice-locking functions of emacspeak.)
 - Emacs functions to toggle speaking and brailling of dollar signs.
+(done)
 - Support for the preprocessor, (the preprocessor should be called
 before  both   translators and there needs to be support for the
 various preprocessor functions).
+(I don't fully understand this preprocessor functionality, but it should
+work correctly now under emacs, I just don't know how to use the
+preprocessor-from-string functionality...?) Please let me know if it
+doesn't work for some reason.
+
 - Could the emacs code use lisp advice around the emacs functions so
 that its the functions that we modify rather than the keystroke?  At
 the moment if someone has non-standard keybindings in emacs for
@@ -40,4 +46,4 @@ previous and next line then the code will mess them up.  On a similar
 note, could we advise the character insertion functions so that the
 braille is updated automatically when typing?
  
-Daniel Dalton 14/12/2010
+Daniel Dalton 15/12/2010
