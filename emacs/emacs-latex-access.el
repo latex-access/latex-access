@@ -1,4 +1,4 @@
-;;; emacs-latex-access.el --- Latex-access implementation for emacs
+OB;;; emacs-latex-access.el --- Latex-access implementation for emacs
 
 ;; Copyright (C) 2010  Daniel Dalton
 
@@ -32,34 +32,44 @@
 (setq latex-access nil) ; set initial global value 
 (global-set-key (kbd "C-x \\") 'toggle-latex-access) ; key binding for toggle
 
+; latex-access advice 
+; Advise emacspeak to speak the latex-access (nicely spoken
+; Mathematics), when desired.
+; This will hook into the emacspeak-speak-line function, and is called
+; for all line navigations, c-e l, c-e up/down,  up/down, c-p, c-n
+; etc. c-u args are fully supported as the navigation is left to emacs.
+
+(defadvice emacspeak-speak-line (around latex-access-speak-line)
+  "Intercept Say line function of emacspeak.
+If latex-access enabled, speak with speech provided by
+latex-access. Otherwise pass straight through to the default
+emacspeak-speak-line function. This means all line navigation with
+emacs/emacspeak will call this function, hence, providing latex-access
+output when applicable"
+  (make-local-variable 'latex-access)
+  (if latex-access
+      (dtk-speak (latex_access_emacstranssp (thing-at-point 'line))) ; Speech to pass to
+    ad-do-it) ; else call default emacspeak line handler 
+  )
+
 (defun latex-access-off ()
   "Turn off latex-access."
   (interactive)
-					; set default emacs key bindings
-					; and latex-access is nil.
   (make-local-variable 'latex-access)
   (setq latex-access nil)
-					; Comment following two lines if you do not have emacspeak.
-  (local-set-key (kbd "C-e C-i")
-		 'emacspeak-table-display-table-in-region) 
-  (local-set-key (kbd "C-n") 'next-line)
-  (local-set-key (kbd "C-p") 'previous-line)
-  (local-set-key [down] 'next-line)
-  (local-set-key [up] 'previous-line)
+  (ad-disable-advice 'emacspeak-speak-line 'around 'latex-access-speak-line)
+  (ad-activate 'emacspeak-speak-line)
+  (remove-hook 'after-change-functions 'latex-access-current-line-braille nil t)
   (message "Latex-access disabled."))
 
 (defun latex-access-on ()
   "Turn on latex-access"
   (interactive)
-					; set latex-access var to true,
-					; and adjust relevant keymaps.
   (make-local-variable 'latex-access)
   (setq latex-access t)  
-  (local-set-key (kbd "C-e C-i") 'latex-access-current-line)
-  (local-set-key (kbd "C-n") 'next-latex-access-line)
-  (local-set-key (kbd "C-p") 'previous-latex-access-line)
-  (local-set-key [down] 'next-latex-access-line)
-  (local-set-key [up] 'previous-latex-access-line)
+  (ad-enable-advice 'emacspeak-speak-line 'around 'latex-access-speak-line)
+  (ad-activate 'emacspeak-speak-line)
+  (add-hook 'after-change-functions 'latex-access-current-line-braille nil t)
   (message "Latex-access enabled."))
 
 (defun toggle-latex-access ()
@@ -69,43 +79,6 @@
       (latex-access-off) ; Switch off latex-access
     (latex-access-on) ; Switch on latex-access
     ))
-
-(defun latex-access-current-line ()
-  "Grab the current line and pass to latex-access."
-  "This function is called by some of the emacs navigation commands"
-  "to provide useful Braille and speech output for LaTeX."
-  (interactive)
-  (setq currline (thing-at-point 'line)) ; We grab current line 
-  ; Shut up emacspeak
-  (let ((emacspeak-speak-messages nil))
-    (progn 
-      (message "%s" (latex_access_emacstransbrl currline)) ; Braille translation
-					; -- appears in echo area 
-      )
-    (dtk-speak (latex_access_emacstranssp currline)) ; Speech to pass to
-					; emacspeak 
-  ))
-
-(defun next-latex-access-line (lines)
-  "The same as next-line, unless latex-access is enabled."
-  "If Latex-access is enabled, offer Braille and speech translations,"
-  "when moving down by line."
-  (interactive "p")
-  (forward-line lines) ; go to next line
-  (latex-access-current-line) ; Translate new active line
-  )
-
-(defun previous-latex-access-line (lines)
-  "The same as prior-line, unless latex-access is enabled."
-  "If Latex-access is enabled, offer Braille and speech translations,"
-  "when moving up by line."
-  (interactive "p")
-					; If lines is a positive number make it negative.
-  (if (>= lines 0)
-      (setq lines (- 0 lines)))
-  (forward-line lines) ; go up x number of  lines.
-  (latex-access-current-line) ; Translate new active line.
-  )
 
 (defun toggle-latex-access-dollars-braille ()
   "Toggle whether to Braille dollar signs."
@@ -168,5 +141,16 @@ sEnter the definition of the custom command, that is, the standard LaTex to whic
   (latex_access_emacspreprocessor-add input strargs
   translation)
   (message "Added string %s" input))
+
+(defun latex-access-current-line-braille (beg end oldlength)
+(interactive)
+  (let ((emacspeak-speak-messages nil))
+    (message "%s" (latex_access_emacstransbrl (thing-at-point 'line)))))
+
+; May be useful leave it for now.
+(defun latex-access-line-braille ()
+  "Braille the current line of LaTeX to the echo area in nemeth."
+  (interactive)
+    (message "%s" (latex_access_emacstransbrl (thing-at-point 'line))))
 
 ;;; emacs-latex-access.el ends here
