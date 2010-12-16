@@ -112,8 +112,8 @@ filename to read from: ")))
 	(error "File %s doesn't exist." filename)))))
 
 (defun latex-access-preprocessor-write ()
-  "Takes user input for filename, then passes the file path to the python"
-  "function."
+  "Takes user input for filename, then passes the file path to the python
+function."
   (interactive)
   (let ((filename (read-file-name "Enter full
 filename to save to: ")))
@@ -130,8 +130,8 @@ filename to save to: ")))
 	(latex_access_emacspreprocessor-write filename)))))
 
 (defun latex-access-preprocessor-from-string (beg end)
-  "Pass the beginning and end of region to this function. Will pass the"
-  "text in region to the python processor-get-string function."
+  "Pass the beginning and end of region to this function. Will pass the
+text in region to the python processor-get-string function."
   (interactive "r") 
   (if (mark) 
       (progn 
@@ -141,6 +141,7 @@ filename to save to: ")))
     (error "No region set.")))
 
 (defun latex-access-preprocessor-add (input strargs translation)
+  "Preprocessor add function -- passes input to the python code."
   (interactive "sEnter the command you wish to re-define: 
 nEnter the number of arguments of the command: 
 sEnter the definition of the custom command, that is, the standard LaTex to which it is equivalent: ")
