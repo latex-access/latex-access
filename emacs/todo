@@ -5,45 +5,32 @@ I believe it is worth while to place this information here for two reasons:
 1. So users can see what ideas are in mind for the future.
 2. So anyone can assist to implement these ideas!
 
+Things already done:
+
 - offer an installation script 
 - Offer an uninstall script.
-Both scripts have been created, please let me know thoughts. I did these
-pretty quickly, so I'm sure the coding could be done better if
-desired, but it works well for me, and will simplify the readme
-
-- Make the toggle-latex-access function accept user interactive input,
-and either be a global or local modification. I.E. support prefix argument.
-- Allow speech and Braille to be disabled independently of each
-other. This won't be terribly hard, I just need to think about the
-best possible implementation. We'll probably need to rework the
-latex-access-on/off functions, having separate functions for speech
-and Braille. Perhaps a global emacs variable determines what
-functionality can be enabled/disabled. Otherwise the functions must be
-called directly e.e. if the global variable for speech is nil, then
-the key stroke and toggle functions won't work, the user will need to
-call latex-access-speech-on/off or similar. This is probably fairly
-urgent to reduce the complexity of the README.
-
-Ideas provided by Alastair:
-
-- Correct handling of my speech markup for bold, etc.
-(I think with some string manipulation in lisp this shouldn't be too hard
-with the available voice-locking functions of emacspeak.)
 - Emacs functions to toggle speaking and brailling of dollar signs.
-(done)
-- Support for the preprocessor, (the preprocessor should be called
-before  both   translators and there needs to be support for the
-various preprocessor functions).
-(I don't fully understand this preprocessor functionality, but it should
-work correctly now under emacs, I just don't know how to use the
-preprocessor-from-string functionality...?) Please let me know if it
-doesn't work for some reason.
-
+- Support for the preprocessor
 - Could the emacs code use lisp advice around the emacs functions so
 that its the functions that we modify rather than the keystroke?  At
 the moment if someone has non-standard keybindings in emacs for
 previous and next line then the code will mess them up.  On a similar
 note, could we advise the character insertion functions so that the
 braille is updated automatically when typing?
- 
-Daniel Dalton 15/12/2010
+(done for Braille and speech) 
+
+Things still needing to be implemented:
+
+- Make the toggle-latex-access function accept user interactive input,
+and either be a global or local modification. I.E. support prefix argument.
+- Allow speech and Braille to be disabled independently of each other
+This shouldn't be to hard if we divide latex-access-on/off into
+speech/braille specific functions, and update the toggle code.
+- Correct handling of my speech markup for bold, etc.
+(I think with some string manipulation in lisp this shouldn't be too hard
+with the available voice-locking functions of emacspeak.)
+- Consistant key bindings for many functions (toggling dollars, latex-access speech/braille independently, preprocessor)
+- Perhaps a latex-access-equation function could be useful to convert a region of text into Braille and expanding the echo area.
+We would just feed the python code one line at a time in a loop. Would be useful
+when rereading an examination I think.
+
