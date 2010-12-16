@@ -4,11 +4,18 @@ This file is to list any bugs you find with the emacs side of the
 package. This will be helpful so we know where to look for a complete
 list of all bugs which require attention.
 
+Bugs which have been fixed:
+
 - For some reason emacspeak says "." (dot) before the translation in speech.
 I disable the Braille and this still occurs, do other users see this?
 It may be something I need to investigate when time permits -- not a huge issue though.
 Fixed of r127 -- load python module only once.
 
 - Part of the Braille translation was spoken by emacspeak. (should be
-  fixed now, but awaiting testing from other users...)
+fixed now
+- Latex-access toggle didn't work properly when disabled, nothing was
+Brailled/voiced, and when enabling, no Braille output for the latex
+access enabled message was observed. 
+Fixed of R147.
 
+Bugs requiring attention:
