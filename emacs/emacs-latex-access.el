@@ -161,4 +161,34 @@ sEnter the definition of the custom command, that is, the standard LaTex to whic
   (if (not latex-access) 
       (message "Latex-access disabled.")))
 
+(defun latex-access-eq (beg end)
+  "Grabs text between beg and end.
+Translates all text between beg and end into Braille. Could do speech,
+but this would be irritating!
+For interactive input the active region is used. Feel free to use any
+two points of a buffer though when calling from lisp."
+  (interactive "r
+p")
+  (setq latex-access-buff (get-buffer-create " latex-access buffer"))
+  (save-excursion 
+    (set-buffer latex-access-buff)
+    (erase-buffer)
+    (insert "Braille translation of math in region follows:\n"))
+					; Next run the region line by line through translator 
+  (goto-char beg)
+  (catch 'break
+    (while (<= (point) end)
+      (progn
+	(if (= (point) (point-max))
+	    (throw 'break nil))
+	(let ((latex-access-currline (latex_access_emacstransbrl (thing-at-point 'line))))
+	  (forward-line)
+	  (save-excursion
+	    (set-buffer latex-access-buff)
+	    (goto-char (point-max))
+	    (insert "\n" latex-access-currline))))))
+  (switch-to-buffer latex-access-buff)
+  (goto-char 49) ; Shall remain consistant if first line doesn't change.
+  )
+
 ;;; emacs-latex-access.el ends here
