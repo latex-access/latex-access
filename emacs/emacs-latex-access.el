@@ -167,8 +167,7 @@ Translates all text between beg and end into Braille. Could do speech,
 but this would be irritating!
 For interactive input the active region is used. Feel free to use any
 two points of a buffer though when calling from lisp."
-  (interactive "r
-p")
+  (interactive "r")
   (setq latex-access-buff (get-buffer-create " latex-access buffer"))
   (save-excursion 
     (set-buffer latex-access-buff)
