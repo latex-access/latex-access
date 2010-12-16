@@ -57,10 +57,14 @@ output when applicable"
   (interactive)
   (make-local-variable 'latex-access)
   (setq latex-access nil)
-  (ad-disable-advice 'emacspeak-speak-line 'around 'latex-access-speak-line)
-  (ad-activate 'emacspeak-speak-line)
-  (remove-hook 'post-command-hook 'latex-access-current-line-braille nil t)
-  (message "Latex-access disabled."))
+					; Comment these for now.
+					; They should only be used if latex-access is disabled globally.
+					; Code in advice determines how to act.
+					; This code will be used when we have global change available.
+					;  (ad-disable-advice 'emacspeak-speak-line 'around 'latex-access-speak-line)
+					;  (ad-activate 'emacspeak-speak-line)
+  (remove-hook 'post-command-hook 'latex-access-current-line-braille t)
+  (latex-access-current-line-braille))
 
 (defun latex-access-on ()
   "Turn on latex-access"
@@ -68,6 +72,7 @@ output when applicable"
   (message "Latex-access enabled.")
   (make-local-variable 'latex-access)
   (setq latex-access t)  
+  (setq latex-access-initial t)
   (ad-enable-advice 'emacspeak-speak-line 'around 'latex-access-speak-line)
   (ad-activate 'emacspeak-speak-line)
   (add-hook 'post-command-hook 'latex-access-current-line-braille nil t)
@@ -146,7 +151,13 @@ sEnter the definition of the custom command, that is, the standard LaTex to whic
 (defun latex-access-current-line-braille ()
   "Braille the current line"
   (interactive)
+  (if (and latex-access (not latex-access-initial))
   (let ((emacspeak-speak-messages nil))
     (message "%s" (latex_access_emacstransbrl (thing-at-point 'line)))))
+  (if (and latex-access latex-access-initial)
+      (progn (setq latex-access-initial nil)
+	     (message "Latex-access enabled.")))
+  (if (not latex-access) 
+      (message "Latex-access disabled.")))
 
 ;;; emacs-latex-access.el ends here
