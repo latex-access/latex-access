@@ -10,26 +10,21 @@ Linux.
 The basic structure: 
 * The latex-access functionality can be toggled with c-x \ 
 * Normal behaviour takes place if latex-access is disabled. 
-* If latex-access is enabled, the down/up arrows and c-n, c-p keys act
-in a unique way. They still navigate by line or by lines depending on
-prefix argument, but instead of emacspeak speaking the line as-is, it is passed
-to latex-access and emacspeak speaks the newly generated string from
-latex-access.
-See the todo file for details on future implementation. 
-* The line is also passed to the nemeth translation and nemeth output is
-observed in the echo area i.e. at bottom line of screen. 
-* C-e tab or c-e c-i will update latex-access with current line 
-A. displaying Braille in echo area.
-B. Speak current line with speech translation from latex-access.
-Again see todo file for future plans (we intend to have the Braille display and
-speech updated as you type or move, not just by line.)
+* Line navigation functions voice the line in question through the
+latex-access translation. This means all line movement (with the arrows,
+c-p, c-n, and c-e up/down in emacspeak all voice the line with the
+latex-access translation.) c-u (prefix arguments are supported)
+* The Braille display is updated as you type, or as the point is
+moved.
+* Speech is spoken via emacspeak, and Braille translation is provided in
+the echo area.
 * An autohook exists to load this functionality automatically if we are
 visiting a LaTeX file. 
 (of course you can toggle the functionality when desired though with c-x
 \ or m-x toggle-latex-access. There are also latex-access-on and
 latex-access-off functions.)
-* Toggle of Brailling dollar signs in nemeth Braille translation
-* Toggle of speaking dollar signs.
+* Toggle of Brailling dollar signs in nemeth Braille translation (m-x toggle-latex-access-dollars-braille)
+* Toggle of speaking dollar signs. (m-x toggle-latex-access-dollars-speech)
 * Support for the preprocessor functions 
 
 INSTALLATION:
@@ -101,33 +96,31 @@ easier
 to disable perhaps by setting a variable.
 
 If Braille is absent, then possibly consider commenting out Braille to avoid annoying symbols appearing in the echo area:
-This is the line to comment:
-(message (latex_access_emacstransbrl currline)) ; Braille translation
-
-(it's in the latex-access-current-line function)
 
 HOW TO USE:
 
-Use line up/down functions or keys in emacs which will trigger latex-access
-c-e c-i or c-e tab will offer a translation of the currently selected line.
+Using any form of line navigation including emacspeak commands will
+speak the line in question as a latex-access translation. Braille is
+updated in the echo area as you type or move. 
+To see the Braille translation constantly without the display jumping
+back to the LaTeX source, turn off cursor tracking in BRLTTY.
 
-* Emacspeak will automatically voice the translation.
-* Braille translation appears at bottom of screen in the echo area.
-* Sometimes, for long reading I turn off cursor-tracking,
-leaving my display situated at the bottom of the screen, to receive updates in nemeth Braille in real time.
-* Finally, to edit just edit the actual LaTeX source, and cursor routing keys do indeed work here.
-* If desired, latex-access-current-line is available as an interactive
-function through m-x and the key c-e, c-i or c-e, tab.
-* A hook also exists loading the functionality whenever you visit a
+Editing works as usual, just edit the LaTeX source, and of course cursor
+routing works on the LaTeX source text. As you edit the echo area will
+be updated with a Braille translation.
+
+A hook also exists loading the functionality whenever you visit a
 LaTeX file.
-* c-x \ toggles latex-access for any buffer locally. 
-* Currently no key bindings exist for toggling dollar signs being
-Brailled/spoken. Either make your own, or call the
-toggle-latex-access-dollars-* functions from within emacs (m-x).
-* No key bindings exist for the preprocessor functionality -- you will
-need to call the latex-access-preprocessor-* functions from within
-emacs i.e. using m-x.
-(We will probably develop a consistent keymap after the advice implementation.)
+
+c-x \ toggles latex-access for any buffer locally. 
+
+You can call most of the latex-access- functions interactively through
+m-x. Consistant key bindings will be introduced. 
+
+* toggle dollars use toggle-latex-access-dollars-speech or
+  toggle-latex-access-dollars-braille.
+* The preprocessor functions are under latex-access-preprocessor-* --
+  use tab completion to find out what functions are available.
 
 UNINSTALL:
 
@@ -150,5 +143,5 @@ to remove the checked out svn directory if you wish.
 You can of course remove the export PYTHONPATH line from your
 .bash_profile if you wish, though leaving it will do no harm.
 
-Last Updated: 15 December 2010 by Daniel Dalton
+Last Updated: 16 December 2010 by Daniel Dalton
 
