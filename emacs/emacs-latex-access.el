@@ -186,7 +186,7 @@ two points of a buffer though when calling from lisp."
 	    (set-buffer latex-access-buff)
 	    (goto-char (point-max))
 	    (insert "\n" latex-access-currline))))))
-  (switch-to-buffer latex-access-buff)
+  (switch-to-buffer-other-window latex-access-buff)
   (goto-char 49) ; Shall remain consistant if first line doesn't change.
   )
 
