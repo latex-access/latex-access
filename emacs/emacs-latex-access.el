@@ -27,6 +27,8 @@
 ;; Note: pymacs is required for this to work.
 
 ; Ensure you have PYTHONPATH set correctly!
+(setq latex-access-linesabove 0) ; Set this to how many lines above the current one
+					; you want Brailled! I find 1 useful for solving equations.
 (pymacs-load "latex_access_emacs" "latex_access_emacs") ; load the
 					; relevant modules 
 (setq latex-access nil) ; set initial global value 
@@ -153,8 +155,8 @@ sEnter the definition of the custom command, that is, the standard LaTex to whic
   "Braille the current line"
   (interactive)
   (if (and latex-access (not latex-access-initial))
-  (let ((emacspeak-speak-messages nil))
-    (message "%s" (latex_access_emacstransbrl (thing-at-point 'line)))))
+      (let ((emacspeak-speak-messages nil))
+	(latex-access-braille-line)))
   (if (and latex-access latex-access-initial)
       (progn (setq latex-access-initial nil)
 	     (message "Latex-access enabled.")))
@@ -189,5 +191,28 @@ two points of a buffer though when calling from lisp."
   (switch-to-buffer-other-window latex-access-buff)
   (goto-char 49) ; Shall remain consistant if first line doesn't change.
   )
+
+(defun latex-access-braille-line ()
+  "Braille a particular number of lines above the current one. Includes
+the current line."
+  (interactive)
+					; get current line and set our counter
+  (setq counter 0)
+  (setq brltext (latex_access_emacstransbrl (thing-at-point 'line)))
+					; Next get prior lines
+  (save-excursion 
+    (move-beginning-of-line nil)
+    (let ((emacspeak-speak-messages nil))
+      (catch 'break
+	(while (< counter latex-access-linesabove)
+	  (progn 
+	    (forward-line -1)
+	    (setq brltext (concat (latex_access_emacstransbrl (thing-at-point
+							       'line)) "\n" brltext))
+					; Next increment counter
+	    (setq counter (1+ counter))
+	    (if (= (point) (point-min))
+		(throw 'break nil)))))))
+  (message "%s" brltext))
 
 ;;; emacs-latex-access.el ends here
