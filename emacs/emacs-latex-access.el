@@ -27,7 +27,10 @@
 ;; Note: pymacs is required for this to work.
 
 ; Ensure you have PYTHONPATH set correctly!
-(setq latex-access-linesabove 0) ; Set this to how many lines above the current one
+(defcustom latex-access-linesabove 0
+"This variable determines how many lines above the currently selected
+line should be passed to the latex-access translator and Brailled. Set to 0 for just
+the current line, 1 for the current line as well as the line above etc.") ; Set this to how many lines above the current one
 					; you want Brailled! I find 1 useful for solving equations.
 (pymacs-load "latex_access_emacs" "latex_access_emacs") ; load the
 					; relevant modules 
