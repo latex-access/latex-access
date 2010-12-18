@@ -192,6 +192,9 @@ two points of a buffer though when calling from lisp."
 	    (goto-char (point-max))
 	    (insert "\n" latex-access-currline))))))
   (switch-to-buffer-other-window latex-access-buff)
+  (align-regexp (point-min) (point-max) "&" 0 0) ; align multy line equations
+  (goto-char (point-min))
+  (replace-string "&" " ")
   (goto-char 49) ; Shall remain consistant if first line doesn't change.
   )
 
