@@ -16,7 +16,7 @@ class nemeth(latex_access.translator):
 
                    "\\dot":("","`"),"\\ddot":("","``"),
                    "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,
-                   "\\mathbf":("_",""),"\\mathbb":("_",""),"\\colvec":("{"," ","o"),"\\tcolvec":("{"," "," ","o"),"\\bar":self.bar,"\\hat":self.bar,"\\overline":self.bar}
+                   "\\tag":self.tag,"\\mathbf":("_",""),"\\mathbb":("_",""),"\\colvec":("{"," ","o"),"\\tcolvec":("{"," "," ","o"),"\\bar":self.bar,"\\hat":self.bar,"\\overline":self.bar}
 
         for (k,v) in new_table.iteritems():
             self.table[k]=v
@@ -95,9 +95,11 @@ class nemeth(latex_access.translator):
             translation=":{%so" % self.translate(arg[0])
         return (translation,arg[1])
 
+    def tag(self,input,start):
+        '''Translate  tags into Nemeth.
 
-
-
-
-
-
+        Returns a touple with translated string and index of
+        first char after end of tag.'''
+        arg=get_arg(input,start)
+        translation="  {"+arg[0]+"}"
+        return (translation,arg[1])

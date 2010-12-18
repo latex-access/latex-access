@@ -15,7 +15,7 @@ class speech(latex_access.translator):
         self.load_files()
         new_table={"$":self.dollar,
                    "^":self.super,"_":("<sub>","</sub>"),"\\sqrt":self.sqrt,"\\frac":self.frac,"\\int":self.integral,"\\mathbf":("<bold>","</bold>"),"\\mathbb":("<bold>","</bold>"),"\\mathcal":("<mathcal>","</mathcal>"),
-                   "\\hat":("","hat"),"\\widehat":("","hat"),"\\bar":("","bar"),"\\overline":("","bar"),"\\dot":("","dot"),"\\ddot":("","double dot")}
+                   "\\ang":self.ang,"\\tag":self.tag,"\\hat":("","hat"),"\\widehat":("","hat"),"\\bar":("","bar"),"\\overline":("","bar"),"\\dot":("","dot"),"\\ddot":("","double dot")}
 
         for (k,v) in new_table.iteritems():
             self.table[k]=v        
@@ -93,3 +93,43 @@ class speech(latex_access.translator):
         output+=" of "
         return (output,i)
 
+    def tag(self,input,start):
+        '''Translate tags into speech.
+
+        Returns a touple with translated string and index of
+        first char after end of tag.'''
+
+        arg=get_arg(input,start)
+        translation=" tag left paren "+arg[0]+" right paren "
+        return (translation,arg[1])
+
+    def ang(self,input,start):
+        '''Translate angles into speech.
+
+        Returns a touple with translated string and index of
+        first char after end of angle.'''
+
+        translation = ""
+        counter = 0
+        arg=get_arg(input,start)
+        if ';' in arg[0]: # we have mins possibly seconds too
+            for x in arg[0]:
+                if ';' == x: # we have mins/sec
+                    counter=counter+1
+                    if counter == 1:
+                        translation=translation+" degrees "
+                        continue
+                    elif counter == 2:
+                        translation=translation+" minutes "
+                        continue
+                    elif counter == 3:
+                        translation=translation+" seconds "
+                        continue 
+                translation=translation+x
+            if counter == 1:
+                translation=translation+" minutes"
+            elif counter == 2:
+                translation=translation+" seconds"
+        else:
+            translation=arg[0]+" degrees"
+        return (translation,arg[1])
