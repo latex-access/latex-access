@@ -18,6 +18,14 @@ previous and next line then the code will mess them up.  On a similar
 note, could we advise the character insertion functions so that the
 braille is updated automatically when typing?
 (done for Braille and speech) 
+- Perhaps a latex-access-equation function could be useful to convert a region of text into Braille and expanding the echo area.
+We would just feed the python code one line at a time in a loop. Would be useful
+when rereading an examination I think.
+(done including alignment support)
+- Functionality to show x number of prior lines as well as the current one when typing. The echo
+area is expanded, and this is very useful for solving equations. 
+The number of lines shown in the echo area i.e. how many lines above the current line
+we show is a setting available to the user. 
 
 Things still needing to be implemented:
 
@@ -30,7 +38,5 @@ speech/braille specific functions, and update the toggle code.
 (I think with some string manipulation in lisp this shouldn't be too hard
 with the available voice-locking functions of emacspeak.)
 - Consistant key bindings for many functions (toggling dollars, latex-access speech/braille independently, preprocessor)
-- Perhaps a latex-access-equation function could be useful to convert a region of text into Braille and expanding the echo area.
-We would just feed the python code one line at a time in a loop. Would be useful
-when rereading an examination I think.
-
+- We need to find a better way of displaying the Braille translation, because 
+we are blocking important messages to the echo area.

@@ -19,3 +19,8 @@ access enabled message was observed.
 Fixed of R147.
 
 Bugs requiring attention:
+
+- Currently some important messages from emacs are not shown.
+This is because we are blocking the echo area.
+We'lll need to use some kind of minibuffer to display the Braille translation.
+
