@@ -16,7 +16,7 @@ class nemeth(latex_access.translator):
 
                    "\\dot":("","`"),"\\ddot":("","``"),
                    "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,
-                   "\\tag":self.tag,"\\mathbf":("_",""),"\\mathbb":("_",""),"\\colvec":("{"," ","o"),"\\tcolvec":("{"," "," ","o"),"\\bar":self.bar,"\\hat":self.bar,"\\overline":self.bar}
+                   "\\tag":self.tag,"\\mathbf":("_",""),"\\mathbb":("_",""),"\\colvec":("{"," ","o"),"\\tcolvec":("{"," "," ","o"),"\\bar":self.bar,"\\hat":self.bar,"\\overline":self.bar,"&":""}
 
         for (k,v) in new_table.iteritems():
             self.table[k]=v
