@@ -26,6 +26,16 @@ latex-access-off functions.)
 * Toggle of Brailling dollar signs in nemeth Braille translation (m-x toggle-latex-access-dollars-braille)
 * Toggle of speaking dollar signs. (m-x toggle-latex-access-dollars-speech)
 * Support for the preprocessor functions 
+* Support for selecting an entire region and getting a Nemeth
+translation in a separate buffer in another window. This functionality
+is available from the latex-access-eq function. This is good for multi
+line equations.
+* Support for showing the currently selected line in the echo area, but
+a number of prior lines above the currently selected line can also be
+shown in the echo area above the translation for the current line. This
+functionality is controlled by the variable latex-access-linesabove --
+specify how many lines above the current one should also appear in the
+echo area with a translation.
 
 INSTALLATION:
 
@@ -75,7 +85,7 @@ with .elc in the line:
 (load (concat latex-access-path "/emacs/emacs-latex-access.el"))
 
 To byte-compile the emacs-latex-access.el file, do:
-emacs -batch -f batch-byte-compile emacs-latex-access.py
+emacs -batch -f batch-byte-compile emacs-latex-access.el
 (From this directory, the emacs branch of the svn checkout)
 
 2. Please install pymacs. 
@@ -86,6 +96,18 @@ http://pymacs.progiciels-bpi.ca/
 
 3. Restart emacs!
 Now emacs should communicate correctly with latex-access.
+
+4. If you wish to place any settings in your .emacs for latex-access,
+place them under the line 
+; end latex-access
+
+A. To set how many linesabove the currently selected line should also be
+translated add this line anywhere below 
+; end latex-access 
+(setq latex-access-linesabove 1)
+
+This would Braille the current line and the one above, change 1 to
+whatever setting you desire. 0 is just the current line.
 
 GENERAL NOTES:
 
@@ -121,6 +143,26 @@ m-x. Consistant key bindings will be introduced.
   toggle-latex-access-dollars-braille.
 * The preprocessor functions are under latex-access-preprocessor-* --
   use tab completion to find out what functions are available.
+* multiple line equations or just emacs regions for that matter may be
+  all translated at once into a new buffer for you to review in a
+  separate window to use this functionality.
+1. Mark the beginning of the region with c-space (for example the
+  beginning of a multiple line equation), but any region is ok. 
+2. Move to the end of the area you wish to translate.
+3. Type m-x latex-access-eq and review the multi line translation at
+  your leasure in the buffer in other window. Note this buffer is erased
+  each time latex-access-eq is called, furthermore focus is placed in
+  this buffer when you call latex-access-eq.
+* Multiple translations can be displayed in the echo area. For example,
+  you may have the current line and the prior line both translated into
+  nemeth on the echo area. The current line is always at the bottom, and
+  the line above is second from the bottom etc. This is useful for
+  working with equations. Set latex-access-linesabove with the
+  set-variable function to set how many lines above the current one
+  should be displayed. 0 is just the current line, 1 is the current line
+  + the 1 above etc. I personally wouldn't go beyond 3, but I believe
+  the echo area may support up to 10.
+  The currently selected line is updated as you move or edit.
 
 UNINSTALL:
 
@@ -143,5 +185,5 @@ to remove the checked out svn directory if you wish.
 You can of course remove the export PYTHONPATH line from your
 .bash_profile if you wish, though leaving it will do no harm.
 
-Last Updated: 16 December 2010 by Daniel Dalton
+Last Updated: 19 December 2010 by Daniel Dalton
 
