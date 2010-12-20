@@ -56,9 +56,9 @@ endif
 EndScript
 
 Script ToggleDollarsNemeth ()
-var bool result 
+var int result 
 let result=latex_access.toggle_dollars_nemeth()
-if result then 
+if result==-1 then 
 SayMessage (ot_status, "Dollars will now be ignored in nemeth", "nemeth dollars off")
 else
 SayMessage (ot_status, "Dollars will now be shown in nemeth", "nemeth dollars on")
@@ -68,9 +68,9 @@ EndScript
 
 
 Script ToggleDollarsSpeech ()
-var bool result 
+var int result 
 let result=latex_access.toggle_dollars_speech()
-if result then 
+if result==-1 then 
 SayMessage (ot_status, "Dollars will now be ignored in speech", "speech dollars off")
 else
 SayMessage (ot_status, "Dollars will now be shown in speech", "speech dollars on")
