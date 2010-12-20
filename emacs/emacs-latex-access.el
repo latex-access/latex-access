@@ -34,8 +34,10 @@ the current line, 1 for the current line as well as the line above etc.") ; Set 
 					; you want Brailled! I find 1 useful for solving equations.
 (pymacs-load "latex_access_emacs" "latex_access_emacs") ; load the
 					; relevant modules 
-(setq latex-access nil) ; set initial global value 
-(global-set-key (kbd "C-x \\") 'toggle-latex-access) ; key binding for toggle
+(setq latex-access-speech nil) ; set initial global value 
+(setq latex-access-braille nil) ; initial global value 
+(setq latex-access-speech-initial nil) ; Used by the dmsg function
+(setq latex-access-braille-initial nil) ; Used by the dmsg function
 
 ; latex-access advice 
 ; Advise emacspeak to speak the latex-access (nicely spoken
@@ -46,50 +48,76 @@ the current line, 1 for the current line as well as the line above etc.") ; Set 
 
 (defadvice emacspeak-speak-line (around latex-access-speak-line)
   "Intercept Say line function of emacspeak.
-If latex-access enabled, speak with speech provided by
+If latex-access-speech enabled, speak with speech provided by
 latex-access. Otherwise pass straight through to the default
 emacspeak-speak-line function. This means all line navigation with
 emacs/emacspeak will call this function, hence, providing latex-access
 output when applicable"
-  (make-local-variable 'latex-access)
-  (if latex-access
+  (make-local-variable 'latex-access-speech)
+  (if latex-access-speech
       (dtk-speak (latex_access_emacstranssp (thing-at-point 'line))) ; Speech to pass to
     ad-do-it) ; else call default emacspeak line handler 
   )
 
-(defun latex-access-off ()
-  "Turn off latex-access."
+(defun latex-access-braille-off ()
+  "Disable latex-access Braille."
   (interactive)
-  (make-local-variable 'latex-access)
-  (setq latex-access nil)
+  (make-local-variable 'latex-access-braille)
+  (setq latex-access-braille nil)
+  (remove-hook 'post-command-hook 'latex-access-dmsg t)
+  (latex-access-dmsg t nil))
+
+(defun latex-access-braille-on ()
+  "Enable latex-access Braille."
+  (interactive)
+  (make-local-variable 'latex-access-braille)
+  (setq latex-access-braille t)
+  (add-hook 'post-command-hook 'latex-access-dmsg nil t)
+  (setq latex-access-braille-initial t))
+;  (latex-access-dmsg t nil))
+  
+(defun latex-access-speech-off ()
+  "Turn off latex-access speech."
+  (interactive)
+  (make-local-variable 'latex-access-speech)
+  (setq latex-access-speech nil)
 					; Comment these for now.
 					; They should only be used if latex-access is disabled globally.
 					; Code in advice determines how to act.
 					; This code will be used when we have global change available.
 					;  (ad-disable-advice 'emacspeak-speak-line 'around 'latex-access-speak-line)
-					;  (ad-activate 'emacspeak-speak-line)
-  (remove-hook 'post-command-hook 'latex-access-current-line-braille t)
-  (latex-access-current-line-braille))
+					;  (ad-activate
+					;  'emacspeak-speak-line)
+  (if (not latex-access-braille)
+      (latex-access-dmsg nil t)
+    (setq latex-access-speech-initial t)))
 
-(defun latex-access-on ()
-  "Turn on latex-access"
+(defun latex-access-speech-on ()
+  "Turn on latex-access speech"
   (interactive)
-  (message "Latex-access enabled.")
-  (make-local-variable 'latex-access)
-  (setq latex-access t)  
-  (setq latex-access-initial t)
+  (make-local-variable 'latex-access-speech)
+  (setq latex-access-speech t)  
   (ad-enable-advice 'emacspeak-speak-line 'around 'latex-access-speak-line)
   (ad-activate 'emacspeak-speak-line)
-  (add-hook 'post-command-hook 'latex-access-current-line-braille nil t)
-  )
+  (if (not latex-access-braille) 
+      (latex-access-dmsg nil t)
+    (setq latex-access-speech-initial t)))
 
-(defun toggle-latex-access ()
-  "Toggle the state of latex-access."
+(defun toggle-latex-access-speech ()
+  "Toggle latex-access speech on/off."
   (interactive)
-  (if latex-access 
-      (latex-access-off) ; Switch off latex-access
-    (latex-access-on) ; Switch on latex-access
-    ))
+  (make-local-variable 'latex-access-speech)
+  (if latex-access-speech 
+      (latex-access-speech-off)
+    (latex-access-speech-on))) ; Speech is off, turn it on.
+
+(defun toggle-latex-access-braille ()
+  "Toggle latex-access Braille on/off."
+  (interactive)
+  (make-local-variable 'latex-access-braille)
+  (if latex-access-braille 
+      (latex-access-braille-off)
+    (latex-access-braille-on))) ; Braille is off now, turn it on.
 
 (defun toggle-latex-access-dollars-braille ()
   "Toggle whether to Braille dollar signs."
@@ -154,17 +182,47 @@ sEnter the definition of the custom command, that is, the standard LaTex to whic
   translation)
   (message "Added string %s" input))
 
-(defun latex-access-current-line-braille ()
+(defun latex-access-dmsg (&optional brlsetchange
+						    &optional speechsetchange)
   "Braille the current line"
-  (interactive)
-  (if (and latex-access (not latex-access-initial))
-      (let ((emacspeak-speak-messages nil))
-	(latex-access-braille-line)))
-  (if (and latex-access latex-access-initial)
-      (progn (setq latex-access-initial nil)
-	     (message "Latex-access enabled.")))
-  (if (not latex-access) 
-      (message "Latex-access disabled.")))
+					; Hack encase the hook is trying to overwrite the first call of
+					; function to reflect setting change
+  (catch 'return 
+					; Only do this hack if braille is on.
+    (make-local-variable 'latex-access-braille)
+    (if (and latex-access-braille latex-access-speech-initial)
+	(progn 
+	  (message "Latex-access speech %s." (if latex-access-speech
+						 "enabled" "Disabled"))
+	  (setq latex-access-speech-initial nil)
+	  (throw 'return nil)))
+					; Only do this if Braille is running 
+    (if (and latex-access-braille-initial latex-access-braille)
+	(progn 
+	  (setq latex-access-braille-initial nil)
+	  (message "Latex-access Braille %s." (if latex-access-braille
+						  "enabled" "Disabled"))
+	  (throw 'return nil)))
+
+    (if brlsetchange
+	(progn 
+	  (if latex-access-braille ; Braille just turned on
+	      (message "Latex-access Braille enabled.")
+	    (message "Latex-access Braille disabled."))
+	  (throw 'return nil))) ; done with setting change.
+					; Speech settings 
+    (if speechsetchange
+	(progn 
+	  (if latex-access-speech 
+	      (message "Latex-access speech enabled.")
+	    (message "Latex-access speech disabled.")) ; else clause 
+	  (throw 'return nil))) ; done 
+
+					; next, if no settings changed, it's safe to Braille msg 
+					; But only if latex-access-braille is enabled.
+    (if latex-access-braille 
+	(let ((emacspeak-speak-messages nil)) 
+	  (latex-access-braille-line)))))
 
 (defun latex-access-eq (beg end)
   "Grabs text between beg and end.
