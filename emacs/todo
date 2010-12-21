@@ -26,14 +26,13 @@ when rereading an examination I think.
 area is expanded, and this is very useful for solving equations. 
 The number of lines shown in the echo area i.e. how many lines above the current line
 we show is a setting available to the user. 
-
-Things still needing to be implemented:
-
-- Make the toggle-latex-access function accept user interactive input,
-and either be a global or local modification. I.E. support prefix argument.
+- Matrix support 
 - Allow speech and Braille to be disabled independently of each other
 This shouldn't be to hard if we divide latex-access-on/off into
 speech/braille specific functions, and update the toggle code.
+
+Things still needing to be implemented:
+
 - Correct handling of my speech markup for bold, etc.
 (I think with some string manipulation in lisp this shouldn't be too hard
 with the available voice-locking functions of emacspeak.)
