@@ -16,8 +16,7 @@ def do_install(initfile):
   """Install the relevant code into .emacs init file.
 
   This completes the installation of latex-access under emacs. pymacs
-  should still be installed by the user. The relevant code must still be
-  edited manually if either emacspeak or Braille is not present."""
+  should still be installed by the user."""
   byte=raw_input("Attempt to byte compile emacs-latex-access (Y/N)? ")
   ext ='.elc' # do we use compiled or source file
   if byte.lower() == 'y':
@@ -33,6 +32,23 @@ def do_install(initfile):
     print "Not byte compiling..."
   if ext == '.elc':
     print "Byte compiled emacs-latex-access.el"
+  emacspeak=raw_input("Install with emacspeak LaTeX hook? Anser yes to"\
+                        " this if you have emacspeak:(Y/N) ")
+  if emacspeak.lower() == 'y':
+    emacspeakhook="(add-hook 'LaTeX-mode-hook 'latex-access-speech-on)"
+    print "Installing with emacspeak support..."
+  else: # just comment it
+    emacspeakhook=";(add-hook 'LaTeX-mode-hook 'latex-access-speech-on)"
+    print "Commented out emacspeak hook..."
+
+  # Braille
+  braille=raw_input("Install with Braille support? (Y/N): ")
+  if braille.lower() == 'y':
+    braillehook="(add-hook 'LaTeX-mode-hook 'latex-access-braille-on)"
+    print "Installing with Braille support..."
+  else: # comment it
+    braillehook=";(add-hook 'LaTeX-mode-hook 'latex-access-braille-on)"
+    print "Commented out the Braille hook..."
 
   print "Installing to %s" % (initfile)
 
@@ -41,8 +57,8 @@ def do_install(initfile):
   "; Emacs latex-access:\n",
   '(setq latex-access-path "'+latexdir+'")\n',
   '(load (concat latex-access-path "/emacs/emacs-latex-access'+ext+'"))\n',
-  "(add-hook 'LaTeX-mode-hook 'latex-access-on) ; turn on when visiting a\n",
-  "; buffer in latex-mode \n",
+  emacspeakhook+"\n",
+  braillehook+"\n",
   "; End emacs Latex-access.\n")
 
   try:
