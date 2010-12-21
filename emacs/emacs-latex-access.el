@@ -253,7 +253,9 @@ two points of a buffer though when calling from lisp."
     (indent-region (point-min) (point-max) 0)
     (align-regexp (point-min) (point-max) "&" 0 0)
     (goto-char (point-min))
-    (replace-string "&" " "))
+    (replace-string "&" " ")
+    (goto-char (point-min))
+    (replace-string "\\" ""))
   (switch-to-buffer-other-window latex-access-buff)
   (goto-char 49))
 
