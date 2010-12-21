@@ -231,36 +231,31 @@ but this would be irritating!
 For interactive input the active region is used. Feel free to use any
 two points of a buffer though when calling from lisp."
   (interactive "r")
+  (setq latex-access-currline "")
   (setq latex-access-buff (get-buffer-create " latex-access buffer"))
-  (setq latex-access-text "")
   (save-excursion 
-    (setq latex-access-text (buffer-substring-no-properties beg end)) ; get the text
     (set-buffer latex-access-buff)
     (erase-buffer)
-    (insert latex-access-text) ; put original equation in
-    (indent-region (point-min) (point-max) 0) ; indent to 0 so extra spaces don't
-					; effect alignment
-    (goto-char (point-min))
-    (replace-string "&" " ")
-    (goto-char (point-min))
-    (replace-string "  " " ")
-    (goto-char (point-min)) ; Start of buffer
-					; Next run the region line by
-					; line through translator 
-    (setq latex-access-text "")
-    (catch 'break
-      (while (<= (point) (point-max))
+    (insert "Braille translation of math in region follows:\n"))
+					; Next run the region line by line through translator 
+  (goto-char beg)
+  (catch 'break
+    (while (<= (point) end)
       (progn
 	(if (= (point) (point-max))
 	    (throw 'break nil))
-	(setq latex-access-text (concat latex-access-text "\n" (latex_access_emacstransbrl (thing-at-point 'line))))
+	(setq latex-access-currline (concat latex-access-currline "\n" (latex_access_emacstransbrl (thing-at-point 'line))))
 	(forward-line))))
-    (erase-buffer)
-    (insert "Braille translation of math in region follows:\n")
-    (insert latex-access-text)
-    (align-regexp 49 (point-max) " " 0 0)) ; Alignment
+  (save-excursion
+    (set-buffer latex-access-buff)
+    (goto-char (point-max))
+    (insert latex-access-currline)
+    (indent-region (point-min) (point-max) 0)
+    (align-regexp (point-min) (point-max) "&" 0 0)
+    (goto-char (point-min))
+    (replace-string "&" " "))
   (switch-to-buffer-other-window latex-access-buff)
-  (goto-char 49)) ; Place focus at beginning of first mathematical translation.
+  (goto-char 49))
 
 (defun latex-access-braille-line ()
   "Braille a particular number of lines above the current one. Includes
