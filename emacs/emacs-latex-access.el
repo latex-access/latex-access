@@ -280,4 +280,23 @@ the current line."
 		(throw 'break nil)))))))
   (message "%s" brltext))
 
+(defun latex-access-matrix (beg end)
+  "Display a matrix in emacspeak table mode. 
+Once the matrix is in emacspeak table mode, all emacspeak table commands
+may be used to navigate the matrix."
+  (interactive "r")
+  (let ((matrix (replace-regexp-in-string "\\\\" ""
+					  (buffer-substring-no-properties
+					   beg end))) ; get rid of \\ chars
+	(workspace (get-buffer-create "workspace-latex-access")))
+    (setq matrix (replace-regexp-in-string "&" "" matrix)) ; get rid of the & signs 
+					; We now have a reasonably clear string. 
+					; use a workspace buffer to pass emacspeak the matrix 
+    (save-excursion 
+      (set-buffer workspace)
+      (insert matrix)
+					; now hand to emacspeak
+      (emacspeak-table-display-table-in-region (point-min) (point-max)))
+    (kill-buffer workspace )))
+
 ;;; emacs-latex-access.el ends here
