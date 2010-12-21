@@ -235,6 +235,8 @@ two points of a buffer though when calling from lisp."
   (setq latex-access-buff (get-buffer-create " latex-access buffer"))
   (save-excursion 
     (set-buffer latex-access-buff)
+    (make-local-variable 'buffer-read-only)
+    (setq buffer-read-only nil)
     (erase-buffer)
     (insert "Braille translation of math in region follows:\n"))
 					; Next run the region line by line through translator 
@@ -257,6 +259,8 @@ two points of a buffer though when calling from lisp."
     (goto-char (point-min))
     (replace-string "\\" ""))
   (switch-to-buffer-other-window latex-access-buff)
+  (make-local-variable 'buffer-read-only) ; just to be safe, we don't want all buffers read-only:)
+  (setq buffer-read-only t)
   (goto-char 49))
 
 (defun latex-access-braille-line ()
