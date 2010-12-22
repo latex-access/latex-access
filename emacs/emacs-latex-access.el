@@ -56,8 +56,7 @@ output when applicable"
   (make-local-variable 'latex-access-speech)
   (if latex-access-speech
       (dtk-speak (latex_access_emacstranssp (thing-at-point 'line))) ; Speech to pass to
-    ad-do-it) ; else call default emacspeak line handler 
-  )
+    ad-do-it)) ; else call default emacspeak line handler 
 
 (defun latex-access-braille-off ()
   "Disable latex-access Braille."
@@ -73,30 +72,23 @@ output when applicable"
   (make-local-variable 'latex-access-braille)
   (setq latex-access-braille t)
   (add-hook 'post-command-hook 'latex-access-dmsg nil t)
-  (setq latex-access-braille-initial t))
-;  (latex-access-dmsg t nil))
-  
+  (setq latex-access-braille-initial t)) ; Next call to dmsg function should show the braille enabled message.
+
 (defun latex-access-speech-off ()
   "Turn off latex-access speech."
   (interactive)
   (make-local-variable 'latex-access-speech)
   (setq latex-access-speech nil)
-					; Comment these for now.
-					; They should only be used if latex-access is disabled globally.
-					; Code in advice determines how to act.
-					; This code will be used when we have global change available.
-					;  (ad-disable-advice 'emacspeak-speak-line 'around 'latex-access-speak-line)
-					;  (ad-activate
-					;  'emacspeak-speak-line)
   (if (not latex-access-braille)
       (latex-access-dmsg nil t)
-    (setq latex-access-speech-initial t)))
+    (setq latex-access-speech-initial t))) ; Next call of dmsg function will show the relevant message.
 
 (defun latex-access-speech-on ()
   "Turn on latex-access speech"
   (interactive)
   (make-local-variable 'latex-access-speech)
   (setq latex-access-speech t)  
+					; enabled and activate the advice for emacspeak
   (ad-enable-advice 'emacspeak-speak-line 'around 'latex-access-speak-line)
   (ad-activate 'emacspeak-speak-line)
   (if (not latex-access-braille) 
@@ -136,13 +128,12 @@ output when applicable"
   "Prompt user for a file and pass the path to the python function."
   (interactive)
   (let ((filename (read-file-name "Enter full
-filename to read from: "))) 
-    (progn 
-      (if (file-exists-p filename)
-	  (progn 
-	    (message "Reading file %s..." filename)
-	    (latex_access_emacspreprocessor-read filename))
-	(error "File %s doesn't exist." filename)))))
+filename to read from: ")))
+    (if (file-exists-p filename)
+	(progn 
+	  (message "Reading file %s..." filename)
+	  (latex_access_emacspreprocessor-read filename))
+      (error "File %s doesn't exist." filename))))
 
 (defun latex-access-preprocessor-write ()
   "Takes user input for filename, then passes the file path to the python
@@ -152,7 +143,7 @@ function."
 filename to save to: ")))
     (if (file-exists-p filename)
 	(progn 
-	  (let ((input (yes-or-no-p "File %s exists, overwrite? ")))
+	  (let ((input (yes-or-no-p (concat "File " filename " exists, overwrite? "))))
 	    (if input
 		(progn 
 		  (message "Overwriting...")
@@ -166,12 +157,9 @@ filename to save to: ")))
   "Pass the beginning and end of region to this function. Will pass the
 text in region to the python processor-get-string function."
   (interactive "r") 
-  (if (mark) 
-      (progn 
-	     (latex_access_emacspreprocessor-from-string
-	      (buffer-substring-no-properties beg end))
-	     (message "Passed region to the preprocessor"))
-    (error "No region set.")))
+  (latex_access_emacspreprocessor-from-string
+   (buffer-substring-no-properties beg end))
+  (message "Passed region to the preprocessor"))
 
 (defun latex-access-preprocessor-add (input strargs translation)
   "Preprocessor add function -- passes input to the python code."
@@ -203,7 +191,8 @@ sEnter the definition of the custom command, that is, the standard LaTex to whic
 	  (message "Latex-access Braille %s." (if latex-access-braille
 						  "enabled" "Disabled"))
 	  (throw 'return nil)))
-
+    ; this stuff should be executed if there is a setting change, but
+    ; Braille isn't active.
     (if brlsetchange
 	(progn 
 	  (if latex-access-braille ; Braille just turned on
@@ -231,34 +220,34 @@ but this would be irritating!
 For interactive input the active region is used. Feel free to use any
 two points of a buffer though when calling from lisp."
   (interactive "r")
-  (setq latex-access-currline "")
-  (setq latex-access-buff (get-buffer-create " latex-access buffer"))
-  (save-excursion 
-    (set-buffer latex-access-buff)
-    (make-local-variable 'buffer-read-only)
-    (setq buffer-read-only nil)
-    (erase-buffer)
-    (insert "Braille translation of math in region follows:\n"))
+  (let ((latex-access-currline "")
+	(latex-access-buff (get-buffer-create " latex-access buffer")))
+    (save-excursion 
+      (set-buffer latex-access-buff)
+      (make-local-variable 'buffer-read-only)
+      (setq buffer-read-only nil)
+      (erase-buffer) ; clear our workspace
+      (insert "Braille translation of math in region follows:\n"))
 					; Next run the region line by line through translator 
-  (goto-char beg)
-  (catch 'break
-    (while (<= (point) end)
-      (progn
-	(if (= (point) (point-max))
-	    (throw 'break nil))
-	(setq latex-access-currline (concat latex-access-currline "\n" (latex_access_emacstransbrl (thing-at-point 'line))))
-	(forward-line))))
-  (save-excursion
-    (set-buffer latex-access-buff)
-    (goto-char (point-max))
-    (insert latex-access-currline)
-    (indent-region (point-min) (point-max) 0)
-    (align-regexp (point-min) (point-max) "&" 0 0)
-    (goto-char (point-min))
-    (replace-string "&" " ")
-    (goto-char (point-min))
-    (replace-string "\\" ""))
-  (switch-to-buffer-other-window latex-access-buff)
+    (goto-char beg)
+    (catch 'break
+      (while (<= (point) end)
+	(progn
+	  (if (= (point) (point-max))
+	      (throw 'break nil))
+	  (setq latex-access-currline (concat latex-access-currline "\n" (latex_access_emacstransbrl (thing-at-point 'line))))
+	  (forward-line))))
+    (save-excursion
+      (set-buffer latex-access-buff)
+      (goto-char (point-max))
+      (insert latex-access-currline)
+      (indent-region (point-min) (point-max) 0)
+      (align-regexp (point-min) (point-max) "&" 0 0)
+      (goto-char (point-min))
+      (replace-string "&" " ")
+      (goto-char (point-min))
+      (replace-string "\\" ""))
+    (switch-to-buffer-other-window latex-access-buff))
   (make-local-variable 'buffer-read-only) ; just to be safe, we don't want all buffers read-only:)
   (setq buffer-read-only t)
   (goto-char 49))
@@ -268,23 +257,23 @@ two points of a buffer though when calling from lisp."
 the current line."
   (interactive)
 					; get current line and set our counter
-  (setq counter 0)
-  (setq brltext (latex_access_emacstransbrl (thing-at-point 'line)))
+  (let ((counter 0)
+	(brltext (latex_access_emacstransbrl (thing-at-point 'line))))
 					; Next get prior lines
-  (save-excursion 
-    (move-beginning-of-line nil)
-    (let ((emacspeak-speak-messages nil))
-      (catch 'break
-	(while (< counter latex-access-linesabove)
-	  (progn 
-	    (forward-line -1)
-	    (setq brltext (concat (latex_access_emacstransbrl (thing-at-point
-							       'line)) "\n" brltext))
+    (save-excursion 
+      (move-beginning-of-line nil)
+      (let ((emacspeak-speak-messages nil)) ; when interactive call 
+	(catch 'break
+	  (while (< counter latex-access-linesabove)
+	    (progn 
+	      (forward-line -1)
+	      (setq brltext (concat (latex_access_emacstransbrl (thing-at-point
+								 'line)) "\n" brltext))
 					; Next increment counter
-	    (setq counter (1+ counter))
-	    (if (= (point) (point-min))
-		(throw 'break nil)))))))
-  (message "%s" brltext))
+	      (setq counter (1+ counter))
+	      (if (= (point) (point-min))
+		  (throw 'break nil)))))))
+    (message "%s" brltext)))
 
 (defun latex-access-matrix (beg end)
   "Display a matrix in emacspeak table mode. 
@@ -294,15 +283,15 @@ may be used to navigate the matrix."
   (let ((matrix (replace-regexp-in-string "\\\\" ""
 					  (buffer-substring-no-properties
 					   beg end))) ; get rid of \\ chars
-	(workspace (get-buffer-create "workspace-latex-access")))
+	(workspace (get-buffer-create "workspace-latex-access"))) ; create a workspace buffer
     (setq matrix (replace-regexp-in-string "&" "" matrix)) ; get rid of the & signs 
-					; We now have a reasonably clear string. 
+					; We now have a reasonably clean string. 
 					; use a workspace buffer to pass emacspeak the matrix 
     (save-excursion 
       (set-buffer workspace)
-      (insert matrix)
+      (insert matrix) ; place matrix in our workspace ready for manipulation
 					; now hand to emacspeak
       (emacspeak-table-display-table-in-region (point-min) (point-max)))
-    (kill-buffer workspace )))
+    (kill-buffer workspace ))) ; Delete our workspace now.
 
 ;;; emacs-latex-access.el ends here
