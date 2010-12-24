@@ -26,7 +26,7 @@ class translator:
         Other lines are split at the first space into a command and translation.'''
         f=open(os.path.join(get_path(),filename))
         for l in f.readlines():
-            if l[0]==";": continue
+            if l[0]==";" or l[0]=="\n": continue
             words=l.split(" ")
             self.table[words[0]]=(" ".join(words[1:])).strip("\n")
         f.close()
