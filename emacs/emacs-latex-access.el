@@ -220,33 +220,28 @@ but this would be irritating!
 For interactive input the active region is used. Feel free to use any
 two points of a buffer though when calling from lisp."
   (interactive "r")
-  (let ((latex-access-currline "")
-	(latex-access-buff (get-buffer-create " latex-access buffer")))
+  (let ((latex-access-buff (get-buffer-create " latex-access buffer")))
     (save-excursion 
+					; prepare our workspace 
       (set-buffer latex-access-buff)
       (make-local-variable 'buffer-read-only)
       (setq buffer-read-only nil)
       (erase-buffer) ; clear our workspace
-      (insert "Braille translation of math in region follows:\n"))
-					; Next run the region line by line through translator 
-    (goto-char beg)
-    (catch 'break
-      (while (<= (point) end)
-	(progn
-	  (if (= (point) (point-max))
-	      (throw 'break nil))
-	  (setq latex-access-currline (concat latex-access-currline "\n" (latex_access_emacstransbrl (thing-at-point 'line))))
-	  (forward-line))))
-    (save-excursion
-      (set-buffer latex-access-buff)
-      (goto-char (point-max))
-      (insert latex-access-currline)
-      (indent-region (point-min) (point-max) 0)
-      (align-regexp (point-min) (point-max) "&" 0 0)
-      (goto-char (point-min))
-      (replace-string "&" " ")
-      (goto-char (point-min))
-      (replace-string "\\" ""))
+      (insert "Braille translation of math in region follows:\n\n"))
+    (let ((latex-access-currline (latex_access_emacstransbrl
+				  (buffer-substring-no-properties beg
+								  end)))) ; get the translation 
+					; Write our work to the workspace buffer ready for reading in Braille
+      (save-excursion
+	(set-buffer latex-access-buff)
+	(goto-char (point-max))
+	(insert latex-access-currline) ; insert translation 
+	(indent-region (point-min) (point-max) 0)
+	(align-regexp (point-min) (point-max) "&" 0 0)
+	(goto-char (point-min))
+	(replace-string "&" " ")
+	(goto-char (point-min))
+	(replace-string "\\" "")))
     (switch-to-buffer-other-window latex-access-buff))
   (make-local-variable 'buffer-read-only) ; just to be safe, we don't want all buffers read-only:)
   (setq buffer-read-only t)
