@@ -251,24 +251,13 @@ two points of a buffer though when calling from lisp."
   "Braille a particular number of lines above the current one. Includes
 the current line."
   (interactive)
-					; get current line and set our counter
-  (let ((counter 0)
-	(brltext (latex_access_emacstransbrl (thing-at-point 'line))))
-					; Next get prior lines
-    (save-excursion 
-      (move-beginning-of-line nil)
-      (let ((emacspeak-speak-messages nil)) ; when interactive call 
-	(catch 'break
-	  (while (< counter latex-access-linesabove)
-	    (progn 
-	      (forward-line -1)
-	      (setq brltext (concat (latex_access_emacstransbrl (thing-at-point
-								 'line)) "\n" brltext))
-					; Next increment counter
-	      (setq counter (1+ counter))
-	      (if (= (point) (point-min))
-		  (throw 'break nil)))))))
-    (message "%s" brltext)))
+  ; first determine current location of point on screen
+  (save-excursion 
+    (let ((endpoint (progn (move-end-of-line nil) (point)))
+	  (startpoint (progn (move-beginning-of-line nil) (forward-line
+							   (- 0 latex-access-linesabove)) (point))))
+      (message "%s" (latex_access_emacstransbrl
+		     (buffer-substring-no-properties startpoint endpoint))))))
 
 (defun latex-access-matrix (beg end)
   "Display a matrix in emacspeak table mode. 
