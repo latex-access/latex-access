@@ -22,7 +22,7 @@ Features:
 from comtypes.client import *
 
 import api
-import braille, speech, ui# for brailling/speaking messages in NVDA
+import braille, speech# for brailling/speaking messages in NVDA
 import globalPluginHandler
 import textInfos# to get information such as the current line.
 
@@ -41,7 +41,7 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 	"""main class for the global plugin, in which all key bindings and NVDA events are handled."""
 
 	def __init__ (self):
-		"""Constructor.  Here we initialise what we need: we use the initialised global variable, and we create the latex_access com object. the matrix comes later."""
+		"""Constructor.  Here we initialise what we need: we use the initialised global variable, and we create the latex_access com object.  We interface with the matrix later."""
 		global initialised
 		global latex_access
 		if not initialised:# is the latex_access com object created yet?
@@ -62,7 +62,7 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 		currentLine = latex_access.speech(currentLine)
 		speech.speakMessage (currentLine)
 
-	script_speakTranslation.__doc__ = _("speaks the current line that NVDA is positioned on, but translates it first into latex_access's speech")
+	script_speakTranslation.__doc__ = _("speaks the current line that NVDA is positioned on, but translates it first into latex_access's speech")# for input help.
 
 	def script_brailleTranslation (self, gesture):
 		# same problem here, and another one added, so for now we will do the same thing like what is in script_speakTranslation ().
