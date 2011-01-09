@@ -20,7 +20,7 @@ the cursor rooting buttons, and should use standard arrow keys
 instead. It is hoped that cursor rooting will be implemented in the future.
 
 The scripts also translate the current line into English speech which
-  is then spoken by jaws/emacspeak.
+  is then spoken by JAWS/emacspeak/NVDA.
 
 The Python scripts provide output in a large area of
 mathematics, such as fractions, superscripts and subscripts,
