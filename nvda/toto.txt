@@ -1,0 +1,6 @@
+This is a toto file for the latex_access GlobalPlugin for NVDA, where new features are put to be worked on or fixed.
+
+	* Add support for the preprocessor - To be done.
+		- Make a GUI perhaps with wxPython for the preprocessor: To be done.
+	* Add support for the matrix - To be done.
+	* Translate lines of LaTeX into nemeth braille and speech: Under development.
