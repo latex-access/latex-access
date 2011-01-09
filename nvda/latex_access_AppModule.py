@@ -1,4 +1,4 @@
-#    latex_access.py
+#    latex_access_AppModule.py
 #    A part of the latex-access project at http://latex-access.sourceforge.net/
 #    Author: Nathaniel Schmidt <nathanieljsch@westnet.com.au>
 #    Copyright (C) 2011 Nathaniel Schmidt/latex-access Contributors
@@ -12,7 +12,7 @@
 #
 #    You should have received a copy of the GNU General Public License along with this program; if not, visit <http://www.gnu.org/licenses>
 
-"""A global plugin for NVDA to provide optional translations of LaTeX math into nemeth braille and speech that is easier to understand, by way of latex-access.  See readme.txt for more information.
+"""An AppModule for NVDA to provide optional translations of LaTeX math into nemeth braille and speech that is easier to understand, by way of latex-access.  See readme.txt for more information.
 
 Features:
 * Translating lines of LaTeX into nemeth braille and speech: under development.
@@ -23,7 +23,7 @@ from comtypes.client import *
 
 import api
 import braille, speech# for brailling/speaking messages in NVDA
-import globalPluginHandler
+import appModuleHandler
 import textInfos# to get information such as the current line.
 
 ### Global variables:
@@ -37,8 +37,8 @@ row = None
 column = None
 ### End of global variable declarations
 
-class GlobalPlugin (globalPluginHandler.GlobalPlugin):
-	"""main class for the global plugin, in which all key bindings and NVDA events are handled."""
+class AppModule (appModuleHandler.AppModule):
+	"""main class for the latex-access AppModule, in which all key bindings and NVDA events are handled."""
 
 	def __init__ (self):
 		"""Constructor.  Here we initialise what we need: we use the initialised global variable, and we create the latex_access com object.  We interface with the matrix later."""
