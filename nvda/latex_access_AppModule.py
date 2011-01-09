@@ -44,6 +44,7 @@ class AppModule (appModuleHandler.AppModule):
 		"""Constructor.  Here we initialise what we need: we use the initialised global variable, and we create the latex_access com object.  We interface with the matrix later."""
 		global initialised
 		global latex_access
+		appModuleHandler.AppModule.__init__(self,processID,appName="notepad"):
 		if not initialised:# is the latex_access com object created yet?
 			latex_access = CreateObject ("latex_access")
 			initialised = True
