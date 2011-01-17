@@ -15,9 +15,9 @@
 """A global plugin for NVDA to provide optional translations of LaTeX math into nemeth braille and speech that is easier to understand, by way of latex-access.  See readme.txt for more information.
 
 Features:
-* Translating lines of LaTeX into nemeth braille and speech: under development.
-* matrix browser for reading larger matrices: not completed.
-* The preprocessor (support for custom defined LaTeX commands): not completed."""
+	* Translating lines of LaTeX into nemeth braille and speech: under development.
+	* matrix browser for reading larger matrices: not completed.
+	* The preprocessor (support for custom defined LaTeX commands): not completed."""
 
 from comtypes.client import *
 
@@ -40,7 +40,7 @@ column = None
 class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 	"""main class for the global plugin, in which all key bindings and NVDA events are handled."""
 
-	def __init__ (self):
+	def initialize (self):
 		"""Constructor.  Here we initialise what we need: we use the initialised global variable, and we create the latex_access com object.  We interface with the matrix later."""
 		global initialised
 		global latex_access
