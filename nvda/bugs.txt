@@ -1,6 +1,4 @@
 The following is a list of buggs found in the latex_access GlobalPlugin for NVDA.  Feel free to add more as they arise, and remove ones that are fixed.
 
-	* Strange com errors: If the global plugin is loaded by NVDA, it seems to be unable to use the latex_access com object even though it has been created.  	Different errors appear at different times, so I am a little confused as to what to do.  Unspecified windows errors appear as well.  I have found no way to fix 	this yet.
-
-	* KeyboardHandler errors:  In recent rivisions of NVDA, when it loads the latex_access GlobalPlugin, keyboardHandler.py throwhs errors, and every single 	keypress gives an error.  I believe this is an error more to do with NVDA rather than the latex_access.py code, so we might have to make an AppModule for now 	instead of a GlobalPlugin.  I know this is not ideal since nothing exists yet like confignames in JAWS, but we may have no choice.  ClassAttributeError keeps 	coming up also.
+	* Atribute errors: when the latex-access GlobalPlugin is initialized, The global variable initialised can't be changed for some reason.  It is first set to 	None, then it has the latex_access com object attached to it but that doesn't seem to go well.
 
