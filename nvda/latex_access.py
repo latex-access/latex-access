@@ -38,10 +38,10 @@ column = None
 ### End of global variable declarations
 
 class GlobalPlugin (globalPluginHandler.GlobalPlugin):
-	"""main class for the global plugin, in which all key bindings and NVDA events are handled."""
+	"""main class for the global plugin, in which all key bindings/scripts and NVDA events are handled."""
 
 	def initialize (self):
-		"""Constructor.  Here we initialise what we need: we use the initialised global variable, and we create the latex_access com object.  We interface with the matrix later."""
+		"""An overide of the initialize() function in globalPluginHandler.py.  Here we initialise what we need: we use the initialised global variable, and we create the latex_access com object.  We interface with the matrix later."""
 		global initialised
 		global latex_access
 		if not initialised:# is the latex_access com object created yet?
@@ -53,7 +53,11 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 		# we only press a keystroke to provide the translation of the current line instead of updating it all the time and toggling
 		# between the translation and the default behaviour. I will fix this later on.
 
+		global initialised
 		global latex_access
+
+		if not initialised:
+			self.initialize ()
 
 		# get the current line:
 		info = api.getFocusObject().makeTextInfo(textInfos.POSITION_CARET)
@@ -67,7 +71,11 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 	def script_brailleTranslation (self, gesture):
 		# same problem here, and another one added, so for now we will do the same thing like what is in script_speakTranslation ().
 
+		global initialised
 		global latex_access
+
+		if not initialised:
+			self.initialize ()
 
 		# get the current line:
 		info = api.getFocusObject().makeTextInfo(textInfos.POSITION_CARET)
