@@ -60,34 +60,25 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 			self.initialize ()
 
 		# get the current line:
-		info = api.getFocusObject().makeTextInfo(textInfos.POSITION_CARET)
-		info.expand(textInfos.UNIT_LINE)
-		currentLine = info.text
-		currentLine = latex_access.speech(currentLine)
+		currentLine = GetLine ()
+		currentLine = latex_access.speech (currentLine)
 		speech.speakMessage (currentLine)
 
 	script_speakTranslation.__doc__ = _("speaks the current line that NVDA is positioned on, but translates it first into latex_access's speech")# for input help.
 
-	def script_brailleTranslation (self, gesture):
-		# same problem here, and another one added, so for now we will do the same thing like what is in script_speakTranslation ().
-
-		global initialised
-		global latex_access
-
-		if not initialised:
-			self.initialize ()
-
-		# get the current line:
-		info = api.getFocusObject().makeTextInfo(textInfos.POSITION_CARET)
-		info.expand(textInfos.UNIT_LINE)
-		currentLine = info.text
-		currentLine = latex_access.nemeth(currentLine)
-		braille.handler.message (currentLine)
-
-	script_brailleTranslation.__doc__ = _("brailles the current line that NVDA is focussed on, but passes it through latex_access's nemeth method so as to translate the LaTeX into nemeth braille code.")
-
 	# For the key bindings:
 	__gestures = {
 		"kb:NVDA+alt+s": "speakTranslation",
-		"kb:NVDA+alt+b": "brailleTranslation"
 	}
+
+# Useful functions:
+
+def GetLine ()
+	"""Retrieves the current line that the current navigator object is focussed on."""
+	info = api.getFocusObject().makeTextInfo(textInfos.POSITION_CARET)
+	info.expand(textInfos.UNIT_LINE)
+	currentLine = info.text
+
+def SayLine ()
+	"""This function says the current line without any translation.  This is necessary so that we can return to NVDA's default behaviour when LaTeX translation is toggled off."""
+	speech.speakMessage (GetLine())
