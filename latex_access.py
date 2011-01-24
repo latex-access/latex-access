@@ -86,8 +86,16 @@ class translator:
         '''Removes the displaystile command but translates its argument.
 
         Returns tuple.'''
-        arg=get_arg(input,start)
-        return (self.translate(arg[0]),arg[1])
+        i=start
+        #Check we haven't gone past the end of the command
+        if i>=len(input): return ("",i)
+        #Skip space
+        while input[i]==" " and i < len(input): i+=1
+        if input[i]=="{":
+            arg=get_arg(input,start)
+            return (self.translate(arg[0]),arg[1])
+        else:
+            return("",i)
     
     def remove(self,input,start):
         '''Used to remove a command and its argument totally from the translation.
