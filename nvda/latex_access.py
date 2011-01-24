@@ -19,7 +19,7 @@ Features:
 	* matrix browser for reading larger matrices: not completed.
 	* The preprocessor (support for custom defined LaTeX commands): not completed."""
 
-from comtypes.client import *
+from comtypes.client import CreateObject
 
 import api
 import braille, speech# for brailling/speaking messages in NVDA
@@ -48,29 +48,6 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 			latex_access = CreateObject ("latex_access")
 			initialised = True
 
-	def script_speakTranslation (self, gesture):
-		# This should really be an event and not a script, but because of certain limitations at the moment with NVDA events and a problem with brailling messages,
-		# we only press a keystroke to provide the translation of the current line instead of updating it all the time and toggling
-		# between the translation and the default behaviour. I will fix this later on.
-
-		global initialised
-		global latex_access
-
-		if not initialised:
-			self.initialize ()
-
-		# get the current line:
-		currentLine = GetLine ()
-		currentLine = latex_access.speech (currentLine)
-		speech.speakMessage (currentLine)
-
-	script_speakTranslation.__doc__ = _("speaks the current line that NVDA is positioned on, but translates it first into latex_access's speech")# for input help.
-
-	# For the key bindings:
-	__gestures = {
-		"kb:NVDA+alt+s": "speakTranslation",
-	}
-
 # Useful functions:
 
 def GetLine ()
@@ -82,3 +59,7 @@ def GetLine ()
 def SayLine ()
 	"""This function says the current line without any translation.  This is necessary so that we can return to NVDA's default behaviour when LaTeX translation is toggled off."""
 	speech.speakMessage (GetLine())
+
+def BrailleLine ():
+	"""Brailles the current line.  This again is necessary so that we can return to NVDA's default behaviour."""
+	braille.handler.message (GetLine())
