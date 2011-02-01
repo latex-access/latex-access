@@ -1,13 +1,15 @@
-The following is a list of buggs found in the latex_access GlobalPlugin for NVDA.  Feel free to add more as they arise, and remove ones that are fixed.
+The following is a list of buggs found in the latex_access GlobalPlugin
+for NVDA.  Feel free to add more as they arise, and remove ones that are
+fixed.
 
-	* TypeErrors: NVDA doesn't like the overide of the caret event.  I am not sure how to fix this yet.  The log is pasted below:
-ERROR - eventHandler.executeEvent (17:41:30):
-error executing event: caret on <NVDAObjects.Dynamic_IAccessibleRichEdit50WindowNVDAObject object at 0x072BAEF0> with extra args of {}
-Traceback (most recent call last):
-  File "C:\bzrInit\nvda\main\source\eventHandler.py", line 135, in executeEvent
-    _EventExecuter(eventName,obj,kwargs)
-  File "C:\bzrInit\nvda\main\source\eventHandler.py", line 84, in __init__
-    self.next()
-  File "C:\bzrInit\nvda\main\source\eventHandler.py", line 90, in next
-    return func(*args, **self.kwargs)
-TypeError: event_caret() takes exactly 1 argument (3 given)
+	* TypeErrors: NVDA doesn't like the overide of the caret event.
+I am not sure how to fix this yet.  The log is pasted below: ERROR -
+eventHandler.executeEvent (17:41:30): error executing event: caret on
+<NVDAObjects.Dynamic_IAccessibleRichEdit50WindowNVDAObject object at
+0x072BAEF0> with extra args of {} Traceback (most recent call last):
+File "C:\bzrInit\nvda\main\source\eventHandler.py", line 135, in
+executeEvent _EventExecuter(eventName,obj,kwargs) File
+"C:\bzrInit\nvda\main\source\eventHandler.py", line 84, in __init__
+self.next() File "C:\bzrInit\nvda\main\source\eventHandler.py", line 90,
+in next return func(*args, **self.kwargs) TypeError: event_caret() takes
+exactly 1 argument (3 given)
