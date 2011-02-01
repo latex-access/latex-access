@@ -95,7 +95,7 @@ output when applicable"
       (latex-access-dmsg nil t)
     (setq latex-access-speech-initial t)))
 
-(defun toggle-latex-access-speech ()
+(defun latex-access-toggle-speech ()
   "Toggle latex-access speech on/off."
   (interactive)
   (make-local-variable 'latex-access-speech)
@@ -103,7 +103,7 @@ output when applicable"
       (latex-access-speech-off)
     (latex-access-speech-on))) ; Speech is off, turn it on.
 
-(defun toggle-latex-access-braille ()
+(defun latex-access-toggle-braille ()
   "Toggle latex-access Braille on/off."
   (interactive)
   (make-local-variable 'latex-access-braille)
@@ -111,13 +111,13 @@ output when applicable"
       (latex-access-braille-off)
     (latex-access-braille-on))) ; Braille is off now, turn it on.
 
-(defun toggle-latex-access-dollars-braille ()
+(defun latex-access-toggle-dollars-braille ()
   "Toggle whether to Braille dollar signs."
   (interactive)
   (message "Dollar signs will %s be shown in Braille."
 	   (if (latex_access_emacstoggle-dollars-nemeth) "not" "")))
 
-(defun toggle-latex-access-dollars-speech ()
+(defun latex-access-toggle-dollars-speech ()
   "Toggle whether to speak dollar signs."
   (interactive)
   (message "Dollar signs will %s be spoken."
