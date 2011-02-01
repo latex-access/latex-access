@@ -32,7 +32,7 @@ import textInfos# to get information such as the current line.
 initialised = False
 processMaths = False
 latex_access = None
-input = None
+currentLine = None
 matrix = None
 row = None
 column = None
@@ -51,19 +51,19 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 	def event_caret (self):
 		"""This event is called when the system caret moves, and it is being overidden so that latex-access translation can be used if the user wishes."""
 
-		global initialised, input, latex_access
+		global initialised, currentLine, latex_access
 
 		if not initialised:
 			self.initialize ()
 
 		if processMaths:
-			input = GetLine ()
-			if not input:# Is it a blank line?
-				input = "blank"
+			currentLine = GetLine ()
+			if not currentLine:# Is it a blank line?
+				currentLine = "blank"
 			else:
-				input = latex_access.speech (input)
-			speech.speakMessage (input)
-			braille.handler.message (input)
+				currentLine = latex_access.speech (input)
+			speech.speakMessage (currentLine)
+			braille.handler.message (currentLine)
 
 		else:
 			SayLine ()
