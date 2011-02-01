@@ -1,11 +1,23 @@
-This is a toto file for the latex_access GlobalPlugin for NVDA, where new features are put to be worked on or fixed.
+This is a todo file for the latex_access GlobalPlugin for NVDA, where
+new features are put to be worked on or fixed.
 
-	* Important! Use events instead of scripts: This is a priority, however hard to implement as certain events can be unreliable in different situations, and there 	is no real list of all events so they are hard to find.  The best event to use would probably be the IAcessible event, event_caret, but I haven't written the code for that yet.
+	* Important! Use events instead of scripts: This is a priority,
+          however hard to implement as certain events can be unreliable
+          in different situations, and there is no real list of all
+          events so they are hard to find.  The best event to use would
+          probably be the IAcessible event, event_caret, but I haven't
+          written the code for that yet.
 
-	* Add translations of braille without the message timing out after a configgored amount of time - this currently cannot be done.  Suggestion: File an 	enhancement in the issue tracker for a message function that will not time out, or an extra argument in the existing function for overiding the option in the 	ini file if this can be done.  Issue: to get this done by the developers, we need good justification for the suggestion.
+	* Add translations of braille without the message timing out
+          after a configgored amount of time - this currently cannot be
+          done.  Suggestion: File an enhancement in the issue tracker
+          for a message function that will not time out, or an extra
+          argument in the existing function for overiding the option in
+          the ini file if this can be done.  Issue: to get this done by
+          the developers, we need good justification for the suggestion.
 
-	* Add support for the preprocessor - To be done.
-		- Make a GUI perhaps with wxPython for the preprocessor: To be done.
+	* Add support for the preprocessor - To be done.  - Make a GUI
+	perhaps with wxPython for the preprocessor: To be done.
 
-	* Add support for the matrix - To be done.
-	* Translate lines of LaTeX into nemeth braille and speech: Under development.
+	* Add support for the matrix - To be done.  Translate lines of
+	* LaTeX into nemeth braille and speech: Under development.
