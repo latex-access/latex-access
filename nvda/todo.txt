@@ -16,8 +16,10 @@ new features are put to be worked on or fixed.
           the ini file if this can be done.  Issue: to get this done by
           the developers, we need good justification for the suggestion.
 
-	* Add support for the preprocessor - To be done.  - Make a GUI
+	* Add support for the preprocessor - To be done.
+		- Make a GUI
 	perhaps with wxPython for the preprocessor: To be done.
 
-	* Add support for the matrix - To be done.  Translate lines of
-	* LaTeX into nemeth braille and speech: Under development.
+	* Add support for the matrix - To be done.
+	* Translate lines of
+LaTeX into nemeth braille and speech: Under development.
