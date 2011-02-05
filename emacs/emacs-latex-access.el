@@ -278,4 +278,25 @@ may be used to navigate the matrix."
       (emacspeak-table-display-table-in-region (point-min) (point-max)))
     (kill-buffer workspace ))) ; Delete our workspace now.
 
+;; This is silly, but convenient whilst we lack key bindings.
+;; Ultimately, something of this nature could be of value, but the
+;; implementation should take into account whether specific
+;; functionality is allowed to be enabled. I.e. if the user doesn't have
+;; Braille this shouldn't alter the Braille on/off settings...
+(defun latex-access-hack (&optional prefix)
+  "Disables both Braille and speech. When properly implemented checks
+should determine what functionality the user actually has
+available... For now, use if you use both Braille and speech, and
+require a method to switch them on/off together.
+If you supply an arg (c-u), the latex-access functionality will be
+turned on, otherwise, with no arg, it is turned off."
+  (interactive "P")
+  (if (not prefix)
+      (progn ; Disable 
+	(latex-access-braille-off)
+	(latex-access-speech-off))
+    (progn ; Arg supplied, turn on
+      (latex-access-speech-on)
+      (latex-access-braille-on))))
+
 ;;; emacs-latex-access.el ends here
