@@ -3,7 +3,9 @@
 #    Author: Nathaniel Schmidt <nathanieljsch@westnet.com.au>
 #    Copyright (C) 2011 Nathaniel Schmidt/latex-access Contributors
 #
-#    This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation;
+#    This program is free software; you can redistribute it
+#    and/or modify it under the terms of the GNU General Public License as published
+#    by the Free Software Foundation;
 #    either version 2 of the License, or (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -41,17 +43,10 @@ column = None
 class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 	"""main class for the global plugin, in which all key bindings/scripts and NVDA events are handled."""
 
-	def initialize (self):
-		"""An overide of the initialize() function in globalPluginHandler.py.  Here we initialise what we need: we use the initialised global variable, and we create the latex_access com object.  We interface with the matrix later."""
-		global initialised, latex_access
-		if not initialised:# is the latex_access com object created yet?
-			latex_access = CreateObject ("latex_access")
-			initialised = True
+	def event_caret (self, obj, kwargs):
+		"""This event is called when the system caret moves, and it is being overidden so that latex-access speech translation can be used if the user wishes."""
 
-	def event_caret (self):
-		"""This event is called when the system caret moves, and it is being overidden so that latex-access translation can be used if the user wishes."""
-
-		global initialised, currentLine, latex_access
+		global currentLine, initialised, latex_access, processMaths
 
 		if not initialised:
 			self.initialize ()
@@ -59,21 +54,28 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 		if processMaths:
 			currentLine = GetLine ()
 			if not currentLine:# Is it a blank line?
-				currentLine = "blank"
+				currentLine = _("blank")
 			else:
-				currentLine = latex_access.speech (input)
-			speech.speakMessage (currentLine)
-			braille.handler.message (currentLine)
+				currentLine = latex_access.speech (currentLine)
+				speech.speakMessage (currentLine)
 
 		else:
 			SayLine ()
-			BrailleLine ()
+
+	def initialize (self):
+		"""An overide of the initialize() function in globalPluginHandler.py.  Here we initialise what we need: we use the initialised global variable, and we create the latex_access com object.  We interface with the matrix later."""
+		global initialised, latex_access
+		if not initialised:# is the latex_access com object created yet?
+			latex_access = CreateObject ("latex_access")
+			initialised = True
 
 	def script_toggleMaths (self, Gesture):
 		"""A script to toggle the latex-access translation on or off.
 		@param gesture: the gesture to be past through to NVDA (in this case, a keypress).
 		@type gesture: keypress.
 		"""
+
+		global processMaths
 
 		if processMaths:# is translation on?
 			processMaths = False
@@ -92,7 +94,7 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 # Useful functions:
 
 def GetLine ():
-	"""Retrieves the current line that the current navigator object is focussed on."""
+	"""Retrieves the line of text that the current navigator object is focussed on."""
 	info = api.getFocusObject().makeTextInfo(textInfos.POSITION_CARET)
 	info.expand(textInfos.UNIT_LINE)
 	currentLine = info.text
