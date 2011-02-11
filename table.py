@@ -73,7 +73,13 @@ def WhereAmI (row, headers):
   row should be a string object containing the current row, and headers
   should be a list of the table headings (as returned by BuildHeaderString..."""
 
-  return "Focus is in column "+headers[row.count("&")] # Count how many columns across we are and return corresponding heading. (by counting col separater &)
+  try:
+    out="focus is in column "+headers[row.count("&")] # Count how many
+# columns across we are and return corresponding heading. (by counting
+# col separater &)
+  except IndexError:
+    out="outside table"
+  return out 
 
 def GetTableTopRow (table):
   """Return the first row of a table.
