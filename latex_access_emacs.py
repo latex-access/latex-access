@@ -20,6 +20,7 @@ n=nemeth.nemeth()
 s=speech.speech()
 p=preprocessor.preprocessor()
 nc=preprocessor.newcommands(p)
+t=table
 
 if __name__ == "__main__":
   print "This is just a module."
@@ -80,7 +81,7 @@ def BuildHeaderString (text):
 
   Consult the documentation in table.py."""
 
-  return table.BuildHeaderString (text)
+  return t.BuildHeaderString (text)
 
 def WhereAmI (row, headers):
   """Access to the WhereAmI function in table.py.
@@ -88,7 +89,7 @@ def WhereAmI (row, headers):
   This exports the WhereAmI function to emacs -- consult documentation
   in table.py for more details."""
 
-  return table.WhereAmI (row, headers)
+  return t.WhereAmI (row, headers)
 
 def GetTableTopRow (latextable):
   """Make the GetTopRow function available to emacs for table
@@ -96,7 +97,7 @@ def GetTableTopRow (latextable):
 
   Consult the documentation in table.py for details."""
 
-  return GetTableTopRow (latextable)
+  return t.GetTableTopRow (latextable)
 
 def GetTableCurrentRow (latextable):
   """Get the current row of a table.
@@ -104,4 +105,4 @@ def GetTableCurrentRow (latextable):
   Export this function to emacs so to allow for latex table
   accessibility."""
 
-  return GetTableCurrentRow (latextable)
+  return t.GetTableCurrentRow (latextable)
