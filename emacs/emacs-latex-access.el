@@ -299,4 +299,13 @@ turned on, otherwise, with no arg, it is turned off."
       (latex-access-speech-on)
       (latex-access-braille-on))))
 
+(defun latex-access-table-location ()
+  "Provide information of current location in table."
+  (interactive)
+  (let ((end (point)) (beg (search-backward "\\begin{tabular")))
+	(let ((table (buffer-substring-no-properties beg end)))
+    (latex_access_emacsWhereAmI (latex_access_emacsGetTableCurrentRow
+				 table)
+				(latex_access_emacsBuildHeaderString (latex_access_emacsGetTableTopRow table))))))
+
 ;;; emacs-latex-access.el ends here

@@ -10,14 +10,20 @@
 """Silly hack to access translate functions as pymacs was difficult to
 interact with classes."""
 
+import sys
 import speech
 import nemeth 
 import preprocessor
+import table
 
 n=nemeth.nemeth()
 s=speech.speech()
 p=preprocessor.preprocessor()
 nc=preprocessor.newcommands(p)
+
+if __name__ == "__main__":
+  print "This is just a module."
+  exit (-1)
 
 def transbrl (arg):
   """Translate latex code into Nemeth Braile.
@@ -67,3 +73,35 @@ def preprocessor_write(filename):
 def preprocessor_read(filename):
   p.read(filename)
 
+# Export the table.* functions to emacs.
+def BuildHeaderString (text):
+  """Enable access to the BuildHeaderString function for table
+  manipulation.
+
+  Consult the documentation in table.py."""
+
+  return table.BuildHeaderString (text)
+
+def WhereAmI (row, headers):
+  """Access to the WhereAmI function in table.py.
+
+  This exports the WhereAmI function to emacs -- consult documentation
+  in table.py for more details."""
+
+  return table.WhereAmI (row, headers)
+
+def GetTableTopRow (latextable):
+  """Make the GetTopRow function available to emacs for table
+  manipulation.
+
+  Consult the documentation in table.py for details."""
+
+  return GetTableTopRow (latextable)
+
+def GetTableCurrentRow (latextable):
+  """Get the current row of a table.
+
+  Export this function to emacs so to allow for latex table
+  accessibility."""
+
+  return GetTableCurrentRow (latextable)

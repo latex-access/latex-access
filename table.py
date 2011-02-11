@@ -12,6 +12,36 @@
 #
 #    You should have received a copy of the GNU General Public License along with this program; if not, visit <http://www.gnu.org/licenses>
 
+# How it works -- brief overview to help developers implement for other
+# screenreaders/editors etc.
+# The WhereAmI function is ultimately the one that should be called to
+# do all the work, at the end of the day it returns the nicely formatted
+# string ready to be passed to the speech synthesiser.
+# Inorder to do this, you must supply WhereAmI with a few arguments:
+# WhereAmI(GetTableCurrentRow(table), BuildHeaderString(GetTableTopRow (table)))
+# Is the basic form to call this -- table is just the text of the table
+# you are working with.
+# The boundaries of table should be from the first character of the
+# first cell in table, that is the top row, left hand cell, first char
+# is the point at which the table should begin, and the end of the input
+# passed to this module should be where point resides (hopefully in the
+# table somewhere.
+# Marking from the end of the \begin{tabular} line should be ok as
+# well.
+#
+# It may be wise to do some validation checks before passing table to
+# this module i.e. check cursor is actually inside table, otherwise, I
+# predict (without testing), you'll get out of list index errors thrown
+# from python, or it'll just say your in the last column... Which is not
+# what we want!
+# Enjoy.
+
+"""Latex-access table accessibility.
+
+This module provides a range of functions to grab particular information
+from a LaTeX tabular environment, providing useful information to the
+document author when working with tables."""
+
 if __name__ == "__main__":
   print "This can only be used as a module, and does nothing when called interactively."
   exit (-1)
@@ -21,32 +51,36 @@ def BuildHeaderString (text):
 
   These headings will be spoken when queried.
   Provide the first row of a table which should represent the column
-  headings. This should be of type list or tupple."""
+  headings. This should be of type string(str)."""
 
-  tableheadings = [] # clear last output 
+  tableheadings = [] # define an empty list
   text = text.replace("\hline", "") # remove any hline, though there
   # should only be one at most.
   text = text.replace("\n", "") # So we don't miss last col
-  text = text.replace("\\\\", "") # put in a new line char at end of
-# row
+  text = text.replace("\\\\", "") 
   text = text+"&" # Don't miss the last column 
   while text.find("&") != -1: # column LaTeX separater
     tableheadings.append(text[:text.find("&")]) # next remove last col
     text = text[text.find("&")+1:] # remove last col and separator
-  return tableheadings # return tupple of column headings.
+
+  return tableheadings # return list of column headings.
 
 def WhereAmI (row, headers):
   """Provides information of current location in table.
 
   Currently speak the name of column. In future should speak cell
-  coordinates and any other useful info (Perhaps first cell in row)"""
-  return "Focus is in column "+headers[row.count("&")]
+  coordinates and any other useful info (Perhaps first cell in row).
+  row should be a string object containing the current row, and headers
+  should be a list of the table headings (as returned by BuildHeaderString..."""
+
+  return "Focus is in column "+headers[row.count("&")] # Count how many columns across we are and return corresponding heading. (by counting col separater &)
 
 def GetTableTopRow (table):
   """Return the first row of a table.
 
   This is useful for separating the row headings from the rest of the
-  stuff in the table."""
+  stuff in the table. table should just be an object type str holding
+  the contents of the LaTeX table up until cursor or (point)."""
 
   return table[:table.find("\\\\")]
 
@@ -54,7 +88,9 @@ def GetTableCurrentRow (table):
   """Return the currently focused row in table.
 
   Find the last \\ char from end of  input. Everything between end [-1],
-  and the last \\ char is considered the current row."""
+  and the last \\ char is considered the current row. table should be of
+  type str and is the contents of the LaTeX table up until the cursor or
+  (point)."""
 
   return table[table.rfind("\\\\")+1:].replace("\n", "").replace("\\hline",
                                                                "") 
