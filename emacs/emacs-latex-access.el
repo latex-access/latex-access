@@ -302,10 +302,12 @@ turned on, otherwise, with no arg, it is turned off."
 (defun latex-access-table-location ()
   "Provide information of current location in table."
   (interactive)
-  (let ((end (point)) (beg (search-backward "\\begin{tabular")))
-	(let ((table (buffer-substring-no-properties beg end)))
-    (latex_access_emacsWhereAmI (latex_access_emacsGetTableCurrentRow
-				 table)
-				(latex_access_emacsBuildHeaderString (latex_access_emacsGetTableTopRow table))))))
+  (save-excursion 
+    (let ((end (point)) (beg (progn (search-backward "\\begin")
+				    (move-end-of-line nil) (point))))
+      (let ((table (buffer-substring-no-properties beg end)))
+	(dtk-speak (latex_access_emacsWhereAmI
+		    (latex_access_emacsGetTableCurrentRow table)
+		    (latex_access_emacsBuildHeaderString (latex_access_emacsGetTableTopRow table))))))))
 
 ;;; emacs-latex-access.el ends here
