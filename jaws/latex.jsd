@@ -18,6 +18,8 @@
 :script InputMatrix
 :Synopsis Highlight a matrix and then run this script to have it created as an object.
 
+:script HotKeyHelp
+
 :script MatrixRight
 :Synopsis Moves the matrix cursor to the right and speaks the new cell.
 
