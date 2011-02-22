@@ -1,6 +1,23 @@
+;  latex-access scripts by Alastair Irving  ( alastairirving19@hotmail.com)
+;
+; Documentation by:  Jose Tamayo( jtblas@hotmail.com)
+;
+; history of changes 
+;
+; Needs:
+; 1.  JSM file for messages 
+; 2.  proper variable naming 
+; 3.  intro for functions.
+; 4.  Hungarian notation 
+; 5.  Move all literals and messages to the latex.jsm file.
+
 
 include "hjconst.jsh"
 
+; to be uncommented later 
+ include "latex.jsm"
+
+; JT:  what is the purpose of initialised variable?
 globals int initialised,
 int ProcessMaths,
 object latex_access,
@@ -11,17 +28,20 @@ int column
 
 Void Function AutoStartEvent ()
 if !initialised then
-let latex_access=CreateObject ("latex_access")
+
+; JT: consider creating a constant for the latex_access object and then reference the constant instead. - done 2/25/2010
+let latex_access=CreateObject (o_latexAccess)
 let initialised=true
 endif
 EndFunction
 
 Void Function SayLine ()
 if  ProcessMaths then
+; JT: what is the variable input for?
 var string input
 let input = GetLine ()
 
-if stringisblank(input) then
+if StringIsBlank(input) then
 let input = "blank"
 else
 let input = latex_access.speech(input)
@@ -30,8 +50,6 @@ let input = StringReplaceSubstrings (input, "<sub>", smmGetStartMarkupForAttribu
 let input = StringReplaceSubstrings (input, "</sub>", smmGetEndMarkupForAttributes (attrib_subscript|attrib_text))
 let input = StringReplaceSubstrings (input, "<bold>", smmGetStartMarkupForAttributes (attrib_bold|attrib_text))
 let input = StringReplaceSubstrings (input, "</bold>", smmGetEndMarkupForAttributes (attrib_bold|attrib_text))
-let input=StringReplaceSubstrings (input, "<mathcal>", smmGetStartMarkupForAttributes (attrib_italic|attrib_text))
-let input=StringReplaceSubstrings (input, "</mathcal>", smmGetEndMarkupForAttributes (attrib_italic|attrib_text))
 endif
 Say (input, ot_selected_item, true)
 else
@@ -46,34 +64,39 @@ EndFunction
 Script ToggleMaths ()
 if ProcessMaths then
 let ProcessMaths = false
-SayMessage (ot_status, "maths to be read as plain latex", "Processing off")
+; JT : the following text content must be placed in a JSM file for consistency. - Done.
+SayMessage (ot_status, msgProcessingOff_L, msgProcessingOff_S)
 else
 let ProcessMaths = true
-SayMessage(OT_STATUS,"Maths to be processed to a more verbal form","Processing on")
+; JT:  The string literal must also be placed in the latex.jsm file for better manageability.
+SayMessage(OT_STATUS,msgProcessingOn_L,msgProcessingOn_S)
 endif
 
 
 EndScript
 
 Script ToggleDollarsNemeth ()
-var int result 
+var bool result 
 let result=latex_access.toggle_dollars_nemeth()
-if result==-1 then 
-SayMessage (ot_status, "Dollars will now be ignored in nemeth", "nemeth dollars off")
+if result then 
+; JT:  Message to be placed in the JSM file for better manageability. - Done.
+SayMessage (ot_status, msgNemethDollarsOff_L, msgNemethDollarsOff_S)
 else
-SayMessage (ot_status, "Dollars will now be shown in nemeth", "nemeth dollars on")
+; JT :  This is another message that must be placed in the latex.jsm file - Done.
+SayMessage (ot_status, msgNemethDollarsOn_L, msgNemethDollarsOn_S)
 
 endif
 EndScript
 
 
 Script ToggleDollarsSpeech ()
-var int result 
+var bool result 
 let result=latex_access.toggle_dollars_speech()
-if result==-1 then 
-SayMessage (ot_status, "Dollars will now be ignored in speech", "speech dollars off")
+; JT:  Two more messages that must be placed in the latex.jsm file.
+if result then 
+SayMessage (ot_status, msgSpeechDollarsOff_L, msgSpeechDollarsOff_S)
 else
-SayMessage (ot_status, "Dollars will now be shown in speech", "speech dollars on")
+SayMessage (ot_status, msgSpeechDollarsOn_L, msgSpeechDollarsOn_S)
 endif
 EndScript
 
@@ -85,7 +108,7 @@ Int Function BrailleBuildLine ()
 if  ProcessMaths then
 var string input
 let input = GetLine()
-let input = StringReplaceSubstrings (input, "scroll down symbol", "")
+let input = StringReplaceSubstrings (input, sScrollDownSymbols , "")
 let input=StringTrimTrailingBlanks (input)
 let input = latex_access.nemeth(input)
 ; now sort out bad dots 456 
@@ -100,17 +123,32 @@ EndFunction
 
 
 Script InputMatrix ()
-let matrix=CreateObject ("latex_access_matrix")
+; JT:  Place the object in a constant so that it can be more manageable 
+let matrix=CreateObject (o_latex_access_matrix)
 let row=1
 let column=1
 matrix.tex_init(GetSelectedText ())
+; JT:  Replace the msg var with a message variable in the latex.jsm file 
 var string msg
 let msg ="Initialised "
 let msg=msg+inttostring(matrix.rows)
-let msg=msg+" by "
+; JT: another literal that must be replaced.  - Done February 21, 2011
+let msg=msg+sPadBy
 let msg=msg+inttostring(matrix.columns)
-let msg=msg +" matrix"
-saystring(msg)
+; JT:  another literal to be placed in latex.jsm  - Done February 21, 2011
+let msg=msg +sPadMatrix
+SayString(msg)
+EndScript
+
+Script HotKeyHelp ()
+; check the virtual buffer and close it if active.
+If UserBufferIsActive () Then 
+	UserBufferDeactivate ()
+EndIf
+; Display the help text when the user presses JAWSKey+L
+SayFormattedMessage(OT_USER_BUFFER, msgHotKeyHelp)
+
+
 EndScript
 
 
@@ -119,7 +157,8 @@ if column < matrix.columns then
 let column = column+1
 saystring(matrix.get_cell(row,column))
 else
-saystring("end row")
+; JT:  another literal to be placed in the latex.jsm file. - Done February 21, 2011
+saystring(sEndRow)
 endif
 EndScript
 
@@ -129,7 +168,8 @@ if column > 1 then
 let column = column - 1
 saystring(matrix.get_cell(row,column))
 else
-saystring("start row")
+; JT:  Another literal to be placed in latex.jsm 
+saystring(sStartRow)
 endif
 EndScript
 
@@ -139,7 +179,8 @@ if row < matrix.rows then
 let row = row+1
 saystring(matrix.get_cell(row,column))
 else
-saystring("end column")
+; JT:  another literal to add to latex.jsm 
+saystring(sEndColumn)
 endif
 EndScript
 
@@ -149,25 +190,28 @@ if row > 1 then
 let row = row - 1
 saystring(matrix.get_cell(row,column))
 else
-saystring("start columnd")
+; JT:  another latex.jsm literal to be added. - done February 21, 2011
+SayString(sStartColumn)
 endif
 EndScript
 
 
-
+; JT:  This variable named i must be changed
 Script SayRow (int i)
 if i>0 && i <= matrix.rows then 
 saystring(matrix.get_row(i," "))
 else 
-saystring("Invalid row")
+; another literal to be moved to latex.jsm - done February 21, 2011
+saystring(sInvalidRow)
 endif
 EndScript
-
+; JT:  Find out what i is for and replace if needed.
 Script SayColumn (int i)
 if i>0 && i <=matrix.columns then
 saystring(matrix.get_col(i," "))
 else
-saystring("Invalid column")
+; JT: literal that must be moved to the latex.jsm file 
+saystring(sInvalidColumn)
 endif
 EndScript
 
@@ -175,9 +219,10 @@ EndScript
 
 Script preprocessorAdd ()
 var string input, int args, string strargs, string translation
-if InputBox ("Enter the command you wish to re-define.", "Initial LaTeX", input) then 
-if InputBox ("Enter the number of arguments of the command.", "Number of arguments", strargs) then 
-if InputBox ("Enter the definition of the custom command, that is, the standard LaTeX to which it is equivalent.", "Translation", translation) then 
+; JT:  Move this literal to the latex.jsm file.
+if InputBox (sCommandToRedefine, "Initial LaTeX", input) then 
+if InputBox (sEnterCommandArguments, "Number of arguments", strargs) then 
+if InputBox (sEnterCustomCommandDef, "Translation", translation) then 
 let args=StringToInt (strargs)
 latex_access.preprocessor_add(input,args,translation)
 endif
@@ -196,10 +241,12 @@ EndScript
 
 Script PreprocessorWrite ()
 var string filename
-if InputBox ("enter full filename to save to", "Filename", filename) then 
+; JT:  another prompt to be moved to latex.jsm - done February 21, 2011
+if InputBox (sEnterFileToSaveTo , "Filename", filename) then 
 if FileExists (filename) then 
 var int result
-let result=ExMessageBox ("The file you specified already exists.  Do you wish to replace it?", "File Exists", MB_YESNO)
+; JT:  literal string to be moved to latex.jsm  - done February 21, 2011
+let result=ExMessageBox (sFileExistError , sFileExistTitle , MB_YESNO)
 if result==IDNO then 
 return 
 endif
@@ -211,11 +258,13 @@ EndScript
 
 Script PreprocessorRead ()
 var string filename
+; JT: another literal to move to the latex.jsm file.
 if InputBox ("enter full filename to read from ", "Filename", filename) then 
 if FileExists (filename) then 
 latex_access.preprocessor_read(filename)
 else
-MessageBox ("File does not exist")
+; JT: move this literal to the latex.jsm file too.
+MessageBox (sFileNoExist )
 endif
 endif
 EndScript
