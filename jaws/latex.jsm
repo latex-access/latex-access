@@ -27,13 +27,13 @@ ks1 = "control+shift+d"  ;open default file
 
 messages
 @msgProcessingOn_S
-Processing of LaTeX is now on.
+Processing on
 @@
 @msgProcessingOn_L
 Maths to be processed to a more verbal form
 @@
 @msgProcessingOff_S
-Processing of LaTeX is now off.
+Processing off
 @@
 @msgProcessingOff_L
 maths to be read as plain latex
