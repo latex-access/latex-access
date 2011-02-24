@@ -50,6 +50,8 @@ let input = StringReplaceSubstrings (input, "<sub>", smmGetStartMarkupForAttribu
 let input = StringReplaceSubstrings (input, "</sub>", smmGetEndMarkupForAttributes (attrib_subscript|attrib_text))
 let input = StringReplaceSubstrings (input, "<bold>", smmGetStartMarkupForAttributes (attrib_bold|attrib_text))
 let input = StringReplaceSubstrings (input, "</bold>", smmGetEndMarkupForAttributes (attrib_bold|attrib_text))
+let input=StringReplaceSubstrings (input, "<mathcal>", smmGetStartMarkupForAttributes (attrib_italic|attrib_text))
+let input=StringReplaceSubstrings (input, "</mathcal>", smmGetEndMarkupForAttributes (attrib_italic|attrib_text))
 endif
 Say (input, ot_selected_item, true)
 else
@@ -76,9 +78,9 @@ endif
 EndScript
 
 Script ToggleDollarsNemeth ()
-var bool result 
+var int result 
 let result=latex_access.toggle_dollars_nemeth()
-if result then 
+if result==-1 then 
 ; JT:  Message to be placed in the JSM file for better manageability. - Done.
 SayMessage (ot_status, msgNemethDollarsOff_L, msgNemethDollarsOff_S)
 else
@@ -90,10 +92,10 @@ EndScript
 
 
 Script ToggleDollarsSpeech ()
-var bool result 
+var int result 
 let result=latex_access.toggle_dollars_speech()
 ; JT:  Two more messages that must be placed in the latex.jsm file.
-if result then 
+if result==-1 then 
 SayMessage (ot_status, msgSpeechDollarsOff_L, msgSpeechDollarsOff_S)
 else
 SayMessage (ot_status, msgSpeechDollarsOn_L, msgSpeechDollarsOn_S)
