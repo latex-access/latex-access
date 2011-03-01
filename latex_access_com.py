@@ -12,7 +12,6 @@ class latex_access_com:
         self.speech_translator=speech.speech()
         self.preprocessor=preprocessor.preprocessor()
         self.newcommands=preprocessor.newcommands(self.preprocessor)
-    _reg_clsid_ = "{436BC4EC-405C-49ED-A0E7-84945B0BAC03}"
     _reg_progid_ = "latex_access"
     _public_methods_ =["nemeth","speech","preprocessor_add","preprocessor_from_string","preprocessor_write","preprocessor_read","toggle_dollars_nemeth","toggle_dollars_speech"]
     def nemeth(self, input):
@@ -58,5 +57,5 @@ class latex_access_com:
 #Register the object
 if __name__=='__main__':
     import pythoncom,win32com.server.register
-    latex_access_com._reg_clsid=pythoncom.CreateGuid()
+    latex_access_com._reg_clsid_=pythoncom.CreateGuid()
     win32com.server.register.UseCommandLine(latex_access_com)
