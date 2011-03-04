@@ -58,4 +58,5 @@ class latex_access_com:
 if __name__=='__main__':
     import pythoncom,win32com.server.register
     latex_access_com._reg_clsid_=pythoncom.CreateGuid()
+    latex_access_com._reg_clsctx_=pythoncom.CLSCTX_LOCAL_SERVER 
     win32com.server.register.UseCommandLine(latex_access_com)
