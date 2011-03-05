@@ -2,3 +2,28 @@ The following is a list of buggs found in the latex_access GlobalPlugin
 for NVDA.  Feel free to add more as they arise, and remove ones that are
 fixed.
 
+	* Event errors: This bug could be to do with the plugin
+(although I doubt it), textInfos or eventHandler.
+the log is pasted below:
+ERROR - eventHandler.executeEvent (13:14:18):
+error executing event: caret on <NVDAObjects.IAccessible.IAccessible object at 0x055A3590> with extra args of {}
+Traceback (most recent call last):
+  File "C:\bzrInit\nvda\main\source\eventHandler.py", line 135, in executeEvent
+    _EventExecuter(eventName,obj,kwargs)
+  File "C:\bzrInit\nvda\main\source\eventHandler.py", line 84, in __init__
+    self.next()
+  File "C:\bzrInit\nvda\main\source\eventHandler.py", line 90, in next
+    return func(*args, **self.kwargs)
+  File ".\userConfig\globalPlugins\latex_access.py", line 65, in event_caret
+    SayLine ()
+  File ".\userConfig\globalPlugins\latex_access.py", line 108, in SayLine
+    speech.speakMessage (GetLine())
+  File ".\userConfig\globalPlugins\latex_access.py", line 102, in GetLine
+    info = api.getFocusObject().makeTextInfo(textInfos.POSITION_CARET)
+  File "C:\bzrInit\nvda\main\source\NVDAObjects\__init__.py", line 852, in makeTextInfo
+    return self.TextInfo(self,position)
+  File "C:\bzrInit\nvda\main\source\textInfos\offsets.py", line 245, in __init__
+    self._startOffset=self._endOffset=self._getCaretOffset()
+  File "C:\bzrInit\nvda\main\source\textInfos\offsets.py", line 155, in _getCaretOffset
+    raise NotImplementedError
+NotImplementedError
