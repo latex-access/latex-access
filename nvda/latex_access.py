@@ -22,6 +22,7 @@ Features:
 	* The preprocessor (support for custom defined LaTeX commands): not completed."""
 
 from comtypes.client import CreateObject
+from textInfos import offsets
 
 import api
 import braille, speech# for brailling/speaking messages in NVDA
@@ -43,7 +44,7 @@ column = None
 class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 	"""main class for the global plugin, in which all key bindings/scripts and NVDA events are handled."""
 
-	def event_caret (self, obj, kwargs):
+	def event_caret (self, obj, nextHandler):
 		"""This event is called when the system caret moves, and it is being overidden so that latex-access speech translation can be used if the user wishes."""
 
 		global currentLine, initialised, latex_access, processMaths
@@ -57,10 +58,12 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 				currentLine = _("blank")
 			else:
 				currentLine = latex_access.speech (currentLine)
-				speech.speakMessage (currentLine)
+			speech.speakMessage (currentLine)
 
 		else:
 			SayLine ()
+
+		nextHandler ()
 
 	def initialize (self):
 		"""An overide of the initialize() function in globalPluginHandler.py.  Here we initialise what we need: we use the initialised global variable, and we create the latex_access com object.  We interface with the matrix later."""

@@ -32,7 +32,7 @@ class latex_access_com:
         return self.nemeth_translator.remove_dollars
 
     def toggle_dollars_speech(self):
-        '''Toggles whether dollars are spken 
+        '''Toggles whether dollars are spoken 
 
         Returns a boolian of whether dollars are being removed.'''
         self.speech_translator.remove_dollars=not self.speech_translator.remove_dollars
