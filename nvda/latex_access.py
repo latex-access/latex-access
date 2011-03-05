@@ -22,7 +22,6 @@ Features:
 	* The preprocessor (support for custom defined LaTeX commands): not completed."""
 
 from comtypes.client import CreateObject
-from textInfos import offsets
 
 import api
 import braille, speech# for brailling/speaking messages in NVDA
@@ -32,45 +31,42 @@ import textInfos# to get information such as the current line.
 ### Global variables:
 ### I know this is probably not the best way to do this, but I wasn't sure exactly how to successfully do it another way and keep the values of the variables
 ### the same throughout classes and other functions.
-initialised = False
-processMaths = False
-latex_access = None
-currentLine = None
-matrix = None
-row = None
-column = None
 ### End of global variable declarations
 
 class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 	"""main class for the global plugin, in which all key bindings/scripts and NVDA events are handled."""
+	initialised = False
+	processMaths = False
+	latex_access = None
+	currentLine = None
+	matrix = None
+	row = None
+	column = None
+
+	def __init__ (self):
+		"""Constructor. Here we initialise what we need: we use the initialised global variable, and we create the latex_access com object.  We interface with the matrix later."""
+
+		super (GlobalPlugin, self).__init__ ()
+
+		if not GlobalPlugin.initialised:# is the latex_access com object created yet?
+			GlobalPlugin.latex_access = CreateObject ("latex_access")
+			GlobalPlugin.initialised = True
 
 	def event_caret (self, obj, nextHandler):
 		"""This event is called when the system caret moves, and it is being overidden so that latex-access speech translation can be used if the user wishes."""
 
-		global currentLine, initialised, latex_access, processMaths
-
-		if not initialised:
-			self.initialize ()
-
-		if processMaths:
-			currentLine = GetLine ()
-			if not currentLine:# Is it a blank line?
-				currentLine = _("blank")
+		if GlobalPlugin.processMaths:
+			GlobalPlugin.currentLine = self.GetLine ()
+			if not GlobalPlugin.currentLine:# Is it a blank line?
+				GlobalPlugin.currentLine = _("blank")
 			else:
-				currentLine = latex_access.speech (currentLine)
-			speech.speakMessage (currentLine)
+				GlobalPlugin.currentLine = GlobalPlugin.latex_access.speech (GlobalPlugin.currentLine)
+			speech.speakMessage (GlobalPlugin.currentLine)
 
 		else:
-			SayLine ()
+			self.SayLine ()
 
 		nextHandler ()
-
-	def initialize (self):
-		"""An overide of the initialize() function in globalPluginHandler.py.  Here we initialise what we need: we use the initialised global variable, and we create the latex_access com object.  We interface with the matrix later."""
-		global initialised, latex_access
-		if not initialised:# is the latex_access com object created yet?
-			latex_access = CreateObject ("latex_access")
-			initialised = True
 
 	def script_toggleMaths (self, Gesture):
 		"""A script to toggle the latex-access translation on or off.
@@ -78,34 +74,33 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 		@type gesture: keypress.
 		"""
 
-		global processMaths
-
-		if processMaths:# is translation on?
-			processMaths = False
+		if GlobalPlugin.processMaths:# is translation on?
+			GlobalPlugin.processMaths = False
 			speech.speakMessage (_("Maths to be read as plain latex"))
 		else:
-			processMaths = True
+			GlobalPlugin.processMaths = True
 			speech.speakMessage (_("Maths to be processed to a more verbal form"))
 
 	script_toggleMaths.__doc__ = _("Toggles the speaking of mathematical expressions as either straight latex or a more verbal rendering.")
+
+# Useful methods:
+
+	def GetLine (self):
+		"""Retrieves the line of text that the current navigator object is focussed on, then returns it."""
+		info = api.getFocusObject().makeTextInfo(textInfos.POSITION_CARET)
+		info.expand(textInfos.UNIT_LINE)
+		currentLine = info.text
+		return currentLine
+
+	def SayLine (self):
+		"""This function says the current line without any translation.  This is necessary so that we can return to NVDA's default behaviour when LaTeX translation is toggled off."""
+		speech.speakMessage (self.GetLine())
+
+	def BrailleLine (self):
+		"""Brailles the current line.  This again is necessary so that we can return to NVDA's default behaviour."""
+		braille.handler.message (self.GetLine())
 
 	# For the key bindings:
 	__gestures = {
 		"kb:control+M": "toggleMaths",
 	}
-
-# Useful functions:
-
-def GetLine ():
-	"""Retrieves the line of text that the current navigator object is focussed on."""
-	info = api.getFocusObject().makeTextInfo(textInfos.POSITION_CARET)
-	info.expand(textInfos.UNIT_LINE)
-	currentLine = info.text
-
-def SayLine ():
-	"""This function says the current line without any translation.  This is necessary so that we can return to NVDA's default behaviour when LaTeX translation is toggled off."""
-	speech.speakMessage (GetLine())
-
-def BrailleLine ():
-	"""Brailles the current line.  This again is necessary so that we can return to NVDA's default behaviour."""
-	braille.handler.message (GetLine())
