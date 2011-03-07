@@ -28,40 +28,31 @@ import braille, speech# for brailling/speaking messages in NVDA
 import globalPluginHandler
 import textInfos# to get information such as the current line.
 
-### Global variables:
-### I know this is probably not the best way to do this, but I wasn't sure exactly how to successfully do it another way and keep the values of the variables
-### the same throughout classes and other functions.
-### End of global variable declarations
-
 class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 	"""main class for the global plugin, in which all key bindings/scripts and NVDA events are handled."""
-	initialised = False
 	processMaths = False
 	latex_access = None
-	currentLine = None
 	matrix = None
 	row = None
 	column = None
 
 	def __init__ (self):
-		"""Constructor. Here we initialise what we need: we use the initialised global variable, and we create the latex_access com object.  We interface with the matrix later."""
+		"""Constructor. Here we initialise what we need: we create the latex_access com object.  We interface with the matrix later."""
 
 		super (GlobalPlugin, self).__init__ ()
 
-		if not GlobalPlugin.initialised:# is the latex_access com object created yet?
-			GlobalPlugin.latex_access = CreateObject ("latex_access")
-			GlobalPlugin.initialised = True
+		self.latex_access = CreateObject ("latex_access")
 
 	def event_caret (self, obj, nextHandler):
 		"""This event is called when the system caret moves, and it is being overidden so that latex-access speech translation can be used if the user wishes."""
 
-		if GlobalPlugin.processMaths:
-			GlobalPlugin.currentLine = self.GetLine ()
-			if not GlobalPlugin.currentLine:# Is it a blank line?
-				GlobalPlugin.currentLine = _("blank")
+		if self.processMaths:
+			currentLine = self.GetLine ()
+			if not currentLine:# Is it a blank line?
+				currentLine = _("blank")
 			else:
-				GlobalPlugin.currentLine = GlobalPlugin.latex_access.speech (GlobalPlugin.currentLine)
-			speech.speakMessage (GlobalPlugin.currentLine)
+				currentLine = self.latex_access.speech (currentLine)
+			speech.speakMessage (currentLine)
 
 		else:
 			self.SayLine ()
@@ -74,11 +65,11 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 		@type gesture: keypress.
 		"""
 
-		if GlobalPlugin.processMaths:# is translation on?
-			GlobalPlugin.processMaths = False
+		if self.processMaths:# is translation on?
+			self.processMaths = False
 			speech.speakMessage (_("Maths to be read as plain latex"))
 		else:
-			GlobalPlugin.processMaths = True
+			self.processMaths = True
 			speech.speakMessage (_("Maths to be processed to a more verbal form"))
 
 	script_toggleMaths.__doc__ = _("Toggles the speaking of mathematical expressions as either straight latex or a more verbal rendering.")
