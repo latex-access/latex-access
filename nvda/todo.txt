@@ -5,7 +5,7 @@ new features are put to be worked on or fixed.
           however hard to implement as certain events can be unreliable
           in different situations, and there is no real list of all
           events so they are hard to find.  The best event to use would
-          probably be the IAcessible event, event_caret, but I haven't
+          probably be the IAccessible event, event_caret, but I haven't
           written the code for that yet.
 
 	* Add translations of braille without the message timing out
