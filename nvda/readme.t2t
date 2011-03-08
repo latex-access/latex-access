@@ -37,7 +37,6 @@ To use this plugin, you will need to install the following software/libraries:
 - NVDA, version 2011.1 or later.  The NVDA website can be found at http://www.nvda-project.org, and the download page can be found [here http://www.nvda-project.org/download/].
 - python 2.6 or later (I use python 2.7.1). Official website: http://www.python.org/.
 - The python for windows extentions, which can be downloaded at http://sourceforge.net/projects/pywin32/.  This package is required to registor the latex-access COM object and the matrix.
-- Comtypes version 0.6.2: http://sourceforge.net/projects/Comtypes/.  Comtypes is required to interface with the COM objects.
 - The latex-access scripts.  You probably already have these, but if not, you will need subversion.  How to use this VCS is beyond the scope of this readme, but the svn repository can be found at: https://latex-access.svn.sourceforge.net/svnroot/latex-access.  Please remember the exact location where you installed the scripts!  I recommend using [tortoise svn http://tortoisesvn.net/] as your subversion client, it's accessible, and easy to use.
 - 
 
@@ -46,34 +45,31 @@ Assuming you have followed the steps above and installed everything you need, yo
 For registering the COM object:
 + Type windows and r to go into the run dialog, then type cmd and press enter.
 + type "cd", then type in the location where you installed the latex-access scripts.  E.G.
-  	cd C:\latex-access\
+	cd C:\latex-access\
 + to register the COM object for latex-access translation, type:
-  	latex_access_COM.py
+	latex_access_COM.py
 + To register the matrix, type:
-  	matrix_processor.py
+	matrix_processor.py
   In both cases, you should hear iether the message "latex_access registered," or "latex_access_matrix registered" which indicates that what you just did was successful.  If not,   then something is obviously wrong.  Remember that if you change the location of the latex-access scripts, you have to register the COM objects again.
-+Note: the object here is to run the specified python files with 
-  python, so the above will only work if python is the default program
-  associated with .py files.  If it is not then try 
-  	python latex_access_COM.py
-  and if this fails then use the full path to your python installation,
-  for example :
-  	c:\python26\python.exe latex_access_COM.py
-  then repeat with matrix_processor.py
++Note: the object here is to run the specified python files with python, so the above will only work if python is the default program associated with .py files.  If it is not then try :
+	python latex_access_COM.py
+and if this fails then use the full path to your python installation, for example :
+	c:\python26\python.exe latex_access_COM.py
+then repeat with matrix_processor.py.
 + type "exit" (without the quotes) in your currently open cmd shell.
-+ 
++
 
 To install the plugin:
 + Go to the nvda subdirectory in the latex-access folder, select latex_access.py and copy it, either by pressing ctrl and C or right clicking on it and choosing "copy."
 + Now you need to paste this file in the appropriate folder so that the plugin will be recognised by NVDA.  Depending on your distribution/installation, the globalPlugins directory will be in one of the following places by default:
   - Installed version of NVDA:
     - For Windows XP:
-    	C:\Documents and Settings\username\Application Data\NVDA\globalPlugins\
+	C:\Documents and Settings\username\Application Data\NVDA\globalPlugins\
     - for Windows Vista/7:
-    	C:\Users\username\AppData\Roaming\NVDA\globalPlugins\
+	C:\Users\username\AppData\Roaming\NVDA\globalPlugins\
     -
   - Portable archive or running from source:
-  	DirectoryOfArchive/distribution\userConfig\globalPlugins\
+	DirectoryOfArchive/distribution\userConfig\globalPlugins\
   -
 + Once latex_access.py is pasted, launch NVDa by what ever means possible, and if the error sound doesn't play, everything should go smoothly.
 +
