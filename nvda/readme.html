@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META NAME="generator" CONTENT="http://txt2tags.sf.net">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<TITLE>The latex-access GlobalPlugin for NVDA.</TITLE>
+</HEAD><BODY BGCOLOR="white" TEXT="black">
+<CENTER>
+<H2>The latex-access GlobalPlugin for NVDA.</H2>
+<FONT SIZE="4"><I>Nathaniel Schmidt</I></FONT><BR>
+<FONT SIZE="4">Monday, 7th March 2011</FONT>
+</CENTER>
+
+
+<A NAME="toc"></A>
+<H2>Table of Contents</H2>
+
+
+  <UL>
+
+  <LI><A HREF="#intro">1. Introduction.</A>
+    <UL>
+    <LI><A HREF="#l-a">1.1. What is latex-access?</A>
+    <LI><A HREF="#gpfor">1.2. What is this globalPlugin for?</A>
+    </UL>
+  <LI><A HREF="#require">2. Requirements.</A>
+  <LI><A HREF="#Register">3. Registering the COM object and installing the globalPlugin.</A>
+  <LI><A HREF="#toggle">4. Toggling translation on and off.</A>
+    <UL>
+    <LI><A HREF="#edit">4.1. A note about edit fields</A>
+    </UL>
+  <LI><A HREF="#dollar">5. Toggling of dollar signs.</A>
+  <LI><A HREF="#preproc">6. Using the Preprocessor</A>
+    <UL>
+    <LI><A HREF="#addcomm">6.1. Adding a Command:</A>
+    </UL>
+  <LI><A HREF="#matproc">7. The Matrix Processor.</A>
+  </UL>
+
+<A NAME="intro"></A>
+<H2>1. Introduction.</H2>
+
+<A NAME="l-a"></A>
+<H3>1.1. What is latex-access?</H3>
+
+<P>
+Latex-access is a set of python scripts that provides realtime translation of a line of LaTeX into nemeth braille and speech, making the mathematics more readable to the blind user.  To find out more, <A HREF="http://latex-access.sf.net">visit this webpage</A>, although you have probably already been there if you are viewing this readme file.
+</P>
+
+<A NAME="gpfor"></A>
+<H3>1.2. What is this globalPlugin for?</H3>
+
+<P>
+This global plugin implements Communication between NVDA 2011.1 or later and the latex-access COM objects, letting the user read translated LaTeX documents in an easier fashion.
+</P>
+
+<A NAME="require"></A>
+<H2>2. Requirements.</H2>
+
+<P>
+To use this plugin, you will need to install the following software/libraries:
+</P>
+
+<UL>
+<LI>NVDA, version 2011.1 or later.  The NVDA website can be found at <A HREF="http://www.nvda-project.org">http://www.nvda-project.org</A>, and the download page can be found <A HREF="http://www.nvda-project.org/download/">here</A>.
+<LI>The latest build of version 2 of the python programming language.  Official website: <A HREF="http://www.python.org/">http://www.python.org/</A>.
+<LI>The python for windows extentions, which can be downloaded at <A HREF="http://sourceforge.net/projects/pywin32/">http://sourceforge.net/projects/pywin32/</A>.  This package is required to registor the latex-access COM object and the matrix.
+<LI>The latex-access scripts.  You probably already have these, but if not, you will need subversion.  How to use this VCS is beyond the scope of this readme, but the svn repository can be found at: <A HREF="https://latex-access.svn.sourceforge.net/svnroot/latex-access">https://latex-access.svn.sourceforge.net/svnroot/latex-access</A>.  Please remember the exact location where you installed the scripts!  I recommend using <A HREF="http://tortoisesvn.net/">tortoise svn</A> as your subversion client, it's accessible, and easy to use.
+</UL>
+
+<A NAME="Register"></A>
+<H2>3. Registering the COM object and installing the globalPlugin.</H2>
+
+<P>
+Assuming you have followed the steps above and installed everything you need, you can install the plugin and register the COM object by doing the following:
+</P>
+<P>
+For registering the COM object:
+<ol>
+<li> Type windows and r to go into the run dialog, then type cmd and press enter.
+<li> type "cd", then type in the location where you installed the latex-access scripts.  E.G.
+<blockquote>
+cd C:\latex-access\
+</blockquote>
+<li> to register the COM object for latex-access translation, type:
+<blockquote>
+latex_access_COM.py
+</blockquote>
+<li> To register the matrix, type:
+<blockquote>
+matrix_processor.py
+</blockquote>
+  In both cases, you should hear iether the message "latex_access registered," or "latex_access_matrix registered" which indicates that what you just did was successful.  If not,   then something is obviously wrong.  Remember that if you change the location of the latex-access scripts, you have to register the COM objects again.
+<li> Note: the object here is to run the specified python files with python, so the above will only work if python is the default program associated with .py files.  If it is not then try :
+<blockquote>
+python latex_access_COM.py
+</blockquote>
+however this only works if you have python in your path variable.  if this fails then use the full path to your python installation, for example :
+<blockquote>
+c:\python26\python.exe latex_access_COM.py
+</blockquote>
+then repeat with matrix_processor.py.
+<li> type "exit" (without the quotes) in your currently open cmd shell.
+</ol>
+
+To install the plugin:
+<ol>
+<li> Go to the nvda subdirectory in the latex-access folder, select latex_access.py and copy it, either by pressing ctrl and C or right clicking on it and choosing "copy."
+<li> Now you need to paste this file in the appropriate folder so that the plugin will be recognised by NVDA.  Depending on your distribution/installation, the globalPlugins directory will be in one of the following places by default:
+<ul>
+<li> Installed version of NVDA:
+<ul>
+<li> For Windows XP:
+<blockquote>
+C:\Documents and Settings\username\Application Data\NVDA\globalPlugins\
+</blockquote>
+<li>  for Windows Vista/7:
+<blockquote>
+C:\Users\username\AppData\Roaming\NVDA\globalPlugins\
+</blockquote>
+</ul>
+<li> Portable archive or running from source:
+<blockquote>
+DirectoryOfArchive/distribution\userConfig\globalPlugins\
+</blockquote>
+</ul>
+<li> Once latex_access.py is pasted, launch NVDa by what ever means possible, and if the error sound doesn't play, everything should go smoothly.
+</ol>
+</P>
+
+<A NAME="toggle"></A>
+<H2>4. Toggling translation on and off.</H2>
+
+<P>
+To turn translation on, press ctrl and M.  You should be able to here the translation of LaTeX mathematics via speech output.  To turn the translation off, press ctrl and M again.  You should then be able to navigate the document as normal.
+</P>
+
+<A NAME="edit"></A>
+<H3>4.1. A note about edit fields</H3>
+
+<P>
+This keystroke should only work if you are in an edit field, and one that has accessible text enabled at that.  You will get errors if you try to use the latex_access global plugin in edit fields that are not native controls.  I'm afraid that's just the way windows works.  I know for a fact that notepad works with the plugin quite well, but in and editor such as EdSharp it does not.
+</P>
+
+<A NAME="dollar"></A>
+<H2>5. Toggling of dollar signs.</H2>
+
+<A NAME="preproc"></A>
+<H2>6. Using the Preprocessor</H2>
+
+<A NAME="addcomm"></A>
+<H3>6.1. Adding a Command:</H3>
+
+<A NAME="matproc"></A>
+<H2>7. The Matrix Processor.</H2>
+
+<!-- html code generated by txt2tags 2.6b1 (http://txt2tags.sf.net) -->
+<!-- cmdline: txt2tags readme.t2t -->
+</BODY></HTML>
