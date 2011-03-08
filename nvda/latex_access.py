@@ -30,17 +30,12 @@ import textInfos# to get information such as the current line.
 
 class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 	"""main class for the global plugin, in which all key bindings/scripts and NVDA events are handled."""
-	processMaths = False
-	latex_access = None
-	matrix = None
-	row = None
-	column = None
 
 	def __init__ (self):
 		"""Constructor. Here we initialise what we need: we create the latex_access com object.  We interface with the matrix later."""
 
 		super (GlobalPlugin, self).__init__ ()
-
+		self.processMaths = False
 		self.latex_access = CreateObject ("latex_access")
 
 	def event_caret (self, obj, nextHandler):
