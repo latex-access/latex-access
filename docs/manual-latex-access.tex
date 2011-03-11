@@ -1,0 +1,185 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[pdftex]{hyperref}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\begin{document}
+\title{The LaTeX-access manual}
+\author{Alastair Irving <\href{mailto:alastair.irving@sjc.ox.ac.uk}{alastair.irving@sjc.ox.ac.uk}>\\
+  Robin  Williams <\href{mailto:rmw205@exeter.ac.uk}{rmw205@exeter.ac.uk}>\\
+  Daniel Dalton <\href{mailto:<daniel.dalton10@gmail.com}{daniel.dalton10@gmail.com}>\\
+  Nathaniel Schmidt <\href{mailto:nathanieljsch@westnet.com.au}{nathanieljsch@westnet.com.au}>\\
+  Stefan Moisei}
+\maketitle
+\tableofcontents
+
+Latex-access -- provides a blind person with a more efficient means of
+interacting with LaTeX in mathematical and scientific documents.
+
+\chapter{Introduction}
+\label{ch-introduction}
+
+The latex-access project is designed to provide a realtime
+translation of a line of LaTeX in to braille, concentrating
+on the Nemeth code, whichh can be read on a refreshable braille
+display. This will greatly improve the ease of use of
+LaTeX to blind mathematicians and scientists. The project also
+translates the current line into english speech which is
+easier to listen to than LaTeX source.
+
+Note that this project is largely aimed at people wishing
+to read LaTeX using a refreshable braille display and/or
+speech synthesisor[B, and people who will probably
+want to edit LaTeX documents. For example, as a
+university student,
+I receive my worksheets in LaTeX format, and
+produce my work using LaTeX. Using the latex\_access
+package, I am able to
+get a fairly good translation of the question
+and then an on-the-fly translation of my work as
+I produce it. If you are
+not concerned with editing LaTeX documents
+and simply want a braille translation of an
+entire laTeX document, then this
+project is not for you.
+
+There is also a very low traffic mailing list, which is worth subscribing to if you have any
+queries, problems, suggestions or ideas. All current developers are
+subscribed to this list and are very willing to assist. To subscribe
+send an email with the word ``subscribe'' in the subject to:
+\href{mailto:latex-access-devel-request@lists.sourceforge.net}{latex-access-devel-request@lists.sourceforge.net}. To
+post to the list send emails to \href{mailto:latex-access-devel@lists.sourceforge.net}{latex-access-devel@lists.sourceforge.net}
+
+\section{Purpose}
+\label{subchap-purpose}
+It is widely thought that LaTeX is a good system for a blind
+mathematician or scientist to use to create and read
+scientific documents, as it is a linear code and so the user does
+not have to perceive two-dimensional concepts, such
+as fractions and column vectors.
+By reading this linear code, a blind person can take in and
+understand scientific documents in the same way that a
+sighted person would do by studying a printed document.
+It should be noted that normally, laTeX is just a source from which
+documents are converted in to an
+attractive-looking, typeset document that can be printed or viewed
+on screen, often in a .pdf, .dvi or .ps format. For
+various technical reasons, documents in such formats are
+currently inaccessible with current screen-reading technology.
+The best current solution therefore is not to concern
+ourselves with documents in these formats, but rather to
+read
+and interpret the LaTeX source code itself.
+
+\section{Reading a LaTeX document}
+\label{subchap-reading-latex-document}
+
+It is entirely possible to read a LaTeX document simply by reading
+the LaTeX source itself. This however, is often a
+time-consuming and pain-staking process, and it is often not
+particularly nice to read. For example, the LaTeX source
+for the quadratic formula is\\
+\mbox{\$\$x=\textbackslash frac\{-b\textbackslash pm\textbackslash sqrt\{b\^2-4ac\}\}\{2a\}\$\$}\\
+It is therefore the aim of the project to translate a
+line of LaTeX in to a line of Niemeth braille code, which
+can be
+read using a refreshable braille display. The project
+also aims to provide an audible translation of the
+LaTeX source
+which will be output through current screen-reading
+technology.          
+
+\section{Current features}
+\label{subchap-current-features}
+
+
+latex-access currently contains the following features.
+
+\begin{itemize}
+\item Translation of several mathematical expressions from LaTeX to
+Niemeth braille. These include, but are not confined
+to:
+\begin{itemize}
+\item Translation of fractions, both numerical and
+algebraic.
+\item Translation of trigonometric
+functions and hyperbolic functions.
+\item Translation of powers,
+including square roots.
+\item Translation of
+expressions used in calculus, including partial derivatives.
+\item Translation of two component and three component column vectors,
+  not in to Niemeth braille format but in to a row vector so that they
+  can be read on a single line braille display.
+\item Translation of several mathematical symbols, such as the Greek letters.
+\item Many commands used to create a visually attractive document are
+  either translated or ignored, often it is not necessary to see some
+  formatting commands.
+\end{itemize}
+
+\item Translation of several of the above to audible speech.
+\item A matrix browser feature to enable easier reading of larger
+  matrices in LaTeX, see the description below.
+\item Support for custom defined LaTeX commands.
+\end{itemize}
+
+\chapter{Obtaining the source}
+\label{ch-obtaining-the-source}
+
+The package is hosted by svn at,
+\url{https://latex-access.svn.sourceforge.net/svnroot/latex-access}.
+
+This link will take you to a web interface of the svn tree, but you'll
+probably want to checkout the code so you can install it. If you run
+windows see section~\ref{subchap-windows}, and if you run linux
+see section~\ref{subchap-linux}.
+
+\section{Linux}
+\label{subchap-linux}
+
+Under Linux, the standard subversion command line client works
+well. This can usually be installed on debian based distros by running\\
+\mbox{apt-get install subversion}\\
+\# (as root)
+
+Then type\\
+\mbox{svn co https://latex-access.svn.sourceforge.net/svnroot/latex-access latex-access}
+
+This will check the package out into the directory latex-access.
+
+In future feel free to run ``svn up'', to pull the latest updates from
+the server. (from within the latex-access directory).
+
+\section{Windows}
+\label{subchap-windows}
+
+On windows the ``Tortoise SVN'' client works well.\\
+\url{http://tortoisesvn.tigris.org/}
+
+Once you have checked out the sourcecode from\\
+\url{https://latex-access.svn.sourceforge.net/svnroot/latex-access}\\
+continue with the installation
+process.
+
+Note, you should periodically pull the latest updates from the server to
+get the latest and greatest features of latex-access.
+
+\chapter{Installation}
+\label{ch-instalation}
+\chapter{General usage}
+\label{ch-general-usage}
+\chapter{More advance usage}
+\label{ch-more-advanced-usage}
+\chapter{Extra components}
+\label{ch-extra-components}
+\chapter{For developers}
+\label{ch-for-developers}
+\appendix
+
+\chapter{Key bindings}
+\label{APA}
+\chapter{Target specific notes}
+\label{APB}
+\chapter{Future features}
+\label{APC}
+
+\end{document}
