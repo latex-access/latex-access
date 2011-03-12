@@ -39,18 +39,23 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 		self.latex_access = CreateObject ("latex_access")
 
 	def script_reportCurrentLine (self, gesture):
-		"""This event is called when the system caret moves, and it is being overidden so that latex-access speech translation can be used if the user wishes."""
+		"""This script reports the line that the current navigator object is focused on, and speaks/brailles it appropriately depending on the state of self.processMaths."""
 
 		if self.processMaths:
-			currentLine = self.GetLine ()
-			if not currentLine:# Is it a blank line?
-				currentLine = _("blank")
+			spokenLine = self.GetLine ()
+			brailledLine = self.GetLine ()
+			if not spokenLine and not brailledLine:# Is it a blank line?
+				spokenLine = _("blank")
+				brailledLine = _("blank")
 			else:
-				currentLine = self.latex_access.speech (currentLine)
-			speech.speakMessage (currentLine)
+				spokenLine = self.latex_access.speech (spokenLine)
+				brailledLine = self.latex_access.nemeth (brailledLine)
+			speech.speakMessage (spokenLine)
+			braille.handler.message (brailledLine)
 
 		else:
 			self.SayLine ()
+
 	script_reportCurrentLine.__doc__ = _("If latex-access translation is on, Translates the current line into nemeth braille and speech.  If translation is turned off, the current line is spoken as normal.")
 
 	def script_toggleMaths (self, Gesture):
