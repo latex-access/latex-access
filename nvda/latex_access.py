@@ -73,8 +73,15 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 
 	def GetLine (self):
 		"""Retrieves the line of text that the current navigator object is focussed on, then returns it."""
-		info = api.getFocusObject().makeTextInfo(textInfos.POSITION_CARET)
-		info.expand(textInfos.UNIT_LINE)
+		obj = api.getFocusObject()
+		treeInterceptor = obj.treeInterceptor
+		if hasattr (treeInterceptor, 'TextInfo') and not treeInterceptor.passThrough:
+			obj = treeInterceptor
+		try:
+			info = obj.makeTextInfo (textInfos.POSITION_CARET)
+		except (NotImplementedError, RuntimeError):
+			info = obj.makeTextInfo (textInfos.POSITION_FIRST)
+		info.expand (textInfos.UNIT_LINE)
 		currentLine = info.text
 		return currentLine
 
