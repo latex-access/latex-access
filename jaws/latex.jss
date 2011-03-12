@@ -14,17 +14,14 @@
 
 include "hjconst.jsh"
 
-; to be uncommented later 
  include "latex.jsm"
 
-; JT:  what is the purpose of initialised variable?
 globals int initialised,
 int ProcessMaths,
 object latex_access,
 object matrix,
 int row,
 int column
-
 
 Void Function AutoStartEvent ()
 if !initialised then
@@ -37,7 +34,6 @@ EndFunction
 
 Void Function SayLine ()
 if  ProcessMaths then
-; JT: what is the variable input for?
 var string input
 let input = GetLine ()
 
@@ -59,10 +55,6 @@ SayLine ()
 endif
 EndFunction
 
-
-
-
-
 Script ToggleMaths ()
 if ProcessMaths then
 let ProcessMaths = false
@@ -73,7 +65,6 @@ let ProcessMaths = true
 ; JT:  The string literal must also be placed in the latex.jsm file for better manageability.
 SayMessage(OT_STATUS,msgProcessingOn_L,msgProcessingOn_S)
 endif
-
 
 EndScript
 
@@ -90,21 +81,16 @@ SayMessage (ot_status, msgNemethDollarsOn_L, msgNemethDollarsOn_S)
 endif
 EndScript
 
-
 Script ToggleDollarsSpeech ()
 var int result 
 let result=latex_access.toggle_dollars_speech()
-; JT:  Two more messages that must be placed in the latex.jsm file.
+; JT:  Two more messages that must be placed in the latex.jsm file. - Done.
 if result==-1 then 
 SayMessage (ot_status, msgSpeechDollarsOff_L, msgSpeechDollarsOff_S)
 else
 SayMessage (ot_status, msgSpeechDollarsOn_L, msgSpeechDollarsOn_S)
 endif
 EndScript
-
-
-
-
 
 Int Function BrailleBuildLine ()
 if  ProcessMaths then
@@ -121,11 +107,8 @@ endif
 return true
 EndFunction
 
-
-
-
 Script InputMatrix ()
-; JT:  Place the object in a constant so that it can be more manageable 
+; JT:  Place the object in a constant so that it can be more manageable - done
 let matrix=CreateObject (o_latex_access_matrix)
 let row=1
 let column=1
@@ -147,12 +130,10 @@ Script HotKeyHelp ()
 If UserBufferIsActive () Then 
 	UserBufferDeactivate ()
 EndIf
-; Display the help text when the user presses JAWSKey+L
+; Display the help text when the user presses JAWSKey+H
 SayFormattedMessage(OT_USER_BUFFER, msgHotKeyHelp)
-
-
+AddHotKeyLinks ()
 EndScript
-
 
 Script MatrixRight ()
 if column < matrix.columns then
@@ -164,7 +145,6 @@ saystring(sEndRow)
 endif
 EndScript
 
-
 Script MatrixLeft ()
 if column > 1 then 
 let column = column - 1
@@ -174,7 +154,6 @@ else
 saystring(sStartRow)
 endif
 EndScript
-
 
 Script MatrixDown ()
 if row < matrix.rows then
@@ -186,7 +165,6 @@ saystring(sEndColumn)
 endif
 EndScript
 
-
 Script MatrixUp ()
 if row > 1 then
 let row = row - 1
@@ -196,7 +174,6 @@ else
 SayString(sStartColumn)
 endif
 EndScript
-
 
 ; JT:  This variable named i must be changed
 Script SayRow (int i)
@@ -216,8 +193,6 @@ else
 saystring(sInvalidColumn)
 endif
 EndScript
-
-
 
 Script preprocessorAdd ()
 var string input, int args, string strargs, string translation
