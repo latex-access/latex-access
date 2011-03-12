@@ -1,7 +1,7 @@
 The following have contributed code or translation tables to the latex-access project:
 
-Alastair Irving: Main developer
-Robin Williams: Extensive testing, feature suggestions and cleanup of the translation tables
-Daniel Dalton: Emacs support
-Nathaniel Schmidt: NVDA Support 
+Alastair Irving <alastair.irving@sjc.ox.ac.uk> - Main developer
+Robin Williams <rmw205@exeter.ac.uk> - Extensive testing, feature suggestions and cleanup of the translation tables
+Daniel Dalton <daniel.dalton10@gmail.com> - Emacs support
+Nathaniel Schmidt <nathanieljsch@westnet.com.au> - NVDA Support 
 Stefan Moisei: romanian translation of speech table
