@@ -38,7 +38,7 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 		self.processMaths = False
 		self.latex_access = CreateObject ("latex_access")
 
-	def event_caret (self, obj, nextHandler):
+	def script_reportCurrentLine (self, gesture):
 		"""This event is called when the system caret moves, and it is being overidden so that latex-access speech translation can be used if the user wishes."""
 
 		if self.processMaths:
@@ -51,8 +51,7 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 
 		else:
 			self.SayLine ()
-
-		nextHandler ()
+	script_reportCurrentLine.__doc__ = _("If latex-access translation is on, Translates the current line into nemeth braille and speech.  If translation is turned off, the current line is spoken as normal.")
 
 	def script_toggleMaths (self, Gesture):
 		"""A script to toggle the latex-access translation on or off.
@@ -96,4 +95,5 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 	# For the key bindings:
 	__gestures = {
 		"kb:control+M": "toggleMaths",
+		"kb:NVDA+upArrow": "reportCurrentLine",
 	}
