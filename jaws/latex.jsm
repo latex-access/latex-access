@@ -1,7 +1,6 @@
 ; Created by Jose Tamayo on 2/25/2010
 ; this will allow for latex-access to load the messages and vars correctly.
 
-
 const
 o_latexAccess  = "latex_access",
 o_latex_access_matrix = "latex_access_matrix",
@@ -64,7 +63,6 @@ Speech Dollars on
 Dollars will now be shown in Speech
 @@
 
-
 ; JT HERE 
 ; Hot key help for latex-access
 @msgHotKeyHelp
@@ -106,8 +104,6 @@ CTRL+SHIFT with a number reads that row
 cTRL+ALT with anumber reads that column.  
 
 Press %KeyFor(HotKeyHelp ) to redisplay this message 
-
-Press ESC to close this message
 @@
 
 EndMessages
