@@ -1,7 +1,5 @@
 \documentclass[12pt,a4paper]{report}
 \usepackage[pdftex]{hyperref}
-\usepackage{tabularx}
-\usepackage{amsmath}
 \begin{document}
 \title{The LaTeX-access manual}
 \author{Alastair Irving <\href{mailto:alastair.irving@sjc.ox.ac.uk}{alastair.irving@sjc.ox.ac.uk}>\\
@@ -13,7 +11,7 @@
 \tableofcontents
 
 Latex-access -- provides a blind person with a more efficient means of
-interacting with LaTeX in mathematical and scientific documents.
+interacting with LaTeX for mathematical and scientific documents.
 
 \chapter{Introduction}
 \label{ch-introduction}
@@ -122,19 +120,21 @@ expressions used in calculus, including partial derivatives.
 \item Support for custom defined LaTeX commands.
 \end{itemize}
 
-\chapter{Obtaining the source}
-\label{ch-obtaining-the-source}
+\chapter{Installation}
+\label{ch-installation}
 
+\section{Obtaining the source}
+\label{subchap-obtaining-source}
 The package is hosted by svn at,
 \url{https://latex-access.svn.sourceforge.net/svnroot/latex-access}.
 
 This link will take you to a web interface of the svn tree, but you'll
 probably want to checkout the code so you can install it. If you run
-windows see section~\ref{subchap-windows}, and if you run linux
-see section~\ref{subchap-linux}.
+windows see section~\ref{subsubchap-windows}, and if you run linux
+see section~\ref{subsubchap-linux}.
 
-\section{Linux}
-\label{subchap-linux}
+\subsection{Linux}
+\label{subsubchap-linux}
 
 Under Linux, the standard subversion command line client works
 well. This can usually be installed on debian based distros by running\\
@@ -149,8 +149,8 @@ This will check the package out into the directory latex-access.
 In future feel free to run ``svn up'', to pull the latest updates from
 the server. (from within the latex-access directory).
 
-\section{Windows}
-\label{subchap-windows}
+\subsection{Windows}
+\label{subsubchap-windows}
 
 On windows the ``Tortoise SVN'' client works well.\\
 \url{http://tortoisesvn.tigris.org/}
@@ -163,8 +163,263 @@ process.
 Note, you should periodically pull the latest updates from the server to
 get the latest and greatest features of latex-access.
 
-\chapter{Installation}
-\label{ch-instalation}
+\section{Installing the package}
+
+Currently latex-access interacts with three different
+programs. Therefore, the installation process varies slightly.
+
+\begin{itemize}
+\item Jaws for windows -- most developed front-end to the project, and
+  allows Jaws to interact with latex-access within most editors. See
+  section~\ref{subsubchap-jaws}.
+\item Emacs/emacspeak -- Provides both Braille and speech access when
+    working with latex under the emacs editor. This means anyone using a
+    Linux system can use the project. Usage under Linux is very stable,
+    but there are still a few little things to be done, see the README
+    in the emacs branch for details. Currently has not been tested with
+    the windows emacs version. See section~\ref{subsubchap-emacs} for
+    installation instructions.
+\item NVDA -- provides latex-access for usage with most
+      editors. Under heavy development still, but it provides many
+      features of latex-access. See section~\ref{subsubchap-nvda} for
+      installation instructions.
+\end{itemize}
+
+For specific notes on each individual front-end it is worth looking at the
+READMES in their respective branches. You can also find details about
+contacting the developer of the specific front-end from the readme.
+
+\subsection{Jaws}
+\label{subsubchap-jaws}
+
+To install the scripts on a machine running windows and Jaws
+version 5 or higher, do the following.
+
+\begin{enumerate}
+\item Download the latest stable release of version 2 of the Python software from
+\url{http://www.python.org} and install it.
+
+Note: LaTeX-access has not been tested with python 3 and probably won't work with it.
+\item Download the pywin32 package  from
+\url{https://sourceforge.net/projects/pywin32} ensuring you have the correct
+file to match your version of python. Install this.
+\item Create a directory on the c: drive named latex\_access. (The name
+of the directory or it's level of depth in the filesystem does not
+matter, however choosing a directory with a name easy to remember and
+not too deep in the filesystem makes the next step easier.
+\item Obtain the latest version of the scripts, (although you've
+presumably already done this).  For details of how to obtain the
+latest version please see section~\ref{subchap-obtaining-source}.
+\item Extract the files and folder in the zip file to the latex\_access
+folder you created earlier. To do this, either simply run the zip file
+with an application such as winrar and copy everything to the folder,
+or extract the files and folder to the relevant location by right
+clicking (or equivalent) on the file within windows explorer.
+\item Copy the files from within the jaws folder to the folder where your
+jaws scripts are located. These are usually in a path such as\\
+\mbox{c:\textbackslash documents and settings\textbackslash\%username\%\textbackslash application data\textbackslash freedom scientific\textbackslash jaws\textbackslash\%jaws version\%\textbackslash settings\textbackslash enu}\\
+(This can be reached using the explore jaws submenu of the jaws menu
+in your start menu).
+\item Now open a command prompt by going to run, and typing ``cmd''.
+Switch to the latex\_access directory by typing 'cd \%directory\%' for
+example, type ``cd c:\textbackslash latex\_access''
+\item Type\\
+``latex\_access\_com.py''\\
+you should hear ``latex\_access registered''.  Now
+register the matrix processor object by typing\\
+``matrix\_processor.py''
+You should hear a similar message.  Exit the command
+prompt by typing exit.
+
+Note: the object here is to run the specified python files with 
+python, so the above will only work if python is the default program
+associated with .py files.  If it is not then try 
+python latex\_access\_com.py
+and if this fails then use the full path to your python installation,
+for example \\
+\mbox{c:\textbackslash python26\textbackslash python.exe latex\_access\_com.py}\\
+then repeat with matrix\_processor.py
+\item Finally, open the confignames.ini file in your jaws scripts folder
+using a text editor such as notepad. After the line which reads
+[ConfigNames]
+enter a new line as described below.
+
+As many different applications can be used to read or write LaTeX, the scripts have a
+generic name latex.j**. Therefore, we use this file to add an alias,
+so that many different applications can be used without needing to
+change the name of each Jaws script to match the executable name of
+the application used to write LaTeX. So for example, as a user of
+winedt, I have ``winedt=latex'' If you use notepad to write and read
+LaTeX, you should add ``notepad=latex'' etc.  If you are one of multiple
+users on the computer, you may have to search to find the
+confignames.ini file. The file will be found within the same file
+structure, within the all users (or something similar) directory,
+within the documents and settings directory.
+
+Note: with older versions of jaws you could just enter the lines at
+the bottom of the file, but in more recent versions the .ini file
+contains more sections and the lines must be inserted in the
+[ConfigNames] section.
+\item Load the relevant program for writing/reading LaTeX, and press
+ctrl+m to initialise the scripts. Repeat this keystroke to turn them
+off. You should be able to navigate the document and listen to audible
+speech output, as well as reading the mathematical translation on the
+braille display.
+\end{enumerate}
+
+\subsection{Emacs/emacspeak}
+\label{subsubchap-emacs}
+
+I assume you have downloaded or checked out the package from
+subversion. If not, please see section~\ref{subchap-obtaining-source}
+
+Installing emacs/emacspeak support for latex-access.
+
+\begin{enumerate}
+\item
+\begin{itemize}
+  \item A. Automated installation script.
+  I have built an installation script titled ``setup.py'' found in the emacs
+branch of this svn checkout.
+
+Invoking with no arguments will install to \~/.emacs, otherwise if you know
+what your doing and use an init file somewhere else, feel free to invoke
+the script as follows:\\
+\mbox{python setup.py <path-to-init-file>}
+
+Most users who are happy with the default (\~/.emacs), may just invoke
+the script as follows:\\
+\mbox{python setup.py}
+
+You may as well say yes to the prompt (y), to byte-compile
+emacs-latex-access... This should improve the speed slightly. If it
+fails or you do not want to byte compile the script can handle this
+fine. (It modifies your init file according to whether it could
+byte-compile or not.)
+
+Continue following the prompts until the script has finished.
+\item B. Manual installation. If you used the script, then skip to step
+  2.
+  Add the following to \~/.emacs. Change /path/to/svnroot to the actual
+path to your svn local checkout. Eg. the directory containing the bulk
+of the *.py files and the general readme.txt file.
+Below lines should be appended to your .emacs.\\
+
+; Emacs latex-access:\\
+(setq latex-access-path "/path/to/svnroot")\\
+(load (concat latex-access-path "/emacs/emacs-latex-access.el"))\\
+(add-hook 'LaTeX-mode-hook 'latex-access-speech-on) ; comment this if you don't have emacspeak\\
+(add-hook 'LaTeX-mode-hook 'latex-access-braille-on) ; comment if you don't have Braille \\
+; End emacs Latex-access.\\
+
+Note: Keep this structure if you wish to have the uninstall script work
+with this installation.
+
+See the comments if you don't have Braille or emacspeak present.
+
+If you wish to use a byte-compiled file, for improved speed, replace .el
+with .elc in the line:\\
+(load (concat latex-access-path "/emacs/emacs-latex-access.el"))\\
+
+To byte-compile the emacs-latex-access.el file, do:\\
+emacs -batch -f batch-byte-compile emacs-latex-access.el\\
+(From the emacs branch of the svn checkout)
+\end{itemize}
+\item 
+Append to the PYTHONPATH environment variable the directory
+/path/to/svnroot, replacing /path/to/svnroot with the actual path to
+your svn checkout of latex-access if you used the manual
+installation. Otherwise copy and paste the export path output by the
+installation script.
+This is usually done by an export line in .bash\_profile.
+Ensure the variable is set before starting emacs.
+\item Please install pymacs. 
+On debian/ubuntu you may do:\\
+\mbox{sudo apt-get install pymacs}\\
+Otherwise follow the instructions provided at:
+\url{http://pymacs.progiciels-bpi.ca/}
+\item Restart emacs!
+Now emacs should communicate correctly with latex-access.
+\item If you wish to place any settings in your .emacs for latex-access,
+place them under the line \\
+; end latex-access\\
+\begin{itemize}
+\item A. To set how many linesabove the currently selected line should also be
+translated add this line anywhere below\\
+; end latex-access \\
+(setq latex-access-linesabove 1)\\
+This would Braille the current line and the one above, change 1 to
+whatever setting you desire. 0 is just the current line.
+\end{itemize}
+\end{enumerate}
+
+\subsection{NVDA}
+\label{subsubchap-nvda}
+
+\subsubsection{Requirements}
+
+To use this plugin, you will need to install the following software/libraries:
+
+\begin{itemize}
+\item NVDA, version 2011.1 or later.  The NVDA website can be found at
+  \url{http://www.nvda-project.org}, and the download page can be found 
+  \href{http://www.nvda-project.org/download/}{here}.
+\item The latest build of version
+  2 of the python programming language.  Official website:
+  \url{http://www.python.org/}.
+\item The python for windows extentions, which
+  can be downloaded at \url{http://sourceforge.net/projects/pywin32/}.  This
+  package is required to registor the latex-access COM object and the
+  matrix.
+\item The latex-access scripts.  You probably already have these,
+  but if not see section~\ref{subchap-obtaining-source}. (and be sure to remember
+  which directory you checked out to)
+\end{itemize}
+
+\subsubsection{Registering the COM object and installing the globalPlugin.}
+
+Assuming you have followed the steps above and installed everything you need, you can install the plugin and register the COM object by doing the following:
+
+For registering the COM object:
+
+\begin{itemize}
+\item Type windows and r to go into the run dialog, then type cmd and press enter.
+\item type "cd", then type in the location where you installed the latex-access scripts.  E.G.\\
+\mbox{cd C:\textbackslash latex-access\textbackslash}
+\item to register the COM object for latex-access translation, type:\\
+\mbox{latex\_access\_COM.py}
+\item To register the matrix, type:\\
+\mbox{matrix\_processor.py}\\
+  In both cases, you should hear iether the message ``latex\_access
+  registered,'' or ``latex\_access\_matrix'' registered'' 
+  which indicates that what you just did was successful.  If not,   then something is obviously wrong.  Remember that if you change the location of the latex-access scripts, you have to register the COM objects again.
+\item Note: the object here is to run the specified python files with python, so the above will only work if python is the default program associated with .py files.  If it is not then try :\\
+\mbox{python latex\_access\_COM.py}\\
+however this only works if you have python in your path variable.  if this fails then use the full path to your python installation, for example :\\
+\mbox{c:\textbackslash python26\textbackslash python.exe latex\_access\_COM.py}\\
+then repeat with matrix\_processor.py.
+\item type ``exit'' (without the quotes) in your currently open cmd shell.
+\end{itemize}
+
+\subsubsection{To install the plugin}
+
+\begin{itemize}
+\item Go to the nvda subdirectory in the latex-access folder, select latex\_access.py and copy it, either by pressing ctrl and C or right clicking on it and choosing ``copy.''
+\item Now you need to paste this file in the appropriate folder so that the plugin will be recognised by NVDA.  Depending on your distribution/installation, the globalPlugins directory will be in one of the following places by default:
+\begin{itemize}
+\item Installed version of NVDA:
+\begin{itemize}
+\item For Windows XP:\\
+\mbox{C:\textbackslash Documents and Settings\textbackslash username\textbackslash Application Data\textbackslash NVDA\textbackslash globalPlugins\textbackslash}
+\item for Windows Vista/7:\\
+\mbox{C:\textbackslash Users\textbackslash username\textbackslash AppData\textbackslash Roaming\textbackslash NVDA\textbackslash globalPlugins\textbackslash}
+\end{itemize}
+\item Portable archive or running from source:\\
+\mbox{DirectoryOfArchive/distribution\textbackslash userConfig\textbackslash globalPlugins\textbackslash}
+\end{itemize}
+\item Once latex\_access.py is pasted, launch NVDa by what ever means possible, and if the error sound doesn't play, everything should go smoothly.
+\end{itemize}
+
 \chapter{General usage}
 \label{ch-general-usage}
 \chapter{More advance usage}
@@ -173,13 +428,15 @@ get the latest and greatest features of latex-access.
 \label{ch-extra-components}
 \chapter{For developers}
 \label{ch-for-developers}
-\appendix
 
-\chapter{Key bindings}
-\label{APA}
-\chapter{Target specific notes}
-\label{APB}
+\appendix
+\chapter{Jaws -- default key bindings}
+\label{ap-jaws}
+\chapter{NVDA -- default bindings}
+\label{ap-nvda}
+\chapter{Emacs -- functions and bindings}
+\label{AP-emacs}
 \chapter{Future features}
-\label{APC}
+\label{AP-future}
 
 \end{document}
