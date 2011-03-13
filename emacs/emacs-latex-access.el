@@ -38,6 +38,8 @@ the current line, 1 for the current line as well as the line above etc.") ; Set 
 (setq latex-access-braille nil) ; initial global value 
 (setq latex-access-speech-initial nil) ; Used by the dmsg function
 (setq latex-access-braille-initial nil) ; Used by the dmsg function
+(setq latex-access-personality-alist (list (list "bold" voice-bolden)
+(list "mathcal" voice-animate)))
 
 ; latex-access advice 
 ; Advise emacspeak to speak the latex-access (nicely spoken
@@ -55,7 +57,7 @@ emacs/emacspeak will call this function, hence, providing latex-access
 output when applicable"
   (make-local-variable 'latex-access-speech)
   (if latex-access-speech
-      (dtk-speak (latex_access_emacstranssp (thing-at-point 'line))) ; Speech to pass to
+      (latex-access-speak (latex_access_emacstranssp (thing-at-point 'line))) ; Speech to pass to
     ad-do-it)) ; else call default emacspeak line handler 
 
 (defun latex-access-braille-off ()
@@ -169,6 +171,32 @@ sEnter the definition of the custom command, that is, the standard LaTex to whic
   (latex_access_emacspreprocessor-add input strargs
   translation)
   (message "Added string %s" input))
+
+(defun latex-access-speak (text)
+  "Convert the latex-access speech markup into text-properties on the string and then speak."
+  (let ((chunks (split-string text "[<>]")) ; elements of chunks with even index are latex and with odd index are speech commands.
+	(latex_chunks ())
+	(endpoints ())
+	(n 0)
+	(command)
+	(start)
+	(end))
+    
+    (dotimes (i (length chunks))
+      (if (= (% i 2) 0)
+	  (progn (push (nth i chunks) latex_chunks)
+		 (setq n (+ n (length (nth i chunks)))))
+	(push (list n (nth i chunks)) endpoints)))
+    (setq text  (apply 'concat (reverse latex_chunks)))
+    (setq endpoints (reverse endpoints))
+    (dotimes (i (/ (length endpoints) 2))
+      (setq command (nth 1 (nth (* i 2) endpoints)))
+      (setq start (nth 0 (nth (* i 2) endpoints)))
+      (setq end (nth 0 (nth (+ (* i 2)  1) endpoints)))
+      (put-text-property start end 'personality (nth 1 (assoc command latex-access-personality-alist)) text)))
+  
+  (dtk-speak text))
+
 
 (defun latex-access-dmsg (&optional brlsetchange
 						    &optional speechsetchange)
