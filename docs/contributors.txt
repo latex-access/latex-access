@@ -4,4 +4,4 @@ Alastair Irving <alastair.irving@sjc.ox.ac.uk> - Main developer
 Robin Williams <rmw205@exeter.ac.uk> - Extensive testing, feature suggestions and cleanup of the translation tables
 Daniel Dalton <daniel.dalton10@gmail.com> - Emacs support
 Nathaniel Schmidt <nathanieljsch@westnet.com.au> - NVDA Support 
-Stefan Moisei: romanian translation of speech table
+Stefan Moisei <vortex37@gmail.com> -  romanian translation of speech table
