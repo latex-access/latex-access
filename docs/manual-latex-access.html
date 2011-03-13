@@ -7,7 +7,7 @@
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <!-- html --> 
 <meta name="src" content="manual-latex-access.tex"> 
-<meta name="date" content="2011-03-12 13:08:00"> 
+<meta name="date" content="2011-03-13 17:06:00"> 
 <link rel="stylesheet" type="text/css" href="manual-latex-access.css"> 
 </head><body 
 >
@@ -40,7 +40,7 @@ class="cmr-12x-x-120">¿</span>
 <br />                      <span 
 class="cmr-12x-x-120">Stefan Moisei</span></div><br />
 <div class="date" ><span 
-class="cmr-12x-x-120">March 12, 2011</span></div>
+class="cmr-12x-x-120">March 13, 2011</span></div>
                                                                           
 
                                                                           
@@ -322,6 +322,16 @@ class="cmsy-10x-x-120">\</span>jaws<span
 class="cmsy-10x-x-120">\</span>%jaws version%<span 
 class="cmsy-10x-x-120">\</span>settings<span 
 class="cmsy-10x-x-120">\</span>enu<br 
+class="newline" />or<br 
+class="newline" />c:<span 
+class="cmsy-10x-x-120">\</span>Users<span 
+class="cmsy-10x-x-120">\</span>% username% <span 
+class="cmsy-10x-x-120">\</span>AppData<span 
+class="cmsy-10x-x-120">\</span>freedom scientific<span 
+class="cmsy-10x-x-120">\</span>jaws<span 
+class="cmsy-10x-x-120">\</span>%jaws version%<span 
+class="cmsy-10x-x-120">\</span>settings<span 
+class="cmsy-10x-x-120">\</span>enu<br 
 class="newline" />(This can be reached using the explore jaws submenu of the jaws menu
       in your start menu).
       </li>
@@ -338,7 +348,7 @@ class="newline" />you  should  hear  &#8220;latex_access  registered&#8221;.  No
       processor object by typing<br 
 class="newline" />&#8220;matrix_processor.py&#8221; You should hear a similar message. Exit the
       command prompt by typing exit.
-      <!--l. 234--><p class="noindent" >Note: the object here is to run the specified python files with python,
+      <!--l. 236--><p class="noindent" >Note: the object here is to run the specified python files with python,
       so the above will only work if python is the default program associated
       with .py files. If it is not then try python latex_access_com.py and if
       this fails then use the full path to your python installation, for example
@@ -347,15 +357,12 @@ class="newline" />c:<span
 class="cmsy-10x-x-120">\</span>python26<span 
 class="cmsy-10x-x-120">\</span>python.exe latex_access_com.py<br 
 class="newline" />then repeat with matrix_processor.py
-                                                                          
-
-                                                                          
       </li>
       <li 
   class="enumerate" id="x1-11018x9">Finally, open the confignames.ini file in your jaws scripts folder using a
       text editor such as notepad. After the line which reads [ConfigNames]
       enter a new line as described below.
-      <!--l. 247--><p class="noindent" >As many different applications can be used to read or write LaTeX,
+      <!--l. 249--><p class="noindent" >As many different applications can be used to read or write LaTeX,
       the scripts have a generic name latex.j**. Therefore, we use this file to
       add an alias, so that many different applications can be used without
       needing to change the name of each Jaws script to match the executable
@@ -366,7 +373,7 @@ class="newline" />then repeat with matrix_processor.py
       the confignames.ini file. The file will be found within the same file
       structure, within the all users (or something similar) directory, within
       the documents and settings directory.
-      <!--l. 259--><p class="noindent" >Note: with older versions of jaws you could just enter the lines at the
+      <!--l. 261--><p class="noindent" >Note: with older versions of jaws you could just enter the lines at the
       bottom of the file, but in more recent versions the .ini file contains more
       sections and the lines must be inserted in the [ConfigNames] section.
       </li>
@@ -376,49 +383,50 @@ class="newline" />then repeat with matrix_processor.py
       You should be able to navigate the document and listen to audible
       speech output, as well as reading the mathematical translation on the
       braille display.</li></ol>
-<!--l. 270--><p class="noindent" >
+<!--l. 272--><p class="noindent" >
    <h4 class="subsectionHead"><span class="titlemark">2.2.2   </span> <a 
  id="x1-120002.2.2"></a>Emacs/emacspeak</h4>
-<!--l. 273--><p class="noindent" >I assume you have downloaded or checked out the package from subversion. If not,
+<!--l. 275--><p class="noindent" >I assume you have downloaded or checked out the package from subversion. If not,
 please see section&#x00A0;<a 
 href="#x1-70002.1">2.1<!--tex4ht:ref: subchap-obtaining-source --></a>
-<!--l. 276--><p class="indent" >   Installing emacs/emacspeak support for latex-access.
-<!--l. 278--><p class="indent" >
+<!--l. 278--><p class="indent" >   Installing emacs/emacspeak support for latex-access.
+<!--l. 280--><p class="indent" >
       <ol  class="enumerate1" >
       <li 
   class="enumerate" id="x1-12002x1">
-           <ul class="itemize1">
-           <li class="itemize">A. Automated installation script. I have built an installation script
-           titled &#8220;setup.py&#8221; found in the emacs branch of this svn checkout.
                                                                           
 
                                                                           
-           <!--l. 285--><p class="noindent" >Invoking with no arguments will install to <img 
+           <ul class="itemize1">
+           <li class="itemize">A. Automated installation script. I have built an installation script
+           titled &#8220;setup.py&#8221; found in the emacs branch of this svn checkout.
+           <!--l. 287--><p class="noindent" >Invoking with no arguments will install to <img 
 src="manual-latex-access1x.png" alt="&#x02DC;
 /  "  class="tilde" >.emacs, otherwise if
            you know what your doing and use an init file somewhere else, feel
            free to invoke the script as follows:<br 
 class="newline" />python setup.py ¡path-to-init-file¿
-           <!--l. 290--><p class="noindent" >Most users who are happy with the default (<img 
+           <!--l. 292--><p class="noindent" >Most users who are happy with the default (<img 
 src="manual-latex-access2x.png" alt="&#x02DC;
 /  "  class="tilde" >.emacs), may just
            invoke the script as follows:<br 
 class="newline" />python setup.py
-           <!--l. 294--><p class="noindent" >You  may  as  well  say  yes  to  the  prompt  (y),  to  byte-compile
+           <!--l. 296--><p class="noindent" >You  may  as  well  say  yes  to  the  prompt  (y),  to  byte-compile
            emacs-latex-access... This should improve the speed slightly. If it
            fails or you do not want to byte compile the script can handle
            this fine. (It modifies your init file according to whether it could
            byte-compile or not.)
-           <!--l. 300--><p class="noindent" >Continue following the prompts until the script has finished.
+           <!--l. 302--><p class="noindent" >Continue following the prompts until the script has finished.
            </li>
            <li class="itemize">B. Manual installation. If you used the script, then skip to step
            2. Add the following to <img 
-src="manual-latex-access3x.png" alt="&#x02DC;/   "  class="tilde" >.emacs. Change /path/to/svnroot to
+src="manual-latex-access3x.png" alt="&#x02DC;
+/   "  class="tilde" >.emacs. Change /path/to/svnroot to
            the  actual  path  to  your  svn  local  checkout.  Eg.  the  directory
            containing the bulk of the *.py files and the general readme.txt
            file. Below lines should be appended to your .emacs.<br 
 class="newline" />
-           <!--l. 308--><p class="noindent" >; Emacs latex-access:<br 
+           <!--l. 310--><p class="noindent" >; Emacs latex-access:<br 
 class="newline" />(setq latex-access-path &#8221;/path/to/svnroot&#8221;)<br 
 class="newline" />(load (concat latex-access-path &#8221;/emacs/emacs-latex-access.el&#8221;))<br 
 class="newline" />(add-hook &#8217;LaTeX-mode-hook &#8217;latex-access-speech-on) ; comment
@@ -427,19 +435,19 @@ class="newline" />(add-hook &#8217;LaTeX-mode-hook &#8217;latex-access-braille-o
            if you don&#8217;t have Braille <br 
 class="newline" />; End emacs Latex-access.<br 
 class="newline" />
-           <!--l. 315--><p class="noindent" >Note: Keep this structure if you wish to have the uninstall script
+           <!--l. 317--><p class="noindent" >Note: Keep this structure if you wish to have the uninstall script
            work with this installation.
-           <!--l. 318--><p class="noindent" >See the comments if you don&#8217;t have Braille or emacspeak present.
-           <!--l. 320--><p class="noindent" >If you wish to use a byte-compiled file, for improved speed, replace
+           <!--l. 320--><p class="noindent" >See the comments if you don&#8217;t have Braille or emacspeak present.
+           <!--l. 322--><p class="noindent" >If you wish to use a byte-compiled file, for improved speed, replace
            .el with .elc in the line:<br 
 class="newline" />(load (concat latex-access-path &#8221;/emacs/emacs-latex-access.el&#8221;))<br 
 class="newline" />
-           <!--l. 324--><p class="noindent" >To byte-compile the emacs-latex-access.el file, do:<br 
-class="newline" />emacs -batch -f batch-byte-compile emacs-latex-access.el<br 
-class="newline" />(From the emacs branch of the svn checkout)</li></ul>
                                                                           
 
                                                                           
+           <!--l. 326--><p class="noindent" >To byte-compile the emacs-latex-access.el file, do:<br 
+class="newline" />emacs -batch -f batch-byte-compile emacs-latex-access.el<br 
+class="newline" />(From the emacs branch of the svn checkout)</li></ul>
       </li>
       <li 
   class="enumerate" id="x1-12004x2">Append to the PYTHONPATH environment variable the directory
@@ -472,16 +480,16 @@ class="newline" />(setq latex-access-linesabove 1)<br
 class="newline" />This would Braille the current line and the one above, change 1
            to whatever setting you desire. 0 is just the current line.</li></ul>
       </li></ol>
-<!--l. 356--><p class="noindent" >
+<!--l. 358--><p class="noindent" >
    <h4 class="subsectionHead"><span class="titlemark">2.2.3   </span> <a 
  id="x1-130002.2.3"></a>NVDA</h4>
-<!--l. 359--><p class="noindent" >
-   <h5 class="subsubsectionHead"><a 
- id="x1-140002.2.3"></a>Requirements</h5>
-<!--l. 361--><p class="noindent" >To use this plugin, you will need to install the following software/libraries:
                                                                           
 
                                                                           
+<!--l. 361--><p class="noindent" >
+   <h5 class="subsubsectionHead"><a 
+ id="x1-140002.2.3"></a>Requirements</h5>
+<!--l. 363--><p class="noindent" >To use this plugin, you will need to install the following software/libraries:
       <ul class="itemize1">
       <li class="itemize">NVDA, version 2011.1 or later. The NVDA website can be found at
       <a 
@@ -505,13 +513,13 @@ class="cmtt-12">http://sourceforge.net/projects/pywin32/</span></a>.  This  pack
       see section&#x00A0;<a 
 href="#x1-70002.1">2.1<!--tex4ht:ref: subchap-obtaining-source --></a>. (and be sure to remember which directory you checked
       out to)</li></ul>
-<!--l. 379--><p class="noindent" >
+<!--l. 381--><p class="noindent" >
    <h5 class="subsubsectionHead"><a 
  id="x1-150002.2.3"></a>Registering the COM object and installing the globalPlugin.</h5>
-<!--l. 381--><p class="noindent" >Assuming you have followed the steps above and installed everything you need,
+<!--l. 383--><p class="noindent" >Assuming you have followed the steps above and installed everything you need,
 you can install the plugin and register the COM object by doing the
 following:
-<!--l. 383--><p class="indent" >   For registering the COM object:
+<!--l. 385--><p class="indent" >   For registering the COM object:
       <ul class="itemize1">
       <li class="itemize">Type windows and r to go into the run dialog, then type cmd and press
       enter.
@@ -521,12 +529,12 @@ following:
 class="newline" />cd C:<span 
 class="cmsy-10x-x-120">\</span>latex-access<span 
 class="cmsy-10x-x-120">\</span>
-      </li>
-      <li class="itemize">to register the COM object for latex-access translation, type:<br 
-class="newline" />latex_access_COM.py
                                                                           
 
                                                                           
+      </li>
+      <li class="itemize">to register the COM object for latex-access translation, type:<br 
+class="newline" />latex_access_COM.py
       </li>
       <li class="itemize">To register the matrix, type:<br 
 class="newline" />matrix_processor.py<br 
@@ -549,7 +557,7 @@ class="cmsy-10x-x-120">\</span>python.exe latex_access_COM.py<br
 class="newline" />then repeat with matrix_processor.py.
       </li>
       <li class="itemize">type &#8220;exit&#8221; (without the quotes) in your currently open cmd shell.</li></ul>
-<!--l. 404--><p class="noindent" >
+<!--l. 406--><p class="noindent" >
    <h5 class="subsubsectionHead"><a 
  id="x1-160002.2.3"></a>To install the plugin</h5>
       <ul class="itemize1">
@@ -561,11 +569,11 @@ class="newline" />then repeat with matrix_processor.py.
       will be recognised by NVDA. Depending on your distribution/installation,
       the globalPlugins directory will be in one of the following places by
       default:
-           <ul class="itemize2">
-           <li class="itemize">Installed version of NVDA:
                                                                           
 
                                                                           
+           <ul class="itemize2">
+           <li class="itemize">Installed version of NVDA:
                <ul class="itemize3">
                <li class="itemize">For Windows XP:<br 
 class="newline" />C:<span 
