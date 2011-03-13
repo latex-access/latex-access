@@ -1,5 +1,19 @@
-;  latex-access scripts by Alastair Irving  ( alastairirving19@hotmail.com)
+; latex.jss
+;    A part of the latex-access project at http://latex-access.sourceforge.net/
+;    Author: Alastair Irving <alastair.irving@sjc.ox.ac.uk>
+;    Copyright (C) 2011 Alastair Irving/latex-access Contributors
 ;
+;    This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation;
+;    either version 2 of the License, or (at your option) any later version.
+;
+;    This program is distributed in the hope that it will be useful,
+;    but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+;    See the GNU General Public License for more details.
+;
+;    You should have received a copy of the GNU General Public License along with this program; if not, visit <http://www.gnu.org/licenses>
+;
+
+
 ; Documentation by:  Jose Tamayo( jtblas@hotmail.com)
 ;
 ; history of changes 
@@ -26,7 +40,6 @@ int column
 Void Function AutoStartEvent ()
 if !initialised then
 
-; JT: consider creating a constant for the latex_access object and then reference the constant instead. - done 2/25/2010
 let latex_access=CreateObject (o_latexAccess)
 let initialised=true
 endif
@@ -58,11 +71,9 @@ EndFunction
 Script ToggleMaths ()
 if ProcessMaths then
 let ProcessMaths = false
-; JT : the following text content must be placed in a JSM file for consistency. - Done.
 SayMessage (ot_status, msgProcessingOff_L, msgProcessingOff_S)
 else
 let ProcessMaths = true
-; JT:  The string literal must also be placed in the latex.jsm file for better manageability.
 SayMessage(OT_STATUS,msgProcessingOn_L,msgProcessingOn_S)
 endif
 
@@ -72,19 +83,15 @@ Script ToggleDollarsNemeth ()
 var int result 
 let result=latex_access.toggle_dollars_nemeth()
 if result==-1 then 
-; JT:  Message to be placed in the JSM file for better manageability. - Done.
 SayMessage (ot_status, msgNemethDollarsOff_L, msgNemethDollarsOff_S)
 else
-; JT :  This is another message that must be placed in the latex.jsm file - Done.
 SayMessage (ot_status, msgNemethDollarsOn_L, msgNemethDollarsOn_S)
-
 endif
 EndScript
 
 Script ToggleDollarsSpeech ()
 var int result 
 let result=latex_access.toggle_dollars_speech()
-; JT:  Two more messages that must be placed in the latex.jsm file. - Done.
 if result==-1 then 
 SayMessage (ot_status, msgSpeechDollarsOff_L, msgSpeechDollarsOff_S)
 else
@@ -108,7 +115,6 @@ return true
 EndFunction
 
 Script InputMatrix ()
-; JT:  Place the object in a constant so that it can be more manageable - done
 let matrix=CreateObject (o_latex_access_matrix)
 let row=1
 let column=1
@@ -117,10 +123,8 @@ matrix.tex_init(GetSelectedText ())
 var string msg
 let msg ="Initialised "
 let msg=msg+inttostring(matrix.rows)
-; JT: another literal that must be replaced.  - Done February 21, 2011
 let msg=msg+sPadBy
 let msg=msg+inttostring(matrix.columns)
-; JT:  another literal to be placed in latex.jsm  - Done February 21, 2011
 let msg=msg +sPadMatrix
 SayString(msg)
 EndScript
@@ -140,7 +144,6 @@ if column < matrix.columns then
 let column = column+1
 saystring(matrix.get_cell(row,column))
 else
-; JT:  another literal to be placed in the latex.jsm file. - Done February 21, 2011
 saystring(sEndRow)
 endif
 EndScript
@@ -150,7 +153,6 @@ if column > 1 then
 let column = column - 1
 saystring(matrix.get_cell(row,column))
 else
-; JT:  Another literal to be placed in latex.jsm 
 saystring(sStartRow)
 endif
 EndScript
@@ -160,7 +162,6 @@ if row < matrix.rows then
 let row = row+1
 saystring(matrix.get_cell(row,column))
 else
-; JT:  another literal to add to latex.jsm 
 saystring(sEndColumn)
 endif
 EndScript
@@ -170,7 +171,6 @@ if row > 1 then
 let row = row - 1
 saystring(matrix.get_cell(row,column))
 else
-; JT:  another latex.jsm literal to be added. - done February 21, 2011
 SayString(sStartColumn)
 endif
 EndScript
@@ -180,7 +180,6 @@ Script SayRow (int i)
 if i>0 && i <= matrix.rows then 
 saystring(matrix.get_row(i," "))
 else 
-; another literal to be moved to latex.jsm - done February 21, 2011
 saystring(sInvalidRow)
 endif
 EndScript
@@ -189,14 +188,12 @@ Script SayColumn (int i)
 if i>0 && i <=matrix.columns then
 saystring(matrix.get_col(i," "))
 else
-; JT: literal that must be moved to the latex.jsm file 
 saystring(sInvalidColumn)
 endif
 EndScript
 
 Script preprocessorAdd ()
 var string input, int args, string strargs, string translation
-; JT:  Move this literal to the latex.jsm file.
 if InputBox (sCommandToRedefine, "Initial LaTeX", input) then 
 if InputBox (sEnterCommandArguments, "Number of arguments", strargs) then 
 if InputBox (sEnterCustomCommandDef, "Translation", translation) then 
@@ -218,11 +215,9 @@ EndScript
 
 Script PreprocessorWrite ()
 var string filename
-; JT:  another prompt to be moved to latex.jsm - done February 21, 2011
 if InputBox (sEnterFileToSaveTo , "Filename", filename) then 
 if FileExists (filename) then 
 var int result
-; JT:  literal string to be moved to latex.jsm  - done February 21, 2011
 let result=ExMessageBox (sFileExistError , sFileExistTitle , MB_YESNO)
 if result==IDNO then 
 return 
@@ -240,7 +235,6 @@ if InputBox ("enter full filename to read from ", "Filename", filename) then
 if FileExists (filename) then 
 latex_access.preprocessor_read(filename)
 else
-; JT: move this literal to the latex.jsm file too.
 MessageBox (sFileNoExist )
 endif
 endif
