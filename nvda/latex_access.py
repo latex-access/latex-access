@@ -14,68 +14,137 @@
 #
 #    You should have received a copy of the GNU General Public License along with this program; if not, visit <http://www.gnu.org/licenses>
 
-"""A global plugin for NVDA to provide optional translations of LaTeX math into nemeth braille and speech that is easier to understand, by way of latex-access.  See readme.txt for more information.
+"""
+A global plugin for NVDA to provide optional translations of LaTeX math into nemeth braille and speech that is easier to understand, by way of latex-access.  See readme.txt for more information.
 
 Features:
 	* Translating lines of LaTeX into nemeth braille and speech: under development.
 	* matrix browser for reading larger matrices: not completed.
-	* The preprocessor (support for custom defined LaTeX commands): not completed."""
+	* The preprocessor (support for custom defined LaTeX commands): not completed.
+"""
 
 from comtypes.client import CreateObject
 
 import api
 import braille, speech# for brailling/speaking messages in NVDA
+import controlTypes
+# import editableText
 import globalPluginHandler
-import textInfos# to get information such as the current line.
+import NVDAObjects
+import textInfos# to get information such as caret position and the current line.
+#The next imports are needed for the code copied from EditableText
+from scriptHandler import isScriptWaiting
+import config
 
-class GlobalPlugin (globalPluginHandler.GlobalPlugin):
-	"""main class for the global plugin, in which all key bindings/scripts and NVDA events are handled."""
+class EditableText (NVDAObjects.behaviors.EditableText):
+	# also tried c{class EditableText (editableText.EditableText):}
+	"""
+	Provides latex-access support, but makes sure this is only in edit controls.
+	
+	This class is instantiated when NVDA enters accessible Editable text, and provides the user with all the events, scripts and gestures needed to use this plugin.
+	
+	See the l{__gestures} dict for all the key bindings that this plugin uses.  Some may also be found in the l{GlobalPlugin} class.
+	
+	Any method beginning with event_* is an NVDA event which gets fired on other system events.
+	
+	Any method that begins with script_* will get executed when the required key is pressed, button on the mouse is clicked, etc.
+	"""
 
-	def __init__ (self):
-		"""Constructor. Here we initialise what we need: we create the latex_access com object.  We interface with the matrix later."""
+	processMaths=False
+	latex_access = CreateObject ("latex_access")	
 
-		super (GlobalPlugin, self).__init__ ()
-		self.processMaths = False
-		self.latex_access = CreateObject ("latex_access")
-
-	def script_reportCurrentLine (self, gesture):
-		"""This script reports the line that the current navigator object is focused on, and speaks/brailles it appropriately depending on the state of self.processMaths."""
-
-		if self.processMaths:
-			spokenLine = self.GetLine ()
-			brailledLine = self.GetLine ()
+	def _caretScriptPostMovedHelper(self, speakUnit):
+		if isScriptWaiting():
+			return
+		try:
+			info = self.makeTextInfo(textInfos.POSITION_CARET)
+		except:
+			return
+		if config.conf["reviewCursor"]["followCaret"] and api.getNavigatorObject() is self:
+			api.setReviewPosition(info.copy())
+		if speakUnit==textInfos.UNIT_LINE and EditableText.processMaths:
+			spokenLine = GetLine ()
+			brailledLine = GetLine ()
 			if not spokenLine and not brailledLine:# Is it a blank line?
 				spokenLine = _("blank")
-				brailledLine = _("blank")
+				brailledLine = _("")
 			else:
-				spokenLine = self.latex_access.speech (spokenLine)
-				brailledLine = self.latex_access.nemeth (brailledLine)
+				spokenLine = EditableText.latex_access.speech (spokenLine)
+				brailledLine = EditableText.latex_access.nemeth (brailledLine)
+			speech.speakMessage (spokenLine)
+			braille.handler.message (brailledLine)
+		else:
+			if speakUnit:
+				info.expand(speakUnit)
+				speech.speakTextInfo(info, unit=speakUnit, reason=speech.REASON_CARET)
+
+
+
+	def script_reportCurrentLine (self, gesture):
+		"""
+		This script reports the line that the current navigator object is focused on, and speaks/brailles it appropriately depending on the state of l{self.processMaths}.
+		@param gesture: the gesture to be passed through to NVDA (in this case, a keypress).
+		@type gesture: l{inputCore.InputGesture}.
+		"""
+
+		if EditableText.processMaths:
+			spokenLine = GetLine ()
+			brailledLine = GetLine ()
+			if not spokenLine and not brailledLine:# Is it a blank line?
+				spokenLine = _("blank")
+				brailledLine = _("")
+			else:
+				spokenLine = EditableText.latex_access.speech (spokenLine)
+				brailledLine = EditableText.latex_access.nemeth (brailledLine)
 			speech.speakMessage (spokenLine)
 			braille.handler.message (brailledLine)
 
 		else:
-			self.SayLine ()
+			SayLine ()
 
-	script_reportCurrentLine.__doc__ = _("If latex-access translation is on, Translates the current line into nemeth braille and speech.  If translation is turned off, the current line is spoken as normal.")
+	script_reportCurrentLine.__doc__ = _("If latex-access translation is on, Translates the current line into nemeth braille and speech.  If translation is turned off, the current line is spoken as normal.  If this keystroke is pressed twice, the current line is spellt out.")
 
 	def script_toggleMaths (self, Gesture):
 		"""A script to toggle the latex-access translation on or off.
 		@param gesture: the gesture to be past through to NVDA (in this case, a keypress).
-		@type gesture: keypress.
+		@type gesture: l{inputCore.InputGesture}.
 		"""
 
-		if self.processMaths:# is translation on?
-			self.processMaths = False
+		if EditableText.processMaths:# is translation on?
+			EditableText.processMaths = False
 			speech.speakMessage (_("Maths to be read as plain latex"))
 		else:
-			self.processMaths = True
+			EditableText.processMaths = True# translation was off.
 			speech.speakMessage (_("Maths to be processed to a more verbal form"))
 
 	script_toggleMaths.__doc__ = _("Toggles the speaking of mathematical expressions as either straight latex or a more verbal rendering.")
 
-# Useful methods:
+	# For the input gestures:
+	__gestures = {
+		"kb:control+M": "toggleMaths",
+		"kb:NVDA+upArrow": "reportCurrentLine",
+	}
 
-	def GetLine (self):
+class GlobalPlugin (globalPluginHandler.GlobalPlugin):
+	"""
+	main class for the global plugin, in which some key bindings/scripts and NVDA events may be handled, however most of these (for this globalPlugin at least) should be in l{EditableText}.
+	"""
+
+	def chooseNVDAObjectOverlayClasses (self, obj, clsList):
+		"""
+		This is for the l{EditableText} object overlay class.
+		"""
+
+		windowClassName = obj.windowClassName
+		if windowClassName == "Edit":
+			clsList.insert (0, EditableText)
+
+	# For the key bindings:
+	__gestures = {
+	}
+
+# Useful functions:
+def GetLine ():
 		"""Retrieves the line of text that the current navigator object is focussed on, then returns it."""
 		obj = api.getFocusObject()
 		treeInterceptor = obj.treeInterceptor
@@ -89,16 +158,10 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 		currentLine = info.text
 		return currentLine
 
-	def SayLine (self):
+def SayLine ():
 		"""This function says the current line without any translation.  This is necessary so that we can return to NVDA's default behaviour when LaTeX translation is toggled off."""
-		speech.speakMessage (self.GetLine())
+		speech.speakMessage (GetLine())
 
-	def BrailleLine (self):
+def BrailleLine ():
 		"""Brailles the current line.  This again is necessary so that we can return to NVDA's default behaviour."""
-		braille.handler.message (self.GetLine())
-
-	# For the key bindings:
-	__gestures = {
-		"kb:control+M": "toggleMaths",
-		"kb:NVDA+upArrow": "reportCurrentLine",
-	}
+		braille.handler.message (GetLine())
