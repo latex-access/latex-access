@@ -2,12 +2,3 @@ The following is a list of buggs found in the latex_access GlobalPlugin
 for NVDA.  Feel free to add more as they arise, and remove ones that are
 fixed.
 
-	* Repetitive speech: Because NVDA's default
-behaviour is not being overidden, the current line is being spoken as
-normal, and then the plugin is causing that same line to be spoken again,
-whether translation is on or off.  Also the
-line is being spoken whenever the user moves by character and word,
-not just by line.  Also the GetLine method
-in the GlobalPlugin class does not honour any config settings
-in NVDA such as speakTypedCharacters and SpeakTypedWords.
-I need to find a way around this soon.
