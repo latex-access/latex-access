@@ -1,6 +1,6 @@
 The latex-access GlobalPlugin for NVDA.
 Nathaniel Schmidt
-Monday, 7th March 2011
+Thursday, 17th March 2011
 
 
 %!Target: html
@@ -99,10 +99,7 @@ DirectoryOfArchive/distribution\userConfig\globalPlugins\
 '''
 
 +Toggling translation on and off.+[toggle]
-To turn translation on, press ctrl and M.  You should be able to here the translation of LaTeX mathematics via speech output.  To turn the translation off, press ctrl and M again.  You should then be able to navigate the document as normal.
-
-++A note about edit fields++[edit]
-This keystroke should only work if you are in an edit field, and one that has accessible text enabled at that.  You will get errors if you try to use the latex_access global plugin in edit fields that are not native controls.  I'm afraid that's just the way windows works.  I know for a fact that notepad works with the plugin quite well, but in and editor such as EdSharp it does not.
+To turn translation on, press ctrl+M.  You should be able to here the translation of LaTeX mathematics via speech output.  To turn the translation off, press ctrl+M again.  You should then be able to navigate the document as normal.
 
 +Toggling of dollar signs.+[dollar]
 
