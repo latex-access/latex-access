@@ -26,24 +26,21 @@ Features:
 from comtypes.client import CreateObject
 
 import api
-import braille, speech# for brailling/speaking messages in NVDA
-import controlTypes
-# import editableText
+import braille, speech, ui# for brailling/speaking messages in NVDA
 import globalPluginHandler
 import NVDAObjects
 import textInfos# to get information such as caret position and the current line.
-#The next imports are needed for the code copied from EditableText
+# The next imports are needed for the code copied from EditableText
 from scriptHandler import isScriptWaiting
 import config
 
 class EditableText (NVDAObjects.behaviors.EditableText):
-	# also tried c{class EditableText (editableText.EditableText):}
 	"""
 	Provides latex-access support, but makes sure this is only in edit controls.
 	
-	This class is instantiated when NVDA enters accessible Editable text, and provides the user with all the events, scripts and gestures needed to use this plugin.
+	This NVDAObject overlay class is used when NVDA enters accessible Editable text, and provides the user with all the events, scripts and gestures needed to use this plugin.
 	
-	See the l{__gestures} dict for all the key bindings that this plugin uses.  Some may also be found in the l{GlobalPlugin} class.
+	See the l{__gestures} dict for all the key bindings that this plugin uses.  Some may also be found in the l{GlobalPlugin} class, in the same dict.
 	
 	Any method beginning with event_* is an NVDA event which gets fired on other system events.
 	
@@ -78,8 +75,6 @@ class EditableText (NVDAObjects.behaviors.EditableText):
 				info.expand(speakUnit)
 				speech.speakTextInfo(info, unit=speakUnit, reason=speech.REASON_CARET)
 
-
-
 	def script_reportCurrentLine (self, gesture):
 		"""
 		This script reports the line that the current navigator object is focused on, and speaks/brailles it appropriately depending on the state of l{self.processMaths}.
@@ -112,10 +107,10 @@ class EditableText (NVDAObjects.behaviors.EditableText):
 
 		if EditableText.processMaths:# is translation on?
 			EditableText.processMaths = False
-			speech.speakMessage (_("Maths to be read as plain latex"))
+			ui.message (_("Maths to be read as plain latex"))
 		else:
 			EditableText.processMaths = True# translation was off.
-			speech.speakMessage (_("Maths to be processed to a more verbal form"))
+			ui.message (_("Maths to be processed to a more verbal form"))
 
 	script_toggleMaths.__doc__ = _("Toggles the speaking of mathematical expressions as either straight latex or a more verbal rendering.")
 
