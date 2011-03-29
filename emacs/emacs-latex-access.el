@@ -38,8 +38,18 @@ the current line, 1 for the current line as well as the line above etc.") ; Set 
 (setq latex-access-braille nil) ; initial global value 
 (setq latex-access-speech-initial nil) ; Used by the dmsg function
 (setq latex-access-braille-initial nil) ; Used by the dmsg function
-(setq latex-access-personality-alist (list (list "bold" voice-bolden)
-(list "mathcal" voice-animate)))
+
+; Voice definitions, customize these by customizing the <voice_name>-settings variable.
+(defvoice latex-access-voice-bold (list nil 1 6 6  nil)
+"Voice used for bold commands")
+(defvoice latex-access-voice-subscript (list nil 3 nil nil nil)
+"Voice used for subscripts")
+(defvoice latex-access-voice-mathcal (list nil 9  nil nil  nil)
+"Voice used for mathcal commands")
+
+(setq latex-access-personality-alist (list (list "bold" 'latex-access-voice-bold)
+(list "mathcal" 'latex-access-voice-mathcal)
+(list "sub" 'latex-access-voice-subscript)))
 
 ; latex-access advice 
 ; Advise emacspeak to speak the latex-access (nicely spoken
