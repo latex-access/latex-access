@@ -31,3 +31,4 @@ Control+Shift+W=PreprocessorWrite
 Control+Shift+H=PreprocessorFromString
 Insert+H=HotKeyHelp
 JAWSKey+H=HotKeyHelp
+Control+Alt+Shift+R=reInitialise
