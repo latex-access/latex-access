@@ -45,6 +45,12 @@ let initialised=true
 endif
 EndFunction
 
+
+Script reInitialise ()
+let latex_access=CreateObject (o_latexAccess)
+EndScript
+
+
 Void Function SayLine ()
 if  ProcessMaths then
 var string input

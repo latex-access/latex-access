@@ -1,5 +1,9 @@
 :function AutoStartEvent
 
+:script reInitialise
+:Synopsis Loads the COM object again.
+:Description Run this if there is no speech or Braille.
+
 :function SayLine
 :Synopsis An overidden version of the default, which processes maths before it is spoken.
 
