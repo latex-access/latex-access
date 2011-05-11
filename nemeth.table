@@ -7,6 +7,44 @@
 <  "k 
 =  .k 
 >  .1 
+<<<<<<< .mine
+\wedge *
+\times *
+\sum .s
+\rightarrow  33o
+\longrightarrow  333o
+\right 
+\left 
+
+\ldots '''
+\le  "k.k 
+\leq  "k.k 
+\geq  .1.k 
+\ge  .1.k 
+\equiv  _l 
+\dots '''
+\circ _*
+\cdots '''
+\cdot _*
+\Rightarrow  33o
+\rightarrow  33o
+\Leftrightarrow  {33o 
+\leftrightarrow  {33o
+\sum .s
+\prod _p
+\pm +-
+\mp -+
+\neq  ./k 
+\ne  ./k 
+\log log 
+\leftarrow  {33
+\Leftarrow  {33
+
+
+
+
+; general latex
+=======
 \wedge *
 \times *
 \sum .s
@@ -43,9 +81,11 @@
 
 
 ; general latex
+>>>>>>> .r202
 \, 
 \:  
 \;  
+\!  
 \quad   
 \qquad   
 \qquad   
@@ -100,12 +140,14 @@
 \Nu  _n
 \Mu  _m
 \Zeta  _z
-\Cappa  _k
+\Kappa  _k
+\Chi  _c
 \Rho  _r
 
 ; small greek
 \alpha .a
 \beta .b
+\chi .c
 \delta .d
 \epsilon .e
 \eta .h
