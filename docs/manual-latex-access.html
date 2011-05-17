@@ -7,7 +7,7 @@
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
 <!-- html --> 
 <meta name="src" content="manual-latex-access.tex"> 
-<meta name="date" content="2011-03-14 09:31:00"> 
+<meta name="date" content="2011-05-17 11:47:00"> 
 <link rel="stylesheet" type="text/css" href="manual-latex-access.css"> 
 </head><body 
 >
@@ -43,7 +43,7 @@ href="mailto:vortex37@gmail.com" ><span
 class="cmr-12x-x-120">vortex37@gmail.com</span></a><span 
 class="cmr-12x-x-120">¿</span></div><br />
 <div class="date" ><span 
-class="cmr-12x-x-120">March 14, 2011</span></div>
+class="cmr-12x-x-120">May 17, 2011</span></div>
                                                                           
 
                                                                           
@@ -78,21 +78,21 @@ href="#x1-120002.2.2" id="QQ2-1-12">Emacs/emacspeak</a></span>
 <br />   &#x00A0;&#x00A0;<span class="subsectionToc" >2.2.3 <a 
 href="#x1-130002.2.3" id="QQ2-1-13">NVDA</a></span>
 <br />   <span class="chapterToc" >3 <a 
-href="#x1-170003" id="QQ2-1-17">General usage</a></span>
+href="#x1-180003" id="QQ2-1-18">General usage</a></span>
 <br />   <span class="chapterToc" >4 <a 
-href="#x1-180004" id="QQ2-1-18">More advance usage</a></span>
+href="#x1-190004" id="QQ2-1-19">More advance usage</a></span>
 <br />   <span class="chapterToc" >5 <a 
-href="#x1-190005" id="QQ2-1-19">Extra components</a></span>
+href="#x1-200005" id="QQ2-1-20">Extra components</a></span>
 <br />   <span class="chapterToc" >6 <a 
-href="#x1-200006" id="QQ2-1-20">For developers</a></span>
+href="#x1-210006" id="QQ2-1-21">For developers</a></span>
 <br />   <span class="appendixToc" >A <a 
-href="#x1-21000A" id="QQ2-1-21">Jaws &#8211; default key bindings</a></span>
+href="#x1-22000A" id="QQ2-1-22">Jaws &#8211; default key bindings</a></span>
 <br />   <span class="appendixToc" >B <a 
-href="#x1-22000B" id="QQ2-1-22">NVDA &#8211; default bindings</a></span>
+href="#x1-23000B" id="QQ2-1-23">NVDA &#8211; default bindings</a></span>
 <br />   <span class="appendixToc" >C <a 
-href="#x1-23000C" id="QQ2-1-23">Emacs &#8211; functions and bindings</a></span>
+href="#x1-24000C" id="QQ2-1-24">Emacs &#8211; functions and bindings</a></span>
 <br />   <span class="appendixToc" >D <a 
-href="#x1-24000D" id="QQ2-1-24">Future features</a></span>
+href="#x1-25000D" id="QQ2-1-25">Future features</a></span>
    </div>
 <!--l. 13--><p class="indent" >   Latex-access &#8211; provides a blind person with a more efficient means of
 interacting with LaTeX for mathematical and scientific documents.
@@ -524,10 +524,10 @@ you can install the plugin and register the COM object by doing the
 following:
 <!--l. 385--><p class="indent" >   For registering the COM object:
       <ul class="itemize1">
-      <li class="itemize">Type windows and r to go into the run dialog, then type cmd and press
+      <li class="itemize">Type windows+r to go into the run dialog, then type cmd and press
       enter.
       </li>
-      <li class="itemize">type &#8221;cd&#8221;, then type in the location where you installed the latex-access
+      <li class="itemize">type &#8220;cd&#8221;, then type in the location where you installed the latex-access
       scripts. E.G.<br 
 class="newline" />cd C:<span 
 class="cmsy-10x-x-120">\</span>latex-access<span 
@@ -565,8 +565,8 @@ class="newline" />then repeat with matrix_processor.py.
  id="x1-160002.2.3"></a>To install the plugin</h5>
       <ul class="itemize1">
       <li class="itemize">Go  to  the  nvda  subdirectory  in  the  latex-access  folder,  select
-      latex_access.py  and  copy  it,  either  by  pressing  ctrl  and  C  or  right
-      clicking on it and choosing &#8220;copy.&#8221;
+      latex_access.py and copy it, either by pressing ctrl+C or right clicking
+      on it and choosing &#8220;copy.&#8221;
       </li>
       <li class="itemize">Now you need to paste this file in the appropriate folder so that the plugin
       will be recognised by NVDA. Depending on your distribution/installation,
@@ -603,57 +603,67 @@ class="cmsy-10x-x-120">\</span>userConfig<span
 class="cmsy-10x-x-120">\</span>globalPlugins<span 
 class="cmsy-10x-x-120">\</span></li></ul>
       </li>
-      <li class="itemize">Once latex_access.py is pasted, launch NVDa by what ever means
+      <li class="itemize">Once latex_access.py is pasted, launch NVDA by what ever means
       possible, and if the error sound doesn&#8217;t play, everything should go
       smoothly.</li></ul>
+<!--l. 425--><p class="noindent" >
+   <h5 class="subsubsectionHead"><a 
+ id="x1-170002.2.3"></a>A note about edit fields:</h5>
+<!--l. 427--><p class="noindent" >If you use a keystroke such as ctrl+m, it will only work if you are in an edit
+field, and one that has accessible text enabled at that. You will either get
+errors, or a different response from an application if you try to use the
+latex_access global plugin in edit fields that are not native controls. I&#8217;m
+afraid that&#8217;s just the way windows works. I know for a fact that notepad
+works with the plugin quite well, but in an editor such as EdSharp it does
+not.
                                                                           
 
                                                                           
    <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;3</span><br /><a 
- id="x1-170003"></a>General usage</h2>
+ id="x1-180003"></a>General usage</h2>
                                                                           
 
                                                                           
    <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;4</span><br /><a 
- id="x1-180004"></a>More advance usage</h2>
+ id="x1-190004"></a>More advance usage</h2>
                                                                           
 
                                                                           
    <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;5</span><br /><a 
- id="x1-190005"></a>Extra components</h2>
+ id="x1-200005"></a>Extra components</h2>
                                                                           
 
                                                                           
    <h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;6</span><br /><a 
- id="x1-200006"></a>For developers</h2>
+ id="x1-210006"></a>For developers</h2>
                                                                           
 
                                                                           
 <a 
- id="x1-20001r20"></a>
+ id="x1-21001r21"></a>
    <h2 class="appendixHead"><span class="titlemark">Appendix&#x00A0;A</span><br /><a 
- id="x1-21000A"></a>Jaws &#8211; default key bindings</h2>
+ id="x1-22000A"></a>Jaws &#8211; default key bindings</h2>
                                                                           
 
                                                                           
 <a 
- id="x1-21001r20"></a>
+ id="x1-22001r21"></a>
    <h2 class="appendixHead"><span class="titlemark">Appendix&#x00A0;B</span><br /><a 
- id="x1-22000B"></a>NVDA &#8211; default bindings</h2>
+ id="x1-23000B"></a>NVDA &#8211; default bindings</h2>
                                                                           
 
                                                                           
 <a 
- id="x1-22001r20"></a>
+ id="x1-23001r21"></a>
    <h2 class="appendixHead"><span class="titlemark">Appendix&#x00A0;C</span><br /><a 
- id="x1-23000C"></a>Emacs &#8211; functions and bindings</h2>
+ id="x1-24000C"></a>Emacs &#8211; functions and bindings</h2>
                                                                           
 
                                                                           
 <a 
- id="x1-23001r20"></a>
+ id="x1-24001r21"></a>
    <h2 class="appendixHead"><span class="titlemark">Appendix&#x00A0;D</span><br /><a 
- id="x1-24000D"></a>Future features</h2>
+ id="x1-25000D"></a>Future features</h2>
     
 </body></html> 
 

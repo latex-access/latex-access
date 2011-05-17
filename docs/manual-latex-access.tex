@@ -385,7 +385,7 @@ Assuming you have followed the steps above and installed everything you need, yo
 For registering the COM object:
 
 \begin{itemize}
-\item Type windows and r to go into the run dialog, then type cmd and press enter.
+\item Type windows+r to go into the run dialog, then type cmd and press enter.
 \item type ``cd'', then type in the location where you installed the latex-access scripts.  E.G.\\
 \mbox{cd C:\textbackslash latex-access\textbackslash}
 \item to register the COM object for latex-access translation, type:\\
@@ -406,7 +406,7 @@ then repeat with matrix\_processor.py.
 \subsubsection{To install the plugin}
 
 \begin{itemize}
-\item Go to the nvda subdirectory in the latex-access folder, select latex\_access.py and copy it, either by pressing ctrl and C or right clicking on it and choosing ``copy.''
+\item Go to the nvda subdirectory in the latex-access folder, select latex\_access.py and copy it, either by pressing ctrl+C or right clicking on it and choosing ``copy.''
 \item Now you need to paste this file in the appropriate folder so that the plugin will be recognised by NVDA.  Depending on your distribution/installation, the globalPlugins directory will be in one of the following places by default:
 \begin{itemize}
 \item Installed version of NVDA:
@@ -421,6 +421,18 @@ then repeat with matrix\_processor.py.
 \end{itemize}
 \item Once latex\_access.py is pasted, launch NVDA by what ever means possible, and if the error sound doesn't play, everything should go smoothly.
 \end{itemize}
+
+\subsubsection{A note about edit fields:}
+
+If you use a  keystroke such as ctrl+m, it 
+will only work if you are in an edit field, and one 
+that has accessible text enabled at that. You 
+will either get errors, or a different response from 
+an application if you try to use the latex\_access global plugin 
+in edit fields that are not native controls. I'm 
+afraid that's just the way windows works. I know 
+for a fact that notepad works with the plugin quite well, but 
+in an editor such as EdSharp it does not.
 
 \chapter{General usage}
 \label{ch-general-usage}
