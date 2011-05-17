@@ -396,7 +396,7 @@ Assuming you have followed the steps above and installed everything you need, yo
 For registering the COM object:
 
 
-Type windows and r to go into the run dialog, then type cmd and press enter.
+Type windows+r to go into the run dialog, then type cmd and press enter.
 type "cd", then type in the location where you installed the latex-access scripts.  E.G.
 
 cd C:latex-access
@@ -424,7 +424,7 @@ type "exit" (without the quotes) in your currently open cmd shell.
 To install the plugin
 
 
-Go to the nvda subdirectory in the latex-access folder, select latexaccess.py and copy it, either by pressing ctrl and C or right clicking on it and choosing "copy."
+Go to the nvda subdirectory in the latex-access folder, select latexaccess.py and copy it, either by pressing ctrl+C or right clicking on it and choosing "copy."
 Now you need to paste this file in the appropriate folder so that the plugin will be recognised by NVDA.  Depending on your distribution/installation, the globalPlugins directory will be in one of the following places by default:
 
 Installed version of NVDA:
@@ -439,6 +439,19 @@ Portable archive or running from source:
 
 DirectoryOfArchive/distributionuserConfigglobalPlugins
 Once latexaccess.py is pasted, launch NVDA by what ever means possible, and if the error sound doesn't play, everything should go smoothly.
+
+A note about edit fields:
+
+If you use a  keystroke such as ctrl+m, it 
+will only work if you are in an edit field, and one 
+that has accessible text enabled at that. You 
+will either get errors, or a different response from 
+an application if you try to use the latexaccess global plugin 
+in edit fields that are not native controls. I'm 
+afraid that's just the way windows works. I know 
+for a fact that notepad works with the plugin quite well, but 
+in an editor such as EdSharp it does not.
+
 
 General usage
 
