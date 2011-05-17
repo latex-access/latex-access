@@ -8,7 +8,7 @@
 <CENTER>
 <H2>The latex-access GlobalPlugin for NVDA.</H2>
 <FONT SIZE="4"><I>Nathaniel Schmidt</I></FONT><BR>
-<FONT SIZE="4">Monday, 7th March 2011</FONT>
+<FONT SIZE="4">Thursday, 17th March 2011</FONT>
 </CENTER>
 
 
@@ -26,9 +26,6 @@
   <LI><A HREF="#require">2. Requirements.</A>
   <LI><A HREF="#Register">3. Registering the COM object and installing the globalPlugin.</A>
   <LI><A HREF="#toggle">4. Toggling translation on and off.</A>
-    <UL>
-    <LI><A HREF="#edit">4.1. A note about edit fields</A>
-    </UL>
   <LI><A HREF="#dollar">5. Toggling of dollar signs.</A>
   <LI><A HREF="#preproc">6. Using the Preprocessor</A>
     <UL>
@@ -132,18 +129,19 @@ DirectoryOfArchive/distribution\userConfig\globalPlugins\
 <H2>4. Toggling translation on and off.</H2>
 
 <P>
-To turn translation on, press ctrl and M.  You should be able to here the translation of LaTeX mathematics via speech output.  To turn the translation off, press ctrl and M again.  You should then be able to navigate the document as normal.
+To turn translation on, press ctrl+M.  You should be able to here the translation of LaTeX mathematics via speech output.  To turn the translation off, press ctrl+M again.  You should then be able to navigate the document as normal.
 </P>
-
-<A NAME="edit"></A>
-<H3>4.1. A note about edit fields</H3>
-
 <P>
-This keystroke should only work if you are in an edit field, and one that has accessible text enabled at that.  You will get errors if you try to use the latex_access global plugin in edit fields that are not native controls.  I'm afraid that's just the way windows works.  I know for a fact that notepad works with the plugin quite well, but in and editor such as EdSharp it does not.
+++A note about edit fields:++ [note_edit]
+This keystroke should only work if you are in an edit field, and one that has accessible text enabled at that. You will either get errors, or a different response from an application if you try to use the latex_access global plugin in edit fields that are not native controls. I'm afraid that's just the way windows works. I know for a fact that notepad works with the plugin quite well, but in an editor such as EdSharp it does not. 
 </P>
 
 <A NAME="dollar"></A>
 <H2>5. Toggling of dollar signs.</H2>
+
+<P>
+It is possible to toggle the speaking and/or brailling of dollar signs.  The keys for this are ctrl+shift+d for speech and ctrl+d for Braille.
+</P>
 
 <A NAME="preproc"></A>
 <H2>6. Using the Preprocessor</H2>
