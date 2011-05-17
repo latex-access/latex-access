@@ -13,24 +13,22 @@
 ;    You should have received a copy of the GNU General Public License along with this program; if not, visit <http://www.gnu.org/licenses>
 ;
 
-
 ; Documentation by:  Jose Tamayo( jtblas@hotmail.com)
 ;
 ; history of changes 
 ;
 ; Needs:
-; 1.  JSM file for messages 
+; 1.  JSM file for messages
 ; 2.  proper variable naming 
 ; 3.  intro for functions.
 ; 4.  Hungarian notation 
 ; 5.  Move all literals and messages to the latex.jsm file.
 
-
 include "hjconst.jsh"
-
  include "latex.jsm"
 
-globals int initialised,
+globals
+int initialised,
 int ProcessMaths,
 object latex_access,
 object matrix,
@@ -45,15 +43,14 @@ let initialised=true
 endif
 EndFunction
 
-
 Script reInitialise ()
 let latex_access=CreateObject (o_latexAccess)
 EndScript
 
-
 Void Function SayLine ()
 if  ProcessMaths then
-var string input
+var
+string input
 let input = GetLine ()
 
 if StringIsBlank(input) then
@@ -86,7 +83,8 @@ endif
 EndScript
 
 Script ToggleDollarsNemeth ()
-var int result 
+var
+int result 
 let result=latex_access.toggle_dollars_nemeth()
 if result==-1 then 
 SayMessage (ot_status, msgNemethDollarsOff_L, msgNemethDollarsOff_S)
@@ -96,7 +94,8 @@ endif
 EndScript
 
 Script ToggleDollarsSpeech ()
-var int result 
+var
+int result 
 let result=latex_access.toggle_dollars_speech()
 if result==-1 then 
 SayMessage (ot_status, msgSpeechDollarsOff_L, msgSpeechDollarsOff_S)
@@ -107,7 +106,8 @@ EndScript
 
 Int Function BrailleBuildLine ()
 if  ProcessMaths then
-var string input
+var
+string input
 let input = GetLine()
 let input = StringReplaceSubstrings (input, sScrollDownSymbols , "")
 let input=StringTrimTrailingBlanks (input)
@@ -126,7 +126,8 @@ let row=1
 let column=1
 matrix.tex_init(GetSelectedText ())
 ; JT:  Replace the msg var with a message variable in the latex.jsm file 
-var string msg
+var
+string msg
 let msg ="Initialised "
 let msg=msg+inttostring(matrix.rows)
 let msg=msg+sPadBy
@@ -199,7 +200,11 @@ endif
 EndScript
 
 Script preprocessorAdd ()
-var string input, int args, string strargs, string translation
+var
+string input,
+int args,
+string strargs,
+string translation
 if InputBox (sCommandToRedefine, "Initial LaTeX", input) then 
 if InputBox (sEnterCommandArguments, "Number of arguments", strargs) then 
 if InputBox (sEnterCustomCommandDef, "Translation", translation) then 
@@ -210,20 +215,19 @@ endif
 endif
 EndScript
 
-
 Script PreprocessorFromString ()
 latex_access.preprocessor_from_string(GetSelectedText ())
 
 
 EndScript
 
-
-
 Script PreprocessorWrite ()
-var string filename
+var
+string filename
 if InputBox (sEnterFileToSaveTo , "Filename", filename) then 
 if FileExists (filename) then 
-var int result
+var
+int result
 let result=ExMessageBox (sFileExistError , sFileExistTitle , MB_YESNO)
 if result==IDNO then 
 return 
@@ -233,9 +237,9 @@ latex_access.preprocessor_write(filename)
 endif
 EndScript
 
-
 Script PreprocessorRead ()
-var string filename
+var
+string filename
 ; JT: another literal to move to the latex.jsm file.
 if InputBox ("enter full filename to read from ", "Filename", filename) then 
 if FileExists (filename) then 
@@ -246,10 +250,11 @@ endif
 endif
 EndScript
 
-
-
-
-
-
-
-
+Script ScriptFileName()
+ScriptAndAppNames (msgLatexAccess)
+if ProcessMaths then
+Say (msgProcessingOn_S, OT_USER_REQUESTED_INFORMATION)
+else
+Say (msgProcessingOff_S, OT_USER_REQUESTED_INFORMATION)
+EndIf
+EndScript

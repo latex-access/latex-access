@@ -54,3 +54,6 @@
 :script PreprocessorRead
 :Synopsis Reads preprepreprocessor entries from a file.
 
+:script ScriptFileName
+:Synopsis Speaks script settings currently loaded and executable file name.
+:Description Uses ScriptAndAppNames.
