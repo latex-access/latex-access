@@ -120,4 +120,7 @@ cTRL+ALT with anumber reads that column.
 Press %KeyFor(HotKeyHelp ) to redisplay this message 
 @@
 
+@msgLatexAccess
+Latex-Access
+@@
 EndMessages

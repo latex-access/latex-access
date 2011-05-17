@@ -101,7 +101,11 @@ DirectoryOfArchive/distribution\userConfig\globalPlugins\
 +Toggling translation on and off.+[toggle]
 To turn translation on, press ctrl+M.  You should be able to here the translation of LaTeX mathematics via speech output.  To turn the translation off, press ctrl+M again.  You should then be able to navigate the document as normal.
 
+++A note about edit fields:++ [note_edit]
+This keystroke should only work if you are in an edit field, and one that has accessible text enabled at that. You will either get errors, or a different response from an application if you try to use the latex_access global plugin in edit fields that are not native controls. I'm afraid that's just the way windows works. I know for a fact that notepad works with the plugin quite well, but in an editor such as EdSharp it does not. 
+
 +Toggling of dollar signs.+[dollar]
+It is possible to toggle the speaking and/or brailling of dollar signs.  The keys for this are ctrl+shift+d for speech and ctrl+d for Braille.
 
 +Using the Preprocessor+[preproc]
 
