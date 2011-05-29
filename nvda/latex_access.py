@@ -24,15 +24,14 @@ Features:
 """
 
 from comtypes.client import CreateObject
+from scriptHandler import isScriptWaiting# This is needed for the code copied from EditableText
 
 import api
 import braille, speech, ui# for brailling/speaking messages in NVDA
+import config
 import globalPluginHandler
 import NVDAObjects
 import textInfos# to get information such as caret position and the current line.
-# The next imports are needed for the code copied from EditableText
-from scriptHandler import isScriptWaiting
-import config
 
 class EditableText (NVDAObjects.behaviors.EditableText):
 	"""
@@ -99,6 +98,39 @@ class EditableText (NVDAObjects.behaviors.EditableText):
 
 	script_reportCurrentLine.__doc__ = _("If latex-access translation is on, Translates the current line into nemeth braille and speech.  If translation is turned off, the current line is spoken as normal.  If this keystroke is pressed twice, the current line is spellt out.")
 
+	def script_toggleDollars_nemeth (self, gesture):
+		"""
+		Toggles the state of whether dollar signs should be brailled in nemeth LaTeX translation.
+		@param gesture: the gesture to be passed through to nvda (in this case, a keypress).
+		@type gesture: l{inputCore.InputGesture}
+		"""
+
+		dollars = EditableText.latex_access.toggle_dollars_nemeth ()
+		if dollars == -1:
+			ui.message (_("nemeth dollars off"))
+
+		else:
+			ui.message (_("nemeth dollars on"))
+			EditableText.latex_access.toggle_dollars_nemeth ()
+
+	script_toggleDollars_nemeth.__doc__ = _("Toggles the state of whether dollar signs should be brailled in nemeth LaTeX translation.")
+
+	def script_toggleDollars_speech (self, gesture):
+		"""
+		Toggles the state of whether dollar signs should be spoken in speech for LaTeX translation.
+		@param gesture: the gesture to be passed through to nvda (in this case, a keypress).
+		@type gesture: l{inputCore.InputGesture}
+		"""
+
+		dollars = EditableText.latex_access.toggle_dollars_speech ()
+		if dollars == -1:
+			ui.message (_("speech dollars off"))
+
+		else:
+			ui.message (_("speech dollars on"))
+
+	script_toggleDollars_speech.__doc__ = _("Toggles the state of whether dollar signs should be spoken in speech for LaTeX translation.")
+
 	def script_toggleMaths (self, Gesture):
 		"""A script to toggle the latex-access translation on or off.
 		@param gesture: the gesture to be past through to NVDA (in this case, a keypress).
@@ -117,7 +149,9 @@ class EditableText (NVDAObjects.behaviors.EditableText):
 	# For the input gestures:
 	__gestures = {
 		"kb:control+M": "toggleMaths",
-		"kb:NVDA+upArrow": "reportCurrentLine",
+		"kb:NVDA+UpArrow": "reportCurrentLine",
+		"kb:control+shift+D": "toggleDollars_speech",
+		"kb:control+D": "toggleDollars_nemeth",
 	}
 
 class GlobalPlugin (globalPluginHandler.GlobalPlugin):
