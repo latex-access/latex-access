@@ -15,4 +15,4 @@ new features are put to be worked on or fixed.
 
 	* Add support for the matrix - To be done.
 	* Translate lines of
-LaTeX into nemeth braille and speech: Under development.
+LaTeX into Nemeth braille and speech: almost completed.
