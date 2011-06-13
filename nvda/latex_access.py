@@ -111,7 +111,7 @@ class EditableText (NVDAObjects.behaviors.EditableText):
 
 		else:
 			ui.message (_("nemeth dollars on"))
-			EditableText.latex_access.toggle_dollars_nemeth ()
+
 
 	script_toggleDollars_nemeth.__doc__ = _("Toggles the state of whether dollar signs should be brailled in nemeth LaTeX translation.")
 
