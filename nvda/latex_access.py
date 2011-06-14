@@ -117,12 +117,10 @@ class EditableText (NVDAObjects.behaviors.EditableText):
 		"""
 
 		dollars = EditableText.latex_access.toggle_dollars_nemeth ()
-		if dollars == -1:
+		if dollars == True:
 			ui.message (_("nemeth dollars off"))
-
 		else:
 			ui.message (_("nemeth dollars on"))
-
 
 	script_toggleDollars_nemeth.__doc__ = _("Toggles the state of whether dollar signs should be brailled in nemeth LaTeX translation.")
 
@@ -134,7 +132,7 @@ class EditableText (NVDAObjects.behaviors.EditableText):
 		"""
 
 		dollars = EditableText.latex_access.toggle_dollars_speech ()
-		if dollars == -1:
+		if dollars == True:
 			ui.message (_("speech dollars off"))
 
 		else:

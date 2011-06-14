@@ -1,8 +1,3 @@
 The following is a list of buggs found in the latex_access GlobalPlugin
 for NVDA.  Feel free to add more as they arise, and remove ones that are
 fixed.
-
-	* There is a strange issue where the toggling of dollar 
-signs is always announced as "on", even when they are 
-successfully being turned off.  This happens in 
-both Nemeth and speech.  No resolution as of yet.
