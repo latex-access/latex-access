@@ -24,7 +24,7 @@ Features:
 """
 
 from comtypes.client import CreateObject
-from scriptHandler import isScriptWaiting# This is needed for the code copied from EditableText
+import scriptHandler
 
 import api
 import braille, speech, ui# for brailling/speaking messages in NVDA
@@ -50,7 +50,7 @@ class EditableText (NVDAObjects.behaviors.EditableText):
 	latex_access = CreateObject ("latex_access")	
 
 	def _caretScriptPostMovedHelper(self, speakUnit):
-		if isScriptWaiting():
+		if scriptHandler.isScriptWaiting():
 			return
 		try:
 			info = self.makeTextInfo(textInfos.POSITION_CARET)
@@ -76,25 +76,36 @@ class EditableText (NVDAObjects.behaviors.EditableText):
 
 	def script_reportCurrentLine (self, gesture):
 		"""
-		This script reports the line that the current navigator object is focused on, and speaks/brailles it appropriately depending on the state of l{self.processMaths}.
+		This script reports the line that the current navigator object is focused on, and speaks/brailles it appropriately depending on the state of l{processMaths}.  If pressed twice quickly, the current line is spelt out.
 		@param gesture: the gesture to be passed through to NVDA (in this case, a keypress).
 		@type gesture: l{inputCore.InputGesture}.
 		"""
 
-		if EditableText.processMaths:
-			spokenLine = GetLine ()
-			brailledLine = GetLine ()
-			if not spokenLine and not brailledLine:# Is it a blank line?
-				spokenLine = _("blank")
-				brailledLine = _("")
+		obj=api.getFocusObject()
+		treeInterceptor=obj.treeInterceptor
+		if hasattr(treeInterceptor,'TextInfo') and not treeInterceptor.passThrough:
+			obj=treeInterceptor
+		try:
+			info=obj.makeTextInfo(textInfos.POSITION_CARET)
+		except (NotImplementedError, RuntimeError):
+			info=obj.makeTextInfo(textInfos.POSITION_FIRST)
+		info.expand(textInfos.UNIT_LINE)
+		if scriptHandler.getLastScriptRepeatCount()==0:
+			if EditableText.processMaths:
+				spokenLine = GetLine ()
+				brailledLine = GetLine ()
+				if not spokenLine and not brailledLine:# Is it a blank line?
+					spokenLine = _("blank")
+					brailledLine = _("")
+				else:
+					spokenLine = EditableText.latex_access.speech (spokenLine)
+					brailledLine = EditableText.latex_access.nemeth (brailledLine)
+				speech.speakMessage (spokenLine)
+				braille.handler.message (brailledLine)
 			else:
-				spokenLine = EditableText.latex_access.speech (spokenLine)
-				brailledLine = EditableText.latex_access.nemeth (brailledLine)
-			speech.speakMessage (spokenLine)
-			braille.handler.message (brailledLine)
-
+				speech.speakTextInfo(info,unit=textInfos.UNIT_LINE,reason=speech.REASON_CARET)
 		else:
-			SayLine ()
+			speech.speakSpelling(info.text)
 
 	script_reportCurrentLine.__doc__ = _("If latex-access translation is on, Translates the current line into nemeth braille and speech.  If translation is turned off, the current line is spoken as normal.  If this keystroke is pressed twice, the current line is spellt out.")
 
