@@ -30,7 +30,6 @@ Control+Shift+A=preprocessorAdd
 Control+Shift+W=PreprocessorWrite
 Control+Shift+H=PreprocessorFromString
 Insert+H=HotKeyHelp
-JAWSKey+H=HotKeyHelp
 Control+Alt+Shift+R=reInitialise
 JAWSKey+Q=ScriptFileName
 Insert+Q=ScriptFileName

@@ -73,6 +73,7 @@ class matrix:
 if __name__=='__main__':
     import pythoncom,win32com.server.register
     matrix._reg_clsid=pythoncom.CreateGuid()
+    matrix._reg_clsctx_=pythoncom.CLSCTX_LOCAL_SERVER  
     win32com.server.register.UseCommandLine(matrix)
 
     
