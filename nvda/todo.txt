@@ -1,7 +1,7 @@
 This is a todo file for the latex_access GlobalPlugin for NVDA, where
 new features are put to be worked on or fixed.
 
-	* Add translations of braille without the message timing out
+	* Add translation of braille without the message timing out
           after a configgored amount of time - this currently cannot be
           done.  Suggestion: File an enhancement in the issue tracker
           for a message function that will not time out, or an extra
@@ -9,10 +9,10 @@ new features are put to be worked on or fixed.
           the ini file if this can be done.  Issue: to get this done by
           the developers, we need good justification for the suggestion.
 
-	* Add support for the preprocessor - To be done.
+	* Add support for the preprocessor - to be done.
 		- Make a GUI
-	perhaps with wxPython for the preprocessor: To be done.
+		perhaps with wxPython for the preprocessor: To be done.
 
-	* Add support for the matrix - To be done.
+	* Add support for the matrix - being done.
 	* Translate lines of
 LaTeX into Nemeth braille and speech: completed.
