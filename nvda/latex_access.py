@@ -18,24 +18,25 @@
 A global plugin for NVDA to provide optional translations of LaTeX math into nemeth braille and speech that is easier to understand, by way of latex-access.  See readme.txt for more information.
 
 Features:
-	* Translating lines of LaTeX into nemeth braille and speech: under development.
-	* matrix browser for reading larger matrices: not completed.
-	* The preprocessor (support for custom defined LaTeX commands): not completed.
+	* Translating lines of LaTeX into nemeth braille and speech - status: completed.
+	* matrix browser for reading larger matrices - status: under development.
+	* The preprocessor (support for custom defined LaTeX commands) - status: not completed.
+	* Access to tables - status: not completed.
 """
 
 from comtypes.client import CreateObject
-import scriptHandler
 
 import api
 import braille, speech, ui# for brailling/speaking messages in NVDA
 import config
 import globalPluginHandler
 import NVDAObjects
+import scriptHandler
 import textInfos# to get information such as caret position and the current line.
 
-class EditableText (NVDAObjects.behaviors.EditableText):
+class EditableText (NVDAObjects.behaviors.EditableTextWithoutAutoSelectDetection):
 	"""
-	Provides latex-access support, but makes sure this is only in edit controls.
+	Provides latex-access support, but makes sure this is only in edit controls.  The normal EditableText class is not used any more in this plugin because we need to take advantage of selection changes for the matrix processor.
 	
 	This NVDAObject overlay class is used when NVDA enters accessible Editable text, and provides the user with all the events, scripts and gestures needed to use this plugin.
 	
@@ -48,6 +49,9 @@ class EditableText (NVDAObjects.behaviors.EditableText):
 
 	processMaths=False
 	latex_access = CreateObject ("latex_access")	
+	matrix = CreateObject ("latex_access_matrix")
+	row = None
+	column = None
 
 	def _caretScriptPostMovedHelper(self, speakUnit):
 		if scriptHandler.isScriptWaiting():
