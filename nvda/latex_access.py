@@ -47,11 +47,8 @@ class EditableText (NVDAObjects.behaviors.EditableTextWithoutAutoSelectDetection
 	Any method that begins with script_* will get executed when the required key is pressed, button on the mouse is clicked, etc.
 	"""
 
-	processMaths=False
-	latex_access = CreateObject ("latex_access")	
-	matrix = CreateObject ("latex_access_matrix")
-	row = None
-	column = None
+	processMaths = False
+	latex_access = CreateObject ("latex_access")
 
 	def _caretScriptPostMovedHelper(self, speakUnit):
 		if scriptHandler.isScriptWaiting():
@@ -158,6 +155,17 @@ class EditableText (NVDAObjects.behaviors.EditableTextWithoutAutoSelectDetection
 			ui.message (_("Maths to be processed to a more verbal form"))
 
 	script_toggleMaths.__doc__ = _("Toggles the speaking of mathematical expressions as either straight latex or a more verbal rendering.")
+
+	def script_inputMatrix()
+		"""
+		This script creates the matrix COM Object, and initialises a matrix based on the text that is currently selected.
+		"""
+
+		matrix = CreateObject ("latex_access_matrix")
+		row = 1
+		column = 1
+
+
 
 	# For the input gestures:
 	__gestures = {
