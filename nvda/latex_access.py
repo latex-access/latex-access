@@ -34,7 +34,7 @@ import NVDAObjects
 import scriptHandler
 import textInfos# to get information such as caret position and the current line.
 
-class EditableText (NVDAObjects.behaviors.EditableTextWithoutAutoSelectDetection):
+class EditableText (NVDAObjects.behaviors.EditableText):
 	"""
 	Provides latex-access support, but makes sure this is only in edit controls.  The normal EditableText class is not used any more in this plugin because we need to take advantage of selection changes for the matrix processor.
 	
@@ -50,16 +50,25 @@ class EditableText (NVDAObjects.behaviors.EditableTextWithoutAutoSelectDetection
 	processMaths = False
 	latex_access = CreateObject ("latex_access")
 
+	# For the matrix:
+	matrix = None
+	row = None
+	column = None
+
 	def _caretScriptPostMovedHelper(self, speakUnit):
-		if scriptHandler.isScriptWaiting():
+		"""
+This method ensures that LaTeX translation occurs when the system caret moves, and also makes sure that normal behaviour occurs when l{processMaths} is off.
+		"""
+
+		if scriptHandler.isScriptWaiting ():
 			return
 		try:
-			info = self.makeTextInfo(textInfos.POSITION_CARET)
+			info = self.makeTextInfo (textInfos.POSITION_CARET)
 		except:
 			return
 		if config.conf["reviewCursor"]["followCaret"] and api.getNavigatorObject() is self:
-			api.setReviewPosition(info.copy())
-		if speakUnit==textInfos.UNIT_LINE and EditableText.processMaths:
+			api.setReviewPosition (info.copy())
+		if speakUnit == textInfos.UNIT_LINE and EditableText.processMaths:
 			spokenLine = GetLine ()
 			brailledLine = GetLine ()
 			if not spokenLine and not brailledLine:# Is it a blank line?
@@ -107,7 +116,6 @@ class EditableText (NVDAObjects.behaviors.EditableTextWithoutAutoSelectDetection
 				speech.speakTextInfo(info,unit=textInfos.UNIT_LINE,reason=speech.REASON_CARET)
 		else:
 			speech.speakSpelling(info.text)
-
 	script_reportCurrentLine.__doc__ = _("If latex-access translation is on, Translates the current line into nemeth braille and speech.  If translation is turned off, the current line is spoken as normal.  If this keystroke is pressed twice, the current line is spellt out.")
 
 	def script_toggleDollars_nemeth (self, gesture):
@@ -122,7 +130,6 @@ class EditableText (NVDAObjects.behaviors.EditableTextWithoutAutoSelectDetection
 			ui.message (_("nemeth dollars off"))
 		else:
 			ui.message (_("nemeth dollars on"))
-
 	script_toggleDollars_nemeth.__doc__ = _("Toggles the state of whether dollar signs should be brailled in nemeth LaTeX translation.")
 
 	def script_toggleDollars_speech (self, gesture):
@@ -135,10 +142,8 @@ class EditableText (NVDAObjects.behaviors.EditableTextWithoutAutoSelectDetection
 		dollars = EditableText.latex_access.toggle_dollars_speech ()
 		if dollars == True:
 			ui.message (_("speech dollars off"))
-
 		else:
 			ui.message (_("speech dollars on"))
-
 	script_toggleDollars_speech.__doc__ = _("Toggles the state of whether dollar signs should be spoken in speech for LaTeX translation.")
 
 	def script_toggleMaths (self, Gesture):
@@ -146,33 +151,101 @@ class EditableText (NVDAObjects.behaviors.EditableTextWithoutAutoSelectDetection
 		@param gesture: the gesture to be past through to NVDA (in this case, a keypress).
 		@type gesture: l{inputCore.InputGesture}.
 		"""
-
 		if EditableText.processMaths:# is translation on?
 			EditableText.processMaths = False
 			ui.message (_("Maths to be read as plain latex"))
 		else:
 			EditableText.processMaths = True# translation was off.
 			ui.message (_("Maths to be processed to a more verbal form"))
-
 	script_toggleMaths.__doc__ = _("Toggles the speaking of mathematical expressions as either straight latex or a more verbal rendering.")
 
-	def script_inputMatrix()
+	def script_inputMatrix(self, gesture):
 		"""
 		This script creates the matrix COM Object, and initialises a matrix based on the text that is currently selected.
+		@param gesture: the gesture to be passed through to NVDA (in this case, a keypress).
+		@type gesture: l{inputCore.InputGesture}
 		"""
 
-		matrix = CreateObject ("latex_access_matrix")
-		row = 1
-		column = 1
+		EditableText.matrix = CreateObject ("latex_access_matrix")
+		EditableText.row = 1
+		EditableText.column = 1
+		EditableText.matrix.tex_init(getSelectedText ())
+		# The msg variable is here to say how many rows and columns have been initialised.
+		msg = "Initialised"
+		msg = msg + str (EditableText.matrix.rows)
+		msg = msg + " my "
+		msg = msg + str(EditableText.matrix.columns)
+		msg = msg + " matrix"
+		ui.message (_(msg))
+	script_inputMatrix.__doc__ = _ ("Initialises a matrix.  First highlight it and then run this script to have it as an object.")
 
+	def script_matrixRight (self, gesture):
+		"""
+		Moves the matrix one cell to the right.
+		@param gesture: the gesture to be passed through to NVDA (in this case, a keypress).
+		@type gesture: l{inputCore.InputGesture}
+		"""
 
+		if EditableText.column < EditableText.matrix.columns:
+			EditableText.column = EditableText.column + 1
+			ui.message (_(EditableText.matrix.get_cell(EditableText.row, EditableText.column)))
+		else:
+			ui.message (_("End of row"))
+	script_matrixRight.__doc__ = _ ("moves the matrix cursor right and then speaks and brailles the cell.")
+
+	def script_matrixLeft (self, gesture):
+		"""
+		Moves the matrix one cell to the left.
+		@param gesture: the gesture to be passed through to NVDA (in this case, a keypress).
+		@type gesture: l{inputCore.InputGesture}
+		"""
+
+		if EditableText.column > 1:
+			EditableText.column = EditableText.column - 1
+			ui.message (_ (EditableText.matrix.get_cell (EditableText.row, EditableText.column)))
+		else:
+			ui.message (_ ("Start of row"))
+	script_matrixLeft.__doc__ = _ ("Moves the matrix cursor to the left one cell, then speaks and brailles it")
+
+	def script_matrixDown (self, gesture):
+		"""
+		Moves the matrix one cell down.
+		@param gesture: the gesture to be passed through to NVDA (in this case, a keypress).
+		@type gesture: l{inputCore.InputGesture}
+		"""
+
+		if EditableText.row < EditableText.matrix.rows:
+			EditableText.row = EditableText.row + 1
+			ui.message (_ (EditableText.matrix.get_cell (EditableText.row, EditableText.column)))
+		else:
+			ui.message (_ ("End of column"))
+	script_matrixDown.__doc__ = _ ("Moves the matrix cursor down one cell, then speaks and brailles it.")
+
+	def script_matrixUp (self, gesture):
+		"""
+		Moves the matrix one cell up.
+		@param gesture: the gesture to be passed through to NVDA (in this case, a keypress).
+		@type gesture: l{inputCore.InputGesture}
+		"""
+
+		if EditableText.row > 1:
+			EditableText.row = EditableText.row - 1
+			ui.message (_ (EditableText.matrix.get_cell (EditableText.row, EditableText.column)))
+		else:
+			ui.message (_ ("Start of column"))
+	script_matrixUp.__doc__ = _ ("Moves the matrix down one cell and then speaks and brailles it.")
 
 	# For the input gestures:
 	__gestures = {
 		"kb:control+M": "toggleMaths",
 		"kb:NVDA+UpArrow": "reportCurrentLine",
-		"kb:control+shift+D": "toggleDollars_speech",
 		"kb:control+D": "toggleDollars_nemeth",
+		"kb:control+shift+D": "toggleDollars_speech",
+		"kb:control+shift+M":"inputMatrix",
+		"kb:control+shift+L": "matrixRight",
+		"kb:control+shift+J": "matrixLeft",
+		"kb:control+shift+K": "matrixUp",
+		"kb:control+shift+I": "matrixUp",
 	}
 
 class GlobalPlugin (globalPluginHandler.GlobalPlugin):
@@ -195,23 +268,46 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 
 # Useful functions:
 def GetLine ():
-		"""Retrieves the line of text that the current navigator object is focussed on, then returns it."""
-		obj = api.getFocusObject()
-		treeInterceptor = obj.treeInterceptor
-		if hasattr (treeInterceptor, 'TextInfo') and not treeInterceptor.passThrough:
-			obj = treeInterceptor
-		try:
-			info = obj.makeTextInfo (textInfos.POSITION_CARET)
-		except (NotImplementedError, RuntimeError):
-			info = obj.makeTextInfo (textInfos.POSITION_FIRST)
-		info.expand (textInfos.UNIT_LINE)
-		currentLine = info.text
-		return currentLine
+	"""Retrieves the line of text that the current navigator object is focussed on, then returns it."""
+
+	obj = api.getFocusObject()
+	treeInterceptor = obj.treeInterceptor
+	if hasattr (treeInterceptor, 'TextInfo') and not treeInterceptor.passThrough:
+		obj = treeInterceptor
+	try:
+		info = obj.makeTextInfo (textInfos.POSITION_CARET)
+	except (NotImplementedError, RuntimeError):
+		info = obj.makeTextInfo (textInfos.POSITION_FIRST)
+	info.expand (textInfos.UNIT_LINE)
+	currentLine = info.text
+	return currentLine
 
 def SayLine ():
-		"""This function says the current line without any translation.  This is necessary so that we can return to NVDA's default behaviour when LaTeX translation is toggled off."""
-		speech.speakMessage (GetLine())
+	"""This function says the current line without any translation.  This is necessary so that we can return to NVDA's default behaviour when LaTeX translation is toggled off."""
+
+	speech.speakMessage (GetLine())
 
 def BrailleLine ():
-		"""Brailles the current line.  This again is necessary so that we can return to NVDA's default behaviour."""
-		braille.handler.message (GetLine())
+	"""Brailles the current line.  This again is necessary so that we can return to NVDA's default behaviour."""
+
+	braille.handler.message (GetLine())
+
+def getSelectedText ():
+	"""
+	Retrieves, then returns the currently selected text.
+	@returns: The text currently selected.
+	@rtype: str
+	"""
+
+	obj = api.getFocusObject ()
+	treeInterceptor = obj.treeInterceptor
+	if hasattr (treeInterceptor, 'TextInfo') and not treeInterceptor.passThrough:
+		obj = treeInterceptor
+	try:
+		info = obj.makeTextInfo(textInfos.POSITION_SELECTION)
+	except (RuntimeError, NotImplementedError):
+		info = None
+	if not info or info.isCollapsed:
+		return None
+	else:
+		return info.text
