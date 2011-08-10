@@ -123,3 +123,9 @@
 
 ; special characters
 \infty  infinity
+
+; Probability and permutations
+
+\Pr probability of 
+| given
+! permutation
