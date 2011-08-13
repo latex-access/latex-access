@@ -95,13 +95,13 @@ def BuildHeaderString (text):
 
   return t.BuildHeaderString (text)
 
-def WhereAmI (row, headers):
+def WhereAmI (row, headers,table):
   """Access to the WhereAmI function in table.py.
 
   This exports the WhereAmI function to emacs -- consult documentation
   in table.py for more details."""
 
-  return t.WhereAmI (row, headers)
+  return t.WhereAmI (row, headers,table)
 
 def GetTableTopRow (latextable):
   """Make the GetTopRow function available to emacs for table
