@@ -346,6 +346,7 @@ turned on, otherwise, with no arg, it is turned off."
       (let ((table (buffer-substring-no-properties beg end)))
 	(dtk-speak (latex_access_emacsWhereAmI
 		    (latex_access_emacsGetTableCurrentRow table)
-		    (latex_access_emacsBuildHeaderString (latex_access_emacsGetTableTopRow table))))))))
+		    (latex_access_emacsBuildHeaderString
+		     (latex_access_emacsGetTableTopRow table)) table))))))
 
 ;;; emacs-latex-access.el ends here

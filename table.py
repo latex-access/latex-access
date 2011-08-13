@@ -65,11 +65,10 @@ def BuildHeaderString (text):
 
   return tableheadings # return list of column headings.
 
-def WhereAmI (row, headers):
+def WhereAmI (row, headers, table):
   """Provides information of current location in table.
 
-  Currently speak the name of column. In future should speak cell
-  coordinates and any other useful info (Perhaps first cell in row).
+  Currently speak the name of column and cell position within table.
   row should be a string object containing the current row, and headers
   should be a list of the table headings (as returned by BuildHeaderString..."""
 
@@ -77,8 +76,11 @@ def WhereAmI (row, headers):
     out="focus is in column "+headers[row.count("&")] # Count how many
 # columns across we are and return corresponding heading. (by counting
 # col separater &)
+# cell location/position
+    out=out+" at location "+GetTablePosition(table,row)
   except IndexError:
     out="outside table"
+
   return out 
 
 def GetTableTopRow (table):
@@ -100,3 +102,28 @@ def GetTableCurrentRow (table):
 
   return table[table.rfind("\\\\")+1:].replace("\n", "").replace("\\hline",
                                                                "") 
+def GetTablePosition (table,currrow):
+  """Get the current row  and cell location as a coordinate.
+
+  table should be contents of table from the beginning of table up until
+  the cursor, row should be an str object of the currently focused row."""
+
+# \\ represents a newline in latex and hence a new row. & is the LaTeX
+# column separater. Hence, do the counting.
+  row=table.count("\\\\") # number of rows?
+  column=currrow.count("&") # number of columns
+
+# Next calculate letter coordinates for the column
+# Currently supports only 26*26+26=702 columns
+# define the alphabet
+  alph=("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z")
+  position = "" # Null to begin 
+  if column >= 26: # Need two letter column identification 
+    position=position+alph[(column/26)-1] 
+    position=position+" "+alph[column%26]
+  else: # less than 26 cols (one letter identifier)
+    position=position+alph[column]
+
+# The rows much more straight forward!
+  position=position+" "+str(table.count("\\\\")+1) # header is row 1 
+  return position # cell position 
