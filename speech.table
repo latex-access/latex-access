@@ -36,7 +36,6 @@
 \cosh  cosh 
 \cos  coz 
 
-
 ; capital greek letters
 \Alpha  cap alpha 
 \Beta  cap beta 
@@ -57,7 +56,6 @@
 \Nu  cap nu
 \Rho  cap rho
 \Iota  cap iota
-
 
 ; small greek letters
 \alpha  alpha 
@@ -84,7 +82,6 @@
 \chi  chi 
 \iota  iota
 
-
 ; set theory
 \bigcap  intersection 
 \bigcup  union 
@@ -101,7 +98,6 @@
 \cup  union 
 \lim  limit 
 
-
 ; standard LaTeX commands for better reading
 \cdot  dot 
 \cdots  dot dot dot 
@@ -115,6 +111,7 @@
 \;  
 \,  
 \!  
+\textbackslash \
 
 ; calculus
 \partial  partial 
