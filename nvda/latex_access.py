@@ -12,7 +12,7 @@
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #    See the GNU General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License along with this program; if not, visit <http://www.gnu.org/licenses>
+#    You should have received a copy of the GNU General Public License along with this program; if not, visit <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 
 """
 A global plugin for NVDA to provide optional translations of LaTeX math into nemeth braille and speech that is easier to understand, by way of latex-access.  See readme.txt for more information.
@@ -159,7 +159,7 @@ This method ensures that LaTeX translation occurs when the system caret moves, a
 			ui.message (_("Maths to be processed to a more verbal form"))
 	script_toggleMaths.__doc__ = _("Toggles the speaking of mathematical expressions as either straight latex or a more verbal rendering.")
 
-	def script_inputMatrix(self, gesture):
+	def script_inputMatrix (self, gesture):
 		"""
 		This script creates the matrix COM Object, and initialises a matrix based on the text that is currently selected.
 		@param gesture: the gesture to be passed through to NVDA (in this case, a keypress).
@@ -173,7 +173,7 @@ This method ensures that LaTeX translation occurs when the system caret moves, a
 		# The msg variable is here to say how many rows and columns have been initialised.
 		msg = "Initialised"
 		msg = msg + str (EditableText.matrix.rows)
-		msg = msg + " my "
+		msg = msg + " by "
 		msg = msg + str(EditableText.matrix.columns)
 		msg = msg + " matrix"
 		ui.message (_(msg))
