@@ -27,6 +27,18 @@
 ;; Note: pymacs is required for this to work.
 
 ; Ensure you have PYTHONPATH set correctly!
+
+; Load pymacs, shouldn't really mater if this was done by .emacs first 
+(require 'pymacs)
+
+; Add the hooks to start by default when in LaTeX-mode 
+; Ideally I'd like to make this latex-math-mode, but I dn't see a hook
+; for it anywhere? 
+; Speech
+(add-hook 'LaTeX-mode-hook 'latex-access-speech-on)
+; Braille 
+(add-hook 'LaTeX-mode-hook 'latex-access-braille-on)
+
 (defcustom latex-access-linesabove 0
 "This variable determines how many lines above the currently selected
 line should be passed to the latex-access translator and Brailled. Set to 0 for just
