@@ -5,6 +5,7 @@
 = equals
 > greater than
 \times times
+\div divided by 
 \pm plus or minus
 \leq  less than or equal to 
 \le less than or equal to 
@@ -112,6 +113,7 @@
 \,  
 \!  
 \textbackslash \
+\textdegree degrees 
 
 ; calculus
 \partial  partial 
