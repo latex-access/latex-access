@@ -135,6 +135,25 @@ output when applicable"
     (progn (setq latex-access-braille t)
 	   (message "Latex-access Braille enabled."))))
 
+(defun latex-access-disable ()
+  "Turn off latex-access entirely"
+  (interactive)
+  (make-local-variable 'latex-access-braille)
+  (make-local-variable 'latex-access-speech)
+  (setq latex-access-braille nil)
+  (setq latex-access-speech nil)
+  (message "Latex-access disabled."))
+
+(defun latex-access-enable ()
+  "Enable all features of latex-access disregarding user variables."
+  (interactive) 
+  (latex-access) ; initialise 
+  (make-local-variable 'latex-access-braille)
+  (make-local-variable 'latex-access-speech)
+  (setq latex-access-speech t)
+  (setq latex-access-braille t)
+  (message "Latex-access enabled."))
+
 (defun latex-access-toggle-dollars-braille ()
   "Toggle whether to Braille dollar signs."
   (interactive)
