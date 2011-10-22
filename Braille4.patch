@@ -1,6 +1,6 @@
 Index: emacs/emacs-latex-access.el
 ===================================================================
---- emacs/emacs-latex-access.el	(revision 258)
+--- emacs/emacs-latex-access.el	(revision 259)
 +++ emacs/emacs-latex-access.el	(working copy)
 @@ -41,11 +41,6 @@
  ; init file. 
@@ -14,6 +14,15 @@ Index: emacs/emacs-latex-access.el
  ; Global value should always be nil because latex-access should never be
  ; running globally 
  ; Imagine how annoying it would potentially be while browsing the web,
+@@ -109,7 +104,7 @@
+ 					; Do we enable Braille?
+   (if latex-access-use-braille (setq latex-access-braille t))
+ 					; Braille post-command hook so that Braille is displayed on the message line.
+-  (add-hook 'post-command-hook 'latex-access-braille nil t)
++  (add-hook 'post-command-hook 'latex-access-braille-other-window nil t)
+ 					; Enable speech (emacspeak advice)
+   (ad-enable-advice 'emacspeak-speak-line 'around 'latex-access-speak-line) 
+   (ad-activate 'emacspeak-speak-line) ; Enable the advice. 
 @@ -240,13 +235,23 @@
    (dtk-speak text))
  
@@ -42,7 +51,7 @@ Index: emacs/emacs-latex-access.el
  
  (defun latex-access-eq (beg end)
    "Grabs text between beg and end.
-@@ -282,17 +287,17 @@
+@@ -282,17 +287,25 @@
    (setq buffer-read-only t)
    (goto-char 49))
  
@@ -51,23 +60,30 @@ Index: emacs/emacs-latex-access.el
 -the current line."
 -  (interactive)
 -  ; first determine current location of point on screen
--  (save-excursion 
++(defun latex-access-braille-other-window ()
++  "Put the Braille translation of a LaTeX buffer in another buffer."
+   (save-excursion 
 -    (let ((endpoint (progn (move-end-of-line nil) (point)))
 -	  (startpoint (progn (move-beginning-of-line nil) (forward-line
 -							   (- 0 latex-access-linesabove)) (point))))
 -      (message "%s" (latex_access_emacstransbrl
 -		     (buffer-substring-no-properties startpoint endpoint))))))
-+(defun latex-access-braille-other-window (beg end)
-+  "Put the Braille translation of a LaTeX buffer in another buffer."
-+  (let ((latex-buff-start (window-start))
-+	(workspace (get-buffer-create "*translation.braille"))
-+	(translation (latex_access_emacstransbrl
-+		      (buffer-substring-no-properties beg end))))
-+    (save-excursion 
-+      (set-buffer workspace)
-+      (erase-buffer) 
-+      (insert translation)
-+      (set-window-start nil 0))))
++    (if latex-access-braille 
++	(let ((latex-buff-start (window-start))
++	      (emacspeak-speak-messages nil)
++	      (split-width-threshold 80)
++	      (split-height-threshold nil)
++	      (workspace (get-buffer-create "*translation.braille"))
++	      (currentbuff (current-buffer))
++	      (translation (latex_access_emacstransbrl
++			    (buffer-substring-no-properties (point-min) (point-max)))))
++	  (set-buffer workspace)
++	  (erase-buffer) 
++	  (insert translation)
++	  (switch-to-buffer-other-window workspace) ; Make sure the
++					; other window holds translation 
++	  (set-window-start nil latex-buff-start)
++	  (switch-to-buffer-other-window currentbuff)))))
  
  (defun latex-access-matrix (beg end)
    "Display a matrix in emacspeak table mode. 
