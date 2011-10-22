@@ -1,0 +1,73 @@
+Index: emacs/emacs-latex-access.el
+===================================================================
+--- emacs/emacs-latex-access.el	(revision 258)
++++ emacs/emacs-latex-access.el	(working copy)
+@@ -41,11 +41,6 @@
+ ; init file. 
+ (add-hook 'LaTeX-mode-hook 'latex-access)
+ 
+-(defcustom latex-access-linesabove 0
+-"This variable determines how many lines above the currently selected
+-line should be passed to the latex-access translator and Brailled. Set to 0 for just
+-the current line, 1 for the current line as well as the line above etc.") ; Set this to how many lines above the current one
+-					; you want Brailled! I find 1 useful for solving equations.
+ ; Global value should always be nil because latex-access should never be
+ ; running globally 
+ ; Imagine how annoying it would potentially be while browsing the web,
+@@ -240,13 +235,23 @@
+   (dtk-speak text))
+ 
+ (defun latex-access-braille ()
+-  "Braille the current line Given Braille is enabled."
++  "Braille nemeth translation if Braille is enabled."
+   (make-local-variable 'latex-access-braille)
+   ; Braille the nemeth translation if the latex-access-braille setting
+   ; is t
+-  (if latex-access-braille 
+-      (let ((emacspeak-speak-messages nil)) 
+-	(latex-access-braille-line))))
++  (save-excursion 
++    (if latex-access-braille 
++	(let ((emacspeak-speak-messages nil)
++	      (currentbuff (current-buffer))
++	      (workspace (get-buffer-create "*translation.braille")))
++	  (latex-access-braille-other-window (point-min) (point-max))
++	  (make-local-variable 'split-height-threshold)
++	  (make-local-variable 'split-width-threshold)
++	  (setq split-width-threshold 80)
++	  (setq split-height-threshold nil)
++	  (switch-to-buffer-other-window workspace) ; Make sure the
++					; other window holds translation 
++	  (switch-to-buffer-other-window currentbuff)))))
+ 
+ (defun latex-access-eq (beg end)
+   "Grabs text between beg and end.
+@@ -282,17 +287,17 @@
+   (setq buffer-read-only t)
+   (goto-char 49))
+ 
+-(defun latex-access-braille-line ()
+-  "Braille a particular number of lines above the current one. Includes
+-the current line."
+-  (interactive)
+-  ; first determine current location of point on screen
+-  (save-excursion 
+-    (let ((endpoint (progn (move-end-of-line nil) (point)))
+-	  (startpoint (progn (move-beginning-of-line nil) (forward-line
+-							   (- 0 latex-access-linesabove)) (point))))
+-      (message "%s" (latex_access_emacstransbrl
+-		     (buffer-substring-no-properties startpoint endpoint))))))
++(defun latex-access-braille-other-window (beg end)
++  "Put the Braille translation of a LaTeX buffer in another buffer."
++  (let ((latex-buff-start (window-start))
++	(workspace (get-buffer-create "*translation.braille"))
++	(translation (latex_access_emacstransbrl
++		      (buffer-substring-no-properties beg end))))
++    (save-excursion 
++      (set-buffer workspace)
++      (erase-buffer) 
++      (insert translation)
++      (set-window-start nil 0))))
+ 
+ (defun latex-access-matrix (beg end)
+   "Display a matrix in emacspeak table mode. 
