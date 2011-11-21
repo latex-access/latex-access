@@ -4,8 +4,25 @@ This file is to list any bugs you find with the emacs side of the
 package. This will be helpful so we know where to look for a complete
 list of all bugs which require attention.
 
+Bugs requiring attention:
+
+- Currently as a result of the new emacs Braille implementation, for
+long documents after moving several screens into the latex document, the
+Braille and latex source lines go out of sync. Ultimately, the currently
+selected line of latex should correspond to the line directly to the
+right of it in the "other-window", which represents the Braille
+translation. However, for some reason the lines seem to go out of sync
+after moving several screens into a latex document. 
+If people could test this, by opening a latex document and scrolling
+through it until this bug is triggered, and report your findings, as
+well as consistency among different latex documents that would be very
+useful. 
+
 Bugs which have been fixed:
 
+- Currently some important messages from emacs are not shown.
+This is because we are blocking the echo area.
+We'll need to use some kind of minibuffer to display the Braille translation.
 - For some reason emacspeak says "." (dot) before the translation in speech.
 I disable the Braille and this still occurs, do other users see this?
 It may be something I need to investigate when time permits -- not a huge issue though.
@@ -17,10 +34,3 @@ fixed now
 Brailled/voiced, and when enabling, no Braille output for the latex
 access enabled message was observed. 
 Fixed of R147.
-
-Bugs requiring attention:
-
-- Currently some important messages from emacs are not shown.
-This is because we are blocking the echo area.
-We'lll need to use some kind of minibuffer to display the Braille translation.
-
