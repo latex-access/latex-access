@@ -40,11 +40,6 @@
 ; just use the (setq) function after loading this file in your .emacs or
 ; init file. 
 
-(defcustom latex-access-linesabove 0
-"This variable determines how many lines above the currently selected
-line should be passed to the latex-access translator and Brailled. Set to 0 for just
-the current line, 1 for the current line as well as the line above etc.") ; Set this to how many lines above the current one
-					; you want Brailled! I find 1 useful for solving equations.
 ; Global value should always be nil because latex-access should never be
 ; running globally 
 ; Imagine how annoying it would potentially be while browsing the web,
@@ -127,7 +122,7 @@ output when applicable"
 (defun latex-access ()
   "Set up latex-access." 
 					; Braille post-command hook so that Braille is displayed on the message line.
-  (add-hook 'post-command-hook 'latex-access-braille nil nil)
+  (add-hook 'post-command-hook 'latex-access-braille-other-window nil nil)
 					; Enable speech (emacspeak advice)
   (ad-enable-advice 'emacspeak-speak-line 'around 'latex-access-speak-line) 
   (ad-activate 'emacspeak-speak-line) ; Enable the advice. 
@@ -261,15 +256,6 @@ string and then speak, given speech is enabled."
   
   (dtk-speak text))
 
-(defun latex-access-braille ()
-  "Braille the current line Given Braille is enabled."
-  (make-local-variable 'latex-access-braille)
-  ; Braille the nemeth translation if the latex-access-braille setting
-  ; is t
-  (if latex-access-braille 
-      (let ((emacspeak-speak-messages nil)) 
-	(latex-access-braille-line))))
-
 (defun latex-access-eq (beg end)
   "Grabs text between beg and end.
 Translates all text between beg and end into Braille. Could do speech,
@@ -304,17 +290,46 @@ two points of a buffer though when calling from lisp."
   (setq buffer-read-only t)
   (goto-char 49))
 
-(defun latex-access-braille-line ()
-  "Braille a particular number of lines above the current one. Includes
-the current line."
-  (interactive)
-  ; first determine current location of point on screen
+(defun latex-access-braille-other-window ()
+  "Put the Braille translation of a LaTeX buffer in another buffer, and
+show it in the other-window, provided that Braille is switched on.
+This allows a blind user to read the LaTeX source, and directly to the
+right of it should be the corresponding Braille (nemeth) translation
+for each line, keeping lines in sync."
+
   (save-excursion 
-    (let ((endpoint (progn (move-end-of-line nil) (point)))
-	  (startpoint (progn (move-beginning-of-line nil) (forward-line
-							   (- 0 latex-access-linesabove)) (point))))
-      (message "%s" (latex_access_emacstransbrl
-		     (buffer-substring-no-properties startpoint endpoint))))))
+					; is Braille on 
+    (if latex-access-braille 
+	(let ((latex-buff-start (window-start)) ; Get starting win position so we can set new window to this later on 
+	      (emacspeak-speak-messages nil) ; Emacspeak shouldn't read Braille translation (is this still even necessary?)
+					; Make the windows split side by side not top-bottom 
+	      (split-width-threshold 80)
+	      (split-height-threshold nil)
+	      ; Make a buffer for our translation or load it if it
+	      ; already exists 
+	      (workspace (get-buffer-create "*translation.braille"))
+	      ; So we can come back to our current place later 
+	      (currentbuff (current-buffer))
+					; Get the translation from the python code 
+	      (translation (latex_access_emacstransbrl
+			    (buffer-substring-no-properties (point-min) (point-max)))))
+					; Open the relevant buffer insert translation. 
+	  (set-buffer workspace)
+	  (setq buffer-read-only nil)
+	  (erase-buffer) 
+	  (insert translation)
+	  (setq buffer-read-only t)
+	  (switch-to-buffer-other-window workspace) ; Make sure the
+					; other window holds
+					; translation, not some other
+					; random buffer 
+					; Set translation window to begin from same point as latex
+					; buffer is scrolled, hopefully keeping lines in sync. This is
+					; still a bit problematic. It works ok quite often, but also
+					; manages to make the lines out of sync frequently. 
+	  (set-window-start nil latex-buff-start)
+					; Now move back to where we started
+	  (switch-to-buffer-other-window currentbuff)))))
 
 (defun latex-access-matrix (beg end)
   "Display a matrix in emacspeak table mode. 
