@@ -5,10 +5,21 @@ I believe it is worth while to place this information here for two reasons:
 1. So users can see what ideas are in mind for the future.
 2. So anyone can assist to implement these ideas!
 
+Things still needing to be implemented:
+
+- Correct handling of my speech markup for bold, etc.
+(I think with some string manipulation in lisp this shouldn't be too hard
+with the available voice-locking functions of emacspeak.) (Has this been
+completed yet, or is there still work to be done)? 
+- Emacspeak has some nice speech functionality, which can be used for
+standard latex very well, but currently latex-access overides such
+functionality. Therefore, perhaps latex-access should only be used when
+speaking mathematics i.e. text which emacs considers to be in latex math
+mode by either surrounding dollar signs, or the environment. The text
+properties I believe indicate this, but there may be an easier way. 
+
 Things already done:
 
-- offer an installation script 
-- Offer an uninstall script.
 - Emacs functions to toggle speaking and brailling of dollar signs.
 - Support for the preprocessor
 - Could the emacs code use lisp advice around the emacs functions so
@@ -22,20 +33,10 @@ braille is updated automatically when typing?
 We would just feed the python code one line at a time in a loop. Would be useful
 when rereading an examination I think.
 (done including alignment support)
-- Functionality to show x number of prior lines as well as the current one when typing. The echo
-area is expanded, and this is very useful for solving equations. 
-The number of lines shown in the echo area i.e. how many lines above the current line
-we show is a setting available to the user. 
-- Matrix support 
+- Matrix support via emacs table mode. 
 - Allow speech and Braille to be disabled independently of each other
 This shouldn't be to hard if we divide latex-access-on/off into
 speech/braille specific functions, and update the toggle code.
-
-Things still needing to be implemented:
-
-- Correct handling of my speech markup for bold, etc.
-(I think with some string manipulation in lisp this shouldn't be too hard
-with the available voice-locking functions of emacspeak.)
-- Consistant key bindings for many functions (toggling dollars, latex-access speech/braille independently, preprocessor)
 - We need to find a better way of displaying the Braille translation, because 
-we are blocking important messages to the echo area.
+we are blocking important messages to the echo area. (Done, but see bugs
+file)
