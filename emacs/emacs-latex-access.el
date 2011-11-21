@@ -39,7 +39,6 @@
 ; variables. By default turn both on. To override or change this setting
 ; just use the (setq) function after loading this file in your .emacs or
 ; init file. 
-(add-hook 'LaTeX-mode-hook 'latex-access)
 
 (defcustom latex-access-linesabove 0
 "This variable determines how many lines above the currently selected
@@ -99,21 +98,44 @@ output when applicable"
       (latex-access-speak (latex_access_emacstranssp (thing-at-point 'line))) ; Speech to pass to
     ad-do-it)) ; else call default emacspeak line handler 
 
+(defadvice LaTeX-math-mode (before latex-access-auto-enable)
+  "Auto enable or disable latex-access when latex-math-mode is toggled."
+  (latex-access-auto-enabler))
+
+(defun latex-access-auto-enabler ()
+  "Toggle the state of speech and Braille, only if they are supposed to
+  be automatically enabled though, eg. by latex-access-use-* variables."
+  (make-local-variable 'latex-access-braille)
+  (make-local-variable 'latex-access-speech)
+  (make-local-variable 'latex-access-math-mode)
+					; Toggle speech now 
+  (if latex-access-use-speech (if latex-access-speech 
+				  (setq latex-access-speech nil) 
+				(setq latex-access-speech t)))
+  ; Toggle Braille now 
+  (if latex-access-use-braille (if latex-access-braille 
+				   (setq latex-access-braille nil)
+				 (setq latex-access-braille t)))
+  (if latex-access-math-mode 
+      (progn
+	(setq latex-access-math-mode nil)
+	(message "LaTeX-math-mode disabled"))
+    (progn 
+      (setq latex-access-math-mode t)
+      (message "LaTeX-math-mode enabled"))))
+
 (defun latex-access ()
-  "Set up and load latex-access." 
-  (interactive)
-  (make-local-variable 'latex-access-braille) ; We don't want
-  (make-local-variable 'latex-access-speech) ; We don't want latex-access to be global 
-					; Do we enable speech?
-  (if latex-access-use-speech (setq latex-access-speech t)) 
-					; Do we enable Braille?
-  (if latex-access-use-braille (setq latex-access-braille t))
+  "Set up latex-access." 
 					; Braille post-command hook so that Braille is displayed on the message line.
-  (add-hook 'post-command-hook 'latex-access-braille nil t)
+  (add-hook 'post-command-hook 'latex-access-braille nil nil)
 					; Enable speech (emacspeak advice)
   (ad-enable-advice 'emacspeak-speak-line 'around 'latex-access-speak-line) 
   (ad-activate 'emacspeak-speak-line) ; Enable the advice. 
-  (message "Latex-access ready"))
+  ; Enable latex-math-mode latex-access toggle advice. 
+  (ad-enable-advice 'LaTeX-math-mode 'before 'latex-access-auto-enable)
+  (ad-activate 'LaTeX-math-mode) ; Enable the advice. 
+  (setq latex-access-math-mode nil)) ; Assume latex-math-mode is disabled
+				    ; at start up.  
 
 (defun latex-access-toggle-speech ()
   "Toggle latex-access speech on/off."
@@ -324,5 +346,7 @@ may be used to navigate the matrix."
 		    (latex_access_emacsGetTableCurrentRow table)
 		    (latex_access_emacsBuildHeaderString
 		     (latex_access_emacsGetTableTopRow table)) table))))))
+
+(latex-access) ; Set everything up 
 
 ;;; emacs-latex-access.el ends here
