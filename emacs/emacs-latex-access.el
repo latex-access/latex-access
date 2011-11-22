@@ -362,6 +362,39 @@ may be used to navigate the matrix."
 		    (latex_access_emacsBuildHeaderString
 		     (latex_access_emacsGetTableTopRow table)) table))))))
 
+;;; Experimental...
+;;; move forward or back by a "mathematical term" 
+;;; This could be useful for increasing efficiency for things like
+;;; indicies but I'm just not sure 
+
+(defun latex-access-next-term ()
+  "Move forward a mathematical term on current line"
+  (interactive)
+    (let ((endtext (point)) ; Where cursor is now 
+	  (begtext (progn (beginning-of-line) (point)))) ; Beginning of
+					; line 
+					; We must use the next few separate let statements so we can
+					; reference variables we have already defined
+					; Next line assigns value to cursor of character in from  the
+					; start of line. If cursor was on the first character of line,
+					; it's value would be 1. 
+      (let ((cursor (+ (- endtext begtext) 1))
+	  (currentline (thing-at-point 'line))) ; Grab current line of LaTeX
+					; Find out where the cursor should move to as a result of
+					; calling the python function. 
+	(let ((newposs (latex_access_emacsNextTerm currentline cursor)))
+      (if (not (= newposs -1)) ; Did we actually find a new term
+					; Go to beginning of line, then move the specified number of
+					; characters forward so we are in the updated cursor position
+					; on current line. 
+	  (progn 
+	    (beginning-of-line)
+	    (forward-char (- newposs 1)))
+	(progn 
+	  (goto-char endtext) ; Return the cursor to where it was
+			      ; previously since no term found
+	  (message "No more terms")))))))
+
 (latex-access) ; Set everything up 
 
 ;;; emacs-latex-access.el ends here
