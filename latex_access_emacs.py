@@ -27,12 +27,14 @@ import speech
 import nemeth 
 import preprocessor
 import table
+import motion
 
 n=nemeth.nemeth()
 s=speech.speech()
 p=preprocessor.preprocessor()
 nc=preprocessor.newcommands(p)
 t=table
+m=motion
 
 if __name__ == "__main__":
   print "This is just a module."
@@ -118,3 +120,17 @@ def GetTableCurrentRow (latextable):
   accessibility."""
 
   return t.GetTableCurrentRow (latextable)
+
+def NextTerm (line,cursor):
+  """Move to the next term.
+
+  For details see the function definition in motion.py"""
+
+  return m.NextTerm(line,cursor)
+
+def PreviousTerm (line, cursor):
+  """Move to previous term on line.
+
+  For details see the function definition in motion.py."""
+
+  return m.PreviousTerm (line, cursor)
