@@ -24,6 +24,12 @@ the document, for instance, the move by term functions should move to
 the next/previous mathematical terms. This should save lots of reading
 or arrowing..."""
 
+import speech
+import preprocessor 
+
+s=speech.speech() 
+p=preprocessor.preprocessor()
+
 def NextTerm (line, cursor):
   """Move to the next mathematical term.
 
@@ -81,3 +87,18 @@ def PreviousTerm (line, cursor):
       return charnumb  # Return the place where cursor should be moved too, just before the symbol from symbols(...)
     charnumb-=1 # No match, move back a character and re-iterate 
   return -1 # No terms to the left of cursor 
+
+def SpeakSegment (text, start, end):
+  """Speak a particular section of a string of text.
+
+  This function just returns a substring from the current string which
+  can then be passed to the speech synthesizer to speak."""
+
+  if end == -1: # should speak to end of list
+    end=len(text)-1
+
+  if start == -1: # Should speak from start of text
+    start=0
+  
+  return s.translate(p.translate(text[start-1:end-1])) # Only speak the
+# new term, not any parts of the following terms...

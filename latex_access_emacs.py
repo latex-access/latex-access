@@ -134,3 +134,10 @@ def PreviousTerm (line, cursor):
   For details see the function definition in motion.py."""
 
   return m.PreviousTerm (line, cursor)
+
+def SpeakSegment (text, start, end):
+  """Speak a substring of a string of text.
+
+  Consult the function definition in motion.py for details."""
+
+  return m.SpeakSegment(text, start, end)
