@@ -18,6 +18,7 @@ import re
 import types
 import os.path
 from path import get_path
+import codecs
 # Regular expression to match LaTeX commands
 latex_command=re.compile(r"\\(([a-zA-Z]+)|[,!;])")
 #Regexp for testing if a string contains only primes
@@ -38,11 +39,11 @@ class translator:
 
         The file is a simple text file, lines beginning with ; are ignored.
         Other lines are split at the first space into a command and translation.'''
-        f=open(os.path.join(get_path(),filename))
+        f=codecs.open(os.path.join(get_path(),filename),"r","utf-8")
         for l in f.readlines():
             if l[0]==";" or l[0]=="\n": continue
             words=l.split(" ")
-            self.table[words[0]]=(" ".join(words[1:])).strip("\n")
+            self.table[words[0]]=(" ".join(words[1:])).strip("\r\n")
         f.close()
 
     def load_files(self):
@@ -69,7 +70,7 @@ class translator:
             if curr in self.table:
                 i+=len(curr)
                 result=self.table[curr]
-                if type(result) == types.StringType:
+                if type(result) in (types.StringType,types.UnicodeType):
                     output+=self.space
                     output += result
                     output+=self.space
