@@ -44,15 +44,15 @@ def NextTerm (line, cursor):
 # Next line sets up the python index which points to the character under
 # the cursor which can be used to access that particular character in
 # the python string. 
-  charnumb = cursor
+  charnumb = cursor-1
 
 # Inefficient I know, but we want to find the first match of any valid
 # separator
 # Therefore, cycle through each character of string, onwards from where
 # the cursor is situated, i.e. to the right. 
-  for character in line[cursor:]:
+  for character in line[cursor-1:]:
     if character in symbols: # We got a match, we now have a new term
-      return charnumb +1 # Return where the cursor should be moved too 
+      return charnumb +2 # Return where the cursor should be moved too, i.e. just after the symbols from symbols(...)
     charnumb+=1 # no match next character 
   return -1 # No more terms to the right on current line. 
 
@@ -75,9 +75,9 @@ def PreviousTerm (line, cursor):
   symbols=("+", "-", "&", "=", "<", ">", "\\leq", "\\geq")
 # Where abouts in string do we start from, i.e. where the cursor is
 # sitting, but subtract one since indexing in python starts at 0
-  charnumb = cursor
+  charnumb = cursor-1
   while charnumb >= 0: # Move backwards through the string 
     if line[charnumb] in symbols: # We have a match
-      return charnumb +1 # Return the place where cursor should be moved too
+      return charnumb  # Return the place where cursor should be moved too, just before the symbol from symbols(...)
     charnumb-=1 # No match, move back a character and re-iterate 
   return -1 # No terms to the left of cursor 
