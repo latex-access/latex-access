@@ -382,19 +382,20 @@ may be used to navigate the matrix."
 ;;; This could be useful for increasing efficiency for things like
 ;;; indicies but I'm just not sure 
 
-(defun latex-access-next-term ()
-  "Move forward a mathematical term on current line"
+(defun latex-access-next-term (&optional currentline)
+  "Move forward a mathematical term on line"
   (interactive)
     (let ((endtext (point)) ; Where cursor is now 
-	  (begtext (progn (beginning-of-line) (point)))) ; Beginning of
-					; line 
+	  (begtext (progn (beginning-of-line) (point))) ; Beginning of line 
+					; If optional arg currentline supplied, use that text,
+					; otherwise, just get the current line 
+	  (currentline (if (null currentline) (thing-at-point 'line) currentline)))
 					; We must use the next few separate let statements so we can
 					; reference variables we have already defined
 					; Next line assigns value to cursor of character in from  the
 					; start of line. If cursor was on the first character of line,
 					; it's value would be 1. 
-      (let ((cursor (+ (- endtext begtext) 1))
-	  (currentline (thing-at-point 'line))) ; Grab current line of LaTeX
+      (let ((cursor (+ (- endtext begtext) 1)))
 					; Find out where the cursor should move to as a result of
 					; calling the python function. 
 	(let ((newposs (latex_access_emacsNextTerm currentline cursor)))
@@ -411,22 +412,24 @@ may be used to navigate the matrix."
 			(- (latex_access_emacsNextTerm currentline newposs) 1))))
 	(progn 
 	  (goto-char endtext) ; Return the cursor to where it was
-			      ; previously since no term found
+					; previously since no term found
 	  (message "No more terms")))))))
 
-(defun latex-access-previous-term ()
-  "Move backward a mathematical term on current line"
+(defun latex-access-previous-term (&optional currentline)
+  "Move backward a mathematical term on line"
   (interactive)
-    (let ((endtext (point)) ; Where cursor is now 
-	  (begtext (progn (beginning-of-line) (point)))) ; Beginning of
+  (let ((endtext (point)) ; Where cursor is now 
+	(begtext (progn (beginning-of-line) (point))) ; Beginning of line
+					; Use optionally supplied text in currentline, otherwise just
+					; get current line of latex
+	(currentline (if (null currentline) (thing-at-point 'line) currentline)))
 					; line 
 					; We must use the next few separate let statements so we can
 					; reference variables we have already defined
 					; Next line assigns value to cursor of character in from  the
 					; start of line. If cursor was on the first character of line,
 					; it's value would be 1. 
-      (let ((cursor (+ (- endtext begtext) 1))
-	  (currentline (thing-at-point 'line))) ; Grab current line of LaTeX
+      (let ((cursor (+ (- endtext begtext) 1)))
 					; Find out where the cursor should move to as a result of
 					; calling the python function. 
 	(let ((newposs (latex_access_emacsPreviousTerm currentline cursor)))
