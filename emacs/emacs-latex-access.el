@@ -382,20 +382,19 @@ may be used to navigate the matrix."
 ;;; This could be useful for increasing efficiency for things like
 ;;; indicies but I'm just not sure 
 
-(defun latex-access-next-term (&optional currentline)
-  "Move forward a mathematical term on line"
+(defun latex-access-next-term ()
+  "Move forward a mathematical term on current line"
   (interactive)
     (let ((endtext (point)) ; Where cursor is now 
-	  (begtext (progn (beginning-of-line) (point))) ; Beginning of line 
-					; If optional arg currentline supplied, use that text,
-					; otherwise, just get the current line 
-	  (currentline (if (null currentline) (thing-at-point 'line) currentline)))
+	  (begtext (progn (beginning-of-line) (point)))) ; Beginning of
+					; line 
 					; We must use the next few separate let statements so we can
 					; reference variables we have already defined
 					; Next line assigns value to cursor of character in from  the
 					; start of line. If cursor was on the first character of line,
 					; it's value would be 1. 
-      (let ((cursor (+ (- endtext begtext) 1)))
+      (let ((cursor (+ (- endtext begtext) 1))
+	  (currentline (thing-at-point 'line))) ; Grab current line of LaTeX
 					; Find out where the cursor should move to as a result of
 					; calling the python function. 
 	(let ((newposs (latex_access_emacsNextTerm currentline cursor)))
@@ -412,24 +411,22 @@ may be used to navigate the matrix."
 			(- (latex_access_emacsNextTerm currentline newposs) 1))))
 	(progn 
 	  (goto-char endtext) ; Return the cursor to where it was
-					; previously since no term found
+			      ; previously since no term found
 	  (message "No more terms")))))))
 
-(defun latex-access-previous-term (&optional currentline)
-  "Move backward a mathematical term on line"
+(defun latex-access-previous-term ()
+  "Move backward a mathematical term on current line"
   (interactive)
-  (let ((endtext (point)) ; Where cursor is now 
-	(begtext (progn (beginning-of-line) (point))) ; Beginning of line
-					; Use optionally supplied text in currentline, otherwise just
-					; get current line of latex
-	(currentline (if (null currentline) (thing-at-point 'line) currentline)))
+    (let ((endtext (point)) ; Where cursor is now 
+	  (begtext (progn (beginning-of-line) (point)))) ; Beginning of
 					; line 
 					; We must use the next few separate let statements so we can
 					; reference variables we have already defined
 					; Next line assigns value to cursor of character in from  the
 					; start of line. If cursor was on the first character of line,
 					; it's value would be 1. 
-      (let ((cursor (+ (- endtext begtext) 1)))
+      (let ((cursor (+ (- endtext begtext) 1))
+	  (currentline (thing-at-point 'line))) ; Grab current line of LaTeX
 					; Find out where the cursor should move to as a result of
 					; calling the python function. 
 	(let ((newposs (latex_access_emacsPreviousTerm currentline cursor)))
@@ -449,6 +446,25 @@ may be used to navigate the matrix."
 			      ; previously since no term found
 	  (message "No more terms")))))))
 
-(latex-access) ; Set everything up 
+(defun latex-access-skim-terms (&optional arg)
+  "Skim through mathematical terms in latex using
+emacspeak-execute-repeatedly function. Optionally choose a line to
+perform this on by supplying a prefix arg or optional arg if calling
+through lisp. A positive arg refers to lines above the point, while
+negative args refer to lines below the point. The logic here is that
+when working with mathematical working you'll normally want to review
+the previous line..."
+  (interactive "P") ; We accept c-u args
+  (when (listp arg) (setq arg (car arg )))
+  (save-excursion 
+    (if (not (null arg))
+					; Convert so it is suitable for forward-line
+					; function, i.e. we expect positive arg to go up
+					; so make it negative, since forward-line has
+					; the reverse effect 
+	(forward-line (- 0 arg)))
+    (emacspeak-execute-repeatedly 'latex-access-next-term))) ; Skim the terms.
+
+(latex-access) ; Set everything up
 
 ;;; emacs-latex-access.el ends here
