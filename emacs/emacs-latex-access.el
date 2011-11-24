@@ -89,8 +89,23 @@ emacspeak-speak-line function. This means all line navigation with
 emacs/emacspeak will call this function, hence, providing latex-access
 output when applicable"
   (make-local-variable 'latex-access-speech)
+  (when (listp arg) (setq arg (car arg )))
   (if latex-access-speech
-      (latex-access-speak (latex_access_emacstranssp (thing-at-point 'line))) ; Speech to pass to
+      (cond 
+       ((null arg) (latex-access-speak (latex_access_emacstranssp
+					(thing-at-point 'line)))) ; Speech to pass to
+       ((> arg 0)
+	(save-excursion 
+	  (let ((begposs (point))) 
+	    (end-of-line)
+	    (latex-access-speak (latex_access_emacstranssp
+				 (buffer-substring-no-properties begposs (point))))))) ; Speak from (point) to end of line
+       ((< arg 0)
+	(save-excursion 
+	  (let ((endposs (point))) 
+	    (beginning-of-line)
+	    (latex-access-speak (latex_access_emacstranssp
+				 (buffer-substring-no-properties (point) endposs))))))) ; Speak from start of line to point 
     ad-do-it)) ; else call default emacspeak line handler 
 
 (defadvice LaTeX-math-mode (before latex-access-auto-enable)
