@@ -82,10 +82,21 @@ def PreviousTerm (line, cursor):
 # Where abouts in string do we start from, i.e. where the cursor is
 # sitting, but subtract one since indexing in python starts at 0
   charnumb = cursor-1
+
+  if line[charnumb] in symbols: # Are we on separator symbol 
+    charnumb-=1 # Yes, we are, move back off the symbol 
+  elif line[charnumb-1] in symbols: # We are on the first character of a term
+    charnumb -=2 # Therefore, move back over the term separator 
+
   while charnumb >= 0: # Move backwards through the string 
     if line[charnumb] in symbols: # We have a match
-      return charnumb  # Return the place where cursor should be moved too, just before the symbol from symbols(...)
+      while charnumb >=0:
+        if line[charnumb] in symbols: # we found the boundary of new term
+          return charnumb+2 # includes separator symbol, put into form chars from start of line, where first char of line =1, place cursor just after separator symbol
+        charnumb=-1 # go to previous char
+      return charnumb +3 # After exiting loop charnumb will be -1 if we reach start of line hence +3
     charnumb-=1 # No match, move back a character and re-iterate 
+
   return -1 # No terms to the left of cursor 
 
 def SpeakSegment (text, start, end):
