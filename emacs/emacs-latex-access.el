@@ -421,7 +421,11 @@ may be used to navigate the matrix."
 					; on current line. 
 	  (progn 
 	    (beginning-of-line)
-	    (forward-char (- newposs 1)))
+	    (forward-char (- newposs 1))
+					; Speak the new term...
+	    (latex-access-speak (latex_access_emacsSpeakSegment currentline
+			(- newposs 1)
+			(- (latex_access_emacsNextTerm currentline newposs) 1))))
 	    (progn 
 	  (goto-char endtext) ; Return the cursor to where it was
 			      ; previously since no term found
