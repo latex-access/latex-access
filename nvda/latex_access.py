@@ -22,6 +22,7 @@ Features:
 	* matrix browser for reading larger matrices - status: under development.
 	* The preprocessor (support for custom defined LaTeX commands) - status: not completed.
 	* Access to tables - status: not completed.
+	* access to motion for moving quickly through mathematical terms - status: not completed.
 """
 
 from comtypes.client import CreateObject
@@ -246,7 +247,7 @@ This method ensures that LaTeX translation occurs when the system caret moves, a
 		"kb:control+shift+M":"inputMatrix",
 		"kb:control+shift+L": "matrixRight",
 		"kb:control+shift+J": "matrixLeft",
-		"kb:control+shift+K": "matrixUp",
+		"kb:control+shift+K": "matrixDown",
 		"kb:control+shift+I": "matrixUp",
 	}
 
