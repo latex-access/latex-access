@@ -141,3 +141,40 @@ def SpeakSegment (text, start, end):
   Consult the function definition in motion.py for details."""
 
   return m.SpeakSegment(text, start, end)
+
+def BrailleDisplaySize ():
+  """Return the size of a Braille display.
+
+  Use Brlapi to figure out the size of the connected Braille display."""
+
+  try:
+    import brlapi
+    b=brlapi.Connection() # Connect to the display.
+    return int(b.displaySize[0]) # Return the number of cells of display.
+  except:
+    return -1 # Either brlapi not found or display not connected
+
+def DetermineWindowSize (windowwidth, bdisplaywidth):
+  """Determine how much the window should be shrunk or increased in
+  width.
+
+  A positive value is increase while a negative return value is shrink
+  factor."""
+
+  if bdisplaywidth == -1:
+    return 0 # Brltty probably isn't running so don't bother
+
+  leftover = windowwidth%bdisplaywidth # How many characters over the
+# side of x*display width the source text spans
+  minwidth = windowwidth-leftover # Minimum width we're happy to make
+# window 
+  maxwidth = minwidth+bdisplaywidth # Maximum width we can make window 
+  mindiff = windowwidth-minwidth # Difference between window size and
+# minimum width 
+  maxdiff = maxwidth-windowwidth # Difference between window size and
+# maximum width 
+
+  if maxdiff < mindiff: # Which one are we closest too?
+    return maxdiff # Increase the window size by maxdiff characters 
+  else: # Shrink 
+    return 0-mindiff # Shrink the window size by mindiff characters, is negative of course
