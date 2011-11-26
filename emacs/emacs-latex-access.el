@@ -319,10 +319,10 @@ for each line, keeping lines in sync."
 					; Make the windows split side by side not top-bottom 
 	      (split-width-threshold 80)
 	      (split-height-threshold nil)
-	      ; Make a buffer for our translation or load it if it
-	      ; already exists 
+					; Make a buffer for our translation or load it if it
+					; already exists 
 	      (workspace (get-buffer-create "*translation.braille"))
-	      ; So we can come back to our current place later 
+					; So we can come back to our current place later 
 	      (currentbuff (current-buffer))
 					; Get the translation from the python code 
 	      (translation (latex_access_emacstransbrl
@@ -338,12 +338,8 @@ for each line, keeping lines in sync."
 					; other window holds
 					; translation, not some other
 					; random buffer 
-					; Set translation window to begin from same point as latex
-					; buffer is scrolled, hopefully keeping lines in sync. This is
-					; still a bit problematic. It works ok quite often, but also
-					; manages to make the lines out of sync frequently. 
-					; Now move back to where we started
-	  (switch-to-buffer-other-window currentbuff)))))
+	  (switch-to-buffer-other-window currentbuff)
+	  (latex-access-setup-source-window))))) ; Set desireable width 
 
 (defun latex-access-matrix (beg end)
   "Display a matrix in emacspeak table mode. 
@@ -465,9 +461,9 @@ the previous line..."
     (emacspeak-execute-repeatedly 'latex-access-next-term))) ; Skim the terms.
 
 (defun latex-access-setup-source-window () 
-  (interactive) 
   "Set the source window x characters wide given braille display width,
 provided Braille is enabled of course."
+  (interactive)
 (if latex-access-braille
     (enlarge-window-horizontally 
      (- (latex_access_emacsDetermineWindowSize (window-width)
