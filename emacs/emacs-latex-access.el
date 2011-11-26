@@ -463,7 +463,6 @@ the previous line..."
 (defun latex-access-setup-source-window () 
   "Set the source window x characters wide given braille display width,
 provided Braille is enabled of course."
-  (interactive)
 (if latex-access-braille
     (enlarge-window-horizontally 
      (- (latex_access_emacsDetermineWindowSize (window-width)
