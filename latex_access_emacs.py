@@ -174,7 +174,7 @@ def DetermineWindowSize (windowwidth, bdisplaywidth):
   maxdiff = maxwidth-windowwidth # Difference between window size and
 # maximum width 
 
-  if maxdiff < mindiff: # Which one are we closest too?
-    return maxdiff # Increase the window size by maxdiff characters 
-  else: # Shrink 
+  if maxdiff > mindiff: # Which one are we closest too?
     return 0-mindiff # Shrink the window size by mindiff characters, is negative of course
+  else: # Increase 
+    return maxdiff # Increase the window size by maxdiff characters 
