@@ -464,6 +464,15 @@ the previous line..."
 	(forward-line (- 0 arg)))
     (emacspeak-execute-repeatedly 'latex-access-next-term))) ; Skim the terms.
 
+(defun latex-access-setup-source-window () 
+  (interactive) 
+  "Set the source window x characters wide given braille display width,
+provided Braille is enabled of course."
+(if latex-access-braille
+    (enlarge-window-horizontally 
+     (latex_access_emacsDetermineWindowSize (window-width)
+					    (latex_access_emacsBrailleDisplaySize)))))
+
 (latex-access) ; Set everything up
 
 ;;; emacs-latex-access.el ends here
