@@ -2,4 +2,4 @@ The following is a list of buggs found in the latex_access GlobalPlugin
 for NVDA.  Feel free to add more as they arise, and remove ones that are
 fixed.
 
-	* Lagging: NVDA lags a bit when using a braille display while using the plugin.  I think this may be because of the way we go back to default behaviour: the plugin brailles the non-translated current line as a message instead of using the usual cursor functionality.  I am not sure how to implement with yet however.
+	* Lagging: NVDA lags a bit when using a braille display while using the plugin.  I think this may be because of the way we go back to default behaviour: the plugin brailles the non-translated current line as a message instead of using the usual cursor functionality.  I am not sure how to fix this yet however.

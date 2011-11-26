@@ -55,21 +55,19 @@ class EditableText (NVDAObjects.behaviors.EditableText):
 	row = None
 	column = None
 
-	def _caretScriptPostMovedHelper(self, speakUnit, info = None):
+	def _caretScriptPostMovedHelper(self, speakUnit):
 		"""
 This method ensures that LaTeX translation occurs when the system caret moves, and also makes sure that normal behaviour occurs when l{processMaths} is off.
 		"""
 
 		if scriptHandler.isScriptWaiting ():
 			return
-
-		if not info:
-			try:
-				info = self.makeTextInfo (textInfos.POSITION_CARET)
-			except:
-				return
+		try:
+			info = self.makeTextInfo (textInfos.POSITION_CARET)
+		except:
+			return
 		if config.conf["reviewCursor"]["followCaret"] and api.getNavigatorObject() is self:
-			api.setReviewPosition (info)
+			api.setReviewPosition (info.copy())
 		if speakUnit == textInfos.UNIT_LINE and EditableText.processMaths:
 			spokenLine = GetLine ()
 			brailledLine = GetLine ()
