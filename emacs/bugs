@@ -4,7 +4,7 @@ This file is to list any bugs you find with the emacs side of the
 package. This will be helpful so we know where to look for a complete
 list of all bugs which require attention.
 
-Bugs requiring attention:
+Bugs which have been fixed:
 
 - Currently as a result of the new emacs Braille implementation, for
 long documents after moving several screens into the latex document, the
@@ -17,9 +17,7 @@ If people could test this, by opening a latex document and scrolling
 through it until this bug is triggered, and report your findings, as
 well as consistency among different latex documents that would be very
 useful. 
-
-Bugs which have been fixed:
-
+Comment: Fixed for me as of r276 -- only translate the current screen, not the entire buffer! Please, update and reopen this concern if you still get problems...
 - Currently some important messages from emacs are not shown.
 This is because we are blocking the echo area.
 We'll need to use some kind of minibuffer to display the Braille translation.
@@ -27,7 +25,6 @@ We'll need to use some kind of minibuffer to display the Braille translation.
 I disable the Braille and this still occurs, do other users see this?
 It may be something I need to investigate when time permits -- not a huge issue though.
 Fixed of r127 -- load python module only once.
-
 - Part of the Braille translation was spoken by emacspeak. (should be
 fixed now
 - Latex-access toggle didn't work properly when disabled, nothing was
