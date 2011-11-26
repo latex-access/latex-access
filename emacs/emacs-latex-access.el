@@ -315,8 +315,7 @@ for each line, keeping lines in sync."
   (save-excursion 
 					; is Braille on 
     (if latex-access-braille 
-	(let ((latex-buff-start (window-start)) ; Get starting win position so we can set new window to this later on 
-	      (emacspeak-speak-messages nil) ; Emacspeak shouldn't read Braille translation (is this still even necessary?)
+	(let ((emacspeak-speak-messages nil) ; Emacspeak shouldn't read Braille translation (is this still even necessary?)
 					; Make the windows split side by side not top-bottom 
 	      (split-width-threshold 80)
 	      (split-height-threshold nil)
@@ -327,7 +326,8 @@ for each line, keeping lines in sync."
 	      (currentbuff (current-buffer))
 					; Get the translation from the python code 
 	      (translation (latex_access_emacstransbrl
-			    (buffer-substring-no-properties (point-min) (point-max)))))
+			    (buffer-substring-no-properties
+			     (window-start) (window-end)))))
 					; Open the relevant buffer insert translation. 
 	  (set-buffer workspace)
 	  (setq buffer-read-only nil)
@@ -342,7 +342,6 @@ for each line, keeping lines in sync."
 					; buffer is scrolled, hopefully keeping lines in sync. This is
 					; still a bit problematic. It works ok quite often, but also
 					; manages to make the lines out of sync frequently. 
-	  (set-window-start nil latex-buff-start)
 					; Now move back to where we started
 	  (switch-to-buffer-other-window currentbuff)))))
 
