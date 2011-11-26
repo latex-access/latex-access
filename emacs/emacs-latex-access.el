@@ -470,8 +470,8 @@ the previous line..."
 provided Braille is enabled of course."
 (if latex-access-braille
     (enlarge-window-horizontally 
-     (latex_access_emacsDetermineWindowSize (window-width)
-					    (latex_access_emacsBrailleDisplaySize)))))
+     (- (latex_access_emacsDetermineWindowSize (window-width)
+					    (latex_access_emacsBrailleDisplaySize)) 1))))
 
 (latex-access) ; Set everything up
 
