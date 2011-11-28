@@ -144,9 +144,9 @@ output when applicable"
   ; Enable latex-math-mode latex-access toggle advice. 
   (ad-enable-advice 'LaTeX-math-mode 'before 'latex-access-auto-enable)
   (ad-activate 'LaTeX-math-mode) ; Enable the advice. 
-  (setq latex-access-math-mode nil)) ; Assume latex-math-mode is disabled
-				    ; at start up.  
-
+  (setq latex-access-math-mode nil) ; Assume latex-math-mode is disabled
+					; at start up.  
+  (latex_access_emacsactivateSettings)) ; Activate user settings from file
 (defun latex-access-toggle-speech ()
   "Toggle latex-access speech on/off."
   (interactive)
@@ -467,6 +467,13 @@ provided Braille is enabled of course."
     (enlarge-window-horizontally 
      (- (latex_access_emacsDetermineWindowSize (window-width)
 					    (latex_access_emacsBrailleDisplaySize)) 1))))
+
+(defun latex-access-load-settings ()
+  "Allow a user to load their latex-access settings stored in ~/.latex-access"
+  (interactive)
+  (if (latex_access_emacsactivateSettings)
+      (message "Loaded settings")
+    (message "No configuration file, continuing with defaults.")))
 
 (latex-access) ; Set everything up
 
