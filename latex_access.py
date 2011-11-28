@@ -19,6 +19,11 @@ import types
 import os.path
 from path import get_path
 import codecs
+
+globals
+# Global settings for latex-access, these are the default values 
+settings = {"brailledollars":"True","speakdollars":"True"}
+
 # Regular expression to match LaTeX commands
 latex_command=re.compile(r"\\(([a-zA-Z]+)|[,!;])")
 #Regexp for testing if a string contains only primes
@@ -264,3 +269,21 @@ def get_subsuper(input,start):
                 i=lower[1]    
     return (lower,upper,i)
 
+def loadSettings (file):
+  """Read settings from file.
+
+  This function reads the setting values from file. The settings are
+  saved in the public dict settings. The file should be in the form
+  settingname value
+
+  Where settingname is a valid setting and value is the value of that
+  setting. The file may be commented by use of ; but only at the start
+  of a line! Blank lines are ignored."""
+
+  f=open(file, "r")
+  for line in f.readlines ():
+    if line[0] == "\n" or line[0] == ";": # Skip some irrelevant stuff
+      continue 
+    words = line.split()
+    settings[words[0]] = words[1]
+  f.close()
