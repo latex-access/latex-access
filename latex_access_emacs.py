@@ -23,6 +23,8 @@
 interact with classes."""
 
 import sys
+import os.path
+import latex_access
 import speech
 import nemeth 
 import preprocessor
@@ -39,6 +41,30 @@ m=motion
 if __name__ == "__main__":
   print "This is just a module."
   exit (-1)
+
+def activateSettings ():
+  """Activate settings stored in a file for emacs.
+
+  This function activates the settings in a file, which for the emacs
+  module is ~/.latex-access."""
+
+  try: # Settings file doesn't necessarily exist 
+    latex_access.loadSettings (os.path.expanduser("~/.latex-access"))
+  except: 
+    return False
+
+# Now convert settings in the dictionary into the proper variables 
+
+  if latex_access.settings['brailledollars'].lower() == 'true':
+    n.remove_dollars = False 
+  else:
+    n.remove_dollars = True
+
+  if latex_access.settings['speakdollars'].lower() == 'true':
+    s.remove_dollars = False
+  else:
+    s.remove_dollars = True 
+  return True
 
 def transbrl (arg):
   """Translate latex code into Nemeth Braile.
