@@ -22,7 +22,7 @@ import codecs
 
 globals
 # Global settings for latex-access, these are the default values 
-settings = {"brailledollars":"True","speakdollars":"True"}
+settings = {"brailletranslation":"True", "speechtranslation":"True","brailledollars":"True","speakdollars":"True"}
 
 # Regular expression to match LaTeX commands
 latex_command=re.compile(r"\\(([a-zA-Z]+)|[,!;])")
