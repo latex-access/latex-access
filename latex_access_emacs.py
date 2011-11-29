@@ -43,50 +43,19 @@ if __name__ == "__main__":
   exit (-1)
 
 def activateSettings ():
-  """Activate settings stored in a file for emacs.
+  """Activate the latex-access settings stored in file.
 
-  This function activates the settings in a file, which for the emacs
-  module is ~/.latex-access."""
+  Consult the actual function definition in latex_access.py for details
+  and documentation."""
 
-  try: # Settings file doesn't necessarily exist 
-    latex_access.loadSettings (os.path.expanduser("~/.latex-access"))
-  except: 
-    return False
-
-# Now convert settings in the dictionary into the proper variables 
-
-  if latex_access.settings['brailledollars'].lower() == 'true':
-    n.remove_dollars = False 
-  else:
-    n.remove_dollars = True
-
-  if latex_access.settings['speakdollars'].lower() == 'true':
-    s.remove_dollars = False
-  else:
-    s.remove_dollars = True 
-  return True
+  return latex_access.activateSettings (os.path.expanduser("~/.latex-access"), {"braille":n,"speech":s})
 
 def getSetting (setting):
-  """Get the value of setting for emacs.
+  """Provide emacs access to the getSetting function.
 
-  This function searches for the particular setting in the settings
-  dict, and if found, returns the settings' value."""
+  Visit latex_access.py for the real documentation of this function."""
 
-  if setting in latex_access.settings.keys():
-    return booleaniseSetting(latex_access.settings[setting])
-  else: # setting not found
-    return False
-
-def booleaniseSetting (setting):
-  """Turn a setting value into a boolean type.
-  
-  As settings read from the config file are of type string, return a
-  boolean representation of this. 'true' or 'True' = True, while any
-  other string is False."""
-  if str(setting).lower () == 'true':
-    return True
-  else:
-    return False
+  return latex_access.getSetting (setting)
 
 def transbrl (arg):
   """Translate latex code into Nemeth Braile.
@@ -119,9 +88,6 @@ def toggle_dollars_speech ():
   s.remove_dollars=not s.remove_dollars
   return s.remove_dollars
   
-
-
-
 def preprocessor_add(command,args,translation_string):
   '''A function to add entries to the preprocessor'''
   p.add_from_string(command,args,translation_string)
