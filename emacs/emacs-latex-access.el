@@ -38,16 +38,18 @@
 (setq latex-access-speech nil)
 
 ; Voice definitions, customize these by customizing the <voice_name>-settings variable.
-(defvoice latex-access-voice-bold (list nil 1 6 6  nil)
-"Voice used for bold commands")
-(defvoice latex-access-voice-subscript (list nil 3 nil nil nil)
-"Voice used for subscripts")
-(defvoice latex-access-voice-mathcal (list nil 9  nil nil  nil)
-"Voice used for mathcal commands")
 
-(setq latex-access-personality-alist (list (list "bold" 'latex-access-voice-bold)
-(list "mathcal" 'latex-access-voice-mathcal)
-(list "sub" 'latex-access-voice-subscript)))
+(if (featurep 'emacspeak) (progn 
+			    (defvoice latex-access-voice-bold (list nil 1 6 6  nil)
+			      "Voice used for bold commands")
+			    (defvoice latex-access-voice-subscript (list nil 3 nil nil nil)
+			      "Voice used for subscripts")
+			    (defvoice latex-access-voice-mathcal (list nil 9  nil nil  nil)
+			      "Voice used for mathcal commands")
+			    
+			    (setq latex-access-personality-alist (list (list "bold" 'latex-access-voice-bold)
+								       (list "mathcal" 'latex-access-voice-mathcal)
+								       (list "sub" 'latex-access-voice-subscript)))
 
 ; latex-access advice 
 ; Advise emacspeak to speak the latex-access (nicely spoken
@@ -55,32 +57,32 @@
 ; This will hook into the emacspeak-speak-line function, and is called
 ; for all line navigations, c-e l, c-e up/down,  up/down, c-p, c-n
 ; etc. c-u args are fully supported as the navigation is left to emacs.
-(defadvice emacspeak-speak-line (around latex-access-speak-line)
-  "Intercept Say line function of emacspeak.
+			    (defadvice emacspeak-speak-line (around latex-access-speak-line)
+			      "Intercept Say line function of emacspeak.
 If latex-access-speech enabled, speak with speech provided by
 latex-access. Otherwise pass straight through to the default
 emacspeak-speak-line function. This means all line navigation with
 emacs/emacspeak will call this function, hence, providing latex-access
 output when applicable"
-  (make-local-variable 'latex-access-speech)
-  (when (listp arg) (setq arg (car arg )))
-  (if latex-access-speech
-      (cond 
-       ((null arg) (latex-access-speak (latex_access_emacstranssp
-					(thing-at-point 'line)))) ; Speech to pass to
-       ((> arg 0)
-	(save-excursion 
-	  (let ((begposs (point))) 
-	    (end-of-line)
-	    (latex-access-speak (latex_access_emacstranssp
-				 (buffer-substring-no-properties begposs (point))))))) ; Speak from (point) to end of line
-       ((< arg 0)
-	(save-excursion 
-	  (let ((endposs (point))) 
-	    (beginning-of-line)
-	    (latex-access-speak (latex_access_emacstranssp
-				 (buffer-substring-no-properties (point) endposs))))))) ; Speak from start of line to point 
-    ad-do-it)) ; else call default emacspeak line handler 
+			      (make-local-variable 'latex-access-speech)
+			      (when (listp arg) (setq arg (car arg )))
+			      (if latex-access-speech
+				  (cond 
+				   ((null arg) (latex-access-speak (latex_access_emacstranssp
+								    (thing-at-point 'line)))) ; Speech to pass to
+				   ((> arg 0)
+				    (save-excursion 
+				      (let ((begposs (point))) 
+					(end-of-line)
+					(latex-access-speak (latex_access_emacstranssp
+							     (buffer-substring-no-properties begposs (point))))))) ; Speak from (point) to end of line
+				   ((< arg 0)
+				    (save-excursion 
+				      (let ((endposs (point))) 
+					(beginning-of-line)
+					(latex-access-speak (latex_access_emacstranssp
+							     (buffer-substring-no-properties (point) endposs))))))) ; Speak from start of line to point 
+				ad-do-it)))) ; else call default emacspeak line handler 
 
 (defadvice LaTeX-math-mode (before latex-access-auto-enable)
   "Auto enable or disable latex-access when latex-math-mode is toggled."
@@ -126,8 +128,10 @@ output when applicable"
 					; Braille post-command hook so that Braille is displayed on the message line.
   (add-hook 'post-command-hook 'latex-access-braille-other-window nil nil)
 					; Enable speech (emacspeak advice)
-  (ad-enable-advice 'emacspeak-speak-line 'around 'latex-access-speak-line) 
-  (ad-activate 'emacspeak-speak-line) ; Enable the advice. 
+  (if (featurep 'emacspeak) ; Load emacspeak...
+      (progn 
+	(ad-enable-advice 'emacspeak-speak-line 'around 'latex-access-speak-line) 
+	(ad-activate 'emacspeak-speak-line))) ; Enable the advice. 
   ; Enable latex-math-mode latex-access toggle advice. 
   (ad-enable-advice 'LaTeX-math-mode 'before 'latex-access-auto-enable)
   (ad-activate 'LaTeX-math-mode) ; Enable the advice. 
@@ -227,31 +231,32 @@ sEnter the definition of the custom command, that is, the standard LaTex to whic
   translation)
   (message "Added string %s" input))
 
-(defun latex-access-speak (text)
-  "Convert the latex-access speech markup into text-properties on the
+(if (featurep 'emacspeak)
+    (defun latex-access-speak (text)
+      "Convert the latex-access speech markup into text-properties on the
 string and then speak, given speech is enabled."
-  (let ((chunks (split-string text "[<>]")) ; elements of chunks with even index are latex and with odd index are speech commands.
-	(latex_chunks ())
-	(endpoints ())
-	(n 0)
-	(command)
-	(start)
-	(end))
-			      
-    (dotimes (i (length chunks))
-      (if (= (% i 2) 0)
-	  (progn (push (nth i chunks) latex_chunks)
-		 (setq n (+ n (length (nth i chunks)))))
-	(push (list n (nth i chunks)) endpoints)))
-    (setq text  (apply 'concat (reverse latex_chunks)))
-    (setq endpoints (reverse endpoints))
-    (dotimes (i (/ (length endpoints) 2))
-      (setq command (nth 1 (nth (* i 2) endpoints)))
-      (setq start (nth 0 (nth (* i 2) endpoints)))
-      (setq end (nth 0 (nth (+ (* i 2)  1) endpoints)))
-      (put-text-property start end 'personality (nth 1 (assoc command latex-access-personality-alist)) text)))
+      (let ((chunks (split-string text "[<>]")) ; elements of chunks with even index are latex and with odd index are speech commands.
+	    (latex_chunks ())
+	    (endpoints ())
+	    (n 0)
+	    (command)
+	    (start)
+	    (end))
+	
+	(dotimes (i (length chunks))
+	  (if (= (% i 2) 0)
+	      (progn (push (nth i chunks) latex_chunks)
+		     (setq n (+ n (length (nth i chunks)))))
+	    (push (list n (nth i chunks)) endpoints)))
+	(setq text  (apply 'concat (reverse latex_chunks)))
+	(setq endpoints (reverse endpoints))
+	(dotimes (i (/ (length endpoints) 2))
+	  (setq command (nth 1 (nth (* i 2) endpoints)))
+	  (setq start (nth 0 (nth (* i 2) endpoints)))
+	  (setq end (nth 0 (nth (+ (* i 2)  1) endpoints)))
+	  (put-text-property start end 'personality (nth 1 (assoc command latex-access-personality-alist)) text)))
   
-  (dtk-speak text))
+      (dtk-speak text)))
 
 (defun latex-access-eq (beg end)
   "Grabs text between beg and end.
@@ -323,36 +328,38 @@ for each line, keeping lines in sync."
 	  (switch-to-buffer-other-window currentbuff)
 	  (latex-access-setup-source-window))))) ; Set desireable width 
 
-(defun latex-access-matrix (beg end)
-  "Display a matrix in emacspeak table mode. 
+(if (featurep 'emacspeak)
+    (defun latex-access-matrix (beg end)
+      "Display a matrix in emacspeak table mode. 
 Once the matrix is in emacspeak table mode, all emacspeak table commands
 may be used to navigate the matrix."
-  (interactive "r")
-  (let ((matrix (replace-regexp-in-string "\\\\" ""
-					  (buffer-substring-no-properties
-					   beg end))) ; get rid of \\ chars
-	(workspace (get-buffer-create "workspace-latex-access"))) ; create a workspace buffer
-    (setq matrix (replace-regexp-in-string "&" "" matrix)) ; get rid of the & signs 
+      (interactive "r")
+      (let ((matrix (replace-regexp-in-string "\\\\" ""
+					      (buffer-substring-no-properties
+					       beg end))) ; get rid of \\ chars
+	    (workspace (get-buffer-create "workspace-latex-access"))) ; create a workspace buffer
+	(setq matrix (replace-regexp-in-string "&" "" matrix)) ; get rid of the & signs 
 					; We now have a reasonably clean string. 
 					; use a workspace buffer to pass emacspeak the matrix 
-    (save-excursion 
-      (set-buffer workspace)
-      (insert matrix) ; place matrix in our workspace ready for manipulation
+	(save-excursion 
+	  (set-buffer workspace)
+	  (insert matrix) ; place matrix in our workspace ready for manipulation
 					; now hand to emacspeak
-      (emacspeak-table-display-table-in-region (point-min) (point-max)))
-    (kill-buffer workspace ))) ; Delete our workspace now.
+	  (emacspeak-table-display-table-in-region (point-min) (point-max)))
+	(kill-buffer workspace )))) ; Delete our workspace now.
 
-(defun latex-access-table-location ()
-  "Provide information of current location in table."
-  (interactive)
-  (save-excursion 
-    (let ((end (point)) (beg (progn (search-backward "\\begin")
-				    (move-end-of-line nil) (point))))
-      (let ((table (buffer-substring-no-properties beg end)))
-	(dtk-speak (latex_access_emacsWhereAmI
-		    (latex_access_emacsGetTableCurrentRow table)
-		    (latex_access_emacsBuildHeaderString
-		     (latex_access_emacsGetTableTopRow table)) table))))))
+(if (featurep 'emacspeak)
+    (defun latex-access-table-location ()
+      "Provide information of current location in table."
+      (interactive)
+      (save-excursion 
+	(let ((end (point)) (beg (progn (search-backward "\\begin")
+					(move-end-of-line nil) (point))))
+	  (let ((table (buffer-substring-no-properties beg end)))
+	    (dtk-speak (latex_access_emacsWhereAmI
+			(latex_access_emacsGetTableCurrentRow table)
+			(latex_access_emacsBuildHeaderString
+			 (latex_access_emacsGetTableTopRow table)) table)))))))
 
 ;;; Experimental...
 ;;; move forward or back by a "mathematical term" 
@@ -383,9 +390,10 @@ may be used to navigate the matrix."
 	    (beginning-of-line)
 	    (forward-char (- newposs 1))
 					; Speak the new term...
-	    (latex-access-speak (latex_access_emacsSpeakSegment currentline
-			(- newposs 1)
-			(- (latex_access_emacsNextTerm currentline newposs) 1))))
+	    (if (featurep 'emacspeak)
+		(latex-access-speak (latex_access_emacsSpeakSegment currentline
+								    (- newposs 1)
+								    (- (latex_access_emacsNextTerm currentline newposs) 1)))))
 	(progn 
 	  (goto-char endtext) ; Return the cursor to where it was
 			      ; previously since no term found
@@ -415,32 +423,34 @@ may be used to navigate the matrix."
 	    (beginning-of-line)
 	    (forward-char (- newposs 1))
 					; Speak the new term...
-	    (latex-access-speak (latex_access_emacsSpeakSegment currentline
-			(- newposs 1)
-			(- (latex_access_emacsNextTerm currentline newposs) 1))))
+	    (if (featurep 'emacspeak)
+		(latex-access-speak (latex_access_emacsSpeakSegment currentline
+								    (- newposs 1)
+								    (- (latex_access_emacsNextTerm currentline newposs) 1)))))
 	    (progn 
 	  (goto-char endtext) ; Return the cursor to where it was
 			      ; previously since no term found
 	  (message "No more terms")))))))
 
-(defun latex-access-skim-terms (&optional arg)
-  "Skim through mathematical terms in latex using
+(if (featurep 'emacspeak)
+    (defun latex-access-skim-terms (&optional arg)
+      "Skim through mathematical terms in latex using
 emacspeak-execute-repeatedly function. Optionally choose a line to
 perform this on by supplying a prefix arg or optional arg if calling
 through lisp. A positive arg refers to lines above the point, while
 negative args refer to lines below the point. The logic here is that
 when working with mathematical working you'll normally want to review
 the previous line..."
-  (interactive "P") ; We accept c-u args
-  (when (listp arg) (setq arg (car arg )))
-  (save-excursion 
-    (if (not (null arg))
+      (interactive "P") ; We accept c-u args
+      (when (listp arg) (setq arg (car arg )))
+      (save-excursion 
+	(if (not (null arg))
 					; Convert so it is suitable for forward-line
 					; function, i.e. we expect positive arg to go up
 					; so make it negative, since forward-line has
 					; the reverse effect 
-	(forward-line (- 0 arg)))
-    (emacspeak-execute-repeatedly 'latex-access-next-term))) ; Skim the terms.
+	    (forward-line (- 0 arg)))
+	(emacspeak-execute-repeatedly 'latex-access-next-term)))) ; Skim the terms.
 
 (defun latex-access-setup-source-window () 
   "Set the source window x characters wide given braille display width,
@@ -500,6 +510,7 @@ provided Braille is enabled of course."
   (if (latex_access_emacsgetSetting "speechtranslation")
       (latex-access-enable-speech)))
 
+(provide 'latex-access)
 (latex-access) ; Set everything up
 
 ;;; emacs-latex-access.el ends here
