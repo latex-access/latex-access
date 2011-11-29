@@ -24,7 +24,7 @@ interact with classes."""
 
 import sys
 import os.path
-import latex_access
+import settings
 import speech
 import nemeth 
 import preprocessor
@@ -45,17 +45,17 @@ if __name__ == "__main__":
 def activateSettings ():
   """Activate the latex-access settings stored in file.
 
-  Consult the actual function definition in latex_access.py for details
+  Consult the actual function definition in settings.py for details
   and documentation."""
 
-  return latex_access.activateSettings (os.path.expanduser("~/.latex-access"), {"braille":n,"speech":s})
+  return settings.activateSettings (os.path.expanduser("~/.latex-access"), {"braille":n,"speech":s})
 
 def getSetting (setting):
   """Provide emacs access to the getSetting function.
 
-  Visit latex_access.py for the real documentation of this function."""
+  Visit settings.py for the real documentation of this function."""
 
-  return latex_access.getSetting (setting)
+  return settings.getSetting (setting)
 
 def transbrl (arg):
   """Translate latex code into Nemeth Braile.
