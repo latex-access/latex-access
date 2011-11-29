@@ -66,6 +66,28 @@ def activateSettings ():
     s.remove_dollars = True 
   return True
 
+def getSetting (setting):
+  """Get the value of setting for emacs.
+
+  This function searches for the particular setting in the settings
+  dict, and if found, returns the settings' value."""
+
+  if setting in latex_access.settings.keys():
+    return booleaniseSetting(latex_access.settings[setting])
+  else: # setting not found
+    return False
+
+def booleaniseSetting (setting):
+  """Turn a setting value into a boolean type.
+  
+  As settings read from the config file are of type string, return a
+  boolean representation of this. 'true' or 'True' = True, while any
+  other string is False."""
+  if str(setting).lower () == 'true':
+    return True
+  else:
+    return False
+
 def transbrl (arg):
   """Translate latex code into Nemeth Braile.
 
