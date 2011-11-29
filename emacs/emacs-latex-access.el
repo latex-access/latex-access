@@ -158,18 +158,21 @@ output when applicable"
   (interactive)
   (make-local-variable 'latex-access-braille)
   (make-local-variable 'latex-access-speech)
-  (latex-access-disable-braille)
-  (latex-access-disable-speech)
+					; Fix an emacspeak bug so that the wrong message isn't voiced. 
+  (let ((emacspeak-speak-messages nil))
+    (latex-access-disable-braille)
+    (latex-access-disable-speech))
   (message "Latex-access disabled."))
 
 (defun latex-access-enable ()
   "Enable all features of latex-access disregarding user variables."
   (interactive) 
-  (latex-access) ; initialise 
-  (make-local-variable 'latex-access-braille)
-  (make-local-variable 'latex-access-speech)
-  (latex-access-enable-braille)
-  (latex-access-enable-speech)
+  (let ((emacspeak-speak-messages nil))
+    (latex-access) ; initialise 
+    (make-local-variable 'latex-access-braille)
+    (make-local-variable 'latex-access-speech)
+    (latex-access-enable-braille)
+    (latex-access-enable-speech))
   (message "Latex-access enabled."))
 
 (defun latex-access-toggle-dollars-braille ()
