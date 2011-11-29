@@ -469,6 +469,11 @@ provided Braille is enabled of course."
   (interactive)
   (make-local-variable 'latex-access-braille)
   (setq latex-access-braille nil)
+  (let ((currbuff (current-buffer)))
+    (switch-to-buffer-other-window "*translation.braille")
+					; Kill it 
+    (kill-buffer-and-window)
+    (switch-to-buffer-other-window currbuff))
   (message "Latex-access Braille Disabled."))
 
 (defun latex-access-enable-speech ()
