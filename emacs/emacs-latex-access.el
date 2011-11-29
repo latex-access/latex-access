@@ -31,37 +31,11 @@
 ; Load pymacs, shouldn't really mater if this was done by .emacs first 
 (require 'pymacs)
 
-; Add the hooks to start by default when in LaTeX-mode 
-; Ideally I'd like to make this latex-math-mode, but I dn't see a hook
-; for it anywhere? 
-; Initialise latex-access and turn on/off speech or Braille depending on
-; the latex-access-speech and latex-access-braille user customisable
-; variables. By default turn both on. To override or change this setting
-; just use the (setq) function after loading this file in your .emacs or
-; init file. 
-
-; Global value should always be nil because latex-access should never be
-; running globally 
-; Imagine how annoying it would potentially be while browsing the web,
-; or in dired-mode :)
-(defcustom latex-access-speech nil "Set this variable to determine
-whether latex-access-speech should be enabled. A value of nil disables
-latex-access-speech, while a value of t enables it.")
-(defcustom latex-access-braille nil "Set this variable to determine
-whether latex-access-braille should be enabled. A value of nil disables
-latex-access-braille, while a value of t enables it.")
-(defcustom latex-access-use-braille t "This variable controls what
-latex-access will load eg. if this variable is set to t, Braille will be
-loaded, while a value of nil will not load Braille. To load Braille if
-this variable is nil you'd have to run m-x
-latex-access-toggle-braille.")
-(defcustom latex-access-use-speech t "This variable controls what
-latex-access will load eg. if this variable is set to t, speech will be
-loaded, while a value of nil will not load speech. To load speech if
-this variable is nil you'd have to run m-x latex-access-toggle-speech.")
-
 (pymacs-load "latex_access_emacs" "latex_access_emacs") ; load the
 					; relevant modules 
+
+(setq latex-access-braille nil)
+(setq latex-access-speech nil)
 
 ; Voice definitions, customize these by customizing the <voice_name>-settings variable.
 (defvoice latex-access-voice-bold (list nil 1 6 6  nil)
@@ -114,18 +88,31 @@ output when applicable"
 
 (defun latex-access-auto-enabler ()
   "Toggle the state of speech and Braille, only if they are supposed to
-  be automatically enabled though, eg. by latex-access-use-* variables."
+  be automatically enabled i.e. by the config file."
   (make-local-variable 'latex-access-braille)
   (make-local-variable 'latex-access-speech)
   (make-local-variable 'latex-access-math-mode)
 					; Toggle speech now 
-  (if latex-access-use-speech (if latex-access-speech 
-				  (setq latex-access-speech nil) 
-				(setq latex-access-speech t)))
-  ; Toggle Braille now 
-  (if latex-access-use-braille (if latex-access-braille 
-				   (setq latex-access-braille nil)
-				 (setq latex-access-braille t)))
+  (let ((emacspeak-speak-messages nil)) ; To fix a bug produced by emacs
+					; first saying the
+					; disabled/enabled message of
+					; latex-access followed by
+					; latex-math-mode
+					; enabled/disabled. In this case
+					; the user only cares about math
+					; mode. This probably flickers
+					; for sighted users, but they
+					; after execution see the right
+					; message on the message
+					; area. The same will apply now
+					; since emacspeak will read the
+					; correct message.
+    (if latex-access-math-mode
+	(latex-access-disable)
+      (progn (latex-access-decide-braille)
+	     (latex-access-decide-speech))))
+
+					; NOw the math-mode stuff
   (if latex-access-math-mode 
       (progn
 	(setq latex-access-math-mode nil)
@@ -147,33 +134,28 @@ output when applicable"
   (setq latex-access-math-mode nil) ; Assume latex-math-mode is disabled
 					; at start up.  
   (latex_access_emacsactivateSettings)) ; Activate user settings from file
+
 (defun latex-access-toggle-speech ()
   "Toggle latex-access speech on/off."
   (interactive)
   (make-local-variable 'latex-access-speech)
-  (if latex-access-speech 
-      (progn (setq latex-access-speech nil)
-	     (message "Latex-access speech disabled."))
-    (progn (setq latex-access-speech t)
-	   (message "Latex-access speech enabled."))))
+  (if latex-access-speech (latex-access-disable-speech)
+    (latex-access-enable-speech)))
 
 (defun latex-access-toggle-braille ()
   "Toggle latex-access Braille on/off."
   (interactive)
   (make-local-variable 'latex-access-braille)
-  (if latex-access-braille 
-      (progn (setq latex-access-braille nil)
-	     (message "Latex-access Braille disabled."))
-    (progn (setq latex-access-braille t)
-	   (message "Latex-access Braille enabled."))))
+  (if latex-access-braille (latex-access-disable-braille)
+    (latex-access-enable-braille)))
 
 (defun latex-access-disable ()
   "Turn off latex-access entirely"
   (interactive)
   (make-local-variable 'latex-access-braille)
   (make-local-variable 'latex-access-speech)
-  (setq latex-access-braille nil)
-  (setq latex-access-speech nil)
+  (latex-access-disable-braille)
+  (latex-access-disable-speech)
   (message "Latex-access disabled."))
 
 (defun latex-access-enable ()
@@ -182,8 +164,8 @@ output when applicable"
   (latex-access) ; initialise 
   (make-local-variable 'latex-access-braille)
   (make-local-variable 'latex-access-speech)
-  (setq latex-access-speech t)
-  (setq latex-access-braille t)
+  (latex-access-enable-braille)
+  (latex-access-enable-speech)
   (message "Latex-access enabled."))
 
 (defun latex-access-toggle-dollars-braille ()
@@ -474,6 +456,44 @@ provided Braille is enabled of course."
   (if (latex_access_emacsactivateSettings)
       (message "Loaded settings")
     (message "No configuration file, continuing with defaults.")))
+
+(defun latex-access-enable-braille ()
+  "Enable latex-access Braille"
+  (interactive)
+  (make-local-variable 'latex-access-braille)
+  (setq latex-access-braille t) 
+  (message "Latex-access Braille enabled."))
+
+(defun latex-access-disable-braille ()
+  "Disables latex-access Braille."
+  (interactive)
+  (make-local-variable 'latex-access-braille)
+  (setq latex-access-braille nil)
+  (message "Latex-access Braille Disabled."))
+
+(defun latex-access-enable-speech ()
+  "Enable latex-access speech"
+  (interactive)
+  (make-local-variable 'latex-access-speech)
+  (setq latex-access-speech t)
+  (message "Latex-access speech enabled."))
+
+(defun latex-access-disable-speech ()
+  "Disables latex-access speech."
+  (interactive)
+  (make-local-variable 'latex-access-speech)
+  (setq latex-access-speech nil)
+  (message "Latex-access speech Disabled."))
+
+(defun latex-access-decide-braille ()
+  "Decide if Braille should be enabled."
+  (if (latex_access_emacsgetSetting "brailletranslation")
+      (latex-access-enable-braille)))
+
+(defun latex-access-decide-speech ()
+  "Decide if speech should be enabled."
+  (if (latex_access_emacsgetSetting "speechtranslation")
+      (latex-access-enable-speech)))
 
 (latex-access) ; Set everything up
 
