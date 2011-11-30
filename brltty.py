@@ -70,6 +70,8 @@ class braille:
 
     This function decides what text should be Brailled, given the length
     of the Braille display, and the location of the cursor."""
+    if text.replace("\n", "") == "":
+      return " " # So we can braille blank line 
     panning = False # Are we > display length chars into current line
     display = BrailleDisplaySize () # length of display 
     reps = 0 # How many display lengths into current line 
