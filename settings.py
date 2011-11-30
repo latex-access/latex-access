@@ -32,6 +32,8 @@ def loadSettings (file):
     if line[0] == "\n" or line[0] == ";": # Skip some irrelevant stuff
       continue 
     words = line.split()
+    if not words: # Ignore lines with spaces
+      continue 
     settings[words[0]] = words[1]
   f.close()
 
