@@ -126,10 +126,10 @@ output when applicable"
 (defun latex-access ()
   "Set up latex-access." 
 					; Braille post-command hook so that Braille is displayed on the message line.
-  (add-hook 'post-command-hook 'latex-access-braille-other-window nil nil)
+;  (add-hook 'post-command-hook 'latex-access-braille-other-window nil nil)
 					; Experimental braille implementation, uncomment for testing, but is
   ; far from perfect yet. 
-;  (add-hook 'post-command-hook 'latex-access-brltty nil nil)
+  (add-hook 'post-command-hook 'latex-access-brltty nil nil)
 					; Enable speech (emacspeak advice)
   (if (featurep 'emacspeak) ; Load emacspeak...
       (progn 
@@ -535,19 +535,28 @@ provided Braille is enabled of course."
 position of point."
   (interactive)
   (save-excursion
-    (let ((currentposs (point))
-	  (begposs (progn (beginning-of-line) (point)))) ; get the
+    (if latex-access-braille 
+	(let ((currentposs (point))
+	      (begposs (progn (beginning-of-line) (point)))) ; get the
 					; position of beginning of line 
-      (latex_access_emacsbrailleRegion (thing-at-point 'line) (-
-  currentposs begposs))))) ; Braille the current line, passing the line
-			   ; number to the python functions and the
-			   ; difference between start of line and the
-			   ; cursor position. 
+	  (latex_access_emacsbrailleRegion (thing-at-point 'line) (-
+								   currentposs begposs)))))) ; Braille the current line, passing the line
+					; number to the python functions and the
+					; difference between start of line and the
+					; cursor position. 
 
 (defun latex-access-close-display ()
   "Close the display so brltty can regain control."
   (interactive)
-  (latex_access_emacscloseDisplay))
+  (latex_access_emacscloseDisplay)
+  (setq latex-access-braille nil)
+  (message "Latex-access Braille disabled."))
+
+(defun latex-access-brltty-enable ()
+  (interactive)
+  (setq latex-access-braille t)
+  (latex-access-close-display)
+  (message "Latex-access Braille enabled."))
 
 (provide 'latex-access)
 (latex-access) ; Set everything up
