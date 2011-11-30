@@ -126,10 +126,10 @@ output when applicable"
 (defun latex-access ()
   "Set up latex-access." 
 					; Braille post-command hook so that Braille is displayed on the message line.
-;  (add-hook 'post-command-hook 'latex-access-braille-other-window nil nil)
+  (add-hook 'post-command-hook 'latex-access-braille-other-window nil nil)
 					; Experimental braille implementation, uncomment for testing, but is
   ; far from perfect yet. 
-  (add-hook 'post-command-hook 'latex-access-brltty nil nil)
+;  (add-hook 'post-command-hook 'latex-access-brltty nil nil)
 					; Enable speech (emacspeak advice)
   (if (featurep 'emacspeak) ; Load emacspeak...
       (progn 
@@ -557,7 +557,6 @@ position of point."
 (defun latex-access-brltty-enable ()
   (interactive)
   (setq latex-access-braille t)
-  (latex-access-close-display)
   (message "Latex-access Braille enabled."))
 
 (provide 'latex-access)
