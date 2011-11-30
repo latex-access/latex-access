@@ -27,6 +27,7 @@ import os.path
 import settings
 import speech
 import nemeth 
+import brltty
 import preprocessor
 import table
 import motion
@@ -35,8 +36,11 @@ n=nemeth.nemeth()
 s=speech.speech()
 p=preprocessor.preprocessor()
 nc=preprocessor.newcommands(p)
+b=brltty.braille () # Connect to the Braille display object
 t=table
 m=motion
+
+bttymode = False # Is the Braille display in tty mode?
 
 if __name__ == "__main__":
   print "This is just a module."
@@ -157,16 +161,7 @@ def SpeakSegment (text, start, end):
   return m.SpeakSegment(text, start, end)
 
 def BrailleDisplaySize ():
-  """Return the size of a Braille display.
-
-  Use Brlapi to figure out the size of the connected Braille display."""
-
-  try:
-    import brlapi
-    b=brlapi.Connection() # Connect to the display.
-    return int(b.displaySize[0]) # Return the number of cells of display.
-  except:
-    return -1 # Either brlapi not found or display not connected
+  return brltty.BrailleDisplaySize ()
 
 def DetermineWindowSize (windowwidth, bdisplaywidth):
   """Determine how much the window should be shrunk or increased in
@@ -192,3 +187,30 @@ def DetermineWindowSize (windowwidth, bdisplaywidth):
     return 0-mindiff # Shrink the window size by mindiff characters, is negative of course
   else: # Increase 
     return maxdiff # Increase the window size by maxdiff characters 
+
+def brailleRegion (line, point):
+  """Allows emacs to pass some text to be Brailled.
+
+  This function allows emacs to pass the current line of text and the
+  point position in numb chars from beginning of line and the
+  brltty.braille class handles the rest of the formatting for us."""
+  global bttymode # Are we already in ttymode?
+  if not bttymode: 
+    # Under screen this will not work, but since I use screen on VT 1 I
+    # set this to 1. Removing the 1 and providing no arguments will
+    # allow brlapi to find out the vt number, but it won't work under an
+    # emulator like screen, hence I've put 1. So if you use screen, put
+    # the number of your VT number in here otherwise remove the 1 and
+    # provide no arguments and brlapi will handle it for you. 
+    b.ttyMode (1) 
+    bttymode = True
+  line=b.segmentToBraille(line, point)
+  line=n.translate (line)
+  b.braille (line)
+
+def closeDisplay ():
+  """Close the Braille display.
+
+  Allow BRLTTY to regain control, see the function definition in
+  brltty.py for details."""
+  return b.closeDisplay ()
