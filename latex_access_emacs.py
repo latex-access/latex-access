@@ -204,8 +204,8 @@ def brailleRegion (line, point):
     # provide no arguments and brlapi will handle it for you. 
     b.ttyMode (1) 
     bttymode = True
-  line=b.segmentToBraille(line, point)
   line=n.translate (line)
+  line=b.segmentToBraille(line, point)
   b.braille (line)
 
 def closeDisplay ():
