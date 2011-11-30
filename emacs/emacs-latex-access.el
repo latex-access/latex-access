@@ -534,23 +534,25 @@ provided Braille is enabled of course."
   "Braille a line of latex in nemeth on the Braille display relative to the
 position of point."
   (interactive)
+  (make-local-variable 'latex-access-braille)
   (save-excursion
     (if latex-access-braille 
 	(let ((currentposs (point))
 	      (begposs (progn (beginning-of-line) (point)))) ; get the
 					; position of beginning of line 
 	  (latex_access_emacsbrailleRegion (thing-at-point 'line) (-
-								   currentposs begposs)))))) ; Braille the current line, passing the line
+								   currentposs begposs))) ; Braille the current line, passing the line
 					; number to the python functions and the
 					; difference between start of line and the
 					; cursor position. 
+      (latex-access-close-display))))
 
 (defun latex-access-close-display ()
   "Close the display so brltty can regain control."
   (interactive)
   (latex_access_emacscloseDisplay)
-  (setq latex-access-braille nil)
-  (message "Latex-access Braille disabled."))
+  (setq latex-access-braille nil))
+;  (message "Latex-access Braille disabled."))
 
 (defun latex-access-brltty-enable ()
   (interactive)
