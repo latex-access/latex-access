@@ -214,5 +214,9 @@ def closeDisplay ():
   Allow BRLTTY to regain control, see the function definition in
   brltty.py for details."""
   global bttymode 
-  bttymode = False 
-  return b.closeDisplay ()
+  if bttymode:
+    bttymode = False 
+    return b.closeDisplay ()
+  else:
+    return True
+
