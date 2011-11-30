@@ -127,6 +127,9 @@ output when applicable"
   "Set up latex-access." 
 					; Braille post-command hook so that Braille is displayed on the message line.
   (add-hook 'post-command-hook 'latex-access-braille-other-window nil nil)
+					; Experimental braille implementation, uncomment for testing, but is
+  ; far from perfect yet. 
+;  (add-hook 'post-command-hook 'latex-access-brltty nil nil)
 					; Enable speech (emacspeak advice)
   (if (featurep 'emacspeak) ; Load emacspeak...
       (progn 
@@ -512,6 +515,39 @@ provided Braille is enabled of course."
   "Decide if speech should be enabled."
   (if (latex_access_emacsgetSetting "speechtranslation")
       (latex-access-enable-speech)))
+
+;;; Very basic so far, experimental!
+;;; Braille translation via brltty via brlapi python bindings 
+;;; For now you are responsible for closing the connection i.e. exiting
+;;; ttymode so brltty can return to control of the display once you've
+;;; had enough 
+;;; m-x latex-access-close-display 
+;;; You can uncomment the hook above to implement this when point
+;;; moves. 
+;;; You should also comment the old hook so you only have one Braille
+;;; translation 
+;;; Key bindings on the display do nothing currently, however, they will
+;;; be introduced soon 
+;;; Only use this stuff if you know what your doing. 
+
+(defun latex-access-brltty ()
+  "Braille a line of latex in nemeth on the Braille display relative to the
+position of point."
+  (interactive)
+  (save-excursion
+    (let ((currentposs (point))
+	  (begposs (progn (beginning-of-line) (point)))) ; get the
+					; position of beginning of line 
+      (latex_access_emacsbrailleRegion (thing-at-point 'line) (-
+  currentposs begposs))))) ; Braille the current line, passing the line
+			   ; number to the python functions and the
+			   ; difference between start of line and the
+			   ; cursor position. 
+
+(defun latex-access-close-display ()
+  "Close the display so brltty can regain control."
+  (interactive)
+  (latex_access_emacscloseDisplay))
 
 (provide 'latex-access)
 (latex-access) ; Set everything up
