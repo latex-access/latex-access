@@ -48,7 +48,7 @@ def activateSettings ():
   Consult the actual function definition in settings.py for details
   and documentation."""
 
-  return settings.activateSettings (os.path.expanduser("~/.latex-access"), {"braille":n,"speech":s})
+  return settings.activateSettings (os.path.expanduser("~/.latex-access"), {"braille":n,"speak":s})
 
 def getSetting (setting):
   """Provide emacs access to the getSetting function.

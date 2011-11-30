@@ -56,7 +56,7 @@ def activateSettings (filename, instances):
 
 # Now convert settings in the dictionary into the proper variables 
 
-  instances["speech"].remove_dollars = not booleaniseSetting("speechdollars")
+  instances["speak"].remove_dollars = not booleaniseSetting("speakdollars")
   instances["braille"].remove_dollars = not booleaniseSetting("brailledollars")
   return True # Settings activated 
 
@@ -66,7 +66,7 @@ def booleaniseSetting (setting):
   As settings read from the config file are of type string, return a
   boolean representation of this. 'true' or 'True' = True, while any
   other string is False."""
-  if str(setting).lower () == 'true':
+  if str(settings[setting]).lower () == 'true':
     return True
   else:
     return False
@@ -78,7 +78,7 @@ def getSetting (setting):
   dict, and if found, returns the settings' value."""
 
   if setting in settings.keys():
-    return booleaniseSetting(settings[setting])
+    return booleaniseSetting(setting)
   else: # setting not found
     return False
 
