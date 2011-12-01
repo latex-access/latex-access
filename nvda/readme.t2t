@@ -1,6 +1,6 @@
 The latex-access GlobalPlugin for NVDA.
 Nathaniel Schmidt
-Thursday, 17th March 2011
+Thursday, 1st December 2011
 
 
 %!Target: html
@@ -35,8 +35,8 @@ This global plugin implements Communication between NVDA 2011.1 or later and the
 To use this plugin, you will need to install the following software/libraries:
 
 - NVDA, version 2011.1 or later.  The NVDA website can be found at http://www.nvda-project.org, and the download page can be found [here http://www.nvda-project.org/download/].
-- The latest build of version 2 of the python programming language.  Official website: http://www.python.org/.
-- The python for windows extentions, which can be downloaded at http://sourceforge.net/projects/pywin32/.  This package is required to registor the latex-access COM object and the matrix.
+- The latest build of version 2 of the python programming language.  Official website: http://www.python.org/.  I am currently using python 2.7.
+- The python for windows extentions, which can be downloaded at http://sourceforge.net/projects/pywin32/.  This package is required to registor the latex-access COM object, the matrix and perhaps the table COM object if that gets created.
 - The latex-access scripts.  You probably already have these, but if not, you will need subversion.  How to use this VCS is beyond the scope of this readme, but the svn repository can be found at: https://latex-access.svn.sourceforge.net/svnroot/latex-access.  Please remember the exact location where you installed the scripts!  I recommend using [tortoise svn http://tortoisesvn.net/] as your subversion client, it's accessible, and easy to use.
 -
 
@@ -113,3 +113,17 @@ It is possible to toggle the speaking and/or brailling of dollar signs.  The key
 
 +The Matrix Processor.+[matproc]
 
+The Matrix browser allows users of Latex-access to navigate matrices using just a few keystrokes.  To be able to use the processor to navigate matrices, do the following:
+
++ Highlight the required LaTeX source in any way you wish. 
++ Press Control+Shift+M to put the matrix within the Com object.
++
+
+You can now navigate by row and column with the following keystrokes:
+
+Control+Shift+J: move by column to the left.
+Control+Shift+L: move by column to the right.
+Control+Shift+K: move by row downwards.
+Control+Shift+I: move by row upwards.
+Control+Shift+ Numbers 1 through 9: Say the appropriate row.
+Control+Alt+ Numbers 1 through 9: say the respective column.
