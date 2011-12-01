@@ -49,21 +49,30 @@ class braille:
     
     Initialise and connect to the Braille display and make a local class
     handle to the display, self.b."""
-    self.b = brlapi.Connection ()
+    try:
+      self.b = brlapi.Connection ()
+    except: # No display attached
+      self.b = ''
 
   def ttyMode (self,ttynumb):
     """Put the Braille display in tty mode.
 
     This function puts the Braille display in tty mode so we can
     actually read and write from it."""
-    return self.b.enterTtyMode (ttynumb)
+    try:
+      return self.b.enterTtyMode (ttynumb)
+    except: # something went wrong
+      return False 
 
   def closeDisplay (self):
     """Leave tty mode.
 
     Take the display out of tty mode since we are finished for now, and
     allow brltty to resume control."""
-    return self.b.leaveTtyMode ()
+    try: 
+      return self.b.leaveTtyMode ()
+    except:
+      return False
 
   def segmentToBraille (self,text, point=0):
     """Decide on what section of the current line should be Brailled.
@@ -95,7 +104,10 @@ class braille:
     Use brlapi to actually write the text to the Braille display. Note
     you'll probably want to do the translation and formatting first
     otherwise it'll look terrible."""
-    return self.b.writeText(text)
+    try:
+      return self.b.writeText(text)
+    except:
+      return ""
 
 def BrailleDisplaySize ():
   """Return the size of a Braille display.
