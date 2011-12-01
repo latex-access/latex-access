@@ -109,6 +109,9 @@ class ueb(latex_access.translator):
         translation="  "<"+arg[0]+"">"
         return (translation,arg[1])
 
+    def before (self, input):
+        return addHash (input)
+
 def addHash (latex):
     out=""
     approachingnumb = False

@@ -51,10 +51,12 @@ class translator:
     def load_files(self):
         [self.load_file(f) for f in self.files]
     
-    def translate(self,input):        
+    def translate(self,input, before=False, after=False):        
         '''This translates the string in input using the translation table
-        
+
         Returns string.'''
+        if before:
+            input=self.before(input)
         output=""
         i=0
         while (i<len(input)):
@@ -89,6 +91,8 @@ class translator:
             else:
                 output += curr
                 i += len(curr)
+        if after:
+            output=self.after (output)
         return output
 
     def text(self,input, start):
