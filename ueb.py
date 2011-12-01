@@ -123,13 +123,3 @@ def addHash (latex):
             continue
         out+=x
     return out
-
-def upperNumbers (latex):
-    digits={"0":"j","1":"a","2":"b","3":"c","4":"d","5":"e","6":"f","7":"g","8":"h","9":"i",}
-    out=""
-    for x in latex:
-        if x.isdigit():
-            out+=digits[x]
-            continue
-        out+=x
-    return out
