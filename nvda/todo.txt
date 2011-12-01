@@ -12,6 +12,8 @@ new features are put to be worked on or fixed.
 	* Add support for the preprocessor - to be done.
 		- Make a GUI
 		perhaps with wxPython for the preprocessor: To be done.
+		- Use some other tools such as gui_utils or 
+transfer_dialogs in conjunction with WXPython for the dialogs?
 
 	* Add support for the matrix - being done.
 	* Translate lines of

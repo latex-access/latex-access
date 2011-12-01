@@ -380,11 +380,11 @@ NVDA, version 2011.1 or later.  The NVDA website can be found at
   http://www.nvda-project.org/download/here.
 The latest build of version
   2 of the python programming language.  Official website:
-  http://www.python.org/.
+  http://www.python.org/.  I am currently using python 2.7.
 The python for windows extentions, which
   can be downloaded at http://sourceforge.net/projects/pywin32/.  This
-  package is required to registor the latex-access COM object and the
-  matrix.
+  package is required to registor the latex-access COM object, the
+  matrix and perhaps the table COM object if that gets created.
 The latex-access scripts.  You probably already have these,
   but if not see section . (and be sure to remember
   which directory you checked out to)
