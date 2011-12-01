@@ -1,0 +1,130 @@
+; general maths
+! 6
+( "<
+) ">
++ "6
+- "-
+< "<
+= "7
+> ">
+<<<<<<< .mine
+\wedge "8
+\times "8
+\sum .s
+\rightarrow 33o
+\longrightarrow 333o
+\right 
+\left 
+
+\ldots '''
+\le "<"7
+\leq "<"7
+\geq ">"7
+\ge ">"7
+\equiv 
+\dots '''
+\circ _*
+\cdots '''
+\cdot _*
+\pm "6"-
+\mp "-"6
+\neq  ./k 
+\ne  ./k 
+\log log 
+
+; general latex
+=======
+\div `/
+
+\propto  ;2 
+
+; general latex
+>>>>>>> .r202
+\, 
+\:  
+\;  
+\!  
+\quad   
+\qquad   
+\qquad   
+
+; set theory 
+\therefore  ,*
+\supseteq _.1:
+\supset _.1
+\subseteq _"k:
+\subset _"k
+\setminus _*
+\forall `&
+\emptyset _0
+\cup .+
+\cap .%
+\infty =
+
+; trig and hyperbolic functions
+\tanh tanh 
+\tan tan 
+\sinh sinh 
+\sin sin 
+\sec sec 
+\cot cot 
+\cosh cosh 
+\cosec cosec 
+\cos cos 
+
+; calculus 
+\int !
+\nabla .$
+\partial $
+
+; capital greek letters
+\Alpha .A
+\Beta .B
+\Delta .D
+\Gamma .G
+\Lambda .L
+\Omega .W
+\Phi .F
+\Psi .Y
+\Sigma .S
+\Theta .?
+\Pi .P
+\Xi .X
+\Epsilon .E
+\Eta .H
+\Iota .I
+\Nu .N
+\Mu .M
+\Zeta .Z
+\Kappa .K
+\Chi .C
+\Rho .R
+
+; small greek
+\alpha .a
+\beta .b
+\chi .c
+\delta .d
+\epsilon .e
+\eta .h
+\gamma .g
+\kappa .k
+\lambda .l
+\mu .m
+\nu .n
+\omega .w
+\phi .f
+\pi .p
+\psi .y
+\rho .r
+\sigma .s
+\tau .t
+\theta .?
+\zeta .z
+\iota .i
+\xi .x
+
+; Various 
+. 4
+
+
