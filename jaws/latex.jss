@@ -45,6 +45,7 @@ EndFunction
 
 Script reInitialise ()
 let latex_access=CreateObject (o_latexAccess)
+Say ("latex_access reInitialised", OT_JAWS_MESSAGE)
 EndScript
 
 Void Function SayLine ()
@@ -79,7 +80,6 @@ else
 let ProcessMaths = true
 SayMessage(OT_STATUS,msgProcessingOn_L,msgProcessingOn_S)
 endif
-
 EndScript
 
 Script ToggleDollarsNemeth ()
@@ -115,7 +115,6 @@ let input = latex_access.nemeth(input)
 ; now sort out bad dots 456 
 let input =StringReplaceSubstrings (input, "_", "\127") 
 BrailleAddString (input, 0, 0, 0)
-
 endif
 return true
 EndFunction
@@ -190,6 +189,7 @@ else
 saystring(sInvalidRow)
 endif
 EndScript
+
 ; JT:  Find out what i is for and replace if needed.
 Script SayColumn (int i)
 if i>0 && i <=matrix.columns then
