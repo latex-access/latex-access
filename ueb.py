@@ -110,19 +110,113 @@ class ueb(latex_access.translator):
         return (translation,arg[1])
 
     def before (self, input):
-        return addHash (input)
+        """This function is ran prior to the translation.
+
+        Place anything here you wish to be done before the returned
+        value of this function is passed to the translator."""
+        return addHash (input) # Put in ueb number signs 
+
+    def after (self,input):
+        """Place any functions here that you wish to be called after the
+        translation.
+
+        This function is ran after the translation takes place to
+        i.e. handle some complications of UEB."""
+        out=capitalise(input) # handle caps 
+        out=letterSign(out) # Put letter signs in 
+        return out # Return our final translation 
 
 def addHash (latex):
+    """Put in ueb number signs.
+
+    In UEB a hash sign is put before a set of letters indicating a
+    number for instance the number 1 is written as #a so this function
+    applies the rules of ueb, and puts in the relevant hash signs."""
     out=""
-    approachingnumb = False
-    for x in latex:
-        if approachingnumb and not x.isdigit() and x not in '.,':
+    approachingnumb = False # Are we inside a number 
+    for x in latex: # Go through the latex source 
+        if approachingnumb and not x.isdigit() and x not in '.,': # end of the number 
             out+=x
             approachingnumb = False
             continue
-        if not approachingnumb and x.isdigit ():
+        if not approachingnumb and x.isdigit (): # we begin a number, insert a # sign 
             approachingnumb = True
             out+="#"+x
             continue
+        out+=x # not inside a number and is not a digit, default handling 
+    return out
+
+def capitalise (input):
+    """Put in capital signs in UEB translation.
+
+    Add a dot 6 to indicate a capital letter, and make that letter lower
+    case in the translation so we don't get annoying computer Braille
+    dot 7..."""
+    eol=False # not at end of line yet 
+    incaps = False # Are we in capital mode 
+    out=""
+    incount=0
+    for x in input: # move through input by char 
+        if not x.isalpha (): # Pointless it's not a letter 
+            incount +=1
+            out+=x
+            continue 
+        if incount+1 >= len (input): # We are on the last char 
+            eol=True
+        if not x.islower() and not incaps: # We have capital letter
+            incaps=True
+            if eol: # finish end of line 
+                out+=","+x.lower()
+                break
+            if input[incount+1].isalpha() and input[incount+1] != ' ' and not input[incount+1].islower(): # next letter is cap 
+                out+=',,'+x.lower()
+                incount +=1
+                continue
+            else: # Only this letter is cap next is not 
+                out+=','+x.lower()
+                incount +=1
+                continue
+        if x.islower (): # lower case 
+            incount +=1
+            out+=x
+            incaps = False
+            continue
+        # We got nothing 
+        out+=x.lower()
+        incount+=1 
+    return out
+
+def letterSign (input):
+    """Add UEB letter signs.
+
+    This function adds a letter sign to stand alone letters so they are
+    not confused for contractions."""
+    count=0
+    eol = False # end of line
+    out = ""
+    for x in input: # Move by char 
+        if count+1 >= len (input): # we reach end of line 
+            eol=True
+        if not eol:
+         # must be a letter, and either side space or consider caps 
+            if x.isalpha () and input[count+1] == ' ' and input[count-1] in ' ,':
+                if input[count-1] == ',':
+                    temp = out[:-1]
+                    out=temp+';,'+x # handle capital letters which need
+# a letter sign 
+                else:
+                    out+=";"+x
+                count+=1
+                continue
+            # Taking into account first char of line with space after it 
+            if x.isalpha() and count == 0 and input[count+1] == ' ':
+                out+=";"+x
+                count+=1
+                continue 
+        else:
+            out+=x
+            break
         out+=x
+        count+=1
+
     return out
