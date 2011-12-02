@@ -189,14 +189,24 @@ def letterSign (input):
 
     This function adds a letter sign to stand alone letters so they are
     not confused for contractions."""
+    letters=("a","b","c","d","e","f","g","h","i","j")
     count=0
     eol = False # end of line
     out = ""
     for x in input: # Move by char 
+        # letters following a number 
+        if x.isalpha () and input[count-1].isdigit() and x.lower() in letters:
+            count+=1
+            out+=";"+x
+            if count+1 >= len (input): # we reach end of line
+                eol=True
+                break
+            else:
+                continue
         if count+1 >= len (input): # we reach end of line 
             eol=True
         if not eol:
-         # must be a letter, and either side space or consider caps 
+            # must be a letter, and either side space or consider caps 
             if x.isalpha () and input[count+1] == ' ' and (input[count-1] in ' ,' or input[count-1].isdigit()):
                 if input[count-1] == ',':
                     temp = out[:-1]
@@ -224,10 +234,15 @@ def upperNumbers (input):
     
     UEB demands that numbers should be in the upper cells eg. 1 = a so
     lets just do that..."""
+    number = False # is it a number? 
     numbers={"0":"j","1":"a", "2":"b", "3":"c", "4":"d", "5":"e", "6":"f", "7":"g", "8":"h", "9":"i"}
     out=""
     for x in input:
-        if x.isdigit ():
+        if x == '#':
+            number=True
+        elif not x.isdigit () and x not in '#,.':
+            number=False
+        if x.isdigit () and number :
             out+=numbers[x]
         else:
             out+=x
