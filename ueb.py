@@ -237,8 +237,16 @@ def upperNumbers (input):
     number = False # is it a number? 
     numbers={"0":"j","1":"a", "2":"b", "3":"c", "4":"d", "5":"e", "6":"f", "7":"g", "8":"h", "9":"i"}
     out=""
+    count=0
     for x in input:
-        if x == '#':
+        try:
+            if x.isdigit() and input[count-2] != '.' and input[count-1] == '/':
+                count+=1
+                out+=numbers[x]
+                continue
+        except:
+            pass
+        if x in '#':
             number=True
         elif not x.isdigit () and x not in '#,.':
             number=False
@@ -246,5 +254,6 @@ def upperNumbers (input):
             out+=numbers[x]
         else:
             out+=x
+        count+=1
     return out
 
