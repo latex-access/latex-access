@@ -74,19 +74,16 @@ class ueb(latex_access.translator):
         return (translation,arg[1])
 
     def frac(self,input,start):
-        '''Translates fractions into Nemeth.
+        '''Translates fractions into ueb.
 
         Returns touple as above'''
         numerator=get_arg(input,start)
-        if numerator[1]<len(input):
-            denominator=get_arg(input,numerator[1])
-        else:
-            denominator=("",numerator[1])
-        if numerator[0].isdigit() and denominator[0].isdigit():
-            translation=numerator[0]+"/"+denominator[0]
-        else:
-            translation=";("+self.translate(numerator[0])+"/"+self.translate(denominator[0])+";)"
-        return (translation,denominator[1])
+        denominator=get_arg(input,numerator[1])
+        if str(numerator[0].replace('#', '')).isdigit() and str(denominator[0].replace('#', '')).isdigit():
+            translation = self.translate(numerator[0])+"/"+self.translate(denominator[0].replace("#",""))
+        else: # complex fraction 
+            translation = ";("+self.translate(numerator[0])+"./"+self.translate(denominator[0])+";)"
+        return (translation, denominator[1])
 
 
     def bar(self, input, start):
