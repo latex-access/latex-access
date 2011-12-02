@@ -120,7 +120,8 @@ class ueb(latex_access.translator):
         This function is ran after the translation takes place to
         i.e. handle some complications of UEB."""
         out=capitalise(input) # handle caps 
-        out=letterSign(out) # Put letter signs in 
+        out=letterSign(out) # Put letter signs in
+        out=upperNumbers(out) # upper numbers 
         return out # Return our final translation 
 
 def addHash (latex):
@@ -196,7 +197,7 @@ def letterSign (input):
             eol=True
         if not eol:
          # must be a letter, and either side space or consider caps 
-            if x.isalpha () and input[count+1] == ' ' and input[count-1] in ' ,':
+            if x.isalpha () and input[count+1] == ' ' and (input[count-1] in ' ,' or input[count-1].isdigit()):
                 if input[count-1] == ',':
                     temp = out[:-1]
                     out=temp+';,'+x # handle capital letters which need
@@ -217,3 +218,18 @@ def letterSign (input):
         count+=1
 
     return out
+
+def upperNumbers (input):
+    """Convert all numbers to upper numbers i.e. letters.
+    
+    UEB demands that numbers should be in the upper cells eg. 1 = a so
+    lets just do that..."""
+    numbers={"0":"j","1":"a", "2":"b", "3":"c", "4":"d", "5":"e", "6":"f", "7":"g", "8":"h", "9":"i"}
+    out=""
+    for x in input:
+        if x.isdigit ():
+            out+=numbers[x]
+        else:
+            out+=x
+    return out
+
