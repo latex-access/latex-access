@@ -12,9 +12,12 @@
 #
 #    You should have received a copy of the GNU General Public License along with this program; if not, visit <http://www.gnu.org/licenses>
 
+import ueb
+import nemeth 
+
 globals
 # Global settings for latex-access, these are the default values 
-settings = {"brailletranslation":"True", "speechtranslation":"True","brailledollars":"True","speakdollars":"True"}
+settings = {"brailletranslation":"True", "speechtranslation":"True","brailledollars":"True","speakdollars":"True","brailletable":"nemeth"}
 
 def loadSettings (file):
   """Read settings from file.
@@ -26,18 +29,21 @@ def loadSettings (file):
   Where settingname is a valid setting and value is the value of that
   setting. The file may be commented by use of ; but only at the start
   of a line! Blank lines are ignored."""
+  try:
+    f=open(file, "r")
+    for line in f.readlines ():
+      if line[0] == "\n" or line[0] == ";": # Skip some irrelevant stuff
+        continue 
+      words = line.split()
+      if not words: # Ignore lines with spaces
+        continue 
+      settings[words[0]] = words[1]
+    f.close()
+    return True
+  except:
+    return False
 
-  f=open(file, "r")
-  for line in f.readlines ():
-    if line[0] == "\n" or line[0] == ";": # Skip some irrelevant stuff
-      continue 
-    words = line.split()
-    if not words: # Ignore lines with spaces
-      continue 
-    settings[words[0]] = words[1]
-  f.close()
-
-def activateSettings (filename, instances):
+def activateSettings (instances):
   """Activate settings stored in a file.
 
   This function activates the settings in a file, which for the emacs
@@ -48,13 +54,6 @@ def activateSettings (filename, instances):
   sessions to the values specified in the config file. Note the
   activation or deactivation of speech and Braille must be controlled by
   each module independently, i.e. not here."""
-
-  try: # Settings file doesn't necessarily exist 
-    loadSettings (filename)
-  except: 
-    return False
-
-# Now convert settings in the dictionary into the proper variables 
 
   instances["speak"].remove_dollars = not booleaniseSetting("speakdollars")
   instances["braille"].remove_dollars = not booleaniseSetting("brailledollars")
@@ -82,3 +81,12 @@ def getSetting (setting):
   else: # setting not found
     return False
 
+def brailleTableToUse ():
+  """Return the instance of the braille module to use.
+
+  This function return the instance of the Braille table that should be
+  used."""
+  if settings["brailletable"].lower() == "ueb":
+    return ueb.ueb()
+  else:
+    return nemeth.nemeth()

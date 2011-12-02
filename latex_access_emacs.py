@@ -27,13 +27,14 @@ import os.path
 import settings
 import speech
 import nemeth 
+import ueb
 import brltty
 import preprocessor
 import table
 import motion
 
-n=nemeth.nemeth()
 s=speech.speech()
+n=''
 p=preprocessor.preprocessor()
 nc=preprocessor.newcommands(p)
 b=brltty.braille () # Connect to the Braille display object
@@ -51,8 +52,10 @@ def activateSettings ():
 
   Consult the actual function definition in settings.py for details
   and documentation."""
-
-  return settings.activateSettings (os.path.expanduser("~/.latex-access"), {"braille":n,"speak":s})
+  global n # handle to the braille translator 
+  settings.loadSettings (os.path.expanduser("~/.latex-access"))
+  n=settings.brailleTableToUse ()
+  return settings.activateSettings ({"braille":n,"speak":s})
 
 def getSetting (setting):
   """Provide emacs access to the getSetting function.
@@ -66,7 +69,10 @@ def transbrl (arg):
 
   Unless you are using pymacs to call this, please use the function
   nemeth.nemeth.translate() instead. Found in nemeth.py."""
-  return n.translate(p.translate(arg))
+  if settings.settings["brailletable"] == "ueb":
+    return n.translate(p.translate(arg), True, True)
+  else:
+    return n.translate(p.translate(arg))
 
 def transsp (arg):
   """Translate a line of LaTeX source into understandable speech.
