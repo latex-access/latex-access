@@ -203,6 +203,10 @@ def letterSign (input):
                 break
             else:
                 continue
+        if x.isalpha () and input[count-1].isdigit() and x.lower() not in letters:
+            out+=x
+            count+=1
+            continue
         if count+1 >= len (input): # we reach end of line 
             eol=True
         if not eol:
