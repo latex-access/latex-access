@@ -4,23 +4,28 @@
 ) ">
 + "6
 - "-
-< "<
+< @<
 = "7
-> ">
+> @>
 <<<<<<< .mine
 \wedge "8
 \times "8
 \sum .s
 \rightarrow 33o
+\to 33o
 \longrightarrow 333o
+\leftarrow {33
+\leftarrow  {33 
+\leftrightarrow {33o
+\leftrightarrow  {33o 
 \right 
 \left 
 
 \ldots '''
-\le "<"7
-\leq "<"7
-\geq ">"7
-\ge ">"7
+\le _@<
+\leq _@<
+\geq _@>
+\ge _@>
 \equiv 
 \dots '''
 \circ _*
@@ -128,7 +133,9 @@
 \iota .i
 \xi .x
 
+; Probability 
+\Pr Pr
+
 ; Various 
 . 4
 , 1
-
