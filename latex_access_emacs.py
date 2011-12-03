@@ -214,7 +214,6 @@ def brailleRegion (line, point):
     line= n.translate(p.translate(line), True, True)
   else:
     line =n.translate(p.translate(line))
-  line=n.translate (line)
   line=b.segmentToBraille(line, point)
   b.braille (line)
 
