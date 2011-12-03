@@ -210,6 +210,10 @@ def brailleRegion (line, point):
     # provide no arguments and brlapi will handle it for you. 
     b.ttyMode (1) 
     bttymode = True
+  if settings.settings["brailletable"] == "ueb":
+    line= n.translate(p.translate(line), True, True)
+  else:
+    line =n.translate(p.translate(line))
   line=n.translate (line)
   line=b.segmentToBraille(line, point)
   b.braille (line)
