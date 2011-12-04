@@ -69,10 +69,7 @@ def transbrl (arg):
 
   Unless you are using pymacs to call this, please use the function
   nemeth.nemeth.translate() instead. Found in nemeth.py."""
-  if settings.settings["brailletable"] == "ueb":
-    return n.translate(p.translate(arg), True, True)
-  else:
-    return n.translate(p.translate(arg))
+  return n.translate(p.translate(arg))
 
 def transsp (arg):
   """Translate a line of LaTeX source into understandable speech.
@@ -210,10 +207,7 @@ def brailleRegion (line, point):
     # provide no arguments and brlapi will handle it for you. 
     b.ttyMode (1) 
     bttymode = True
-  if settings.settings["brailletable"] == "ueb":
-    line= n.translate(p.translate(line), True, True)
-  else:
-    line =n.translate(p.translate(line))
+  line= n.translate(p.translate(line))
   line=b.segmentToBraille(line, point)
   b.braille (line)
 
