@@ -54,9 +54,10 @@ def activateSettings (instances):
   sessions to the values specified in the config file. Note the
   activation or deactivation of speech and Braille must be controlled by
   each module independently, i.e. not here."""
-
-  instances["speak"].remove_dollars = not booleaniseSetting("speakdollars")
-  instances["braille"].remove_dollars = not booleaniseSetting("brailledollars")
+  if 'speak' in instances.keys():
+    instances["speak"].remove_dollars = not booleaniseSetting("speakdollars")
+  if 'braille' in instances.keys():
+    instances["braille"].remove_dollars = not booleaniseSetting("brailledollars")
   return True # Settings activated 
 
 def booleaniseSetting (setting):
