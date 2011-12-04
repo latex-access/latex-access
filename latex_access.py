@@ -30,6 +30,7 @@ primes=re.compile(r"^\s*(\\prime\s*)+$")
 class translator:
     '''Class from which all translators will inherit.'''
     def __init__(self):
+        self.depth=0
         self.table={"\\mbox":self.text,"\\text":self.text,"\\textrm":self.text,"\\textit":self.text,"\\mathrm":self.text,"\\textbf":self.text,"\\displaystyle":self.displaystyle,"\\phantom":self.remove}
         
         self.remove_dollars=False
@@ -51,12 +52,13 @@ class translator:
     def load_files(self):
         [self.load_file(f) for f in self.files]
     
-    def translate(self,input, before=False, after=False):        
+    def translate(self,input):        
         '''This translates the string in input using the translation table
 
         Returns string.'''
-        if before:
+        if self.depth==0 and hasattr(self,"before"):
             input=self.before(input)
+        self.depth+=1
         output=""
         i=0
         while (i<len(input)):
@@ -91,7 +93,8 @@ class translator:
             else:
                 output += curr
                 i += len(curr)
-        if after:
+        self.depth-=1
+        if self.depth==0 and hasattr(self,"after"):
             output=self.after (output)
         return output
 
