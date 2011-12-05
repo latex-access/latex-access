@@ -26,9 +26,6 @@ activateSettings ()
 
 while True: # handle the input from brltty 
   input=raw_input()
-  if settings.settings["brailletable"] == "ueb":
-    output= b.translate(p.translate(input), True, True)
-  else: # nemeth, the default
-    output =n.translate(p.translate(input))
+  output =b.translate(p.translate(input))
   sys.stdout.write(output)
   sys.stdout.flush ()
