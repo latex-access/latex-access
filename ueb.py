@@ -18,6 +18,7 @@ module.'''
 
 import latex_access
 from latex_access import get_arg
+from latex_access import get_optional_arg
 
 class ueb(latex_access.translator):
     '''Class for ueb translations.'''
@@ -26,7 +27,7 @@ class ueb(latex_access.translator):
         latex_access.translator.__init__(self)
         self.files.append("ueb.table")
         self.load_files()
-        new_table={"$":self.dollar,
+        new_table={"$":self.uebDollar,
 
                    "\\dot":("","`"),"\\ddot":("","``"),
                    "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,
@@ -69,8 +70,14 @@ class ueb(latex_access.translator):
         '''Translatesroots in latex.
 
         Returns a touple as above.'''
-        arg=get_arg(input,start)
-        translation="%"+self.translate(arg[0])+"+"
+        arg=get_optional_arg(input,start)
+        if arg:
+            translation=";;%9"+self.translate(arg[0])
+            arg=get_arg(input,arg[1])
+            translation+=self.translate(arg[0])+"+"
+        else:
+            arg=get_arg(input,start)
+            translation="%"+self.translate(arg[0])+"+"
         return (translation,arg[1])
 
     def frac(self,input,start):
@@ -106,6 +113,17 @@ class ueb(latex_access.translator):
         translation="  "<"+arg[0]+"">"
         return (translation,arg[1])
 
+    def uebDollar (self, input, start):
+        """Handle dollars.
+
+        This function uses the self.dollars method to check if dollars
+    should be removed and if not change the dollar to ueb, `s."""
+        translation=self.dollar(input,start)
+        if translation[0]:
+            translationout="`s"
+        translation=(translationout, translation[1])
+        return translation
+    
     def before (self, input):
         """This function is ran prior to the translation.
 
