@@ -262,7 +262,7 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 		"""
 
 		windowClassName = obj.windowClassName
-		if windowClassName == "Edit":
+		if windowClassName == "Edit" or windowClassName == "Scintilla":
 			clsList.insert (0, EditableText)
 
 	# For the key bindings:
