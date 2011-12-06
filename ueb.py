@@ -121,6 +121,8 @@ class ueb(latex_access.translator):
         translation=self.dollar(input,start)
         if translation[0]:
             translationout="`s"
+        else:
+            translationout = ''
         translation=(translationout, translation[1])
         return translation
     
