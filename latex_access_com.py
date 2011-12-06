@@ -17,17 +17,19 @@
 
 
 import preprocessor
-import nemeth
 import speech
+import settings
+import os
 
 class latex_access_com:
     def __init__(self):
-        self.nemeth_translator=nemeth.nemeth()
+        self.filename = os.path.join(os.path.expandvars("%appdata%"), "latex-access.conf")
         self.speech_translator=speech.speech()
+        self.activateSettings()
         self.preprocessor=preprocessor.preprocessor()
         self.newcommands=preprocessor.newcommands(self.preprocessor)
     _reg_progid_ = "latex_access"
-    _public_methods_ =["nemeth","speech","preprocessor_add","preprocessor_from_string","preprocessor_write","preprocessor_read","toggle_dollars_nemeth","toggle_dollars_speech"]
+    _public_methods_ =["nemeth","speech","preprocessor_add","preprocessor_from_string","preprocessor_write","preprocessor_read","toggle_dollars_nemeth","toggle_dollars_speech", "activateSettings"]
     def nemeth(self, input):
         '''Translates the input into Nemeth Braille.'''
         input=self.preprocessor.translate(input)
@@ -67,6 +69,14 @@ class latex_access_com:
     def preprocessor_read(self, filename):
         self.preprocessor.read(filename)
 
+    def activateSettings (self):
+        """Activate the latex-access settings stored in file.
+
+        Consult the actual function definition in settings.py for details
+        and documentation."""
+        settings.loadSettings (os.path.expanduser(self.filename))
+        self.nemeth_translator=settings.brailleTableToUse ()
+        return settings.activateSettings ({"braille":self.nemeth_translator,"speak":self.speech_translator})
 
 #Register the object
 if __name__=='__main__':
