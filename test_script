@@ -3,14 +3,37 @@
 
 
 import sys
-
 import nemeth
+import ueb
 import speech
-n=nemeth.nemeth()
+import settings
+import os
+
 s=speech.speech()
+b=''
+filename = ''
+
+if len(sys.argv) > 1:
+    filename = os.path.expanduser(sys.argv[1])
+    if not os.path.exists(filename):
+        print "Config file you specified doesn't exist, continuing anyway with defaults."
+        filename=''
+
+def activateSettings ():
+    """Activate the latex-access settings stored in file.
+
+    Consult the actual function definition in settings.py for details
+    and documentation."""
+    global b # handle to the braille translator 
+    settings.loadSettings (os.path.expanduser(filename))
+    b=settings.brailleTableToUse ()
+    return settings.activateSettings ({"braille":b})
+
+activateSettings ()
+
 while True:
     input = sys.stdin.readline()
-    output=n.translate(input)
+    output=b.translate(input)
     print output
 
     output=s.translate(input)
