@@ -52,7 +52,7 @@ class translator:
     def load_files(self):
         [self.load_file(f) for f in self.files]
     
-    def translate(self,input,src_idx=-1,trans_idx=-1):        
+    def translate(self,input,rting=()):        
         '''This translates the string in input using the translation table
 
         Returns string.'''
@@ -60,14 +60,13 @@ class translator:
             input=self.before(input)
         if self.depth==0:
             self.rt=[] #Routing table
-            src_idx=0
-            trans_idx=0
+            rting=(0,0)
         self.depth+=1
         output=""
         i=0
         while (i<len(input)):
-            if src_idx!=-1 and trans_idx!=-1:
-                self.rt.append((len(output)+trans_idx,i+src_idx))
+            if rting!=():
+                self.rt.append((len(output)+rting[1],i+rting[0]))
             # Test if we have a LaTeX command
             if input[i] == "\\":
                 match=latex_command.match(input[i:])
@@ -91,7 +90,11 @@ class translator:
                     output+=translation[0]
                     i=translation[1]                    
                 elif type(result) == types.MethodType:
-                    translation=result(input,i)
+                    try:
+                        if rting!=(): translation=result(input,i,(rting[0],rting[1]+len(output)))
+                    except:
+                        translation=result(input,i)
+
                     output+=translation[0]
                     i=translation[1]
             
@@ -209,7 +212,7 @@ def get_arg(input,start):
         return (input[i],i+1,i)
     else:
         i+=1
-        actual_start=i+1        
+        actual_start=i        
         start=i
         j=1 #Variable to track nested braces
         while (j != 0) and i < len(input):
