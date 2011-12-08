@@ -180,15 +180,17 @@ def get_arg(input,start):
     '''Returns the argument of a latex command, starting at start.
         
     Returns a tuple containing the contents of the argument
-    and the index of the next character after the argument.'''
+    and the index of the next character after the argument
+    and the place where the argument actually st.arts'''
     i=start
     #Check we haven't gone past the end of the command
-    if i>=len(input): return ("",i)
+    if i>=len(input): return ("",i,i)
     #Skip space
     while input[i]==" " and i < len(input):
         i+=1
     #Handle unbraced LaTeX commands
     if input[i] == "\\":
+        actual_start=i
         match=latex_command.match(input[i:])
         if (match):
             arg=match.group()
@@ -196,11 +198,12 @@ def get_arg(input,start):
         else:
             arg="\\"
             i+=1
-        return (arg,i)
+        return (arg,i,actual_start)
     if input[i] != "{":
-        return (input[i],i+1)
+        return (input[i],i+1,i)
     else:
         i+=1
+        actual_start=i+1        
         start=i
         j=1 #Variable to track nested braces
         while (j != 0) and i < len(input):
@@ -212,7 +215,7 @@ def get_arg(input,start):
         #This is a hack to avoid problems when the braces haven't yet been closed
         if input[i-1]!="}":
             i+=1
-        return(input[start:i-1],i)
+        return(input[start:i-1],i,actual_start)
 
 def get_optional_arg(input,start):
     '''Returns the optional argument of a latex command, if it exists, starting at start.
