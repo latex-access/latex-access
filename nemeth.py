@@ -71,7 +71,7 @@ class nemeth(latex_access.translator):
             translation = ";"+self.translate(arg[0]) + "\""
         return (translation,arg[1])
 
-    def sqrt(self,input,start):
+    def sqrt(self,input,start,rting=()):
         '''Translatesroots in latex.
 
         Returns a touple as above.'''
@@ -79,7 +79,8 @@ class nemeth(latex_access.translator):
         if arg[0].isdigit() or len(arg[0])==1:
             translation=">"+arg[0]
         else:
-            translation=">"+self.translate(arg[0])+"}"
+            if rting!=(): translation=">"+self.translate(arg[0],(rting[0]+arg[2],rting[1]+1))+"}"
+            else: translation=">"+self.translate(arg[0])+"}"
         return (translation,arg[1])
 
     def frac(self,input,start):
