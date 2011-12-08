@@ -52,16 +52,22 @@ class translator:
     def load_files(self):
         [self.load_file(f) for f in self.files]
     
-    def translate(self,input):        
+    def translate(self,input,src_idx=-1,trans_idx=-1):        
         '''This translates the string in input using the translation table
 
         Returns string.'''
         if self.depth==0 and hasattr(self,"before"):
             input=self.before(input)
+        if self.depth==0:
+            self.rt=[] #Routing table
+            src_idx=0
+            trans_idx=0
         self.depth+=1
         output=""
         i=0
         while (i<len(input)):
+            if src_idx!=-1 and trans_idx!=-1:
+                self.rt.append((len(output)+trans_idx,i+src_idx))
             # Test if we have a LaTeX command
             if input[i] == "\\":
                 match=latex_command.match(input[i:])
