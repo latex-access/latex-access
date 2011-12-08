@@ -131,7 +131,9 @@ class ueb(latex_access.translator):
 
         Place anything here you wish to be done before the returned
         value of this function is passed to the translator."""
-        return self.addHash (input) # Put in ueb number signs 
+        output=self.markInput(input)
+        output=self.addHash (output) # Put in ueb number signs
+        return output 
 
     def after (self,input):
         """Place any functions here that you wish to be called after the
@@ -142,6 +144,11 @@ class ueb(latex_access.translator):
         out=self.capitalise(input) # handle caps 
         out=self.letterSign(out) # Put letter signs in
         out=self.upperNumbers(out) # upper numbers
+        out=self.stripUnwantedHash (out)
+        out=out.replace("<brl>","")
+        out=out.replace("</brl>","")
+        out=out.replace("\\{", "_<")
+        out=out.replace("\\}", "_>")
         return out # Return our final translation 
 
     def addHash (self,latex):
@@ -151,17 +158,21 @@ class ueb(latex_access.translator):
         number for instance the number 1 is written as #a so this function
         applies the rules of ueb, and puts in the relevant hash signs."""
         out=""
-        approachingnumb = False # Are we inside a number 
-        for x in latex: # Go through the latex source 
-            if approachingnumb and not x.isdigit() and x not in '.,': # end of the number 
+        approachingnumb = False # Are we inside a number
+        count=0
+        for x in latex: # Go through the latex source
+            if approachingnumb and not x.isdigit ():
                 out+=x
                 approachingnumb = False
+                count+=1
                 continue
             if not approachingnumb and x.isdigit (): # we begin a number, insert a # sign 
                 approachingnumb = True
                 out+="#"+x
+                count+=1
                 continue
-            out+=x # not inside a number and is not a digit, default handling 
+            out+=x # not inside a number and is not a digit, default handling
+            count+=1
         return out
 
     def capitalise (self,input):
@@ -174,7 +185,9 @@ class ueb(latex_access.translator):
         incaps = False # Are we in capital mode 
         out=""
         incount=0
-        for x in input: # move through input by char 
+        for x in input: # move through input by char
+            if incaps and not x.isupper ():
+                incaps = False
             if not x.isalpha (): # Pointless it's not a letter 
                 incount +=1
                 out+=x
@@ -201,7 +214,7 @@ class ueb(latex_access.translator):
                 continue
             # We got nothing 
             out+=x.lower()
-            incount+=1 
+            incount+=1
         return out
 
     def letterSign (self,input):
@@ -211,46 +224,66 @@ class ueb(latex_access.translator):
         not confused for contractions."""
         letters=("a","b","c","d","e","f","g","h","i","j")
         count=0
-        eol = False # end of line
         out = ""
-        for x in input: # Move by char 
-            # letters following a number 
-            if x.isalpha () and input[count-1].isdigit() and x.lower() in letters:
+        for x in input: # Move by char
+            # Numbers, are a special case
+            # Handle lower case letters after a number. Somehow, (I
+            # don't understand why), capital letters are handled fine, so
+            # I won't bother writing unnecessary code:)
+            if x.isalpha() and self.followsNumber (input, count) and x in letters:
                 count+=1
                 out+=";"+x
-                if count+1 >= len (input): # we reach end of line
-                    eol=True
-                    break
-                else:
-                    continue
-            if x.isalpha () and input[count-1].isdigit() and x.lower() not in letters:
-                out+=x
-                count+=1
                 continue
-            if count+1 >= len (input): # we reach end of line 
-                eol=True
-            if not eol:
-                # must be a letter, and either side space or consider caps 
-                if x.isalpha () and input[count+1] == ' ' and (input[count-1] in ' ,' or input[count-1].isdigit()):
-                    if input[count-1] == ',':
-                        temp = out[:-1]
-                        out=temp+';,'+x # handle capital letters which need
-    # a letter sign 
-                    else:
+            # Only one char on line 
+            if len(input) == 1 and x.isalpha():
+                out+=';'+x
+                break
+            elif len(input) == 2 and x in ',' and input[1].isalpha(): # line only cap letter
+                out+=";,"+input[1]
+                break
+            if count+1 < len (input) and count-1 >= 0: # somewhere in the line
+                # Do we have a letter after some Braille punctuation
+                if not self.insideMarkup (input,count) and x.isalpha () and input[count-1].isdigit ():
+                    out+=";"+x
+                    count+=1
+                    continue
+                # We have either lower or upper case letter on it's own 
+                if x.isalpha () and input[count-1] in ' ,' and input[count+1] == ' ':
+                    if input[count-1] == ',': # handle cap
+                        if count-2 >= 0:
+                            if input[count-2].isalpha ():
+                                out+=x
+                                count+=1
+                                continue 
+                        out=out[:-1]+";,"+x # Letter sign then capital sign 
+                    else: # no cap to worry about 
                         out+=";"+x
                     count+=1
                     continue
-                # Taking into account first char of line with space after it 
-                if x.isalpha() and count == 0 and input[count+1] == ' ':
+            elif count-1 < 0: # first char on line 
+                if input[count+1] == ' ' and x.isalpha(): # its lower case on its own
                     out+=";"+x
                     count+=1
-                    continue 
-            else:
-                out+=x
-                break
-            out+=x
-            count+=1
+                    continue
+            elif count+1 == len(input): # last char of line
+                if not self.insideMarkup (input,count) and x.isalpha () and input[count-1].isdigit ():
+                    out+=";"+x
+                    count+=1
+                    continue
+                if x.isalpha () and input[count-1] in ' ,': # it's a char
+                    if input[count-1] == ' ': # lowercase on it's own
+                        out+=";"+x
+                    else: # Upper case
+                        if count-2 >= 0:
+                            if input[count-2].isalpha ():
+                                out+=x
+                                count+=1
+                                break
+                        out=out[:-1]+";,"+x
+                    break
 
+            count+=1
+            out+=x
         return out
 
     def upperNumbers (self,input):
@@ -263,6 +296,10 @@ class ueb(latex_access.translator):
         out=""
         count=0
         for x in input:
+            if not self.insideMarkup (input, count):
+                count+=1
+                out+=x
+                continue
             try:
                 if x.isdigit() and input[count-2] != '.' and input[count-1] == '/':
                     count+=1
@@ -272,11 +309,86 @@ class ueb(latex_access.translator):
                 pass
             if x in '#':
                 number=True
-            elif not x.isdigit () and x not in '#,.':
+            elif not x.isdigit () and x not in '#':
                 number=False
             if x.isdigit () and number :
                 out+=numbers[x]
             else:
                 out+=x
+            count+=1
+        return out
+
+    def markupInsert (self, input, start, end):
+        output = input[:start]+"<brl>"+input[start:end]+"</brl>"+input[end:]
+        return (output, end+11)
+    
+    def markInput (self, input):
+        i=0
+        output=''
+        markup = False
+        start = end = -1
+        while i < len(input):
+            if input[i].isdigit() and not markup:
+                markup = True
+                start=i
+            elif markup and not input[i].isdigit ():
+                markup = False
+                end = i 
+                tmp=self.markupInsert (input, start, end)
+                input=tmp[0]
+                i=tmp[1]
+            i+=1
+        
+        if markup:
+            input= self.markupInsert (input, start, len(input))[0]
+
+        return input
+
+    def insideMarkup (self, input, index):
+        markup=("<brl>","</brl>")
+        start=input.rfind("<brl>", 0, index+1)
+        end=input.find("</brl>", index, len(input))
+        if start == -1 or end == -1:
+            return False
+        else:
+            start+=5
+            startfind=input.find("<brl>", start, end+1)
+            endfind=input.find("</brl>", start, end+1)
+            if startfind == -1 and endfind == -1:
+                return True
+            else:
+                return False
+
+    def followsNumber (self, input, start):
+        try:
+            if input[start-7].isdigit () and input[start-6:start] in '</brl>':
+                return True
+        except:
+            pass
+        return False
+
+    
+    def endNumber (self, input, start):
+        if start <= 6:
+            return False
+        try:
+            if input[start-6:start] in '</brl>':
+                return True
+        except:
+            pass
+        return False
+                    
+    def stripUnwantedHash (self, input):
+        out=''
+        count=0
+        removehash = False
+        for x in input:
+            if self.endNumber(input, count) and x in '14':
+                removehash = True
+            if x == '#' and removehash:
+                removehash=False
+                count+=1
+                continue
+            out+=x
             count+=1
         return out

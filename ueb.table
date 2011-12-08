@@ -4,9 +4,7 @@
 ) ">
 + "6
 - "-
-< @<
 = "7
-> @>
 <<<<<<< .mine
 \wedge "8
 \times "8
@@ -65,10 +63,6 @@
 \cap .8
 \in ~e
 \infty #=
-\[ _<
-\} _>
-\[ .<
-\] .>
 ; trig and hyperbolic functions
 \tanh tanh 
 \tan tan 
@@ -134,3 +128,6 @@
 
 ; Probability 
 \Pr Pr
+; Punctuation 
+, 1
+. 4
