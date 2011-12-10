@@ -27,7 +27,7 @@ class ueb(latex_access.translator):
         latex_access.translator.__init__(self)
         self.files.append("ueb.table")
         self.load_files()
-        new_table={"$":self.uebDollar,
+        new_table={">":self.specialSymbol, "/":self.specialSymbol, "<":self.specialSymbol,"$":self.uebDollar,
 
                    "\\dot":("","`"),"\\ddot":("","``"),
                    "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,
@@ -392,3 +392,27 @@ class ueb(latex_access.translator):
             out+=x
             count+=1
         return out
+
+    def specialSymbol (self, input, start):
+        """Handle the symbols used for markup.
+
+        Handle the symbols used in markup so we don't translate
+        markup!"""
+        try:
+            # Are we part of markup?
+            if input[start-1:start+4] == '<brl>':
+                return ('<brl>', start+4)
+            elif input[start-1:start+5] == '</brl>':
+                return ('</brl>', start+5)
+        except: # obviously not
+            pass
+        # Handle each symbol since it is not markup
+        if input[start-1] == '<':
+            return ('@<', start)
+        elif input[start-1] == '/':
+            return ('_/', start)
+        elif input[start-1] == '>':
+            return ('@>', start)
+        else: # theoretically should never get here.
+            return (input[start-1], start)
+    
