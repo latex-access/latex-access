@@ -90,11 +90,11 @@ class translator:
                     output+=translation[0]
                     i=translation[1]                    
                 elif type(result) == types.MethodType:
-                    try:
-                        if rting!=(): translation=result(input,i,(rting[0],rting[1]+len(output)))
-                    except:
+                    if rting!=():
+                        try: translation=result(input,i,(rting[0],rting[1]+len(output)))
+                        except: translation=result(input,i)
+                    else:
                         translation=result(input,i)
-
                     output+=translation[0]
                     i=translation[1]
             
