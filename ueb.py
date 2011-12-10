@@ -27,7 +27,7 @@ class ueb(latex_access.translator):
         latex_access.translator.__init__(self)
         self.files.append("ueb.table")
         self.load_files()
-        new_table={"$":self.uebDollar,
+        new_table={"[":self.bracket,"]":self.bracket,"$":self.uebDollar,
 
                    "\\dot":("","`"),"\\ddot":("","``"),
                    "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,
@@ -402,3 +402,16 @@ class ueb(latex_access.translator):
             out+=x
             count+=1
         return out
+
+    def bracket (self, input, start):
+        """Translate square brackets into ueb.
+
+        It will only be called for stand-alone brackets, or unrecognised
+        latex commands, so the ueb brackets won't hurt anyone."""
+
+        if input[start-1] == '[':
+            return ('.<', start)
+        else:
+            return ('.>', start)
+    
+        
