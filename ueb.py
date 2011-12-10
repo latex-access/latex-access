@@ -27,7 +27,7 @@ class ueb(latex_access.translator):
         latex_access.translator.__init__(self)
         self.files.append("ueb.table")
         self.load_files()
-        new_table={">":self.specialSymbol, "/":self.specialSymbol, "<":self.specialSymbol,"$":self.uebDollar,
+        new_table={"$":self.uebDollar,
 
                    "\\dot":("","`"),"\\ddot":("","``"),
                    "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,
@@ -86,8 +86,9 @@ class ueb(latex_access.translator):
         Returns touple as above'''
         numerator=get_arg(input,start)
         denominator=get_arg(input,numerator[1])
-        if str(numerator[0].replace('#', '')).isdigit() and str(denominator[0].replace('#', '')).isdigit():
-            translation = self.translate(numerator[0])+"/"+self.translate(denominator[0].replace("#",""))
+
+        if str(numerator[0]).replace('#','').replace('@brl@','').replace('@/brl@','').isdigit() and str(denominator[0]).replace('#', '').replace('@brl@','').replace('@/brl@','').isdigit():
+            translation=numerator[0]+"/"+denominator[0]
         else: # complex fraction 
             translation = ";("+self.translate(numerator[0])+"./"+self.translate(denominator[0])+";)"
         return (translation, denominator[1])
@@ -145,8 +146,8 @@ class ueb(latex_access.translator):
         out=self.letterSign(out) # Put letter signs in
         out=self.upperNumbers(out) # upper numbers
         out=self.stripUnwantedHash (out)
-        out=out.replace("<brl>","")
-        out=out.replace("</brl>","")
+        out=out.replace("@brl@","")
+        out=out.replace("@/brl@","")
         out=out.replace("\\{", "_<")
         out=out.replace("\\}", "_>")
         return out # Return our final translation 
@@ -226,6 +227,10 @@ class ueb(latex_access.translator):
         count=0
         out = ""
         for x in input: # Move by char
+            # if line is only one char long, and not alpha numeric seems
+            # to cause problems
+            if len(input) == 1 and not input.isalpha ():
+                return input 
             # Numbers, are a special case
             # Handle lower case letters after a number. Somehow, (I
             # don't understand why), capital letters are handled fine, so
@@ -319,7 +324,7 @@ class ueb(latex_access.translator):
         return out
 
     def markupInsert (self, input, start, end):
-        output = input[:start]+"<brl>"+input[start:end]+"</brl>"+input[end:]
+        output = input[:start]+"@brl@"+input[start:end]+"@/brl@"+input[end:]
         return (output, end+11)
     
     def markInput (self, input):
@@ -345,15 +350,15 @@ class ueb(latex_access.translator):
         return input
 
     def insideMarkup (self, input, index):
-        markup=("<brl>","</brl>")
-        start=input.rfind("<brl>", 0, index+1)
-        end=input.find("</brl>", index, len(input))
+        markup=("@brl@","@/brl@")
+        start=input.rfind("@brl@", 0, index+1)
+        end=input.find("@/brl@", index, len(input))
         if start == -1 or end == -1:
             return False
         else:
             start+=5
-            startfind=input.find("<brl>", start, end+1)
-            endfind=input.find("</brl>", start, end+1)
+            startfind=input.find("@brl@", start, end+1)
+            endfind=input.find("@/brl@", start, end+1)
             if startfind == -1 and endfind == -1:
                 return True
             else:
@@ -361,7 +366,7 @@ class ueb(latex_access.translator):
 
     def followsNumber (self, input, start):
         try:
-            if input[start-7].isdigit () and input[start-6:start] in '</brl>':
+            if input[start-7].isdigit () and input[start-6:start] in '@/brl@':
                 return True
         except:
             pass
@@ -372,7 +377,7 @@ class ueb(latex_access.translator):
         if start <= 6:
             return False
         try:
-            if input[start-6:start] in '</brl>':
+            if input[start-6:start] in '@/brl@':
                 return True
         except:
             pass
@@ -383,6 +388,11 @@ class ueb(latex_access.translator):
         count=0
         removehash = False
         for x in input:
+            try: # handle simple fractions
+                if self.endNumber(input, count) and x == '/':
+                    removehash = True
+            except:
+                pass
             if self.endNumber(input, count) and x in '14':
                 removehash = True
             if x == '#' and removehash:
@@ -392,27 +402,3 @@ class ueb(latex_access.translator):
             out+=x
             count+=1
         return out
-
-    def specialSymbol (self, input, start):
-        """Handle the symbols used for markup.
-
-        Handle the symbols used in markup so we don't translate
-        markup!"""
-        try:
-            # Are we part of markup?
-            if input[start-1:start+4] == '<brl>':
-                return ('<brl>', start+4)
-            elif input[start-1:start+5] == '</brl>':
-                return ('</brl>', start+5)
-        except: # obviously not
-            pass
-        # Handle each symbol since it is not markup
-        if input[start-1] == '<':
-            return ('@<', start)
-        elif input[start-1] == '/':
-            return ('_/', start)
-        elif input[start-1] == '>':
-            return ('@>', start)
-        else: # theoretically should never get here.
-            return (input[start-1], start)
-    
