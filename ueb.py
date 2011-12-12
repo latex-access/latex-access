@@ -111,8 +111,8 @@ class ueb(latex_access.translator):
         Returns a touple with translated string and index of
         first char after end of tag.'''
         arg=get_arg(input,start)
-        translation="  "<"+arg[0]+"">"
-        return (translation,arg[1])
+        translation = ' "<'+arg[0]+'">'
+        return (translation, arg[1])
 
     def uebDollar (self, input, start):
         """Handle dollars.
