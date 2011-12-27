@@ -19,7 +19,7 @@ import types
 import os.path
 from path import get_path
 import codecs
-
+import routing
 
 # Regular expression to match LaTeX commands
 latex_command=re.compile(r"\\(([a-zA-Z]+)|[,!;])")
@@ -103,6 +103,10 @@ class translator:
                 output += curr
                 i += len(curr)
         self.depth-=1
+        if self.depth==0:
+            self.rt.append((len(output)-1,len(input)-1))
+            self.trans2src=routing.convert(self.rt)
+            self.src2trans=routing.convert(routing.invert(self.rt))
         if self.depth==0 and hasattr(self,"after"):
             output=self.after (output)
         return output
