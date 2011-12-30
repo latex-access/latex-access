@@ -1,4 +1,6 @@
 ; general maths
+\ln ln
+\exp exp
 ! &
 ( {
 ) o
@@ -8,6 +10,7 @@
 =  .k 
 >  .1 
 <<<<<<< .mine
+\dagger _}
 \wedge *
 \times *
 \sum .s
@@ -16,74 +19,30 @@
 \longrightarrow  333o
 \right 
 \left 
-
 \ldots '''
 \le  "k.k 
 \leq  "k.k 
 \geq  .1.k 
 \ge  .1.k 
+\approx  ".k<*} 
 \equiv  _l 
 \dots '''
 \circ _*
 \cdots '''
 \cdot _*
 \Rightarrow  33o
-\rightarrow  33o
 \Leftrightarrow  {33o 
 \leftrightarrow  {33o
-\sum .s
 \prod _p
 \pm +-
 \mp -+
-\neq  ./k 
-\ne  ./k 
+\neq  /.k 
+\ne  /.k 
 \log log 
 \leftarrow  {33
 \Leftarrow  {33
-
-
-
-
-; general latex
-=======
-\wedge *
-\times *
 \div /
-\sum .s
-\rightarrow  33o
-\right 
-\left 
-
-\ldots '''
-\le  "k.k 
-\leq  "k.k 
-\geq  .1.k 
-\ge  .1.k 
-\equiv  _l 
-\dots '''
-\circ _*
-\cdots '''
-\cdot _*
-\Rightarrow  33o
-\rightarrow  33o
-\Leftrightarrow  {33o 
-\leftrightarrow  {33o
-\sum .s
-\prod _p
-\pm +-
-\mp -+
-\neq  ./k 
-\ne  ./k 
-\log log 
-\leftarrow  {33
-\Leftarrow  {33
 \propto  ;2 
-
-
-
-
-; general latex
->>>>>>> .r202
 \, 
 \:  
 \;  
@@ -103,7 +62,7 @@
 \emptyset _0
 \cup .+
 \cap .%
-\infty =
+\infty ,=
 
 ; trig and hyperbolic functions
 \tanh tanh 
@@ -119,40 +78,40 @@
 
 ; calculus 
 \int !
+\grad grad
 \nabla .$
-\partial $
 \partial $
 
 ; capital greek letters
-\Alpha _a
-\Beta _b
-\Delta _d
-\Gamma _g
-\Lambda _l
-\Omega _w
-\Phi _f
-\Psi _y
-\Sigma _s
-\Theta _?
-\Pi _p
-\Xi _x
-\Epsilon _e
-\Eta _h
-\Iota _i
-\Nu _n
-\Mu _m
-\Zeta _z
-\Kappa _k
-\Chi _c
-\Rho _r
+\Alpha .,a
+\Beta .,b
+\Delta .,d
+\Gamma .,g
+\Lambda .,l
+\Omega .,w
+\Phi .,f
+\Psi .,y
+\Sigma .,s
+\Theta .,?
+\Pi .,p
+\Xi .,x
+\Epsilon .,e
+\Eta .,:
+\Iota .,i
+\Nu .,n
+\Mu .,m
+\Zeta .,z
+\Kappa .,k
+\Chi .,&
+\Rho .,r
 
 ; small greek
 \alpha .a
 \beta .b
-\chi .c
+\chi .&
 \delta .d
 \epsilon .e
-\eta .h
+\eta .:
 \gamma .g
 \kappa .k
 \lambda .l
