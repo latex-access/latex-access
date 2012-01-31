@@ -324,19 +324,31 @@ class ueb(latex_access.translator):
         return out
 
     def markupInsert (self, input, start, end):
+        """Insert markup around relevant latex source.
+
+        Places the text in string input[start:end] in markup and returns
+        a newly formatted string of input including the additional
+        markup."""
+        
         output = input[:start]+"@brl@"+input[start:end]+"@/brl@"+input[end:]
         return (output, end+11)
     
     def markInput (self, input):
+        """Insert markup into a string of LaTeX.
+
+        Move through a string of latex source, and determine what
+        sections of the string must be surrounded by markup, and pass
+        this information to the self.markupInsert function."""
+        
         i=0
         output=''
         markup = False
         start = end = -1
         while i < len(input):
-            if input[i].isdigit() and not markup:
+            if input[i].isdigit() and not markup: # mark start of a section where markup is required 
                 markup = True
                 start=i
-            elif markup and not input[i].isdigit ():
+            elif markup and (input[i] == '\n' or not input[i].isdigit ()): # Mark the end of the particular section which required markup 
                 markup = False
                 end = i 
                 tmp=self.markupInsert (input, start, end)
@@ -344,12 +356,17 @@ class ueb(latex_access.translator):
                 i=tmp[1]
             i+=1
         
-        if markup:
+        if markup: # handle markup right at the end of the text 
             input= self.markupInsert (input, start, len(input))[0]
 
         return input
 
     def insideMarkup (self, input, index):
+        """Are we inside markup.
+
+        Boolean, return True if we are inside markup, otherwise return
+        value is False."""
+
         markup=("@brl@","@/brl@")
         start=input.rfind("@brl@", 0, index+1)
         end=input.find("@/brl@", index, len(input))
@@ -384,10 +401,19 @@ class ueb(latex_access.translator):
         return False
                     
     def stripUnwantedHash (self, input):
+        """Remove unecessary hash signs.
+
+        Remove unwanted # signs."""
+
         out=''
         count=0
         removehash = False
         for x in input:
+            if x == '\n': # handle newline
+                count+=1
+                out+=x
+                removehash = False
+                continue 
             try: # handle simple fractions
                 if self.endNumber(input, count) and x == '/':
                     removehash = True
