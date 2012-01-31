@@ -46,24 +46,32 @@ class ueb(latex_access.translator):
 
         Returns a touple with translated string and index of
         first char after end of super.'''
+        short = False
         arg=get_arg(input,start)
-        if len(self.translate(arg[0])) > 2:
-            translation = ";9\"<" + self.translate(arg[0])+"\">"
-        else:
+        if '@brl@' in arg[0]:
+            trans = arg[0].replace("@brl@","").replace("@/brl@","")
+            if trans[0] == '#' and trans[1].isdigit () and len(trans) ==2:
+                short = True
+        if len(arg[0]) <=1 or short:
             translation = ";9" + self.translate(arg[0])
+        else:
+            translation = ";9\"<" + self.translate(arg[0])+"\">"
         return (translation,arg[1])
-
-
 
     def sub(self,input,start):
         '''Translates ueb subscripts.
 
         Returns a touple, as above'''
+        short = False 
         arg=get_arg(input,start)
-        if len(arg[0]) > 1:
-            translation = ";5\"<"+self.translate(arg[0]) + "\">"
-        else:
+        if '@brl@' in arg[0]:
+            trans = arg[0].replace("@brl@","").replace("@/brl@","")
+            if trans[0] == '#' and trans[1].isdigit () and len(trans) ==2:
+                short = True
+        if len(arg[0]) <=1 or short:
             translation = ";5"+self.translate(arg[0])
+        else:
+            translation = ";5\"<"+self.translate(arg[0]) + "\">"
         return (translation,arg[1])
 
     def sqrt(self,input,start):
