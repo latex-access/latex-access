@@ -37,6 +37,8 @@
 (setq latex-access-braille nil)
 (setq latex-access-speech nil)
 
+(setq latex-access-displaying nil) ; So we can toggle brailling of line
+
 ; Voice definitions, customize these by customizing the <voice_name>-settings variable.
 
 (if (featurep 'emacspeak) (progn 
@@ -550,8 +552,8 @@ position of point."
 (defun latex-access-close-display ()
   "Close the display so brltty can regain control."
   (interactive)
-  (latex_access_emacscloseDisplay)
-  (setq latex-access-braille nil))
+  (latex_access_emacscloseDisplay))
+;  (setq latex-access-braille nil))
 ;  (message "Latex-access Braille disabled."))
 
 (defun latex-access-brltty-enable ()
@@ -559,6 +561,15 @@ position of point."
   (setq latex-access-braille t)
   (message "Latex-access Braille enabled."))
 
+(defun latex-access-linear-braille ()
+  "Toggle displaying of current line via latex-access thorugh brltty"
+  (interactive)
+  (if (equal latex-access-displaying nil) (progn 
+					    (setq latex-access-displaying t)
+					    (latex-access-brltty))
+    (progn (setq latex-access-displaying nil)
+	   (latex-access-close-display))))
+					    
 (provide 'latex-access)
 (latex-access) ; Set everything up
 
