@@ -412,7 +412,6 @@ class ueb(latex_access.translator):
         """Remove unecessary hash signs.
 
         Remove unwanted # signs."""
-
         out=''
         count=0
         removehash = False
@@ -427,8 +426,11 @@ class ueb(latex_access.translator):
                     removehash = True
             except:
                 pass
-            if self.endNumber(input, count) and x in '14':
-                removehash = True
+            try:
+                if self.endNumber(input, count) and x in '14' and input[count+1:count+6] == '@brl@':
+                    removehash = True
+            except:
+                pass
             if x == '#' and removehash:
                 removehash=False
                 count+=1
