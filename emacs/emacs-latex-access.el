@@ -38,7 +38,8 @@
 (setq latex-access-speech nil)
 
 (setq latex-access-displaying nil) ; So we can toggle brailling of line
-(setq latex-access-braille-cursor (point))
+(setq latex-access-braille-cursor (point)) ; position of braille cursor 
+(setq latex-access-braille-type nil) ; Should the display be updated as you type 
 
 ; Voice definitions, customize these by customizing the <voice_name>-settings variable.
 
@@ -132,7 +133,7 @@ output when applicable"
   ;(add-hook 'post-command-hook 'latex-access-braille-other-window nil nil)
 					; Experimental braille implementation, uncomment for testing, but is
   ; far from perfect yet. 
-;  (add-hook 'post-command-hook 'latex-access-brltty nil nil)
+  (add-hook 'post-command-hook 'latex-access-brltty-type nil nil)
 					; Enable speech (emacspeak advice)
   (if (featurep 'emacspeak) ; Load emacspeak...
       (progn 
@@ -571,13 +572,14 @@ position of point."
 					    (latex-access-brltty))
     (progn (setq latex-access-displaying nil)
 	   (setq latex-access-braille-cursor (point))
+	   (setq latex-access-braille-type nil) ; Disable follows emacs point first otherwise the display can't move 
 	   (latex-access-close-display))))
 
 (defun latex-access-brltty-previous-line (arg)
   "Braille the prior line, with usual c-u args acting same as the
 previous-line function.."
   (interactive "P")
-
+  (setq latex-access-braille-type nil) ; Disable follows emacs point first otherwise the display can't move 
   (save-excursion 
     (if (equal latex-access-displaying t) (goto-char latex-access-braille-cursor) (goto-char (point)))
     (setq latex-access-displaying t)
@@ -590,6 +592,7 @@ previous-line function.."
   "Braille the next line, with usual c-u args acting same as the
 next-line function.."
   (interactive "P")
+  (setq latex-access-braille-type nil) ; Disable follows emacs point first otherwise the display can't move 
   (save-excursion
     (if (equal latex-access-displaying t) (goto-char latex-access-braille-cursor) (goto-char (point)))
     (setq latex-access-displaying t)
@@ -601,6 +604,7 @@ next-line function.."
 (defun latex-access-brltty-pan-right ()
   "Move one braille display length to the right."
   (interactive)
+  (setq latex-access-braille-type nil) ; Disable follows emacs point first otherwise the display can't move 
   (save-excursion 
     (if (equal latex-access-displaying t) (goto-char latex-access-braille-cursor) (goto-char (point)))
     (setq latex-access-displaying t)
@@ -617,6 +621,7 @@ next-line function.."
 (defun latex-access-brltty-pan-left ()
   "Move one braille display length to the right."
   (interactive)
+  (setq latex-access-braille-type nil) ; Disable follows emacs point first otherwise the display can't move 
   (save-excursion 
     (if (equal latex-access-displaying t) (goto-char latex-access-braille-cursor) (goto-char (point)))
     (setq latex-access-displaying t)
@@ -640,6 +645,20 @@ next-line function.."
   (interactive)
   (goto-char latex-access-braille-cursor)
   (if (featurep 'emacspeak) (emacspeak-speak-line)))
+
+(defun latex-access-brltty-toggle-type ()
+  "Toggle Braille translation as you type"
+  (interactive) 
+  (if (not latex-access-braille-type) (progn 
+				  (setq latex-access-displaying t)
+				  (setq latex-access-braille-type t))
+	   (setq latex-access-braille-type nil)))
+
+(defun latex-access-brltty-type ()
+  "Braille translation as you type."
+  (if latex-access-braille-type (progn 
+				  (setq latex-access-braille-cursor (point))
+				  (latex-access-brltty))))
 
 (provide 'latex-access)
 (latex-access) ; Set everything up
