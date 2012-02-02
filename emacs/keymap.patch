@@ -1,21 +1,23 @@
 Index: emacs/emacs-latex-access.el
 ===================================================================
---- emacs/emacs-latex-access.el	(revision 345)
+--- emacs/emacs-latex-access.el	(revision 347)
 +++ emacs/emacs-latex-access.el	(working copy)
-@@ -124,6 +124,16 @@
+@@ -124,6 +124,18 @@
  	(message "LaTeX-math-mode disabled"))
      (progn 
        (setq latex-access-math-mode t)
 +      ; latex-access Braille motion key bindings, chosen since I hardly
 +      ; use these, but there isn't really a good way of doing this
 +      ; unfortunately given the current implementation. 
-+      (local-set-key (kbd "C-b") 'latex-access-brltty-pan-left)
-+      (local-set-key (kbd "C-f") 'latex-access-brltty-pan-right)
-+      (local-set-key (kbd "C-n") 'latex-access-brltty-next-line)
-+      (local-set-key (kbd "C-p") 'latex-access-brltty-previous-line)
-+      (local-set-key (kbd "C-t") 'latex-access-brltty-toggle)
-+      (local-set-key (kbd "C-q") 'latex-access-brltty-goto-braille-cursor)
-+      (local-set-key (kbd "C-l") 'latex-access-brltty-goto-point)
++      (make-local-variable 'latex-access-braille)
++      (if latex-access-braille (progn 
++				 (local-set-key (kbd "C-b") 'latex-access-brltty-pan-left)
++				 (local-set-key (kbd "C-f") 'latex-access-brltty-pan-right)
++				 (local-set-key (kbd "C-n") 'latex-access-brltty-next-line)
++				 (local-set-key (kbd "C-p") 'latex-access-brltty-previous-line)
++				 (local-set-key (kbd "C-t") 'latex-access-brltty-toggle)
++				 (local-set-key (kbd "C-q") 'latex-access-brltty-goto-braille-cursor)
++				 (local-set-key (kbd "C-l") 'latex-access-brltty-goto-point)))
        (message "LaTeX-math-mode enabled"))))
  
  (defun latex-access ()
