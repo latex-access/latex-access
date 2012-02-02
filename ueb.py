@@ -416,11 +416,6 @@ class ueb(latex_access.translator):
         count=0
         removehash = False
         for x in input:
-            if x == '\n': # handle newline
-                count+=1
-                out+=x
-                removehash = False
-                continue 
             try: # handle simple fractions
                 if self.endNumber(input, count) and x == '/':
                     removehash = True
