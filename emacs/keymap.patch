@@ -1,8 +1,8 @@
 Index: emacs/emacs-latex-access.el
 ===================================================================
---- emacs/emacs-latex-access.el	(revision 352)
+--- emacs/emacs-latex-access.el	(revision 355)
 +++ emacs/emacs-latex-access.el	(working copy)
-@@ -125,6 +125,19 @@
+@@ -126,6 +126,20 @@
  	(message "LaTeX-math-mode disabled"))
      (progn 
        (setq latex-access-math-mode t)
@@ -15,6 +15,7 @@ Index: emacs/emacs-latex-access.el
 +				 (local-set-key (kbd "C-f") 'latex-access-brltty-pan-right)
 +				 (local-set-key (kbd "C-n") 'latex-access-brltty-next-line)
 +				 (local-set-key (kbd "C-p") 'latex-access-brltty-previous-line)
++				 (local-set-key (kbd "C-o") 'latex-access-brltty-switch-cursors)
 +				 (local-set-key (kbd "C-t") 'latex-access-brltty-toggle)
 +				 (local-set-key (kbd "C-d") 'latex-access-brltty-toggle-type)
 +				 (local-set-key (kbd "C-q") 'latex-access-brltty-goto-braille-cursor)
