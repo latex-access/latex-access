@@ -38,7 +38,7 @@
 (setq latex-access-speech nil)
 
 (setq latex-access-displaying nil) ; So we can toggle brailling of line
-(setq latex-access-braille-cursor 0)
+(setq latex-access-braille-cursor (point))
 
 ; Voice definitions, customize these by customizing the <voice_name>-settings variable.
 
@@ -577,8 +577,10 @@ position of point."
   "Braille the prior line, with usual c-u args acting same as the
 previous-line function.."
   (interactive "P")
-  (setq latex-access-displaying t)
-  (save-excursion (goto-char latex-access-braille-cursor)
+
+  (save-excursion 
+    (if (equal latex-access-displaying t) (goto-char latex-access-braille-cursor) (goto-char (point)))
+    (setq latex-access-displaying t)
     (let ((dtk-quiet nil))
       (previous-line arg))
     (setq latex-access-braille-cursor (point))
@@ -588,8 +590,9 @@ previous-line function.."
   "Braille the next line, with usual c-u args acting same as the
 next-line function.."
   (interactive "P")
-  (setq latex-access-displaying t)
-  (save-excursion (goto-char latex-access-braille-cursor)
+  (save-excursion
+    (if (equal latex-access-displaying t) (goto-char latex-access-braille-cursor) (goto-char (point)))
+    (setq latex-access-displaying t)
     (let ((dtk-quiet nil))
       (next-line arg))
     (setq latex-access-braille-cursor (point))
@@ -598,8 +601,9 @@ next-line function.."
 (defun latex-access-brltty-pan-right ()
   "Move one braille display length to the right."
   (interactive)
-  (setq latex-access-displaying t)
-  (save-excursion (goto-char latex-access-braille-cursor)
+  (save-excursion 
+    (if (equal latex-access-displaying t) (goto-char latex-access-braille-cursor) (goto-char (point)))
+    (setq latex-access-displaying t)
   (let ((cursor (- (point) (line-beginning-position))) ; cursor location in terms of current line 
 	(display (latex_access_emacsBrailleDisplaySize)) ; Braille
 					; display length 
@@ -613,8 +617,9 @@ next-line function.."
 (defun latex-access-brltty-pan-left ()
   "Move one braille display length to the right."
   (interactive)
-  (setq latex-access-displaying t)
-  (save-excursion (goto-char latex-access-braille-cursor)
+  (save-excursion 
+    (if (equal latex-access-displaying t) (goto-char latex-access-braille-cursor) (goto-char (point)))
+    (setq latex-access-displaying t)
   (let ((cursor (- (point) (line-beginning-position))) ; cursor location in terms of current line 
 	(display (latex_access_emacsBrailleDisplaySize))) ; Braille
 					; display length 
