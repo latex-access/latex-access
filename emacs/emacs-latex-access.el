@@ -567,10 +567,13 @@ position of point."
   "Toggle displaying of current line via latex-access thorugh brltty"
   (interactive)
   (if (equal latex-access-displaying nil) (progn 
+					    (message "LaTeX-access Braille mode enabled.")
 					    (setq latex-access-displaying t)
 					    (setq latex-access-braille-cursor (point))
 					    (latex-access-brltty))
-    (progn (setq latex-access-displaying nil)
+    (progn 
+      (message "LaTeX-access Braille mode disabled.")
+      (setq latex-access-displaying nil)
 	   (setq latex-access-braille-cursor (point))
 	   (setq latex-access-braille-type nil) ; Disable follows emacs point first otherwise the display can't move 
 	   (latex-access-close-display))))
@@ -650,9 +653,12 @@ next-line function.."
   "Toggle Braille translation as you type"
   (interactive) 
   (if (not latex-access-braille-type) (progn 
-				  (setq latex-access-displaying t)
-				  (setq latex-access-braille-type t))
-	   (setq latex-access-braille-type nil)))
+					(message "Braille updated as you type.")
+					(setq latex-access-displaying t)
+					(setq latex-access-braille-type t))
+    (progn 
+      (message "Braille will not be updated as you type.")
+      (setq latex-access-braille-type nil))))
 
 (defun latex-access-brltty-type ()
   "Braille translation as you type."
