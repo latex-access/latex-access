@@ -638,7 +638,8 @@ next-line function.."
 (defun latex-access-brltty-goto-braille-cursor ()
   "Move emacs point to the braille window"
   (interactive)
-  (goto-char latex-access-braille-cursor))
+  (goto-char latex-access-braille-cursor)
+  (if (featurep 'emacspeak) (emacspeak-speak-line)))
 
 (provide 'latex-access)
 (latex-access) ; Set everything up
