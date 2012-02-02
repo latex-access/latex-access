@@ -40,6 +40,7 @@
 (setq latex-access-displaying nil) ; So we can toggle brailling of line
 (setq latex-access-braille-cursor (point)) ; position of braille cursor 
 (setq latex-access-braille-type nil) ; Should the display be updated as you type 
+(setq latex-access-braille-shortcut t) ; Which cursor to switch to 
 
 ; Voice definitions, customize these by customizing the <voice_name>-settings variable.
 
@@ -665,6 +666,26 @@ next-line function.."
   (if latex-access-braille-type (progn 
 				  (setq latex-access-braille-cursor (point))
 				  (latex-access-brltty))))
+
+(defun latex-access-brltty-switch-cursors ()
+  "Allows you to quickly toggle between the Braille position and point
+position. Useful to focus on a particular area of the screen as you
+type, but also to keep track of your input."
+  (interactive)
+  (setq latex-access-displaying t)
+  (if latex-access-braille-shortcut 
+      (save-excursion 
+	(setq latex-access-braille-save latex-access-braille-cursor)
+	(setq latex-access-braille-shortcut nil)
+	(goto-char (point)) (latex-access-brltty) 
+	(setq latex-access-braille-cursor (point))
+	(message "Moved to emacs point."))
+    (save-excursion 
+      (goto-char latex-access-braille-save)
+      (latex-access-brltty)
+      (setq latex-access-braille-shortcut t)
+      (setq latex-access-braille-cursor (point))
+      (message "Moved back to Braille cursor."))))
 
 (provide 'latex-access)
 (latex-access) ; Set everything up
