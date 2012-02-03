@@ -535,7 +535,7 @@ provided Braille is enabled of course."
 ;;; be introduced soon 
 ;;; Only use this stuff if you know what your doing. 
 
-(defun latex-access-brltty ()
+(defun latex-access-brltty (&optional speak)
   "Braille a line of latex in nemeth on the Braille display relative to the
 position of point."
   (interactive)
@@ -546,10 +546,11 @@ position of point."
 	      (begposs (progn (beginning-of-line) (point)))) ; get the
 					; position of beginning of line 
 	  (latex_access_emacsbrailleRegion (thing-at-point 'line) (-
-								   currentposs begposs))) ; Braille the current line, passing the line
+								   currentposs begposs)) ; Braille the current line, passing the line
 					; number to the python functions and the
 					; difference between start of line and the
 					; cursor position. 
+	  (if (and speak (featurep 'emacspeak)) (emacspeak-speak-line)))
       (latex-access-close-display))))
 
 (defun latex-access-close-display ()
@@ -590,7 +591,7 @@ previous-line function.."
     (let ((dtk-quiet nil))
       (previous-line arg))
     (setq latex-access-braille-cursor (point))
-    (latex-access-brltty)))
+    (latex-access-brltty t)))
 
 (defun latex-access-brltty-next-line (arg)
   "Braille the next line, with usual c-u args acting same as the
@@ -603,7 +604,7 @@ next-line function.."
     (let ((dtk-quiet nil))
       (next-line arg))
     (setq latex-access-braille-cursor (point))
-    (latex-access-brltty)))
+    (latex-access-brltty t)))
 
 (defun latex-access-brltty-pan-right ()
   "Move one braille display length to the right."
