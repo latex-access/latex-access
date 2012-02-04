@@ -11,12 +11,13 @@ Things still needing to be implemented:
 (I think with some string manipulation in lisp this shouldn't be too hard
 with the available voice-locking functions of emacspeak.) (Has this been
 completed yet, or is there still work to be done)? 
-- Emacspeak has some nice speech functionality, which can be used for
-standard latex very well, but currently latex-access overides such
-functionality. Therefore, perhaps latex-access should only be used when
-speaking mathematics i.e. text which emacs considers to be in latex math
-mode by either surrounding dollar signs, or the environment. The text
-properties I believe indicate this, but there may be an easier way. 
+- Key bindings on Braille displays for Braille mode. This is challenging
+since it's difficult to listen for a Braille display key press from
+within emacs, given the brlapi interface is python based. 
+- Some more advanced speech functions to take into account text
+highlighting etc. as does emacspeak normally. 
+- The option to only speak stuff in math mode i.e. so that latex-access
+is more useful with major modes like org-mode. 
 
 Things already done:
 
