@@ -31,7 +31,6 @@ import ueb
 import brltty
 import preprocessor
 import table
-import motion
 
 s=speech.speech()
 n=''
@@ -39,7 +38,6 @@ p=preprocessor.preprocessor()
 nc=preprocessor.newcommands(p)
 b=brltty.braille () # Connect to the Braille display object
 t=table
-m=motion
 
 bttymode = False # Is the Braille display in tty mode?
 
@@ -141,27 +139,6 @@ def GetTableCurrentRow (latextable):
   accessibility."""
 
   return t.GetTableCurrentRow (latextable)
-
-def NextTerm (line,cursor):
-  """Move to the next term.
-
-  For details see the function definition in motion.py"""
-
-  return m.NextTerm(line,cursor)
-
-def PreviousTerm (line, cursor):
-  """Move to previous term on line.
-
-  For details see the function definition in motion.py."""
-
-  return m.PreviousTerm (line, cursor)
-
-def SpeakSegment (text, start, end):
-  """Speak a substring of a string of text.
-
-  Consult the function definition in motion.py for details."""
-
-  return m.SpeakSegment(text, start, end)
 
 def BrailleDisplaySize ():
   return brltty.BrailleDisplaySize ()
