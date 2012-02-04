@@ -613,15 +613,25 @@ understand. See http://latex-access.sourceforge.net/ for details."
   ;; The indicator for the mode line.
   " LaTeX-access"
   ;; The minor mode bindings.
-  `((,(kbd "C-p") . latex-access-brltty-previous-line)
-    (,(kbd "C-n") . latex-access-brltty-next-line))
-  :group 'latex-access
+  `(                                                                                                                                                      
+    (,(kbd "C-p") . latex-access-brltty-previous-line)
+    (,(kbd "C-n") . latex-access-brltty-next-line)
+    (,(kbd "C-f") . latex-access-brltty-pan-right)
+    (,(kbd "C-b") . latex-access-brltty-pan-left)
+    (,(kbd "C-c t") . latex-access-brltty-toggle)
+    (,(kbd "C-c c") . latex-access-brltty-toggle-type)
+    (,(kbd "C-c g") . latex-access-brltty-switch-cursors)
+    (,(kbd "C-c C-p") . latex-access-brltty-goto-point)
+    (,(kbd "C-c C-o") . latex-access-brltty-goto-point)
+    (,(kbd "C-c d") . latex-access-toggle-dollars-braille)
+    (,(kbd "C-c f") . latex-access-toggle-dollars-speech)
+    (,(kbd "C-c f") . latex-access-toggle-dollars-speech)
+    (,(kbd "C-c C-t") . latex-access-toggle-braille)
+    (,(kbd "C-c C-y") . latex-access-toggle-speech)
+    (,(kbd "C-c w") . latex-access-table-location))
   (if latex-access-mode
       (progn 
-	(use-local-map latex-access-mode-map)
 	(latex-access-decide-speech) (latex-access-decide-braille))
-    (progn 
-    (use-local-map nil)
-    (latex-access-disable))))
+    (latex-access-disable)))
 
 ;;; emacs-latex-access.el ends here
