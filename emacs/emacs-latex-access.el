@@ -607,7 +607,9 @@ type, but also to keep track of your input."
 When LaTeX-access is enabled, it provides both spoken and Braille
 feedback for a blind user by translating LaTeX markup into Braille
 mathematics and speaking the markup in a way which is much easier to
-understand. See http://latex-access.sourceforge.net/ for details."
+understand. See http://latex-access.sourceforge.net/ for details.
+
+\\{latex-access-mode-map}"
   ;; The initial value.
   nil
   ;; The indicator for the mode line.
