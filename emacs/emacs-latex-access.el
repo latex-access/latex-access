@@ -109,15 +109,15 @@ output when applicable"
   (make-local-variable 'latex-access-speech)
   (if latex-access-speech 
       (progn (latex-access-disable-speech) (message "LaTeX-access speech disabled."))
-    (progn (latex-access-enable-speech) (message "LaTeX-access enabled."))))
+    (progn (latex-access-enable-speech) (message "LaTeX-access speech enabled."))))
 
 (defun latex-access-toggle-braille ()
   "Toggle latex-access Braille on/off."
   (interactive)
   (make-local-variable 'latex-access-braille)
   (if latex-access-braille 
-      (progn (latex-access-disable-braille) (message "LaTeX-access disabled."))
-    (progn (latex-access-enable-braille) (message "LaTeX-access enabled."))))
+      (progn (latex-access-disable-braille) (message "LaTeX-access Braille disabled."))
+    (progn (latex-access-enable-braille) (message "LaTeX-access Braille enabled."))))
 
 (defun latex-access-disable ()
   "Turn off latex-access entirely"
