@@ -4,6 +4,24 @@ This file is to list any bugs you find with the emacs side of the
 package. This will be helpful so we know where to look for a complete
 list of all bugs which require attention.
 
+Bugs requiring attention:
+
+- Panning left/right latex-access-pan-* doesn't work 100% correctly. For
+long lines you sometimes can't reach the end of the line. In other cases
+it's a possibility that the display may not have a full length of
+characters i.e. with nemeth? This is a result of the Brailling code
+relying on the position of the cursor to figure out what should be
+Brailled. Since after the translation the cursor positions go out of
+sync between raw latex and the translation this produces
+problems. I.e. if we know cursor is at raw latex character 10, then we
+provide cursor position 10 to the Brailling function which first does
+the translation into ueb/nemeth character 10 in the Braille translation
+is unrelated to character 10 in the raw latex. 
+Solution, implement cursor routing and then pass the relative cursor
+position in the translation which the raw cursor position from the raw
+latex corresponds too... Unless anyone else can think of a less painful
+solution...?:)
+
 Bugs which have been fixed:
 
 - Currently as a result of the new emacs Braille implementation, for
