@@ -89,12 +89,8 @@ class braille:
       panning = True # Hence we are > one dsipaly length in 
       reps+=1 # How many display lengths into line are we
       point-=display # Reduce point until it fits on display 
-    if panning: # Hack to get the starting char right 
-      start=reps*display-1 
-    else:
-      start=reps*display
-
-    end=reps*display+display
+    start=reps*display
+    end=start+display
 
     return text[start:end].replace ("\n", "") # Remove newline chars 
 

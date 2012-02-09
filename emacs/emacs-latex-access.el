@@ -379,6 +379,7 @@ position of point."
 
 (defun latex-access-close-display ()
   "Close the display so brltty can regain control."
+  (interactive)
   (latex_access_emacscloseDisplay))
 
 (defun latex-access-brltty-toggle ()
