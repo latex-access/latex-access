@@ -31,7 +31,7 @@
 ; Load pymacs, shouldn't really mater if this was done by .emacs first 
 (require 'pymacs)
 
-(pymacs-load "latex_access_emacs" "latex_access_emacs") ; load the
+(pymacs-load "latex_access.latex_access_emacs" "latex_access_emacs") ; load the
 					; relevant modules 
 
 (setq latex-access-braille nil)
