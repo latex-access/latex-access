@@ -199,7 +199,7 @@ def get_arg(input,start):
     #Check we haven't gone past the end of the command
     if i>=len(input): return ("",i,i)
     #Skip space
-    while input[i]==" " and i < len(input):
+    while (i < len(input)) and (input[i] == " "):
         i+=1
     #Handle unbraced LaTeX commands
     if input[i] == "\\":
