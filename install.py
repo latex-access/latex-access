@@ -43,16 +43,12 @@ except:
   
 print "Installing to %s." % (outdir)
   
-# All the files we wish to copy 
-files=("__init__.py", "brltty.py", "latex_access.py", "latex_access_emacs.py", "nemeth.py", "nemeth.table", "path.py", "preprocessor.py", "romanian speech.table", "routing.py", "settings.py", "speech.py", "speech.table", "table.py", "ueb.py", "ueb.table")
-
 try:
-  for filename in files: # copy the files into our path 
-    shutil.copyfile (filename, os.path.join(outdir, filename))
+  for filename in os.listdir("latex_access/"): # copy the files into our path 
+    shutil.copyfile (os.path.join("latex_access/",filename), os.path.join(outdir, filename))
     print "Copying %s" % (filename)
 
   print "Copied files to %s." % (outdir)
 except:
   print "Couldn't install latex-access to %s, perhaps you don't have permission?" % (outdir)
   exit (-1)
-  
