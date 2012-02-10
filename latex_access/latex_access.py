@@ -59,12 +59,31 @@ class translator:
         if self.depth==0 and hasattr(self,"before"):
             input=self.before(input)
         if self.depth==0:
+            self.consumedChars=0 # So we can see where the translation finishes relative to the Braille 
             self.rt=[] #Routing table
             rting=(0,0)
+# The following sets up some variables if we must break the translation
+# early i.e. if the Braille display is full. This only happens if
+# displaySize is set in the translator attribute. 
+        if self.depth ==0 and hasattr(self,"displayLength"): 
+            brfOutChars=0
+            backupPosition = 0
         self.depth+=1
         output=""
         i=0
         while (i<len(input)):
+            if hasattr (self, "displayLength"):
+                brfOutChars=len(output)
+                if brfOutChars == self.displayLength: # translation exactly the size of the display, break
+                    self.consumedChars = i
+                    break
+                elif brfOutChars > self.displayLength: # we have exceeded the display so go back to the last good contraction
+                    output=output[:backupPosition]
+                    break
+                else: # default behaviour, continue counting
+                    backupPosition=brfOutChars # remember where our last good contraction is
+            self.consumedChars=i
+                
             if rting!=():
                 self.rt.append((len(output)+rting[1],i+rting[0]))
             # Test if we have a LaTeX command
