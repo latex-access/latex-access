@@ -5,3 +5,4 @@ Robin Williams <rmw205@exeter.ac.uk> - Extensive testing, feature suggestions an
 Daniel Dalton <daniel.dalton10@gmail.com> - Emacs support
 Nathaniel Schmidt <nathanieljsch@westnet.com.au> - NVDA Support 
 Stefan Moisei <vortex37@gmail.com> -  romanian translation of speech table
+Dave Mielke <dave@mielke.cc> - BRLTTY integration
