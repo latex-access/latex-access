@@ -44,10 +44,13 @@ except:
 print "Installing to %s." % (outdir)
   
 try:
-  for filename in os.listdir("latex_access/"): # copy the files into our path 
-    shutil.copyfile (os.path.join("latex_access/",filename), os.path.join(outdir, filename))
-    print "Copying %s" % (filename)
-
+  for filename in os.listdir("latex_access/"): # copy the files into our path
+    try:
+      if filename[-3:] == '.py' or filename[-6:] == '.table': # we only want to install .py and .table files 
+        shutil.copyfile (os.path.join("latex_access/",filename), os.path.join(outdir, filename))
+        print "Copying %s" % (filename)
+    except:
+      continue 
   print "Copied files to %s." % (outdir)
 except:
   print "Couldn't install latex-access to %s, perhaps you don't have permission?" % (outdir)
