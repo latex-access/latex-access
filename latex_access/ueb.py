@@ -35,7 +35,7 @@ class ueb(latex_access.translator):
 # Ueb upper numbers follow start from j abc...i as j = 0 a = b =2 etc.
         self.upperNumbers=('j','a','b','c','d','e','f','g','h','i')
 
-        for number in range (0,9): # add the numbers
+        for number in range (0,10): # add the numbers
             new_table[str(number)]=self.numbers
 
         for letter in range (65,91): # Ascii upper case
