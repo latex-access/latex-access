@@ -215,7 +215,7 @@ def get_arg(input,start):
     and the place where the argument actually st.arts'''
     i=start
     #Check we haven't gone past the end of the command
-    if i>=len(input): return ("",i,i)
+    if i>=len(input) or input[i:].isspace (): return ("",i,i)
     #Skip space
     while (i < len(input)) and (input[i] == " "):
         i+=1
