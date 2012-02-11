@@ -52,13 +52,8 @@ class ueb(latex_access.translator):
 
         Returns a touple with translated string and index of
         first char after end of super.'''
-        short = False
         arg=get_arg(input,start)
-        if '@brl@' in arg[0]:
-            trans = arg[0].replace("@brl@","").replace("@/brl@","")
-            if trans[0] == '#' and trans[1].isdigit () and len(trans) ==2:
-                short = True
-        if len(arg[0]) <=1 or short:
+        if len(arg[0]) <=1:
             translation = ";9" + self.translate(arg[0])
         else:
             translation = ";9\"<" + self.translate(arg[0])+"\">"
@@ -68,13 +63,8 @@ class ueb(latex_access.translator):
         '''Translates ueb subscripts.
 
         Returns a touple, as above'''
-        short = False 
         arg=get_arg(input,start)
-        if '@brl@' in arg[0]:
-            trans = arg[0].replace("@brl@","").replace("@/brl@","")
-            if trans[0] == '#' and trans[1].isdigit () and len(trans) ==2:
-                short = True
-        if len(arg[0]) <=1 or short:
+        if len(arg[0]) <=1:
             translation = ";5"+self.translate(arg[0])
         else:
             translation = ";5\"<"+self.translate(arg[0]) + "\">"
@@ -101,12 +91,12 @@ class ueb(latex_access.translator):
         numerator=get_arg(input,start)
         denominator=get_arg(input,numerator[1])
 
-        if str(numerator[0]).replace('#','').replace('@brl@','').replace('@/brl@','').isdigit() and str(denominator[0]).replace('#', '').replace('@brl@','').replace('@/brl@','').isdigit():
-            translation=numerator[0]+"/"+denominator[0]
+        if str(numerator[0]).isdigit () and str(denominator[0]).isdigit() and len (denominator[0]) == 1 and len (denominator[0]) ==1:
+            translation = self.translate(numerator[0])+"/"+self.upperNumbers[int(denominator[0])]
         else: # complex fraction 
-            translation = ";("+self.translate(numerator[0])+"./"+self.translate(denominator[0])+";)"
-        return (translation, denominator[1])
+            translation =";("+self.translate(numerator[0])+"./"+self.translate(denominator[0])+";)"
 
+        return (translation, denominator[1])
 
     def bar(self, input, start):
         '''Handles bar/overline.
