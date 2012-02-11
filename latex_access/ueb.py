@@ -182,7 +182,7 @@ class ueb(latex_access.translator):
         if self.lastnumber >= 0 and start == self.lastnumber and input[start].lower() in 'abcdefghij':
             lettersign = True
 
-        try: # white space on either side of sing char 
+        try: # white space on either side of single char 
             if start > 0 and input[start-1] == ' ' and input[start+1] == ' ':
                 lettersign = True
         except:
@@ -193,17 +193,23 @@ class ueb(latex_access.translator):
         except:
             pass
         try: # char on it's own at end of line 
-            if input[start-1] == ' ' and start+1 == len(input):
+            if input[start-1] in ' .,$' and start+1 == len(input):
                 lettersign = True
         except:
             pass
         try: # some punctuation after a letter eg. A.
-            if input[start+1] in '.,':
+            if input[start+1] in '.,$' and not input[start-1].isalpha ():
                 lettersign = True
         except:
             pass
 
-        if start > 1 and input[start-2:start-1].isupper () and input[start].islower (): # capital letters and now we are a lower case 
+        try: # Letters on the left punctuation, on the right punctuation or space 
+            if input[start-1] in '.,$' and not input[start+1].isalpha ():
+                lettersign = True
+        except:
+            pass
+        
+        if start > 1 and input[start-2:start].isupper () and input[start-2:start].isalpha () and input[start].islower (): # capital letters and now we are a lower case 
             lettersign= True 
         if len (input) == 1: # char by itself on line
             lettersign = True
