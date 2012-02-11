@@ -90,11 +90,13 @@ class ueb(latex_access.translator):
         Returns touple as above'''
         numerator=get_arg(input,start)
         denominator=get_arg(input,numerator[1])
-
+        dtranslation = self.translate (denominator[0])
+        self.lastnumber = -1
+        ntranslation = self.translate (numerator[0])
         if str(numerator[0]).isdigit () and str(denominator[0]).isdigit() and len (denominator[0]) == 1 and len (denominator[0]) ==1:
-            translation = self.translate(numerator[0])+"/"+self.upperNumbers[int(denominator[0])]
+            translation = ntranslation+"/"+self.upperNumbers[int(denominator[0])]
         else: # complex fraction 
-            translation =";("+self.translate(numerator[0])+"./"+self.translate(denominator[0])+";)"
+            translation =";("+ntranslation+"./"+dtranslation+";)"
 
         return (translation, denominator[1])
 
@@ -135,7 +137,7 @@ class ueb(latex_access.translator):
         '''Translates numbers in latex.
 
         Returns a touple as above.'''
-        numberstart = start-1 # since it's not a latex command we are interested in the current char 
+        numberstart = start-1 # since it's not a latex command we are interested in the current char
         if self.lastnumber >= 0 and numberstart == self.lastnumber:
             translation = "" # inside a number no hash "#" sign necessary 
         else:

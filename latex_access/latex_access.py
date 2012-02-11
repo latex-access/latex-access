@@ -125,6 +125,8 @@ class translator:
             self.rt.append((len(output)-1,len(input)-1))
             self.trans2src=routing.convert(self.rt)
             self.src2trans=routing.convert(routing.invert(self.rt))
+        if i >= len (input): # Account for wrong count if whole string is translated
+            self.consumedChars = len (input)
         return output
 
     def text(self,input, start):
