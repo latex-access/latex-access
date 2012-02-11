@@ -30,7 +30,7 @@ class ueb(latex_access.translator):
         new_table={"$":self.uebDollar,
                    "\\dot":("","`"),"\\ddot":("","``"),
                    "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,
-                   "\\tag":self.tag,"\\mathbf":("_",""),"\\mathbb":("_",""),"\\colvec":("{"," ","o"),"\\tcolvec":("{"," "," ","o"),"\\bar":self.bar,"\\hat":self.bar,"\\overline":self.bar,".":self.dot,",":self.comma}
+                   "\\tag":self.tag,"\\mathbf":("_",""),"\\mathbb":("_",""),"\\colvec":("{"," ","o"),"\\tcolvec":("{"," "," ","o"),"\\bar":self.bar,"\\hat":self.bar,"\\overline":self.bar,".":self.dot,",":self.comma,"\\{":"_<","\\}":"_>"}
 
 # Ueb upper numbers follow start from j abc...i as j = 0 a = b =2 etc.
         self.upperNumbers=('j','a','b','c','d','e','f','g','h','i')
