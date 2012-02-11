@@ -170,8 +170,8 @@ class ueb(latex_access.translator):
 
         Returns a boolean.'''
         lettersign = False # no lettersign yet
-        if input[start].lower () in 'ai': # special case no letter sign required
-            return lettersign 
+        if input[start].lower () in 'ai' and (self.lastnumber <= 0 or start != self.lastnumber): # special case no letter sign required
+            return lettersign
 # Last character was part of a number and letters are within range a-j 
         if self.lastnumber >= 0 and start == self.lastnumber and input[start].lower() in 'abcdefghij':
             lettersign = True
