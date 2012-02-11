@@ -56,9 +56,8 @@ class translator:
         '''This translates the string in input using the translation table
 
         Returns string.'''
-        if self.depth==0 and hasattr(self,"before"):
-            input=self.before(input)
         if self.depth==0:
+            self.lastnumber = -1 # keep track of where the last latex number was open i.e. after a digit . or , (for ueb)
             self.consumedChars=0 # So we can see where the translation finishes relative to the Braille 
             self.rt=[] #Routing table
             rting=(0,0)
@@ -126,8 +125,6 @@ class translator:
             self.rt.append((len(output)-1,len(input)-1))
             self.trans2src=routing.convert(self.rt)
             self.src2trans=routing.convert(routing.invert(self.rt))
-        if self.depth==0 and hasattr(self,"after"):
-            output=self.after (output)
         return output
 
     def text(self,input, start):

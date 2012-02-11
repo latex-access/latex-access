@@ -1,5 +1,8 @@
 ; general maths
 ! 6
+: 3
+[ .<
+] .>
 ( "<
 ) ">
 + "6
@@ -7,7 +10,6 @@
 < @<
 = "7
 > @>
-<<<<<<< .mine
 \wedge "8
 \times "8
 \sum .s
@@ -66,15 +68,15 @@
 \in ~e
 \infty #=
 ; trig and hyperbolic functions
-\tanh tanh 
-\tan tan 
-\sinh sinh 
-\sin sin 
-\sec sec 
+\tanh tanh
+\tan tan
+\sinh sinh
+\sin sin
+\sec sec
 \cot cot 
-\cosh cosh 
-\cosec cosec 
-\cos cos 
+\cosh cosh
+\cosec cosec
+\cos cos
 
 ; calculus 
 \int !
@@ -82,27 +84,27 @@
 \partial $
 
 ; capital greek letters
-\Alpha .A
-\Beta .B
-\Delta .D
-\Gamma .G
-\Lambda .L
-\Omega .W
-\Phi .F
-\Psi .Y
-\Sigma .S
-\Theta .?
-\Pi .P
-\Xi .X
-\Epsilon .E
-\Eta .H
-\Iota .I
-\Nu .N
-\Mu .M
-\Zeta .Z
-\Kappa .K
-\Chi .C
-\Rho .R
+\Alpha .,a
+\Beta .,b
+\Delta .,d
+\Gamma .,g
+\Lambda .,l
+\Omega .,w
+\Phi .,f
+\Psi .,y
+\Sigma .,s
+\Theta .,?
+\Pi .,p
+\Xi .,x
+\Epsilon .,e
+\Eta .,h
+\Iota .,i
+\Nu .,n
+\Mu .,m
+\Zeta .,z
+\Kappa .,k
+\Chi .,c
+\Rho .,r
 
 ; small greek
 \alpha .a
@@ -130,6 +132,3 @@
 
 ; Probability 
 \Pr Pr
-; Punctuation 
-, 1
-. 4

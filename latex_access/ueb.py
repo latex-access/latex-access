@@ -27,19 +27,25 @@ class ueb(latex_access.translator):
         latex_access.translator.__init__(self)
         self.files.append("ueb.table")
         self.load_files()
-        new_table={"[":self.bracket,"]":self.bracket,"$":self.uebDollar,
-
+        new_table={"$":self.uebDollar,
                    "\\dot":("","`"),"\\ddot":("","``"),
                    "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,
-                   "\\tag":self.tag,"\\mathbf":("_",""),"\\mathbb":("_",""),"\\colvec":("{"," ","o"),"\\tcolvec":("{"," "," ","o"),"\\bar":self.bar,"\\hat":self.bar,"\\overline":self.bar}
+                   "\\tag":self.tag,"\\mathbf":("_",""),"\\mathbb":("_",""),"\\colvec":("{"," ","o"),"\\tcolvec":("{"," "," ","o"),"\\bar":self.bar,"\\hat":self.bar,"\\overline":self.bar,".":self.dot,",":self.comma}
 
+# Ueb upper numbers follow start from j abc...i as j = 0 a = b =2 etc.
+        self.upperNumbers=('j','a','b','c','d','e','f','g','h','i')
+
+        for number in range (0,9): # add the numbers
+            new_table[str(number)]=self.numbers
+
+        for letter in range (65,91): # Ascii upper case
+            new_table ["%c" % (letter)] = self.upperLetter
+
+        for letter in range (97,122): # Ascii, lower case
+            new_table["%c" % (letter)] = self.lowerLetter
+    
         for (k,v) in new_table.iteritems():
             self.table[k]=v
-
-
-
-
-
 
     def super(self,input,start):
         '''Translate  superscripts into UEB.
@@ -135,314 +141,121 @@ class ueb(latex_access.translator):
         translation=(translationout, translation[1])
         return translation
     
-    def before (self, input):
-        """This function is ran prior to the translation.
+    def numbers(self,input,start):
+        '''Translates numbers in latex.
 
-        Place anything here you wish to be done before the returned
-        value of this function is passed to the translator."""
-        output=self.markInput(input)
-        output=self.addHash (output) # Put in ueb number signs
-        return output 
-
-    def after (self,input):
-        """Place any functions here that you wish to be called after the
-        translation.
-
-        This function is ran after the translation takes place to
-        i.e. handle some complications of UEB."""
-        out=self.capitalise(input) # handle caps 
-        out=self.letterSign(out) # Put letter signs in
-        out=self.upperNumbers(out) # upper numbers
-        out=self.stripUnwantedHash (out)
-        out=out.replace("@brl@","")
-        out=out.replace("@/brl@","")
-        out=out.replace("\\{", "_<")
-        out=out.replace("\\}", "_>")
-        return out # Return our final translation 
-
-    def addHash (self,latex):
-        """Put in ueb number signs.
-
-        In UEB a hash sign is put before a set of letters indicating a
-        number for instance the number 1 is written as #a so this function
-        applies the rules of ueb, and puts in the relevant hash signs."""
-        out=""
-        approachingnumb = False # Are we inside a number
-        count=0
-        for x in latex: # Go through the latex source
-            if approachingnumb and not x.isdigit ():
-                out+=x
-                approachingnumb = False
-                count+=1
-                continue
-            if not approachingnumb and x.isdigit (): # we begin a number, insert a # sign 
-                approachingnumb = True
-                out+="#"+x
-                count+=1
-                continue
-            out+=x # not inside a number and is not a digit, default handling
-            count+=1
-        return out
-
-    def capitalise (self,input):
-        """Put in capital signs in UEB translation.
-
-        Add a dot 6 to indicate a capital letter, and make that letter lower
-        case in the translation so we don't get annoying computer Braille
-        dot 7..."""
-        eol=False # not at end of line yet 
-        incaps = False # Are we in capital mode 
-        out=""
-        incount=0
-        for x in input: # move through input by char
-            if incaps and not x.isupper ():
-                incaps = False
-            if not x.isalpha (): # Pointless it's not a letter 
-                incount +=1
-                out+=x
-                continue 
-            if incount+1 >= len (input): # We are on the last char 
-                eol=True
-            if not x.islower() and not incaps: # We have capital letter
-                incaps=True
-                if eol: # finish end of line 
-                    out+=","+x.lower()
-                    break
-                if input[incount+1].isalpha() and input[incount+1] != ' ' and not input[incount+1].islower(): # next letter is cap 
-                    out+=',,'+x.lower()
-                    incount +=1
-                    continue
-                else: # Only this letter is cap next is not 
-                    out+=','+x.lower()
-                    incount +=1
-                    continue
-            if x.islower (): # lower case 
-                incount +=1
-                out+=x
-                incaps = False
-                continue
-            # We got nothing 
-            out+=x.lower()
-            incount+=1
-        return out
-
-    def letterSign (self,input):
-        """Add UEB letter signs.
-
-        This function adds a letter sign to stand alone letters so they are
-        not confused for contractions."""
-        letters=("a","b","c","d","e","f","g","h","i","j")
-        count=0
-        out = ""
-        for x in input: # Move by char
-            # if line is only one char long, and not alpha numeric seems
-            # to cause problems
-            if len(input) == 1 and not input.isalpha ():
-                return input 
-            # Numbers, are a special case
-            # Handle lower case letters after a number. Somehow, (I
-            # don't understand why), capital letters are handled fine, so
-            # I won't bother writing unnecessary code:)
-            if x.isalpha() and self.followsNumber (input, count) and x in letters:
-                count+=1
-                out+=";"+x
-                continue
-            # Only one char on line 
-            if len(input) == 1 and x.isalpha():
-                out+=';'+x
-                break
-            elif len(input) == 2 and x in ',' and input[1].isalpha(): # line only cap letter
-                out+=";,"+input[1]
-                break
-            if count+1 < len (input) and count-1 >= 0: # somewhere in the line
-                # Do we have a letter after some Braille punctuation
-                if not self.insideMarkup (input,count) and x.isalpha () and input[count-1].isdigit ():
-                    out+=";"+x
-                    count+=1
-                    continue
-                # We have either lower or upper case letter on it's own 
-                if x.isalpha () and input[count-1] in ' ,' and input[count+1] == ' ':
-                    if input[count-1] == ',': # handle cap
-                        if count-2 >= 0:
-                            if input[count-2].isalpha ():
-                                out+=x
-                                count+=1
-                                continue 
-                        out=out[:-1]+";,"+x # Letter sign then capital sign 
-                    else: # no cap to worry about 
-                        out+=";"+x
-                    count+=1
-                    continue
-            elif count-1 < 0: # first char on line 
-                if input[count+1] == ' ' and x.isalpha(): # its lower case on its own
-                    out+=";"+x
-                    count+=1
-                    continue
-            elif count+1 == len(input): # last char of line
-                if not self.insideMarkup (input,count) and x.isalpha () and input[count-1].isdigit ():
-                    out+=";"+x
-                    count+=1
-                    continue
-                if x.isalpha () and input[count-1] in ' ,': # it's a char
-                    if input[count-1] == ' ': # lowercase on it's own
-                        out+=";"+x
-                    else: # Upper case
-                        if count-2 >= 0:
-                            if input[count-2].isalpha ():
-                                out+=x
-                                count+=1
-                                break
-                        out=out[:-1]+";,"+x
-                    break
-
-            count+=1
-            out+=x
-        return out
-
-    def upperNumbers (self,input):
-        """Convert all numbers to upper numbers i.e. letters.
-        
-        UEB demands that numbers should be in the upper cells eg. 1 = a so
-        lets just do that..."""
-        number = False # is it a number? 
-        numbers={"0":"j","1":"a", "2":"b", "3":"c", "4":"d", "5":"e", "6":"f", "7":"g", "8":"h", "9":"i"}
-        out=""
-        count=0
-        for x in input:
-            if not self.insideMarkup (input, count):
-                count+=1
-                out+=x
-                continue
-            try:
-                if x.isdigit() and input[count-2] != '.' and input[count-1] == '/':
-                    count+=1
-                    out+=numbers[x]
-                    continue
-            except:
-                pass
-            if x in '#':
-                number=True
-            elif not x.isdigit () and x not in '#':
-                number=False
-            if x.isdigit () and number :
-                out+=numbers[x]
-            else:
-                out+=x
-            count+=1
-        return out
-
-    def markupInsert (self, input, start, end):
-        """Insert markup around relevant latex source.
-
-        Places the text in string input[start:end] in markup and returns
-        a newly formatted string of input including the additional
-        markup."""
-        
-        output = input[:start]+"@brl@"+input[start:end]+"@/brl@"+input[end:]
-        return (output, end+11)
-    
-    def markInput (self, input):
-        """Insert markup into a string of LaTeX.
-
-        Move through a string of latex source, and determine what
-        sections of the string must be surrounded by markup, and pass
-        this information to the self.markupInsert function."""
-        
-        i=0
-        output=''
-        markup = False
-        start = end = -1
-        while i < len(input):
-            if input[i].isdigit() and not markup: # mark start of a section where markup is required 
-                markup = True
-                start=i
-            elif markup and (input[i] == '\n' or not input[i].isdigit ()): # Mark the end of the particular section which required markup 
-                markup = False
-                end = i 
-                tmp=self.markupInsert (input, start, end)
-                input=tmp[0]
-                i=tmp[1]
-            i+=1
-        
-        if markup: # handle markup right at the end of the text 
-            input= self.markupInsert (input, start, len(input))[0]
-
-        return input
-
-    def insideMarkup (self, input, index):
-        """Are we inside markup.
-
-        Boolean, return True if we are inside markup, otherwise return
-        value is False."""
-
-        markup=("@brl@","@/brl@")
-        start=input.rfind("@brl@", 0, index+1)
-        end=input.find("@/brl@", index, len(input))
-        if start == -1 or end == -1:
-            return False
+        Returns a touple as above.'''
+        numberstart = start-1 # since it's not a latex command we are interested in the current char 
+        if self.lastnumber >= 0 and numberstart == self.lastnumber:
+            translation = "" # inside a number no hash "#" sign necessary 
         else:
-            start+=5
-            startfind=input.find("@brl@", start, end+1)
-            endfind=input.find("@/brl@", start, end+1)
-            if startfind == -1 and endfind == -1:
-                return True
-            else:
-                return False
+            translation = '#'
+        numberstart+=1
+        translation += self.upperNumbers[int(input[start-1])] # and get the upper number eg. 3 = c
+        self.lastnumber = numberstart # Record where last number is 
+        return (translation, numberstart)
+    
+    def dot (self, input, start):
+        '''Translates dots (.) in latex.
 
-    def followsNumber (self, input, start):
-        try:
-            if input[start-7].isdigit () and input[start-6:start] in '@/brl@':
-                return True
+        Returns a touple as above.'''
+        if self.lastnumber >= 0 and start-1 == self.lastnumber:
+            self.lastnumber = start
+        translation='4'
+        return (translation, start)
+    
+    def comma (self, input, start):
+        '''Translates commas (,) in latex.
+
+        Returns a touple as above.'''
+        if self.lastnumber >= 0 and start-1 == self.lastnumber:
+            self.lastnumber = start
+        translation='1'
+        return (translation, start)
+
+    def letterSign (self,input,start):
+        '''Determines whether the letter sign is necessary. 
+
+        Returns a boolean.'''
+        lettersign = False # no lettersign yet
+# Last character was part of a number and letters are within range a-j 
+        if self.lastnumber >= 0 and start == self.lastnumber and input[start].lower() in 'abcdefghij':
+            lettersign = True
+
+        try: # white space on either side of sing char 
+            if start > 0 and input[start-1] == ' ' and input[start+1] == ' ':
+                lettersign = True
         except:
             pass
-        return False
-
-    
-    def endNumber (self, input, start):
-        if start <= 6:
-            return False
-        try:
-            if input[start-6:start] in '@/brl@':
-                return True
+        try: # char on it's own at beginning of line 
+            if start == 0 and input[start+1] == ' ':
+                lettersign = True
         except:
             pass
-        return False
-                    
-    def stripUnwantedHash (self, input):
-        """Remove unecessary hash signs.
+        try: # char on it's own at end of line 
+            if input[start-1] == ' ' and start+1 == len(input):
+                lettersign = True
+        except:
+            pass
+        try: # some punctuation after a letter eg. A.
+            if input[start+1] in '.,':
+                lettersign = True
+        except:
+            pass
 
-        Remove unwanted # signs."""
-        out=''
-        count=0
-        removehash = False
-        for x in input:
-            try: # handle simple fractions
-                if self.endNumber(input, count) and x == '/':
-                    removehash = True
-            except:
-                pass
-            try:
-                if self.endNumber(input, count) and x in '14' and input[count+1:count+6] == '@brl@':
-                    removehash = True
-            except:
-                pass
-            if x == '#' and removehash:
-                removehash=False
-                count+=1
-                continue
-            out+=x
-            count+=1
-        return out
+        if start > 1 and input[start-2:start-1].isupper () and input[start].islower (): # capital letters and now we are a lower case 
+            lettersign= True 
+        if len (input) == 1: # char by itself on line
+            lettersign = True
+        return lettersign 
 
-    def bracket (self, input, start):
-        """Translate square brackets into ueb.
+    def lowerLetter (self,input,start):
+        '''Translates lower case letters in latex.
 
-        It will only be called for stand-alone brackets, or unrecognised
-        latex commands, so the ueb brackets won't hurt anyone."""
-
-        if input[start-1] == '[':
-            return ('.<', start)
+        Returns a touple as above.'''
+        start=start-1 # We are manipulating current char
+        if self.letterSign(input,start): # add the letter sign 
+          translation = ';'
         else:
-            return ('.>', start)
+            translation = ''
+        translation += input[start]
+        return (translation,start+1)
+
+    def upperLetter (self, input, start):
+        '''Translates upper case letters in latex.
+
+        Returns a touple as above.'''
+        start=start-1 # We are focused on current char 
+        translation= "" # The brf translation 
+        cap = True # Provide a capital sign unless special case (below)
+        doublecap = False # Do we represent consecutive capital letters by ,,
+        lettersign = self.letterSign (input,start) # Do we provide a lettersign (;)
+        try: # Letter before wasn't a cap, but letter after is so start consecutive capitals (,,)
+            if input[start+1].isupper () and not input[start-1].isupper ():
+                doublecap = True
+                cap = False # And no need for single , 
+        except:
+            pass
+        try: # Handle double Cap on start of line 
+            if start == 0 and input[start+1].isupper ():
+                doublecap = True
+                cap = False # No single cap necessary 
+        except:
+            pass
+        try: # the double ,, has already been provided for this set of consecutive capital letters 
+            if start > 0 and input[start-1].isupper ():
+                cap = False
+                doublecap =False
+        except:
+            pass
+        if start == 0: # Handle cap at start of line 
+            cap = True
+        if lettersign: # Add a lettersign first 
+            translation+= ';'
+        if doublecap: # we add double capital sign 
+            translation += ',,'
+        elif cap: # Otherwise just add single cap sign 
+            translation += ','
+        translation+=input[start].lower () # Now add the lowercase equivilant to avoid dot 7 in some tables 
+        return (translation, start+1)
     
-        
