@@ -120,7 +120,7 @@ class ueb(latex_access.translator):
         translation = ' "<'+self.translate(arg[0],(rting[0]+arg[2],rting[1]+3))+'">'
         return (translation, arg[1])
 
-    def uebDollar (self, input, start,rting=()):
+    def uebDollar (self, input, start):
         """Handle dollars.
 
         This function uses the self.dollars method to check if dollars
@@ -133,7 +133,7 @@ class ueb(latex_access.translator):
         translation=(translationout, translation[1])
         return translation
     
-    def numbers(self,input,start,rting=()):
+    def numbers(self,input,start):
         '''Translates numbers in latex.
 
         Returns a touple as above.'''
@@ -147,7 +147,7 @@ class ueb(latex_access.translator):
         self.lastnumber = numberstart # Record where last number is
         return (translation, numberstart)
     
-    def dot (self, input, start, rting=()):
+    def dot (self, input, start):
         '''Translates dots (.) in latex.
 
         Returns a touple as above.'''
@@ -156,7 +156,7 @@ class ueb(latex_access.translator):
         translation='4'
         return (translation, start)
     
-    def comma (self, input, start,rting=()):
+    def comma (self, input, start):
         '''Translates commas (,) in latex.
 
         Returns a touple as above.'''
@@ -209,7 +209,7 @@ class ueb(latex_access.translator):
             lettersign = True
         return lettersign 
 
-    def lowerLetter (self,input,start,rting=()):
+    def lowerLetter (self,input,start):
         '''Translates lower case letters in latex.
 
         Returns a touple as above.'''
@@ -221,7 +221,7 @@ class ueb(latex_access.translator):
         translation += input[start]
         return (translation,start+1)
 
-    def upperLetter (self, input, start,rting=()):
+    def upperLetter (self, input, start):
         '''Translates upper case letters in latex.
 
         Returns a touple as above.'''
