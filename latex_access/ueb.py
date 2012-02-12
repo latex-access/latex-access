@@ -47,30 +47,30 @@ class ueb(latex_access.translator):
         for (k,v) in new_table.iteritems():
             self.table[k]=v
 
-    def super(self,input,start):
+    def super(self,input,start,rting=()):
         '''Translate  superscripts into UEB.
 
         Returns a touple with translated string and index of
         first char after end of super.'''
         arg=get_arg(input,start)
         if len(arg[0]) <=1:
-            translation = ";9" + self.translate(arg[0])
+            translation = ";9" + self.translate(arg[0],(rting[0]+arg[2],rting[1]+2))
         else:
-            translation = ";9\"<" + self.translate(arg[0])+"\">"
+            translation = ";9\"<" + self.translate(arg[0],(rting[0]+arg[2],rting[1]+4))+"\">"
         return (translation,arg[1])
 
-    def sub(self,input,start):
+    def sub(self,input,start,rting=()):
         '''Translates ueb subscripts.
 
         Returns a touple, as above'''
         arg=get_arg(input,start)
         if len(arg[0]) <=1:
-            translation = ";5"+self.translate(arg[0])
+            translation = ";5"+self.translate(arg[0],(rting[0]+arg[2],rting[1]+2))
         else:
-            translation = ";5\"<"+self.translate(arg[0]) + "\">"
+            translation = ";5\"<"+self.translate(arg[0],(rting[0]+arg[2],rting[1]+4)) + "\">"
         return (translation,arg[1])
 
-    def sqrt(self,input,start):
+    def sqrt(self,input,start,rting=()):
         '''Translatesroots in latex.
 
         Returns a touple as above.'''
@@ -81,7 +81,7 @@ class ueb(latex_access.translator):
             translation+=self.translate(arg[0])+"+"
         else:
             arg=get_arg(input,start)
-            translation="%"+self.translate(arg[0])+"+"
+            translation="%"+self.translate(arg[0],(rting[0]+arg[2],rting[1]+1))+"+"
         return (translation,arg[1])
 
     def frac(self,input,start):
@@ -100,27 +100,27 @@ class ueb(latex_access.translator):
 
         return (translation, denominator[1])
 
-    def bar(self, input, start):
+    def bar(self, input, start,rting=()):
         '''Handles bar/overline.
 
         Returns toutple'''
         arg=get_arg(input,start)
         if len(arg[0])==1:
-            translation=":%s" % arg[0]
+            translation=":%s" % self.translate(arg[0], (rting[0]+arg[2],rting[1]+1))
         else:
-            translation=":{%so" % self.translate(arg[0])
+            translation=":{%so" % self.translate(arg[0],(rting[0]+arg[2],rting[1]+2))
         return (translation,arg[1])
 
-    def tag(self,input,start):
+    def tag(self,input,start, rting=()):
         '''Translate  tags into Nemeth.
 
         Returns a touple with translated string and index of
         first char after end of tag.'''
         arg=get_arg(input,start)
-        translation = ' "<'+arg[0]+'">'
+        translation = ' "<'+self.translate(arg[0],(rting[0]+arg[2],rting[1]+3))+'">'
         return (translation, arg[1])
 
-    def uebDollar (self, input, start):
+    def uebDollar (self, input, start,rting=()):
         """Handle dollars.
 
         This function uses the self.dollars method to check if dollars
@@ -133,21 +133,21 @@ class ueb(latex_access.translator):
         translation=(translationout, translation[1])
         return translation
     
-    def numbers(self,input,start):
+    def numbers(self,input,start,rting=()):
         '''Translates numbers in latex.
 
         Returns a touple as above.'''
         numberstart = start-1 # since it's not a latex command we are interested in the current char
         if self.lastnumber >= 0 and numberstart == self.lastnumber:
-            translation = "" # inside a number no hash "#" sign necessary 
+            translation = "" # inside a number no hash "#" sign necessary
         else:
             translation = '#'
         numberstart+=1
         translation += self.upperNumbers[int(input[start-1])] # and get the upper number eg. 3 = c
-        self.lastnumber = numberstart # Record where last number is 
+        self.lastnumber = numberstart # Record where last number is
         return (translation, numberstart)
     
-    def dot (self, input, start):
+    def dot (self, input, start, rting=()):
         '''Translates dots (.) in latex.
 
         Returns a touple as above.'''
@@ -156,7 +156,7 @@ class ueb(latex_access.translator):
         translation='4'
         return (translation, start)
     
-    def comma (self, input, start):
+    def comma (self, input, start,rting=()):
         '''Translates commas (,) in latex.
 
         Returns a touple as above.'''
@@ -209,7 +209,7 @@ class ueb(latex_access.translator):
             lettersign = True
         return lettersign 
 
-    def lowerLetter (self,input,start):
+    def lowerLetter (self,input,start,rting=()):
         '''Translates lower case letters in latex.
 
         Returns a touple as above.'''
@@ -221,7 +221,7 @@ class ueb(latex_access.translator):
         translation += input[start]
         return (translation,start+1)
 
-    def upperLetter (self, input, start):
+    def upperLetter (self, input, start,rting=()):
         '''Translates upper case letters in latex.
 
         Returns a touple as above.'''
