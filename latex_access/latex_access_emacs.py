@@ -50,8 +50,14 @@ def activateSettings ():
 
   Consult the actual function definition in settings.py for details
   and documentation."""
-  global n # handle to the braille translator 
-  settings.loadSettings (os.path.expanduser("~/.latex-access"))
+  global n # handle to the braille translator
+  # Paths pointing to potential configuration files. 
+  configFilePaths=(os.path.expanduser("~/.latex-access"), "/etc/latex-access.conf")
+  for configFile in configFilePaths:
+    if os.path.exists (configFile):
+      break
+    
+  settings.loadSettings (configFile)
   n=settings.brailleTableToUse ()
   return settings.activateSettings ({"braille":n,"speak":s})
 
