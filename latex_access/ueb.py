@@ -47,6 +47,13 @@ class ueb(latex_access.translator):
         for (k,v) in new_table.iteritems():
             self.table[k]=v
 
+    def before (self):
+        """Method ran before the translator at depth = 0.
+
+        Place anything here to do before we begin ueb translate. Eg. set
+        variables etc. Should NOT alter the actual input at all."""
+        self.lastnumber = -1 # keep track of where the last latex number was open i.e. after a digit . or , (for ueb)
+                    
     def super(self,input,start,rting=()):
         '''Translate  superscripts into UEB.
 
