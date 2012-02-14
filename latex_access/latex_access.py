@@ -57,9 +57,8 @@ class translator:
 
         Returns string.'''
         if self.depth==0:
-            if hasattr (self, "lastnumber"):
-                self.lastnumber = -1
-            self.lastnumber = -1 # keep track of where the last latex number was open i.e. after a digit . or , (for ueb)
+            if hasattr (self, "before"):
+                self.before ()
             self.consumedChars=0 # So we can see where the translation finishes relative to the Braille 
             self.rt=[] #Routing table
             rting=(0,0)
