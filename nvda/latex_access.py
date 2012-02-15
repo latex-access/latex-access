@@ -1,7 +1,7 @@
 #    latex_access.py
 #    A part of the latex-access project at http://latex-access.sourceforge.net/
 #    Author: Nathaniel Schmidt <nathanieljsch@westnet.com.au>
-#    Copyright (C) 2011 Nathaniel Schmidt/latex-access Contributors
+#    Copyright (C) 2011 and 2012 Nathaniel Schmidt/Latex-access Contributors
 #
 #    This program is free software; you can redistribute it
 #    and/or modify it under the terms of the GNU General Public License as published
@@ -15,14 +15,14 @@
 #    You should have received a copy of the GNU General Public License along with this program; if not, visit <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 
 """
-A global plugin for NVDA to provide optional translations of LaTeX math into nemeth braille and speech that is easier to understand, by way of latex-access.  See readme.txt for more information.
+A global plugin for NVDA to provide optional translations of LaTeX math into Nemeth Braille and speech that is easier to understand, by way of latex-access.  See readme.txt for more information.
 
 Features:
 	* Translating lines of LaTeX into nemeth braille and speech - status: completed.
 	* matrix browser for reading larger matrices - status: under development.
 	* The preprocessor (support for custom defined LaTeX commands) - status: not completed.
 	* Access to tables - status: not completed.
-	* access to motion for moving quickly through mathematical terms - status: not completed.
+	* access to motion for moving quickly through mathematical terms - status: N/A.
 """
 
 from comtypes.client import CreateObject
@@ -271,7 +271,10 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 
 # Useful functions:
 def GetLine ():
-	"""Retrieves the line of text that the current navigator object is focussed on, then returns it."""
+	"""Retrieves the line of text that the current navigator object is focussed on, then returns it.
+	@tryutndz; The current line under the cursor.
+	@rtype: STR
+	"""
 
 	obj = api.getFocusObject()
 	treeInterceptor = obj.treeInterceptor
