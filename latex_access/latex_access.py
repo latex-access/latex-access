@@ -74,10 +74,6 @@ class translator:
         while True:
             if hasattr (self, "displayLength"):
                 brfOutChars=len(output)
-                if brfOutChars == self.displayLength: # translation exactly the size of the display, break
-                    self.consumedChars = i
-                    break
-
                 if brfOutChars > self.displayLength: # we have exceeded the display so go back to the last good contraction
                     output=output[:backupPosition]
                     break
@@ -85,9 +81,13 @@ class translator:
                 backupPosition=brfOutChars # remember where our last good contraction is
 
             self.consumedChars=i
-                
+
             if rting!=():
                 self.rt.append((len(output)+rting[1],i+rting[0]))
+
+            if hasattr (self, "displayLength"):
+                if brfOutChars == self.displayLength: # translation exactly the size of the display, break
+                    break
 
             if i == len(input):
                 break
