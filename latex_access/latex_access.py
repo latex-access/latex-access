@@ -71,21 +71,27 @@ class translator:
         self.depth+=1
         output=""
         i=0
-        while (i<len(input)):
+        while True:
             if hasattr (self, "displayLength"):
                 brfOutChars=len(output)
                 if brfOutChars == self.displayLength: # translation exactly the size of the display, break
                     self.consumedChars = i
                     break
-                elif brfOutChars > self.displayLength: # we have exceeded the display so go back to the last good contraction
+
+                if brfOutChars > self.displayLength: # we have exceeded the display so go back to the last good contraction
                     output=output[:backupPosition]
                     break
-                else: # default behaviour, continue counting
-                    backupPosition=brfOutChars # remember where our last good contraction is
+
+                backupPosition=brfOutChars # remember where our last good contraction is
+
             self.consumedChars=i
                 
             if rting!=():
                 self.rt.append((len(output)+rting[1],i+rting[0]))
+
+            if i == len(input):
+                break
+
             # Test if we have a LaTeX command
             if input[i] == "\\":
                 match=latex_command.match(input[i:])
@@ -123,11 +129,8 @@ class translator:
                 i += len(curr)
         self.depth-=1
         if self.depth==0:
-            self.rt.append((len(output)-1,len(input)-1))
             self.trans2src=routing.convert(self.rt)
             self.src2trans=routing.convert(routing.invert(self.rt))
-        if i >= len (input): # Account for wrong count if whole string is translated
-            self.consumedChars = len (input)
         return output
 
     def text(self,input, start):
