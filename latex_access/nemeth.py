@@ -78,6 +78,8 @@ class nemeth(latex_access.translator):
         arg=get_arg(input,start)
         if arg[0].isdigit() or len(arg[0])==1:
             translation=">"+arg[0]
+            if rting!=():
+                for j in range(len(arg[0])): self.rt.append((rting[1]+1+j,rting[0]+arg[2]+j))
         else:
             if rting!=(): translation=">"+self.translate(arg[0],(rting[0]+arg[2],rting[1]+1))+"}"
             else: translation=">"+self.translate(arg[0])+"}"
