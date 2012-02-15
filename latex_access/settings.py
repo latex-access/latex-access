@@ -29,19 +29,25 @@ def loadSettings (file):
   Where settingname is a valid setting and value is the value of that
   setting. The file may be commented by use of ; but only at the start
   of a line! Blank lines are ignored."""
+  f=None
   try:
     f=open(file, "r")
+  except:
+    return False
+  else:
     for line in f.readlines ():
       if line[0] == "\n" or line[0] == ";": # Skip some irrelevant stuff
         continue 
       words = line.split()
       if not words: # Ignore lines with spaces
         continue 
+      if len(words) < 2:
+        continue 
       settings[words[0]] = words[1]
-    f.close()
     return True
-  except:
-    return False
+  finally:
+    if f:
+      f.close()
 
 def activateSettings (instances):
   """Activate settings stored in a file.
