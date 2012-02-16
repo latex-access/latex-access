@@ -59,31 +59,42 @@ class translator:
         if self.depth==0:
             if hasattr (self, "before"):
                 self.before ()
-            self.consumedChars=0 # So we can see where the translation finishes relative to the Braille 
             self.rt=[] #Routing table
             rting=(0,0)
-# The following sets up some variables if we must break the translation
-# early i.e. if the Braille display is full. This only happens if
-# displaySize is set in the translator attribute. 
-        if self.depth ==0 and hasattr(self,"displayLength"): 
-            brfOutChars=0
             backupPosition = 0
+            rtlen = 0
+            self.expandItem = hasattr(self, "expandCurrentWord") and self.expandCurrentWord and hasattr(self, "cursorOffset")
         self.depth+=1
+
+        consumed=0
+        expandUntil = -1
         output=""
         i=0
         while True:
+            if self.expandItem and (self.depth == 1):
+              if expandUntil >= 0:
+                if i == expandUntil:
+                  expandUntil = -1
+              else:
+                if (self.cursorOffset >= consumed) and (self.cursorOffset < i):
+                  expandUntil = i
+                  i = consumed
+                  output = output[:backupPosition]
+                  self.rt = self.rt[0:rtlen]
+
+            brfOutChars=len(output)
+
             if hasattr (self, "displayLength"):
-                brfOutChars=len(output)
                 if brfOutChars > self.displayLength: # we have exceeded the display so go back to the last good contraction
                     output=output[:backupPosition]
                     break
 
-                backupPosition=brfOutChars # remember where our last good contraction is
-
-            self.consumedChars=i
+            backupPosition=brfOutChars # remember where our last good contraction is
+            consumed=i
 
             if rting!=():
                 self.rt.append((len(output)+rting[1],i+rting[0]))
+            rtlen = len(self.rt)
 
             if hasattr (self, "displayLength"):
                 if brfOutChars == self.displayLength: # translation exactly the size of the display, break
@@ -91,6 +102,11 @@ class translator:
 
             if i == len(input):
                 break
+
+            if expandUntil >= 0:
+              output += input[i]
+              i += 1
+              continue
 
             # Test if we have a LaTeX command
             if input[i] == "\\":
@@ -129,6 +145,7 @@ class translator:
                 i += len(curr)
         self.depth-=1
         if self.depth==0:
+            self.consumedChars=consumed
             self.trans2src=routing.convert(self.rt)
             self.src2trans=routing.convert(routing.invert(self.rt))
         return output
