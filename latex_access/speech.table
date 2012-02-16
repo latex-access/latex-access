@@ -41,48 +41,54 @@
 ; capital greek letters
 \Alpha  cap alpha 
 \Beta  cap beta 
-\Kappa  cap kappa
-\Delta  cap delta 
 \Gamma  cap gamma 
-\Lambda   cap lambda 
-\Omega  cap omega 
-\Phi  cap phi 
-\Psi  cap psi
-\Sigma  cap sigma 
-\Tau  cap tau 
+\Delta  cap delta 
+\Epsilon  cap epsilon 
+\Zeta  cap zeta 
+\Eta  cap eta 
 \Theta  cap theta 
-\Pi  cap pi
-\Xi  cap xi
-\Chi  cap chi 
+\Iota  cap iota
+\Kappa  cap kappa
+\Lambda   cap lambda 
 \Mu  cap mu
 \Nu  cap nu
+\Xi  cap xi
+\Omicron  cap omicron
+\Pi  cap pi
 \Rho  cap rho
-\Iota  cap iota
+\Sigma  cap sigma 
+\Tau  cap tau 
+\Upsilon  cap upsilon 
+\Phi  cap phi 
+\Psi  cap psi
+\Chi  cap chi 
+\Omega  cap omega 
 
 ; small greek letters
 \alpha  alpha 
 \beta  beta 
-\phi  phi 
-\kappa  kappa
+\gamma  gamma 
 \delta  delta 
 \epsilon  epsilon 
-\gamma  gamma 
-\eta   eta 
-\rho  rho 
-\psi  psi 
-\pi  pi 
-\omega  omega 
-\nu  nu 
-\mu  mu 
-\lambda  lambda 
-\gamma  gamma 
 \zeta  zeta 
-\xi  xi 
+\eta   eta 
 \theta  theta 
-\tau  tau 
-\sigma  sigma 
-\chi  chi 
 \iota  iota
+\kappa  kappa
+\lambda  lambda 
+\mu  mu 
+\nu  nu 
+\xi  xi 
+\omicron  omicron 
+\pi  pi 
+\rho  rho 
+\sigma  sigma 
+\tau  tau 
+\upsilon  upsilon 
+\phi  phi 
+\psi  psi 
+\chi  chi 
+\omega  omega 
 
 ; set theory
 \bigcap  intersection 
