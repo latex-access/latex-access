@@ -3,7 +3,7 @@
 # latex_access_emacs.py
 #    A part of the latex-access project at http://latex-access.sourceforge.net/
 #    Author: Daniel Dalton <daniel.dalton10@gmail.com>
-#    Copyright (C) 2011 Daniel Dalton/latex-access Contributors
+#    Copyright (C) 2011,2012 Daniel Dalton/latex-access Contributors
 #
 #    This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation;
 #    either version 2 of the License, or (at your option) any later version.
@@ -26,9 +26,8 @@ import sys
 import os.path
 import settings
 import speech
-import nemeth 
+import nemeth
 import ueb
-import brltty
 import preprocessor
 import table
 
@@ -36,10 +35,6 @@ s=speech.speech()
 n=''
 p=preprocessor.preprocessor()
 nc=preprocessor.newcommands(p)
-b=brltty.braille () # Connect to the Braille display object
-t=table
-
-bttymode = False # Is the Braille display in tty mode?
 
 if __name__ == "__main__":
   print "This is just a module."
@@ -61,13 +56,6 @@ def activateSettings ():
   n=settings.brailleTableToUse ()
   return settings.activateSettings ({"braille":n,"speak":s})
 
-def getSetting (setting):
-  """Provide emacs access to the getSetting function.
-
-  Visit settings.py for the real documentation of this function."""
-
-  return settings.getSetting (setting)
-
 def transbrl (arg):
   """Translate latex code into Nemeth Braile.
 
@@ -82,14 +70,6 @@ def transsp (arg):
   speech.speech.translate(). Found in speech.py."""
 
   return s.translate(p.translate(arg))
-
-def toggle_dollars_nemeth ():
-  """Toggle Brailling of dollar signs.
-
-  This function negotiates the class, because pymacs is challenging to
-  deal with."""
-  n.remove_dollars=not n.remove_dollars
-  return n.remove_dollars
 
 def toggle_dollars_speech ():
   """Toggle the speaking of dollar signs.
@@ -145,64 +125,3 @@ def GetTableCurrentRow (latextable):
   accessibility."""
 
   return t.GetTableCurrentRow (latextable)
-
-def BrailleDisplaySize ():
-  return brltty.BrailleDisplaySize ()
-
-def DetermineWindowSize (windowwidth, bdisplaywidth):
-  """Determine how much the window should be shrunk or increased in
-  width.
-
-  A positive value is increase while a negative return value is shrink
-  factor."""
-
-  if bdisplaywidth == -1:
-    return 0 # Brltty probably isn't running so don't bother
-
-  leftover = windowwidth%bdisplaywidth # How many characters over the
-# side of x*display width the source text spans
-  minwidth = windowwidth-leftover # Minimum width we're happy to make
-# window 
-  maxwidth = minwidth+bdisplaywidth # Maximum width we can make window 
-  mindiff = windowwidth-minwidth # Difference between window size and
-# minimum width 
-  maxdiff = maxwidth-windowwidth # Difference between window size and
-# maximum width 
-
-  if maxdiff > mindiff: # Which one are we closest too?
-    return 0-mindiff # Shrink the window size by mindiff characters, is negative of course
-  else: # Increase 
-    return maxdiff # Increase the window size by maxdiff characters 
-
-def brailleRegion (line, point):
-  """Allows emacs to pass some text to be Brailled.
-
-  This function allows emacs to pass the current line of text and the
-  point position in numb chars from beginning of line and the
-  brltty.braille class handles the rest of the formatting for us."""
-  global bttymode # Are we already in ttymode?
-  if not bttymode: 
-    # Under screen this will not work, but since I use screen on VT 1 I
-    # set this to 1. Removing the 1 and providing no arguments will
-    # allow brlapi to find out the vt number, but it won't work under an
-    # emulator like screen, hence I've put 1. So if you use screen, put
-    # the number of your VT number in here otherwise remove the 1 and
-    # provide no arguments and brlapi will handle it for you. 
-    b.ttyMode (1) 
-    bttymode = True
-  line= n.translate(p.translate(line))
-  line=b.segmentToBraille(line, point)
-  b.braille (line)
-
-def closeDisplay ():
-  """Close the Braille display.
-
-  Allow BRLTTY to regain control, see the function definition in
-  brltty.py for details."""
-  global bttymode 
-  if bttymode:
-    bttymode = False 
-    return b.closeDisplay ()
-  else:
-    return True
-
