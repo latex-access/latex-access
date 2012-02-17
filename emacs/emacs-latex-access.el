@@ -1,6 +1,6 @@
 ;;; emacs-latex-access.el --- Latex-access implementation for emacs
 
-;; Copyright (C) 2010  Daniel Dalton
+;; Copyright (C) 2010,2011,2012  Daniel Dalton
 
 ;; Author: Daniel Dalton <daniel.dalton10@gmail.com>
 ;; Keywords: Latex_access emacs implementation 
@@ -31,19 +31,10 @@
 ; Load pymacs, shouldn't really mater if this was done by .emacs first 
 (require 'pymacs)
 
-(pymacs-load "latex_access.latex_access_emacs" "latex_access_emacs") ; load the
-					; relevant modules 
+(pymacs-load "latex_access.latex_access_emacs" "latex_access_emacs") ; load the relevant modules 
 
-(setq latex-access-braille nil)
-(setq latex-access-speech nil)
-
-(setq latex-access-displaying nil) ; So we can toggle brailling of line
-(setq latex-access-braille-cursor (point)) ; position of braille cursor 
-(setq latex-access-braille-type nil) ; Should the display be updated as you type 
-(setq latex-access-braille-shortcut t) ; Which cursor to switch to 
-
+(setq latex-access-mode nil)
 ; Voice definitions, customize these by customizing the <voice_name>-settings variable.
-
 (if (featurep 'emacspeak) (progn 
 			    (defvoice latex-access-voice-bold (list nil 1 6 6  nil)
 			      "Voice used for bold commands")
@@ -71,7 +62,7 @@ emacs/emacspeak will call this function, hence, providing latex-access
 output when applicable"
 			      (make-local-variable 'latex-access-speech)
 			      (when (listp arg) (setq arg (car arg )))
-			      (if latex-access-speech
+			      (if latex-access-mode
 				  (cond 
 				   ((null arg) (latex-access-speak (latex_access_emacstranssp
 								    (thing-at-point 'line)))) ; Speech to pass to
@@ -91,44 +82,12 @@ output when applicable"
 
 (defun latex-access ()
   "Set up latex-access." 
-					; Braille post-command hook so that Braille is displayed on the message line.
-  ;(add-hook 'post-command-hook 'latex-access-braille-other-window nil nil)
-					; Experimental braille implementation, uncomment for testing, but is
-  ; far from perfect yet. 
-  (add-hook 'post-command-hook 'latex-access-brltty-type nil nil)
 					; Enable speech (emacspeak advice)
   (if (featurep 'emacspeak) ; Load emacspeak...
       (progn 
 	(ad-enable-advice 'emacspeak-speak-line 'around 'latex-access-speak-line) 
 	(ad-activate 'emacspeak-speak-line))) ; Enable the advice. 
   (latex_access_emacsactivateSettings)) ; Activate user settings from file
-
-(defun latex-access-toggle-speech ()
-  "Toggle latex-access speech on/off."
-  (interactive)
-  (make-local-variable 'latex-access-speech)
-  (if latex-access-speech 
-      (progn (latex-access-disable-speech) (message "LaTeX-access speech disabled."))
-    (progn (latex-access-enable-speech) (message "LaTeX-access speech enabled."))))
-
-(defun latex-access-toggle-braille ()
-  "Toggle latex-access Braille on/off."
-  (interactive)
-  (make-local-variable 'latex-access-braille)
-  (if latex-access-braille 
-      (progn (latex-access-disable-braille) (message "LaTeX-access Braille disabled."))
-    (progn (latex-access-enable-braille) (message "LaTeX-access Braille enabled."))))
-
-(defun latex-access-disable ()
-  "Turn off latex-access entirely"
-  (latex-access-disable-braille)
-  (latex-access-disable-speech))
-
-(defun latex-access-toggle-dollars-braille ()
-  "Toggle whether to Braille dollar signs."
-  (interactive)
-  (message "Dollar signs will %s be shown in Braille."
-	   (if (latex_access_emacstoggle-dollars-nemeth) "not" "")))
 
 (defun latex-access-toggle-dollars-speech ()
   "Toggle whether to speak dollar signs."
@@ -244,42 +203,6 @@ two points of a buffer though when calling from lisp."
   (setq buffer-read-only t)
   (goto-char 49))
 
-(defun latex-access-braille-other-window ()
-  "Put the Braille translation of a LaTeX buffer in another buffer, and
-show it in the other-window, provided that Braille is switched on.
-This allows a blind user to read the LaTeX source, and directly to the
-right of it should be the corresponding Braille (nemeth) translation
-for each line, keeping lines in sync."
-
-  (save-excursion 
-					; is Braille on 
-    (if latex-access-braille 
-	(let ((emacspeak-speak-messages nil) ; Emacspeak shouldn't read Braille translation (is this still even necessary?)
-					; Make the windows split side by side not top-bottom 
-	      (split-width-threshold 80)
-	      (split-height-threshold nil)
-					; Make a buffer for our translation or load it if it
-					; already exists 
-	      (workspace (get-buffer-create "*translation.braille"))
-					; So we can come back to our current place later 
-	      (currentbuff (current-buffer))
-					; Get the translation from the python code 
-	      (translation (latex_access_emacstransbrl
-			    (buffer-substring-no-properties
-			     (window-start) (window-end)))))
-					; Open the relevant buffer insert translation. 
-	  (set-buffer workspace)
-	  (setq buffer-read-only nil)
-	  (erase-buffer) 
-	  (insert translation)
-	  (setq buffer-read-only t)
-	  (switch-to-buffer-other-window workspace) ; Make sure the
-					; other window holds
-					; translation, not some other
-					; random buffer 
-	  (switch-to-buffer-other-window currentbuff)
-	  (latex-access-setup-source-window))))) ; Set desireable width 
-
 (if (featurep 'emacspeak)
     (defun latex-access-matrix (beg end)
       "Display a matrix in emacspeak table mode. 
@@ -313,197 +236,12 @@ may be used to navigate the matrix."
 			(latex_access_emacsBuildHeaderString
 			 (latex_access_emacsGetTableTopRow table)) table)))))))
 
-(defun latex-access-setup-source-window () 
-  "Set the source window x characters wide given braille display width,
-provided Braille is enabled of course."
-(if latex-access-braille
-    (enlarge-window-horizontally 
-     (- (latex_access_emacsDetermineWindowSize (window-width)
-					    (latex_access_emacsBrailleDisplaySize)) 1))))
-
 (defun latex-access-load-settings ()
   "Allow a user to load their latex-access settings stored in ~/.latex-access"
   (interactive)
   (if (latex_access_emacsactivateSettings)
       (message "Loaded settings")
     (message "No configuration file, continuing with defaults.")))
-
-(defun latex-access-enable-braille ()
-  "Enable latex-access Braille"
-  (make-local-variable 'latex-access-braille)
-  (setq latex-access-braille t)) 
-
-(defun latex-access-disable-braille ()
-  "Disable latex-access Braille"
-  (make-local-variable 'latex-access-braille)
-  (latex-access-close-display)
-  (setq latex-access-braille nil))
-
-(defun latex-access-enable-speech ()
-  "Enable latex-access speech"
-  (make-local-variable 'latex-access-speech)
-  (setq latex-access-speech t))
-
-(defun latex-access-disable-speech ()
-  "Disables latex-access speech."
-  (make-local-variable 'latex-access-speech)
-  (setq latex-access-speech nil))
-
-(defun latex-access-decide-braille ()
-  "Decide if Braille should be enabled."
-  (if (latex_access_emacsgetSetting "brailletranslation")
-      (latex-access-enable-braille)))
-
-(defun latex-access-decide-speech ()
-  "Decide if speech should be enabled."
-  (if (latex_access_emacsgetSetting "speechtranslation")
-      (latex-access-enable-speech)))
-
-(defun latex-access-brltty (&optional speak)
-  "Braille a line of latex in nemeth on the Braille display relative to the
-position of point."
-  (interactive)
-  (make-local-variable 'latex-access-braille)
-  (save-excursion
-    (if latex-access-braille 
-	(let ((currentposs (point))
-	      (begposs (progn (beginning-of-line) (point)))) ; get the
-					; position of beginning of line 
-	  (latex_access_emacsbrailleRegion (thing-at-point 'line) (-
-								   currentposs begposs)) ; Braille the current line, passing the line
-					; number to the python functions and the
-					; difference between start of line and the
-					; cursor position. 
-	  (if (and speak (featurep 'emacspeak)) (emacspeak-speak-line)))
-      (latex-access-close-display))))
-
-(defun latex-access-close-display ()
-  "Close the display so brltty can regain control."
-  (interactive)
-  (latex_access_emacscloseDisplay))
-
-(defun latex-access-brltty-toggle ()
-  "Toggle displaying of current line via latex-access through brltty"
-  (interactive)
-  (if (equal latex-access-displaying nil) (progn 
-					    (message "LaTeX-access Braille mode enabled.")
-					    (setq latex-access-displaying t)
-					    (setq latex-access-braille-cursor (point))
-					    (latex-access-brltty))
-    (progn 
-      (message "LaTeX-access Braille mode disabled.")
-      (setq latex-access-displaying nil)
-	   (setq latex-access-braille-cursor (point))
-	   (setq latex-access-braille-type nil) ; Disable follows emacs point first otherwise the display can't move 
-	   (latex-access-close-display))))
-
-(defun latex-access-brltty-previous-line (arg)
-  "Braille the prior line, with usual c-u args acting same as the
-previous-line function.."
-  (interactive "P")
-  (setq latex-access-braille-type nil) ; Disable follows emacs point first otherwise the display can't move 
-  (save-excursion 
-    (if (equal latex-access-displaying t) (goto-char latex-access-braille-cursor) (goto-char (point)))
-    (setq latex-access-displaying t)
-    (let ((dtk-quiet nil))
-      (previous-line arg))
-    (setq latex-access-braille-cursor (point))
-    (latex-access-brltty t)))
-
-(defun latex-access-brltty-next-line (arg)
-  "Braille the next line, with usual c-u args acting same as the
-next-line function.."
-  (interactive "P")
-  (setq latex-access-braille-type nil) ; Disable follows emacs point first otherwise the display can't move 
-  (save-excursion
-    (if (equal latex-access-displaying t) (goto-char latex-access-braille-cursor) (goto-char (point)))
-    (setq latex-access-displaying t)
-    (let ((dtk-quiet nil))
-      (next-line arg))
-    (setq latex-access-braille-cursor (point))
-    (latex-access-brltty t)))
-
-(defun latex-access-brltty-pan-right ()
-  "Move one braille display length to the right."
-  (interactive)
-  (setq latex-access-braille-type nil) ; Disable follows emacs point first otherwise the display can't move 
-  (save-excursion 
-    (if (equal latex-access-displaying t) (goto-char latex-access-braille-cursor) (goto-char (point)))
-    (setq latex-access-displaying t)
-  (let ((cursor (- (point) (line-beginning-position))) ; cursor location in terms of current line 
-	(display (latex_access_emacsBrailleDisplaySize)) ; Braille
-					; display length 
-	(line (- (line-end-position) (line-beginning-position)))) ; line
-					; length 
-    (if (< (+ cursor display) line) 
-	(forward-char display) (end-of-line))
-    (setq latex-access-braille-cursor (point))
-    (latex-access-brltty))))
-
-(defun latex-access-brltty-pan-left ()
-  "Move one braille display length to the right."
-  (interactive)
-  (setq latex-access-braille-type nil) ; Disable follows emacs point first otherwise the display can't move 
-  (save-excursion 
-    (if (equal latex-access-displaying t) (goto-char latex-access-braille-cursor) (goto-char (point)))
-    (setq latex-access-displaying t)
-  (let ((cursor (- (point) (line-beginning-position))) ; cursor location in terms of current line 
-	(display (latex_access_emacsBrailleDisplaySize))) ; Braille
-					; display length 
-
-    (if (> (- cursor display) 0) 
-	(forward-char (- 0 display)) (beginning-of-line))
-    (setq latex-access-braille-cursor (point))
-    (latex-access-brltty))))
-
-(defun latex-access-brltty-goto-point ()
-  "Return Braille window to emacs point."
-  (interactive)
-  (setq latex-access-braille-cursor (point))
-  (latex-access-brltty))
-
-(defun latex-access-brltty-goto-braille-cursor ()
-  "Move emacs point to the braille window"
-  (interactive)
-  (goto-char latex-access-braille-cursor)
-  (if (featurep 'emacspeak) (emacspeak-speak-line)))
-
-(defun latex-access-brltty-toggle-type ()
-  "Toggle Braille translation as you type"
-  (interactive) 
-  (if (not latex-access-braille-type) (progn 
-					(message "Braille updated as you type.")
-					(setq latex-access-displaying t)
-					(setq latex-access-braille-type t))
-    (progn 
-      (message "Braille will not be updated as you type.")
-      (setq latex-access-braille-type nil))))
-
-(defun latex-access-brltty-type ()
-  "Braille translation as you type."
-  (if latex-access-braille-type (progn 
-				  (setq latex-access-braille-cursor (point))
-				  (latex-access-brltty))))
-
-(defun latex-access-brltty-switch-cursors ()
-  "Allows you to quickly toggle between the Braille position and point
-position. Useful to focus on a particular area of the screen as you
-type, but also to keep track of your input."
-  (interactive)
-  (setq latex-access-displaying t)
-  (if latex-access-braille-shortcut 
-      (save-excursion 
-	(setq latex-access-braille-save latex-access-braille-cursor)
-	(setq latex-access-braille-shortcut nil)
-	(goto-char (point)) (latex-access-brltty) 
-	(setq latex-access-braille-cursor (point))
-	(message "Moved to emacs point."))
-    (save-excursion 
-      (goto-char latex-access-braille-save)
-      (latex-access-brltty)
-      (setq latex-access-braille-shortcut t)
-      (setq latex-access-braille-cursor (point))
-      (message "Moved back to Braille cursor."))))
 
 (provide 'latex-access)
 (latex-access) ; Set everything up
@@ -514,10 +252,11 @@ type, but also to keep track of your input."
      Non-null prefix argument turns on the mode.
      Null prefix argument turns off the mode.
 
-When LaTeX-access is enabled, it provides both spoken and Braille
+When LaTeX-access is enabled, it provides spoken
 feedback for a blind user by translating LaTeX markup into Braille
 mathematics and speaking the markup in a way which is much easier to
-understand. See http://latex-access.sourceforge.net/ for details.
+understand. It also has a number of other useful functions under the
+name latex-access-*. See http://latex-access.sourceforge.net/ for details.
 
 \\{latex-access-mode-map}"
   ;; The initial value.
@@ -528,10 +267,6 @@ understand. See http://latex-access.sourceforge.net/ for details.
   `(                                                                                                                                                      
     (,(kbd "C-c d") . latex-access-toggle-dollars-speech)
     (,(kbd "C-c C-t") . latex-access-toggle-speech)
-    (,(kbd "C-c w") . latex-access-table-location))
-  (if latex-access-mode
-      (progn 
-	(latex-access-decide-speech) (latex-access-decide-braille))
-    (latex-access-disable)))
+    (,(kbd "C-c w") . latex-access-table-location)))
 
 ;;; emacs-latex-access.el ends here
