@@ -1,0 +1,65 @@
+LaTeX-access by means of BRLTTY 
+
+ABOUT
+
+BRLTTY is a software package which drives a Braille display used by a
+blind person to interact with the operating system and achieve tactyle
+Braille output. Latex-access improves the readability of latex markup by
+converting it to intelligible speech and Braille mathematics. 
+
+BRLTTY now supports latex-access directly. This offers a number of
+advantages, including the following features: 
+* A Braille translation of the latex source on the display, where all
+brltty commands work as expected. 
+* Cursor routting support 
+* Expand word support so you can edit the latex markup accurately 
+
+INSTALLATION 
+
+Presumably you already have latex-access, if not:
+svn co https://latex-access.svn.sourceforge.net/svnroot/latex-access latex-access
+
+Run the python install.py script as root from this svn checkout: 
+python install.py 
+
+You may use the -h or --help options to get some additional information
+of how you can take more control of the installation. 
+Remember to run install.py every time you update latex-access with svn up.
+
+Alternatively, point the pythonpath to 
+/path/to/latex-access 
+i.e. the root directory of the latex-access checkout. Running the
+install.py script will be sufficient though. 
+
+Next checkout the latest version of brltty from svn:
+svn co svn://mielke.cc/main/brltty brltty 
+
+Build and install BRLTTY:
+
+Consult the brltty docs for more details, but basically do:
+./autogen.sh 
+./configure 
+make 
+make install 
+(as root, perhaps prefix with sudo)
+
+Now start brltty, consult the brltty documentation for usage and
+configuration instructions:
+brltty
+(as root)
+
+USAGE:
+
+* Enable 6 dot contracted Braille in the brltty settings, either via
+  /etc/brltty.conf of the preferences menu. 
+* Set the contraction table to latex-access.ctb either via the
+  preferences menu or by setting it in /etc/brltty.conf. 
+
+Now enjoy an on the fly Braille translation of your latex source. 
+
+Note that the characters or latex command under the cursor will be
+expanded to show you the latex markup, which make editing practical. If
+you dislike this feature disable expand current word in brltty's
+preferences. 
+
+Daniel Dalton <daniel.dalton10@gmail.com>
