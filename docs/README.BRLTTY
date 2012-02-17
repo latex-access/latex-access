@@ -37,11 +37,16 @@ svn co svn://mielke.cc/main/brltty brltty
 Build and install BRLTTY:
 
 Consult the brltty docs for more details, but basically do:
+cd brltty/
 ./autogen
 ./configure 
 make 
 make install 
 (as root, perhaps prefix with sudo)
+
+Next make the latex-access.ctb contraction table executable:
+chmod +x /etc/brltty/latex-access.ctb
+(as root)
 
 Now start brltty, consult the brltty documentation for usage and
 configuration instructions:
