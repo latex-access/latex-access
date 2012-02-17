@@ -11,9 +11,6 @@ Things still needing to be implemented:
 (I think with some string manipulation in lisp this shouldn't be too hard
 with the available voice-locking functions of emacspeak.) (Has this been
 completed yet, or is there still work to be done)? 
-- Key bindings on Braille displays for Braille mode. This is challenging
-since it's difficult to listen for a Braille display key press from
-within emacs, given the brlapi interface is python based. 
 - Some more advanced speech functions to take into account text
 highlighting etc. as does emacspeak normally. 
 - The option to only speak stuff in math mode i.e. so that latex-access
