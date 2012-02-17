@@ -12,7 +12,9 @@ advantages, including the following features:
 * A Braille translation of the latex source on the display, where all
 brltty commands work as expected. 
 * Cursor routting support 
-* Expand word support so you can edit the latex markup accurately 
+* Expand word support so you can edit the latex markup accurately (to enable/disable this change the "Expand Current Word" setting 
+in the brltty preferences.
+* Dot 6 or Dot 7 to denote capital letters. This setting should be changed from the brltty preferences menue.
 
 INSTALLATION 
 
