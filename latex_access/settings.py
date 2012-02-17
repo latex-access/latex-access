@@ -17,7 +17,7 @@ import nemeth
 
 globals
 # Global settings for latex-access, these are the default values 
-settings = {"brailletranslation":"True", "speechtranslation":"True","brailledollars":"True","speakdollars":"True","brailletable":"nemeth"}
+settings = {"brailletranslation":"True", "speechtranslation":"True","brailledollars":"True","speakdollars":"True","brailletable":"nemeth","capitalisation":"6dot"}
 
 def loadSettings (file):
   """Read settings from file.
@@ -43,7 +43,7 @@ def loadSettings (file):
         continue 
       if len(words) < 2:
         continue 
-      settings[words[0]] = words[1]
+      settings[words[0]] = words[1].lower()
     return True
   finally:
     if f:
@@ -64,6 +64,7 @@ def activateSettings (instances):
     instances["speak"].remove_dollars = not booleaniseSetting("speakdollars")
   if 'braille' in instances.keys():
     instances["braille"].remove_dollars = not booleaniseSetting("brailledollars")
+    instances["braille"].capitalisation=settings["capitalisation"]
   return True # Settings activated 
 
 def booleaniseSetting (setting):
