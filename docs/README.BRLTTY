@@ -37,7 +37,7 @@ svn co svn://mielke.cc/main/brltty brltty
 Build and install BRLTTY:
 
 Consult the brltty docs for more details, but basically do:
-./autogen.sh 
+./autogen
 ./configure 
 make 
 make install 
