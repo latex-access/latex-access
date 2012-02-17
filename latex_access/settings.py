@@ -1,7 +1,7 @@
 # settings.py
 #    A part of the latex-access project at http://latex-access.sourceforge.net/
-#    Author: Alastair Irving <alastair.irving@sjc.ox.ac.uk>
-#    Copyright (C) 2011 Alastair Irving/latex-access Contributors
+#    Author: Daniel Dalton <daniel.dalton10@gmail.com>
+#    Copyright (C) 2011,2012 Daniel Dalton/latex-access Contributors
 #
 #    This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation;
 #    either version 2 of the License, or (at your option) any later version.
@@ -17,7 +17,7 @@ import nemeth
 
 globals
 # Global settings for latex-access, these are the default values 
-settings = {"brailletranslation":"True", "speechtranslation":"True","brailledollars":"True","speakdollars":"True","brailletable":"nemeth","capitalisation":"6dot"}
+settings = {"brailledollars":"True","speakdollars":"True","brailletable":"nemeth","capitalisation":"6dot"}
 
 def loadSettings (file):
   """Read settings from file.
