@@ -32,6 +32,10 @@ class nemeth(latex_access.translator):
                    "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,
                    "\\tag":self.tag,"\\mathbf":("_",""),"\\mathbb":("_",""),"\\colvec":("{"," ","o"),"\\tcolvec":("{"," "," ","o"),"\\bar":self.bar,"\\hat":self.bar,"\\overline":self.bar}
 
+        # The upper case ascii letters
+        for letter in range (65,91):
+            new_table["%c" % (letter)] = self.upperLetter
+            
         for (k,v) in new_table.iteritems():
             self.table[k]=v
 
@@ -120,3 +124,40 @@ class nemeth(latex_access.translator):
         arg=get_arg(input,start)
         translation="  {"+arg[0]+"}"
         return (translation,arg[1])
+
+    def upperLetter (self, input, start):
+        '''Translates upper case letters in latex.
+
+        Returns a touple as above.'''
+        if self.capitalisation == '8dot':
+            return (input[start-1], start)
+        start=start-1 # We are focused on current char 
+        translation= "" # The brf translation 
+        cap = True # Provide a capital sign unless special case (below)
+#        doublecap = False # Do we represent consecutive capital letters by ,,
+#        try: # Letter before wasn't a cap, but letter after is so start consecutive capitals (,,)
+#            if input[start+1].isupper () and not input[start-1].isupper ():
+#                doublecap = True
+#                cap = False # And no need for single , 
+#        except:
+#            pass
+#        try: # Handle double Cap on start of line 
+#            if start == 0 and input[start+1].isupper ():
+#                doublecap = True
+#                cap = False # No single cap necessary 
+#        except:
+#            pass
+#        try: # the double ,, has already been provided for this set of consecutive capital letters 
+#            if start > 0 and input[start-1].isupper ():
+#                cap = False
+#                doublecap =False
+#        except:
+#            pass
+        if start == 0: # Handle cap at start of line 
+            cap = True
+#        if doublecap: # we add double capital sign 
+#            translation += ',,'
+        if cap: # Otherwise just add single cap sign 
+            translation += ','
+        translation+=input[start].lower () # Now add the lowercase equivilant to avoid dot 7 in some tables 
+        return (translation, start+1)

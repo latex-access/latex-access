@@ -41,7 +41,7 @@ class ueb(latex_access.translator):
         for letter in range (65,91): # Ascii upper case
             new_table ["%c" % (letter)] = self.upperLetter
 
-        for letter in range (97,122): # Ascii, lower case
+        for letter in range (97,123): # Ascii, lower case
             new_table["%c" % (letter)] = self.lowerLetter
     
         for (k,v) in new_table.iteritems():
@@ -233,6 +233,8 @@ class ueb(latex_access.translator):
         '''Translates upper case letters in latex.
 
         Returns a touple as above.'''
+        if self.capitalisation == '8dot':
+            return (input[start-1], start)
         start=start-1 # We are focused on current char 
         translation= "" # The brf translation 
         cap = True # Provide a capital sign unless special case (below)
