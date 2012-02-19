@@ -23,7 +23,7 @@ usage="This script allows you to install latex-access.\n\nUsage:%s\nWhich instal
 
 pyver=python_version ()[:3] # the version of python 
 print "Found python version %s" % (pyver)
-outdir="/usr/lib/python"+pyver+"/dist-packages/latex_access/"
+outdir="/usr/lib/python"+pyver+"/site-packages/latex_access/"
 
 if len(sys.argv) == 2:
   if sys.argv[1] == '-h' or sys.argv[1] == '--help':
