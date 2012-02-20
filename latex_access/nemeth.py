@@ -97,7 +97,7 @@ class nemeth(latex_access.translator):
             else: translation=">"+self.translate(arg[0])+"}"
         return (translation,arg[1])
 
-    def frac(self,input,start):
+    def frac(self,input,start,rting=()):
         '''Translates fractions into Nemeth.
 
         Returns touple as above'''
@@ -105,11 +105,16 @@ class nemeth(latex_access.translator):
         if numerator[1]<len(input):
             denominator=get_arg(input,numerator[1])
         else:
-            denominator=("",numerator[1])
+            denominator=("",numerator[1],numerator[1])
         if numerator[0].isdigit() and denominator[0].isdigit():
             translation=numerator[0]+"/"+denominator[0]
         else:
-            translation="?"+self.translate(numerator[0])+"/"+self.translate(denominator[0])+"#"
+            if rting==():
+                translation="?"+self.translate(numerator[0])+"/"+self.translate(denominator[0])+"#"
+            else:
+                transnum=self.translate(numerator[0],(rting[0]+numerator[2],rting[1]+1))
+                transden=self.translate(denominator[0],(rting[0]+denominator[2],rting[1]+len(transnum)+2))
+                translation="?"+transum+"/"+transden+"#"
         return (translation,denominator[1])
 
 
