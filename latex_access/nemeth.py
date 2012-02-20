@@ -64,15 +64,20 @@ class nemeth(latex_access.translator):
 
 
 
-    def sub(self,input,start):
+    def sub(self,input,start,rting=()):
         '''Translates nemeth subscripts.
 
         Returns a touple, as above'''
         arg=get_arg(input,start)
         if arg[0].isdigit():
             translation=arg[0]
+            if rting!=():
+                for j in range(len(arg[0])): self.rt.append((rting[1]+j,rting[0]+arg[2]+j))
         else:
-            translation = ";"+self.translate(arg[0]) + "\""
+            if rting==():
+                translation = ";"+self.translate(arg[0]) + "\""
+            else:
+                translation = ";"+self.translate(arg[0],(rting[0]+arg[2],rting[1]+1)) + "\""
         return (translation,arg[1])
 
     def sqrt(self,input,start,rting=()):
