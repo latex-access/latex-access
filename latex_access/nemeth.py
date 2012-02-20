@@ -44,7 +44,7 @@ class nemeth(latex_access.translator):
 
 
 
-    def super(self,input,start):
+    def super(self,input,start,rting=()):
         '''Translate  superscripts into Nemeth.
 
         Returns a touple with translated string and index of
@@ -59,7 +59,10 @@ class nemeth(latex_access.translator):
         elif latex_access.primes.match(arg[0]):
             translation="'"*arg[0].count("\\prime")
         else:
-            translation = "~" + self.translate(arg[0]) + "\""
+            if rting==():
+                translation = "~" + self.translate(arg[0]) + "\""
+            else:
+                                translation = "~" + self.translate(arg[0],(rting[0]+arg[2],rting[1]+1)) + "\""
         return (translation,arg[1])
 
 
