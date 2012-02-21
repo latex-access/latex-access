@@ -265,9 +265,12 @@ def get_arg(input,start):
                 j-=1
             i+=1
         #This is a hack to avoid problems when the braces haven't yet been closed
-        if input[i-1]!="}":
-            i+=1
-        return(input[start:i-1],i,actual_start)
+#        if input[i-1]!="}":
+#            i+=1
+        if input[i-1]=="}":
+            return(input[start:i-1],i,actual_start)
+        else:
+            return(input[start:i],i,actual_start)
 
 def get_optional_arg(input,start):
     '''Returns the optional argument of a latex command, if it exists, starting at start.
