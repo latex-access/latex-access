@@ -71,8 +71,6 @@ class translator:
         output=""
         i=0
         while True:
-            if i >= len(input):
-                break
             if self.expandItem and (self.depth == 1):
               if expandUntil >= 0:
                 if i == expandUntil:
@@ -101,6 +99,9 @@ class translator:
             if hasattr (self, "displayLength"):
                 if brfOutChars == self.displayLength: # translation exactly the size of the display, break
                     break
+
+            if i == len(input):
+                break
 
             if expandUntil >= 0:
               output += input[i]
