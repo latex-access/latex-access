@@ -160,12 +160,15 @@ class translator:
                 self.consumedChars = self.trans2src[self.displayLength]
         return output
 
-    def text(self,input, start):
+    def text(self,input, start,rting=()):
         '''Used to translate text, as in mbox and text
 
         returns tuple.'''
         arg=get_arg(input,start)
-        translation = self.translate (arg[0])
+        if rting==():
+            translation = self.translate (arg[0])
+        else:
+                        translation = self.translate (arg[0],(rting[0]+arg[2],rting[1]))
         return (translation,arg[1])
 
     def displaystyle(self,input, start):
