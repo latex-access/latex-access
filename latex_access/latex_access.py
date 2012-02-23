@@ -165,7 +165,8 @@ class translator:
 
         returns tuple.'''
         arg=get_arg(input,start)
-        return (arg[0],arg[1])
+        translation = self.translate (arg[0])
+        return (translation,arg[1])
 
     def displaystyle(self,input, start):
         '''Removes the displaystile command but translates its argument.
