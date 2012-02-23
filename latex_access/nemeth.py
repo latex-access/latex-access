@@ -108,6 +108,9 @@ class nemeth(latex_access.translator):
             denominator=("",numerator[1],numerator[1])
         if numerator[0].isdigit() and denominator[0].isdigit():
             translation=numerator[0]+"/"+denominator[0]
+            if rting!=():
+                for j in range(len(numerator[0])): self.rt.append((rting[1]+j,rting[0]+numerator[2]+j))
+                for j in range(len(denominator[0])): self.rt.append((rting[1]+j+1+len(numerator[0]),rting[0]+denominator[2]+j))
         else:
             if rting==():
                 translation="?"+self.translate(numerator[0])+"/"+self.translate(denominator[0])+"#"
