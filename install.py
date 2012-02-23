@@ -23,35 +23,51 @@ usage="This script allows you to install latex-access.\n\nUsage:%s\nWhich instal
 
 pyver=python_version ()[:3] # the version of python 
 print "Found python version %s" % (pyver)
-outdir="/usr/lib/python"+pyver+"/site-packages/latex_access/"
+outdir=("/usr/lib/python"+pyver+"/dist-packages/latex_access/", "/usr/lib/python"+pyver+"/site-packages/latex_access/")
+failed=False
 
 if len(sys.argv) == 2:
   if sys.argv[1] == '-h' or sys.argv[1] == '--help':
     print usage
     exit ()
   else:
-    outdir = sys.argv[1]
+    outdir = [sys.argv[1]]
 
-try:
-  if not os.path.exists (outdir):
-    os.mkdir (outdir)
-    print "Created directory, %s" % (outdir)
-except:
-  print "Couldn't create directory %s." % (outdir)
+for dirname in outdir:
+  if os.path.exists (dirname):
+    break
+  if not os.path.exists (dirname):
+    try:
+      os.mkdir (dirname)
+      print "Created directory, %s" % (dirname)
+      break
+    except:
+      continue
+if not os.path.exists (dirname):
+  print "Couldn't create directory %s." % (dirname)
   print "Installation failed."
   exit (-1)
   
-print "Installing to %s." % (outdir)
+print "Installing to %s." % (dirname)
   
 try:
   for filename in os.listdir("latex_access/"): # copy the files into our path
     try:
-      if filename[-3:] == '.py' or filename[-6:] == '.table': # we only want to install .py and .table files 
-        shutil.copyfile (os.path.join("latex_access/",filename), os.path.join(outdir, filename))
-        print "Copying %s" % (filename)
+      if filename[-3:] == '.py' or filename[-6:] == '.table': # we only want to install .py and .table files
+        try:
+          shutil.copyfile (os.path.join("latex_access/",filename), os.path.join(dirname, filename))
+          print "Copying %s" % (filename)
+        except:
+          failed=True 
+          break
     except:
       continue 
-  print "Copied files to %s." % (outdir)
 except:
-  print "Couldn't install latex-access to %s, perhaps you don't have permission?" % (outdir)
+  print "Couldn't install latex-access to %s, perhaps you don't have permission?" % (dirname)
   exit (-1)
+  
+if failed:
+  print "Couldn't copy files to %s, maybe you don't have permission" % (dirname)
+  exit (-1)
+
+print "Copied files to %s." % (dirname)
