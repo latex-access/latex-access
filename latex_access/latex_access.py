@@ -64,6 +64,8 @@ class translator:
             backupPosition = 0
             rtlen = 0
             self.expandItem = hasattr(self, "expandCurrentWord") and self.expandCurrentWord and hasattr(self, "cursorOffset")
+            firstRun = True
+            snipCommand = False 
         self.depth+=1
 
         consumed=0
@@ -83,7 +85,12 @@ class translator:
                   self.rt = self.rt[0:rtlen]
 
             brfOutChars=len(output)
-
+            if self.depth == 1 and firstRun and brfOutChars > 0:
+                firstRun = False
+                if hasattr (self, "displayLength") and brfOutChars > self.displayLength:
+                    snipCommand = True
+                    break
+                
             if hasattr (self, "displayLength"):
                 if brfOutChars > self.displayLength: # we have exceeded the display so go back to the last good contraction
                     output=output[:backupPosition]
@@ -148,6 +155,9 @@ class translator:
             self.consumedChars=consumed
             self.trans2src=routing.convert(self.rt)
             self.src2trans=routing.convert(routing.invert(self.rt))
+            if snipCommand:
+                output=output[:self.displayLength]
+                self.consumedChars = self.trans2src[self.displayLength]
         return output
 
     def text(self,input, start):
