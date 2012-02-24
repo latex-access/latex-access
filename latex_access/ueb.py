@@ -98,9 +98,9 @@ class ueb(latex_access.translator):
         numerator=get_arg(input,start)
         denominator=get_arg(input,numerator[1])
 
-        if str(numerator[0]).isdigit () and str(denominator[0]).isdigit() and len (denominator[0]) == 1 and len (denominator[0]) ==1:
+        if str(numerator[0]).isdigit () and str(denominator[0]).isdigit():
             translation = self.translate(numerator[0],(rting[0]+numerator[2],rting[1]+1))+"/"
-            self.lastnumber-=1 
+            self.lastnumber-=len(numerator[0])
             translation+=self.translate(denominator[0],(rting[0]+denominator[2],rting[1]+3))
         else: # complex fraction 
             translation =";("+self.translate(numerator[0],(rting[0]+numerator[2],rting[1]+2))+"./"
