@@ -48,7 +48,7 @@ def compileFiles (number):
   for name in range (0,number):
     infiles.append("temp"+str(name))
 
-  outfile = "out.wav"
+  outfile = sys.argv[1]+".wav"
   data= []
   for infile in infiles:
     w = wave.open(infile, 'rb')
