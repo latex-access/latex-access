@@ -54,7 +54,7 @@ def activateSettings ():
     
   settings.loadSettings (configFile)
   n=settings.brailleTableToUse ()
-  return settings.activateSettings ({"braille":n,"speak":s})
+  return settings.activateSettings ({"braille":n,"speak":s,"preprocessor":p})
 
 def transbrl (arg):
   """Translate latex code into Nemeth Braile.
