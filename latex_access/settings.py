@@ -12,12 +12,13 @@
 #
 #    You should have received a copy of the GNU General Public License along with this program; if not, visit <http://www.gnu.org/licenses>
 
+import os
 import ueb
 import nemeth 
 
 globals
 # Global settings for latex-access, these are the default values 
-settings = {"brailledollars":"True","speakdollars":"True","brailletable":"nemeth","capitalisation":"6dot"}
+settings ={"brailledollars":"True","speakdollars":"True","brailletable":"nemeth","capitalisation":"6dot","preprocessorfile":"~/.latex-access-preprocessor.strings"}
 
 def loadSettings (file):
   """Read settings from file.
@@ -65,6 +66,9 @@ def activateSettings (instances):
   if 'braille' in instances.keys():
     instances["braille"].remove_dollars = not booleaniseSetting("brailledollars")
     instances["braille"].capitalisation=settings["capitalisation"]
+  if 'preprocessor' in instances.keys () and os.path.exists(os.path.expanduser (settings["preprocessorfile"])):
+    instances["preprocessor"].read(os.path.expanduser (settings["preprocessorfile"]))
+
   return True # Settings activated 
 
 def booleaniseSetting (setting):
