@@ -204,26 +204,6 @@ two points of a buffer though when calling from lisp."
   (goto-char 49))
 
 (if (featurep 'emacspeak)
-    (defun latex-access-matrix (beg end)
-      "Display a matrix in emacspeak table mode. 
-Once the matrix is in emacspeak table mode, all emacspeak table commands
-may be used to navigate the matrix."
-      (interactive "r")
-      (let ((matrix (replace-regexp-in-string "\\\\" ""
-					      (buffer-substring-no-properties
-					       beg end))) ; get rid of \\ chars
-	    (workspace (get-buffer-create "workspace-latex-access"))) ; create a workspace buffer
-	(setq matrix (replace-regexp-in-string "&" "" matrix)) ; get rid of the & signs 
-					; We now have a reasonably clean string. 
-					; use a workspace buffer to pass emacspeak the matrix 
-	(save-excursion 
-	  (set-buffer workspace)
-	  (insert matrix) ; place matrix in our workspace ready for manipulation
-					; now hand to emacspeak
-	  (emacspeak-table-display-table-in-region (point-min) (point-max)))
-	(kill-buffer workspace )))) ; Delete our workspace now.
-
-(if (featurep 'emacspeak)
     (defun latex-access-table-location ()
       "Provide information of current location in table."
       (interactive)
@@ -242,6 +222,44 @@ may be used to navigate the matrix."
   (if (latex_access_emacsactivateSettings)
       (message "Loaded settings")
     (message "No configuration file, continuing with defaults.")))
+
+;;; The matrix 
+(defun latex-access-matrix (beg end)
+  "initialise the matrix."
+  (interactive "r")
+  (latex_access_emacsmatrixInit (buffer-substring-no-properties beg
+								end)) 
+  (message "Initialised the matrix."))
+
+(defun latex-access-matrix-up ()
+  "Move up a row."
+  (interactive)
+  (dtk-speak (latex_access_emacstranssp (latex_access_emacsmatrixUp))))
+
+(defun latex-access-matrix-down ()
+  "Move down a row."
+  (interactive)
+  (dtk-speak (latex_access_emacstranssp
+	      (latex_access_emacsmatrixDown))))
+
+(defun latex-access-matrix-left ()
+  "Move left a column."
+  (interactive)
+  (dtk-speak (latex_access_emacstranssp (latex_access_emacsmatrixLeft))))
+
+(defun latex-access-matrix-right ()
+  "Move right a column."
+  (interactive)
+  (dtk-speak (latex_access_emacstranssp
+	      (latex_access_emacsmatrixRight))))
+
+(defun latex-access-matrix-goto ()
+  "Goto a specific cell in matrix."
+  (interactive) 
+  (let ((row (read-number "Enter row number: "))
+	     (column (read-number "Enter column number: ")))
+    (dtk-speak (latex_access_emacstranssp
+		(latex_access_emacsmatrixGoto row column)))))
 
 (provide 'latex-access)
 (latex-access) ; Set everything up
@@ -267,6 +285,12 @@ name latex-access-*. See http://latex-access.sourceforge.net/ for details.
   `(                                                                                                                                                      
     (,(kbd "C-c d") . latex-access-toggle-dollars-speech)
     (,(kbd "C-c C-t") . latex-access-toggle-speech)
-    (,(kbd "C-c w") . latex-access-table-location)))
+    (,(kbd "C-c w") . latex-access-table-location)
+    (,(kbd "C-c <up>") . latex-access-matrix-up)
+    (,(kbd "C-c <down>") . latex-access-matrix-down)
+    (,(kbd "C-c <left>") . latex-access-matrix-left)
+    (,(kbd "C-c <right>") . latex-access-matrix-right)
+    (,(kbd "C-c m") . latex-access-matrix)
+    (,(kbd "C-c g") . latex-access-matrix-goto)))
 
 ;;; emacs-latex-access.el ends here
