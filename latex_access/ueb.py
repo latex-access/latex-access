@@ -102,10 +102,17 @@ class ueb(latex_access.translator):
             translation = self.translate(numerator[0],(rting[0]+numerator[2],rting[1]+1))+"/"
             self.lastnumber-=len(numerator[0])
             translation+=self.translate(denominator[0],(rting[0]+denominator[2],rting[1]+3))
-        else: # complex fraction 
-            translation =";("+self.translate(numerator[0],(rting[0]+numerator[2],rting[1]+2))+"./"
-            self.lastnumber = -1
-            translation+=self.translate(denominator[0],(rting[0]+denominator[2],rting[1]+9))+";)"
+        else: # complex fraction
+            self.lastnumber = -1 
+            if rting != ():
+                transnum=self.translate(numerator[0],(rting[0]+numerator[2],rting[1]+2))
+                self.lastnumber = -1 
+                transden=self.translate(denominator[0],(rting[0]+denominator[2],rting[1]+len(transnum)+4))
+                translation=";("+transum+"./"+transden+";)"
+            else:
+                translation = ";("+self.translate (numerator[0])+"./"
+                self.lastnumber = -1
+                translation+=self.translate(denominator[0])+";)"
         return (translation, denominator[1])
 
     def bar(self, input, start,rting=()):
