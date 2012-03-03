@@ -223,6 +223,11 @@ two points of a buffer though when calling from lisp."
       (message "Loaded settings")
     (message "No configuration file, continuing with defaults.")))
 
+(defun latex-access-speak-line ()
+  "Speak the current line via latex-access"
+  (interactive)
+  (dtk-speak (latex_access_emacstranssp (thing-at-point 'line))))
+
 ;;; The matrix 
 (defun latex-access-matrix (beg end)
   "initialise the matrix."
