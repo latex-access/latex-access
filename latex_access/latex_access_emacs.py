@@ -29,12 +29,16 @@ import speech
 import nemeth
 import ueb
 import preprocessor
+import matrix_processor 
 import table
 
 s=speech.speech()
 n=''
 p=preprocessor.preprocessor()
 nc=preprocessor.newcommands(p)
+matrix=matrix_processor.matrix ()
+matrix.row=1
+matrix.column=1
 
 if __name__ == "__main__":
   print "This is just a module."
@@ -125,3 +129,44 @@ def GetTableCurrentRow (latextable):
   accessibility."""
 
   return t.GetTableCurrentRow (latextable)
+
+# The matrix functions.
+def matrixUp ():
+  if matrix.row == 1:
+    return "top of matrix"
+  else: 
+    matrix.row-=1
+    return matrix.get_cell(matrix.row,matrix.column)
+
+def matrixDown ():
+  if matrix.row >= matrix.rows:
+    return "bottom of matrix"
+  else: 
+    matrix.row+=1
+    return matrix.get_cell(matrix.row,matrix.column)
+
+def matrixLeft ():
+  if matrix.column <= 1:
+    return "first cell"
+  else: 
+    matrix.column-=1
+    return matrix.get_cell(matrix.row,matrix.column)
+
+def matrixRight ():
+  if matrix.column >= matrix.columns:
+    return "last cell"
+  else: 
+    matrix.column+=1
+    return matrix.get_cell(matrix.row,matrix.column)
+
+def matrixGoto (row,column):
+  # Check that the row and column is valid 
+  if row in range (1,matrix.rows+1) and column in range (1,matrix.columns+1):
+    matrix.row = row
+    matrix.column = column
+    return matrix.get_cell (matrix.row, matrix.column)
+  else:
+    return "invalid cell"
+  
+def matrixInit (region):
+  return matrix.tex_init (region)
