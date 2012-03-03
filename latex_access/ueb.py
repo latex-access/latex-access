@@ -99,9 +99,13 @@ class ueb(latex_access.translator):
         denominator=get_arg(input,numerator[1])
 
         if str(numerator[0]).isdigit () and str(denominator[0]).isdigit():
-            translation = self.translate(numerator[0],(rting[0]+numerator[2],rting[1]+1))+"/"
-            self.lastnumber-=len(numerator[0])
-            translation+=self.translate(denominator[0],(rting[0]+denominator[2],rting[1]+3))
+            translation = "#"
+            for number in numerator[0]: translation+=self.upperNumbers[int(number)]
+            translation+="/"
+            for number in denominator[0]: translation+=self.upperNumbers[int(number)]
+            if rting != ():
+                for j in range(len(numerator[0])): self.rt.append((rting[1]+j+1,rting[0]+numerator[2]+j))
+                for j in range(len(denominator[0])): self.rt.append((rting[1]+j+2+len(numerator[0]),rting[0]+denominator[2]+j))
         else: # complex fraction
             self.lastnumber = -1 
             if rting != ():
