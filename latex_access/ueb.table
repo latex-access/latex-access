@@ -2,6 +2,7 @@
 ! 6
 : 3
 ; 2
+* "9
 \ _*
 & @&
 / _/
@@ -45,8 +46,8 @@
 \cdot _*
 \pm _6
 \mp _-
-\neq  ./k 
-\ne  ./k 
+\neq :"7
+\ne :"7
 \log log 
 
 ; general latex
