@@ -61,9 +61,15 @@ class ueb(latex_access.translator):
         first char after end of super.'''
         arg=get_arg(input,start)
         if len(arg[0]) <=1:
-            translation = ";9" + self.translate(arg[0],(rting[0]+arg[2],rting[1]+2))
+            if rting != ():
+                translation = ";9" + self.translate(arg[0],(rting[0]+arg[2],rting[1]+2))
+            else:
+                translation = ";9" + self.translate(arg[0])
         else:
-            translation = ";9\"<" + self.translate(arg[0],(rting[0]+arg[2],rting[1]+4))+"\">"
+            if rting != ():
+                translation = ";9\"<" + self.translate(arg[0],(rting[0]+arg[2],rting[1]+4))+"\">"
+            else:
+                translation = ";9\"<" + self.translate(arg[0])+"\">"
         return (translation,arg[1])
 
     def sub(self,input,start,rting=()):
@@ -72,9 +78,15 @@ class ueb(latex_access.translator):
         Returns a touple, as above'''
         arg=get_arg(input,start)
         if len(arg[0]) <=1:
-            translation = ";5"+self.translate(arg[0],(rting[0]+arg[2],rting[1]+2))
+            if rting != ():
+                translation = ";5"+self.translate(arg[0],(rting[0]+arg[2],rting[1]+2))
+            else:
+                translation = ";5"+self.translate(arg[0])
         else:
-            translation = ";5\"<"+self.translate(arg[0],(rting[0]+arg[2],rting[1]+4)) + "\">"
+            if rting != ():
+                translation = ";5\"<"+self.translate(arg[0],(rting[0]+arg[2],rting[1]+4)) + "\">"
+            else:
+                translation = ";5\"<"+self.translate(arg[0]) + "\">"
         return (translation,arg[1])
 
     def sqrt(self,input,start,rting=()):
@@ -88,7 +100,10 @@ class ueb(latex_access.translator):
             translation+=self.translate(arg[0])+"+"
         else:
             arg=get_arg(input,start)
-            translation="%"+self.translate(arg[0],(rting[0]+arg[2],rting[1]+1))+"+"
+            if rting != ():
+                translation="%"+self.translate(arg[0],(rting[0]+arg[2],rting[1]+1))+"+"
+            else:
+                translation="%"+self.translate(arg[0])+"+"
         return (translation,arg[1])
 
     def frac(self,input,start,rting=()):
@@ -125,9 +140,15 @@ class ueb(latex_access.translator):
         Returns toutple'''
         arg=get_arg(input,start)
         if len(arg[0])==1:
-            translation=":%s" % self.translate(arg[0], (rting[0]+arg[2],rting[1]+1))
+            if rting != ():
+                translation=":%s" % self.translate(arg[0], (rting[0]+arg[2],rting[1]+1))
+            else:
+                translation=":%s" % self.translate(arg[0])
         else:
-            translation=":{%so" % self.translate(arg[0],(rting[0]+arg[2],rting[1]+2))
+            if rting != ():
+                translation=":{%so" % self.translate(arg[0],(rting[0]+arg[2],rting[1]+2))
+            else:
+                translation=":{%so" % self.translate(arg[0])
         return (translation,arg[1])
 
     def tag(self,input,start, rting=()):
@@ -136,7 +157,10 @@ class ueb(latex_access.translator):
         Returns a touple with translated string and index of
         first char after end of tag.'''
         arg=get_arg(input,start)
-        translation = ' "<'+self.translate(arg[0],(rting[0]+arg[2],rting[1]+3))+'">'
+        if rting != ():
+            translation = '"<'+self.translate(arg[0],(rting[0]+arg[2],rting[1]+3))+'">'
+        else:
+            translation = ' "<'+self.translate(arg[0])+'">'    
         return (translation, arg[1])
 
     def uebDollar (self, input, start):
