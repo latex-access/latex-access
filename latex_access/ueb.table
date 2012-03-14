@@ -71,7 +71,7 @@
 \supseteq _.1:
 \supset _.1
 \subset ~<
-\subsetep _"k
+\subseteq _"k
 \setminus _*
 \forall `&
 \emptyset `j
@@ -80,15 +80,15 @@
 \in ~e
 \infty #=
 ; trig and hyperbolic functions
-\tanh tanh
-\tan tan
-\sinh sinh
-\sin sin
-\sec sec
-\cot cot 
-\cosh cosh
-\cosec cosec
-\cos cos
+\tanh  tanh
+\tan  tan
+\sinh  sinh
+\sin  sin
+\sec  sec
+\cot  cot 
+\cosh  cosh
+\cosec  cosec
+\cos  cos
 
 ; calculus 
 \int !
