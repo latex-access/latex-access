@@ -121,15 +121,17 @@ class nemeth(latex_access.translator):
         return (translation,denominator[1])
 
 
-    def bar(self, input, start):
+    def bar(self, input, start,rting=()):
         '''Handles bar/overline.
 
         Returns toutple'''
         arg=get_arg(input,start)
         if len(arg[0])==1:
             translation=":%s" % arg[0]
+            if rting!=(): self.rt.append((rting[1]+1,rting[0]+arg[2]))
         else:
-            translation=":{%so" % self.translate(arg[0])
+            if rting==(): translation=":{%so" % self.translate(arg[0])
+            else: translation=":{%so" % self.translate(arg[0],(rting[0]+arg[2],rting[1]+2))
         return (translation,arg[1])
 
     def tag(self,input,start):
