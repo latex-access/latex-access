@@ -67,9 +67,9 @@ class ueb(latex_access.translator):
                 translation = ";9" + self.translate(arg[0])
         else:
             if rting != ():
-                translation = ";9\"<" + self.translate(arg[0],(rting[0]+arg[2],rting[1]+4))+"\">"
+                translation = ";9<" + self.translate(arg[0],(rting[0]+arg[2],rting[1]+3))+">"
             else:
-                translation = ";9\"<" + self.translate(arg[0])+"\">"
+                translation = ";9<" + self.translate(arg[0])+">"
         return (translation,arg[1])
 
     def sub(self,input,start,rting=()):
@@ -84,9 +84,9 @@ class ueb(latex_access.translator):
                 translation = ";5"+self.translate(arg[0])
         else:
             if rting != ():
-                translation = ";5\"<"+self.translate(arg[0],(rting[0]+arg[2],rting[1]+4)) + "\">"
+                translation = ";5<"+self.translate(arg[0],(rting[0]+arg[2],rting[1]+3)) + ">"
             else:
-                translation = ";5\"<"+self.translate(arg[0]) + "\">"
+                translation = ";5<"+self.translate(arg[0]) + ">"
         return (translation,arg[1])
 
     def sqrt(self,input,start,rting=()):
