@@ -289,7 +289,6 @@ name latex-access-*. See http://latex-access.sourceforge.net/ for details.
   ;; The minor mode bindings.
   `(                                                                                                                                                      
     (,(kbd "C-c d") . latex-access-toggle-dollars-speech)
-    (,(kbd "C-c C-t") . latex-access-toggle-speech)
     (,(kbd "C-c w") . latex-access-table-location)
     (,(kbd "C-c <up>") . latex-access-matrix-up)
     (,(kbd "C-c <down>") . latex-access-matrix-down)
