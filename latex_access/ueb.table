@@ -96,30 +96,30 @@
 \partial $
 
 ; capital greek letters
-\Alpha .,a
-\Beta .,b
-\Gamma .,g
-\Delta .,d
-\Epsilon .,e
-\Zeta .,z
-\Eta .,h
-\Theta .,?
-\Iota .,i
-\Kappa .,k
-\Lambda .,l
-\Mu .,m
-\Nu .,n
-\Xi .,x
-\Omicron .,o
-\Pi .,p
-\Rho .,r
-\Sigma .,s
-\Tau .,t
-\Upsilon .,u
-\Phi .,f
-\Psi .,y
-\Chi .,c
-\Omega .,w
+\Alpha ,.a
+\Beta ,.b
+\Gamma ,.g
+\Delta ,.d
+\Epsilon ,.e
+\Zeta ,.z
+\Eta ,.h
+\Theta ,.?
+\Iota ,.i
+\Kappa ,.k
+\Lambda ,.l
+\Mu ,.m
+\Nu ,.n
+\Xi ,.x
+\Omicron ,.o
+\Pi ,.p
+\Rho ,.r
+\Sigma ,.s
+\Tau ,.t
+\Upsilon ,.u
+\Phi ,.f
+\Psi ,.y
+\Chi ,.c
+\Omega ,.w
 
 ; small greek
 \alpha .a
