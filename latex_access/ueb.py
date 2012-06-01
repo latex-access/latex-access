@@ -246,8 +246,6 @@ class ueb(latex_access.translator):
         except:
             pass
         
-        if start > 1 and input[start-2:start].isupper () and input[start-2:start].isalpha () and input[start].islower (): # capital letters and now we are a lower case 
-            lettersign= True 
         if len (input) == 1: # char by itself on line
             lettersign = True
         return lettersign 
@@ -261,6 +259,8 @@ class ueb(latex_access.translator):
           translation = ';'
         else:
             translation = ''
+        if start > 1 and input[start-2:start].isupper () and input[start-2:start].isalpha () and input[start].islower (): # capital letters and now we are a lower case 
+            translation+=","
         translation += input[start]
         return (translation,start+1)
 
