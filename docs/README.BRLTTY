@@ -33,18 +33,9 @@ Alternatively, point the pythonpath to
 i.e. the root directory of the latex-access checkout. Running the
 install.py script will be sufficient though. 
 
-Next checkout the latest version of brltty from svn:
-svn co svn://mielke.cc/main/brltty brltty 
+Install BRLTTY version 4.4 or later.  It is likely that a suitable package will be provided by your Linux distribution but if not it may be downloaded from
+http://mielke.cc/brltty
 
-Build and install BRLTTY:
-
-Consult the brltty docs for more details, but basically do:
-cd brltty/
-./autogen
-./configure 
-make 
-make install 
-(as root, perhaps prefix with sudo)
 
 Next make the latex-access.ctb contraction table executable:
 chmod +x /etc/brltty/latex-access.ctb
