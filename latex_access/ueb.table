@@ -39,7 +39,7 @@
 \leq _@<
 \geq _@>
 \ge _@>
-\equiv 
+\equiv ~9
 \dots '''
 \circ _*
 \cdots '''
@@ -91,7 +91,7 @@
 \cos  cos
 
 ; calculus 
-\int !
+\int ;;!
 \nabla .$
 \partial $
 
