@@ -29,7 +29,7 @@ class speech(latex_access.translator):
         self.load_files()
         new_table={"$":self.dollar,
                    "^":self.super,"_":("<sub>","</sub>"),"\\sqrt":self.sqrt,"\\frac":self.frac,"\\int":self.integral,"\\mathbf":("<bold>","</bold>"),"\\mathbb":("<bold>","</bold>"),"\\mathcal":("<mathcal>","</mathcal>"),
-                   "\\ang":self.ang,"\\tag":self.tag,"\\hat":("","hat"),"\\widehat":("","hat"),"\\bar":("","bar"),"\\overline":("","bar"),"\\dot":("","dot"),"\\ddot":("","double dot")}
+                   "\\log":self.log,"\\ang":self.ang,"\\tag":self.tag,"\\hat":("","hat"),"\\widehat":("","hat"),"\\bar":("","bar"),"\\overline":("","bar"),"\\dot":("","dot"),"\\ddot":("","double dot")}
 
         for (k,v) in new_table.iteritems():
             self.table[k]=v        
@@ -147,3 +147,29 @@ class speech(latex_access.translator):
         else:
             translation=arg[0]+" degrees"
         return (translation,arg[1])
+
+    def log(self,input,start):
+        '''Translate logs into speech.
+
+        We translate logs in the form \log_a(x) as
+        log base a of x
+
+        If the log appaears ambiguous, i.e. we can not reasonably
+        determine the base, we shall translate as just "log" followed by
+        any usual translation.
+        
+        Returns a touple with translated string and index of
+        first char after end of entire logarithm.'''
+
+        log=get_arg(input,start)
+        translation="log "
+        if len(log[0]) < 1 or log[0][0] != "_": # \log by itself 
+            return (translation, log[2]) # ignore the supposed command 
+
+# Safe to assume log is of the form \log_a(x)
+        translation+="base "
+        base=get_arg(input, log[1])
+        translation+=self.translate (base[0])
+        translation+=" of "
+        return (translation, base[1])
+    
