@@ -1,0 +1,16 @@
+#!/usr/bin/python
+'''Script to translate lines of laTeX from stdin to  in stdout.'''
+
+
+import sys
+import latex_access.ssml as ssml
+
+
+s=ssml.ssml()
+
+
+while True:
+    input = sys.stdin.readline()
+    output=s.translate(input)
+    print output
+    sys.stdout.flush()
