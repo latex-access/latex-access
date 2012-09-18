@@ -14,6 +14,8 @@
 \equiv equiv
 \neq not equals
 \ne not equals
+\ll less than less than 
+\gg greater than greater than
 \sum  sum 
 \prod  product 
 \pm plus or minus
@@ -80,6 +82,7 @@
 \xi  xi 
 \omicron  omicron 
 \pi  pi 
+\varpi var pi
 \rho  rho 
 \sigma  sigma 
 \tau  tau 
