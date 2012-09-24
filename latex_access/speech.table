@@ -110,13 +110,13 @@
 
 ; standard LaTeX commands for better reading
 \cdot  dot 
-\cdots  and so on 
+\cdots  dot dot dot 
 \right 
 \quad 
 \qquad 
 \left 
-\ldots  and so on
-\dots  and so on
+\ldots  dot dot dot
+\dots  dot dot dot
 \;  
 \,  
 \!  
