@@ -15,7 +15,7 @@
 #    You should have received a copy of the GNU General Public License along with this program; if not, visit <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 
 """
-A global plugin for NVDA to provide optional translations of LaTeX math into Nemeth Braille and speech that is easier to understand, by way of latex-access.  See readme.txt for more information.
+A global plugin for NVDA to provide optional translations of LaTeX math into Nemeth and UEB Braille and speech that is easier to understand, by way of latex-access.  See readme.txt for more information.
 
 Features:
 	* Translating lines of LaTeX into nemeth braille and speech - status: completed.
@@ -30,6 +30,7 @@ from comtypes.client import CreateObject
 import api
 import braille, speech, ui# for brailling/speaking messages in NVDA
 import config
+import controlTypes
 import globalPluginHandler
 import NVDAObjects
 import scriptHandler
@@ -37,7 +38,7 @@ import textInfos# to get information such as caret position and the current line
 
 class EditableText (NVDAObjects.behaviors.EditableText):
 	"""
-	Provides latex-access support, but makes sure this is only in edit controls.  The normal EditableText class is not used any more in this plugin because we need to take advantage of selection changes for the matrix processor.
+	Provides latex-access support, but makes sure this is only in edit controls.  The normal editableText.EditableText class is not used any more in this plugin because we need to take advantage of selection changes for the matrix processor.
 	
 	This NVDAObject overlay class is used when NVDA enters accessible Editable text, and provides the user with all the events, scripts and gestures needed to use this plugin.
 	
@@ -45,7 +46,7 @@ class EditableText (NVDAObjects.behaviors.EditableText):
 	
 	Any method beginning with event_* is an NVDA event which gets fired on other system events.
 	
-	Any method that begins with script_* will get executed when the required key is pressed, button on the mouse is clicked, etc.
+	Any method that begins with script_* will get executed when the required l{InputGesture} is pressed, E.G. if a key is pressed, button on the mouse is clicked, etc.
 	"""
 
 	processMaths = False
@@ -85,7 +86,7 @@ This method ensures that LaTeX translation occurs when the system caret moves, a
 		else:
 			if speakUnit:
 				info.expand(speakUnit)
-				speech.speakTextInfo(info, unit=speakUnit, reason=speech.REASON_CARET)
+				speech.speakTextInfo(info, unit=speakUnit, reason=controlTypes.REASON_CARET)
 
 	def script_reportCurrentLine (self, gesture):
 		"""
