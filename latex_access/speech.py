@@ -162,7 +162,7 @@ class speech(latex_access.translator):
         first char after end of entire logarithm.'''
 
         log=get_arg(input,start)
-        translation="log "
+        translation=" log "
         if len(log[0]) < 1 or log[0][0] != "_": # \log by itself 
             return (translation, log[2]) # ignore the supposed command 
 
