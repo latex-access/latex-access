@@ -170,3 +170,7 @@ def matrixGoto (row,column):
   
 def matrixInit (region):
   return matrix.tex_init (region)
+
+def matrixInitialisedStats ():
+  return matrix.initialisedStats ()
+  
