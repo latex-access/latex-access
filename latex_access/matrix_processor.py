@@ -43,7 +43,10 @@ class matrix:
         for row in rows:
             entries=row.split("&")
             self.elements.append(entries)
-            if len(entries) != lastlength and lastlength > 0:
+            if len(entries) != lastlength and lastlength > 0: # Clear everything and abort 
+                self.rows=0
+                self.columns=0
+                self.elements=[]
                 return False # Table isn't correctly formatted eg. must be padded so all rows have same number of cols
             lastlength = len(entries)
         self.columns = len(entries)
