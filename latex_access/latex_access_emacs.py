@@ -169,8 +169,14 @@ def matrixGoto (row,column):
     return "invalid cell"
   
 def matrixInit (region):
-  return matrix.tex_init (region)
+  success= matrix.tex_init (region)
+  matrix.row=matrix.column=1
 
+  if success:
+    return True
+  else:
+    return False 
+  
 def matrixInitialisedStats ():
   return matrix.initialisedStats ()
   
