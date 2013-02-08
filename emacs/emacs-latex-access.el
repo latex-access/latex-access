@@ -1,6 +1,6 @@
 ;;; emacs-latex-access.el --- Latex-access implementation for emacs
 
-;; Copyright (C) 2010,2011,2012  Daniel Dalton
+;; Copyright (C) 2010,2011,2012,2013  Daniel Dalton
 
 ;; Author: Daniel Dalton <daniel.dalton10@gmail.com>
 ;; Keywords: Latex_access emacs implementation 
@@ -34,6 +34,7 @@
 (pymacs-load "latex_access.latex_access_emacs" "latex_access_emacs") ; load the relevant modules 
 
 (setq latex-access-mode nil)
+(setq latex-access-matrix-mode nil)
 ; Voice definitions, customize these by customizing the <voice_name>-settings variable.
 (if (featurep 'emacspeak) (progn 
 			    (defvoice latex-access-voice-bold (list nil 1 6 6  nil)
@@ -232,9 +233,10 @@ two points of a buffer though when calling from lisp."
 (defun latex-access-matrix (beg end)
   "initialise the matrix."
   (interactive "r")
-  (latex_access_emacsmatrixInit (buffer-substring-no-properties beg
-								end)) 
-  (message "Initialised the matrix."))
+  (if (not (latex_access_emacsmatrixInit (buffer-substring-no-properties beg
+								end)))
+      (message "Table or matrix is not formatted correctly, all rows must have the same number of columns...")
+  (message (latex_access_emacsmatrixInitialisedStats))))
 
 (defun latex-access-matrix-up ()
   "Move up a row."
@@ -266,6 +268,30 @@ two points of a buffer though when calling from lisp."
     (dtk-speak (latex_access_emacstranssp
 		(latex_access_emacsmatrixGoto row column)))))
 
+(define-minor-mode latex-access-matrix-mode
+    "Toggle LaTeX-access matrix mode.
+     With no argument, this command toggles the mode.
+     Non-null prefix argument turns on the mode.
+     Null prefix argument turns off the mode.
+
+This mode is strictly for convenience to navigate tables or matrices. It
+allows the arrow keys to perform table navigation functions without
+having to use the c-c prefix each time. 
+
+\\{latex-access-matrix-mode-map}"
+  ;; The initial value.
+  nil
+  ;; The indicator for the mode line.
+  " LaTeX-access-matrix"
+  ;; The minor mode bindings.
+  `(                                                                                                                                                      
+    (,(kbd "<up>") . latex-access-matrix-up)
+    (,(kbd "<down>") . latex-access-matrix-down)
+    (,(kbd "<left>") . latex-access-matrix-left)
+    (,(kbd "<right>") . latex-access-matrix-right)
+    (,(kbd "C-m") . latex-access-matrix)
+    (,(kbd "C-s") . latex-access-matrix-goto)))
+
 (provide 'latex-access)
 (latex-access) ; Set everything up
 
@@ -295,6 +321,7 @@ name latex-access-*. See http://latex-access.sourceforge.net/ for details.
     (,(kbd "C-c <left>") . latex-access-matrix-left)
     (,(kbd "C-c <right>") . latex-access-matrix-right)
     (,(kbd "C-c m") . latex-access-matrix)
-    (,(kbd "C-c g") . latex-access-matrix-goto)))
+    (,(kbd "C-c t") . latex-access-matrix-mode)
+    (,(kbd "C-c s") . latex-access-matrix-goto)))
 
 ;;; emacs-latex-access.el ends here

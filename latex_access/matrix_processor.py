@@ -39,13 +39,16 @@ class matrix:
             rows.pop()
             self.rows-=1
         #Now split into columns
+        lastlength = -1
         for row in rows:
             entries=row.split("&")
             self.elements.append(entries)
-            if len(entries) > self.columns:
-                self.columns=len(entries)
-        #Now we must expand each row up to to the length of the longest row.
-
+            if len(entries) != lastlength and lastlength > 0:
+                return False # Table isn't correctly formatted eg. must be padded so all rows have same number of cols
+            lastlength = len(entries)
+        self.columns = len(entries)
+        return True
+        
     def get_cell(self,i,j):
         '''Returns the element in the ith row, jth column.'''
         return self.elements[i-1][j-1]
@@ -63,6 +66,15 @@ class matrix:
             s+=str(delim)
             j+=1
         return s
+
+    def initialisedStats (self):
+        """After the table/matrix has been initialised provide some
+        basic stats.
+
+        This function just provides the speech synthesizer with some
+        useful statistics about the newly loaded table or matrix
+        i.e. number of rows and number of columns..."""
+        return "Initialised %d by %d matrix" % (self.rows, self.columns)
     #Variables required to make this a com object
     _reg_clsid_ ="{723E7D16-7052-403F-976F-DF68B94BD936}"
     _reg_progid_ = "latex_access_matrix"
