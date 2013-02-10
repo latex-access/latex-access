@@ -3,7 +3,7 @@
 # latex_access_emacs.py
 #    A part of the latex-access project at http://latex-access.sourceforge.net/
 #    Author: Daniel Dalton <daniel.dalton10@gmail.com>
-#    Copyright (C) 2011,2012 Daniel Dalton/latex-access Contributors
+#    Copyright (C) 2011,2012,2013 Daniel Dalton/latex-access Contributors
 #
 #    This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation;
 #    either version 2 of the License, or (at your option) any later version.
@@ -169,14 +169,5 @@ def matrixGoto (row,column):
     return "invalid cell"
   
 def matrixInit (region):
-  success= matrix.tex_init (region)
   matrix.row=matrix.column=1
-
-  if success:
-    return True
-  else:
-    return False 
-  
-def matrixInitialisedStats ():
-  return matrix.initialisedStats ()
-  
+  return matrix.tex_init (region)

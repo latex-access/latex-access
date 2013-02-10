@@ -1,7 +1,7 @@
 # matrix_processor.py
 #    A part of the latex-access project at http://latex-access.sourceforge.net/
 #    Author: Alastair Irving <alastair.irving@sjc.ox.ac.uk>
-#    Copyright (C) 2011 Alastair Irving/latex-access Contributors
+#    Copyright (C) 2011,2012,2013 Alastair Irving/latex-access Contributors
 #
 #    This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation;
 #    either version 2 of the License, or (at your option) any later version.
@@ -40,17 +40,19 @@ class matrix:
             self.rows-=1
         #Now split into columns
         lastlength = -1
+        rownumb=0
         for row in rows:
+            rownumb+=1
             entries=row.split("&")
             self.elements.append(entries)
             if len(entries) != lastlength and lastlength > 0: # Clear everything and abort 
                 self.rows=0
                 self.columns=0
                 self.elements=[]
-                return False # Table isn't correctly formatted eg. must be padded so all rows have same number of cols
+                return "Rows %d and %d have a different number of columns, error." % (rownumb-1, rownumb)  # Table isn't correctly formatted eg. must be padded so all rows have same number of cols
             lastlength = len(entries)
         self.columns = len(entries)
-        return True
+        return self.initialisedStats ()
         
     def get_cell(self,i,j):
         '''Returns the element in the ith row, jth column.'''
