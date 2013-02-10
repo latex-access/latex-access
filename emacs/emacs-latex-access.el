@@ -233,10 +233,8 @@ two points of a buffer though when calling from lisp."
 (defun latex-access-matrix (beg end)
   "initialise the matrix."
   (interactive "r")
-  (if (not (latex_access_emacsmatrixInit (buffer-substring-no-properties beg
-								end)))
-      (message "Table or matrix is not formatted correctly, all rows must have the same number of columns...")
-  (message (latex_access_emacsmatrixInitialisedStats))))
+  (message (latex_access_emacsmatrixInit (buffer-substring-no-properties beg
+								end))))
 
 (defun latex-access-matrix-up ()
   "Move up a row."
