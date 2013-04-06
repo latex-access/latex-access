@@ -1,7 +1,7 @@
 # settings.py
 #    A part of the latex-access project at http://latex-access.sourceforge.net/
 #    Author: Daniel Dalton <daniel.dalton10@gmail.com>
-#    Copyright (C) 2011,2012 Daniel Dalton/latex-access Contributors
+#    Copyright (C) 2011,2012,2013 Daniel Dalton/latex-access Contributors
 #
 #    This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation;
 #    either version 2 of the License, or (at your option) any later version.
@@ -18,7 +18,7 @@ import nemeth
 
 globals
 # Global settings for latex-access, these are the default values 
-settings ={"brailledollars":"True","speakdollars":"True","brailletable":"nemeth","capitalisation":"6dot","preprocessorfile":"~/.latex-access-preprocessor.strings"}
+settings={"brailledollars":"True","speakdollars":"True","brailletable":"nemeth","capitalisation":"6dot","preprocessorfile":"~/.latex-access-preprocessor.strings", "speechfile":"","nemethfile":"","uebfile":""}
 
 def loadSettings (file):
   """Read settings from file.
@@ -61,11 +61,24 @@ def activateSettings (instances):
   sessions to the values specified in the config file. Note the
   activation or deactivation of speech and Braille must be controlled by
   each module independently, i.e. not here."""
+
+  # points to our custom speech strings file 
+  speechfile =os.path.expanduser(settings["speechfile"])
+  # Decide what file holds Braille strings based on what table is in use.
+  if settings["brailletable"].lower() == "ueb":
+    bfile =os.path.expanduser(settings["uebfile"])
+  else:
+    bfile =os.path.expanduser(settings["nemethfile"])
+    
   if 'speak' in instances.keys():
     instances["speak"].remove_dollars = not booleaniseSetting("speakdollars")
+    if os.path.exists(speechfile) and os.path.isfile (speechfile):
+        instances["speak"].load_file(speechfile)
   if 'braille' in instances.keys():
     instances["braille"].remove_dollars = not booleaniseSetting("brailledollars")
     instances["braille"].capitalisation=settings["capitalisation"]
+    if os.path.exists(bfile) and os.path.isfile (bfile):
+      instances["braille"].load_file(bfile)
   if 'preprocessor' in instances.keys () and os.path.exists(os.path.expanduser (settings["preprocessorfile"])):
     instances["preprocessor"].read(os.path.expanduser (settings["preprocessorfile"]))
 
