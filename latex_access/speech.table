@@ -27,7 +27,9 @@
 \Leftrightarrow  if and only if 
 \longrightarrow  goes to
 \longleftrightarrow  if and only if
-\wedge  vec 
+\wedge  and
+\vee or 
+\lnot not 
 \propto  proportional to
 
 
@@ -104,6 +106,7 @@
 \subset  subset 
 \in  in 
 \forall  for all 
+\exists there exists 
 \emptyset  empty set 
 \cup  union 
 \lim  limit 
