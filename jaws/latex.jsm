@@ -51,17 +51,17 @@ Processing off
 @msgProcessingOff_L
 maths to be read as plain latex
 @@
-@msgNemethDollarsOff_S
-Nemeth Dollars off
+@msgBrailleDollarsOff_S
+Braille Dollars off
 @@
-@msgNemethDollarsOff_L
-Dollars will now be ignored in nemeth
+@msgBrailleDollarsOff_L
+Dollars will now be ignored in braille
 @@
-@msgNemethDollarsOn_S
-Nemeth Dollars on
+@msgBrailleDollarsOn_S
+Braille Dollars on
 @@
-@msgNemethDollarsOn_L
-Dollars will now be shown in nemeth
+@msgBrailleDollarsOn_L
+Dollars will now be shown in braille
 @@
 
 @msgSpeechDollarsOff_S
@@ -120,7 +120,4 @@ cTRL+ALT with anumber reads that column.
 Press %KeyFor(HotKeyHelp ) to redisplay this message 
 @@
 
-@msgLatexAccess
-Latex-Access
-@@
 EndMessages
