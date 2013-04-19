@@ -10,8 +10,8 @@
 :script ToggleMaths
 :Synopsis Toggles the speaking of mathematical expressions as either straight latex or a more verbal rendering.
 
-:script ToggleDollarsNemeth
-:Synopsis Toggles whether or not dollars are removed in nemeth.
+:script ToggleDollarsBraille
+:Synopsis Toggles whether or not dollars are removed in braille.
 
 :script ToggleDollarsSpeech
 :Synopsis Toggles the speaking of dollars.
@@ -54,6 +54,3 @@
 :script PreprocessorRead
 :Synopsis Reads preprepreprocessor entries from a file.
 
-:script ScriptFileName
-:Synopsis Speaks script settings currently loaded and executable file name.
-:Description Uses ScriptAndAppNames.
