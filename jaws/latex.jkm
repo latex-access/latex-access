@@ -23,13 +23,13 @@ Control+Alt+6=SayColumn(6)
 Control+Alt+7=SayColumn(7)
 Control+Alt+8=SayColumn(8)
 Control+Alt+9=SayColumn(9)
-Control+D=ToggleDollarsNemeth
 Control+Shift+D=ToggleDollarsSpeech
 Control+Shift+R=PreprocessorRead
 Control+Shift+A=preprocessorAdd
 Control+Shift+W=PreprocessorWrite
 Control+Shift+H=PreprocessorFromString
 Insert+H=HotKeyHelp
+JAWSKey+H=HotKeyHelp
 Control+Alt+Shift+R=reInitialise
-JAWSKey+Q=ScriptFileName
-Insert+Q=ScriptFileName
+[Laptop Keys]
+Control+D=ToggleDollarsBraille
