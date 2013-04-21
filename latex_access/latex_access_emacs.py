@@ -30,7 +30,7 @@ import nemeth
 import ueb
 import preprocessor
 import matrix_processor 
-import table
+import table as t
 
 s=speech.speech()
 n=''
