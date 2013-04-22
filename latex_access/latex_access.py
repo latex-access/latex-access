@@ -134,7 +134,8 @@ class translator:
                     output += result
                     output+=self.space
                 elif type(result)==types.TupleType or type(result)==types.ListType:
-                    translation=self.general_command(input,i,result)
+                    if rting==(): translation=self.general_command(input,i,result)
+                    else: translation=self.general_command(input,i,result,(rting[0],rting[1]+len(output)))
                     output+=translation[0]
                     i=translation[1]                    
                 elif type(result) == types.MethodType:
@@ -195,7 +196,7 @@ class translator:
         return("",arg[1])
 
 
-    def general_command(self,input, start, delimitors):
+    def general_command(self,input, start, delimitors,rting=()):
         '''Used to process a command when the required translation is just the arguments joined by appropriate delimitors. 
         The 3rd argument is a list of such delimitors, the 1st element of which goes before the 1st argument of the command, etc.
         Alternatively, if the 1st element is a number then it is interpreted as the number of arguments and subsequent arguments are treated as follows:
@@ -209,7 +210,8 @@ class translator:
             translation+=self.space
             for delim  in delimitors[1:]:
                 arg=get_arg(input,start)
-                translation+=self.translate(arg[0])
+                if rting==(): translation+=self.translate(arg[0])
+                else: translation+=self.translate(arg[0],(rting[0]+arg[2],rting[1]+len(translation)))
                 translation+=self.space
                 translation+=delim
                 translation+=self.space
