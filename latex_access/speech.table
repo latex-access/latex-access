@@ -110,7 +110,8 @@
 \emptyset  empty set 
 \cup  union 
 \lim  limit 
-
+\{ open brace
+\} close brace
 ; standard LaTeX commands for better reading
 \cdot  dot 
 \cdots  dot dot dot 
