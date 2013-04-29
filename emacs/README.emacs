@@ -27,7 +27,7 @@ produces a spoken latex-access translation.
 translation in a separate buffer in another window. This functionality
 is available from the latex-access-eq function. This is good for multi
 line equations.
-* Matrix support through emacspeak tables.
+* Support for the matrix processor.
 * Table WhereAmI functionality 
 
 INSTALLATION:
@@ -98,19 +98,21 @@ m-x. There are also key bindings see below.
   each time latex-access-eq is called, furthermore focus is placed in
   this buffer when you call latex-access-eq.
   Remember to put the display into 8 dot Braille.
+
 * Matrix support, to use this functionality:
-A. Mark the beginning of a Matrix (not the \begin line, but the line
+1. Mark the beginning of a Matrix (not the \begin line, but the line
   below).
-B. Move the emacs point (cursor), to the end of the matrix.
-C. m-x latex-access-matrix 
-D. You are presented with an emacspeak table buffer. Use emacspeak table
-  navigation commands to move about the matrix. Consult the emacspeak
-  documentation if you are unsure, but here are a few to get you
-  started:
-  + up prior row 
-  + down next row 
-  + left backward cell 
-  + right forward cell 
+2. Move the emacs point (cursor), to the end of the matrix.
+3. m-x latex-access-matrix 
+4. The matrix can now be virtually navigated using the
+  latex-access-matrix-up/down/left/right commands.  These are bound to
+  c-c up/down/left/right.  To avoid typing c-c you can run
+  latex-access-matrix-mode, bound to c-c t, after which the matrix can
+  be navigated using the arrow keys.  Calling latex-access-matrix-mode
+  again exits the mode and restores normal functionality.
+  It should be noted that the matrix navigation is purely virtual, the cursor is not moved in the LaTeX source.
+  One can therefore navigate the matrix independently of the source.  
+  
 * latex-access-table-location -- Provide feedback about table location,
   and row header coordinates etc. Move to a point in the table and run m-x
   latex-access-table-location. 
