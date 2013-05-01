@@ -85,9 +85,9 @@ Welcome to the LaTeX Access Tools for JAWS.
 NOTE:  There is currently no means of independently toggling of speech and braille.
 
 Press %KeyFor(ToggleMaths ) to toggle processing of LaTeX on and off
-Press %KeyFor(ToggleDollarsNemeth ) To toggle Nemeth dollars on or off
+Press %KeyFor(ToggleDollarsBraille ) To toggle Braille dollars on or off
 Press %KeyFor(ToggleDollarsSpeech ) To toggle Speech dollars on or off
-Press %KeyFor(InputMatrix ) to create a custom matrix entry (see preprocessor section)
+Press %KeyFor(InputMatrix ) to create a matrix 
 
 the Preprocessor 
 LaTeX enables you to define custom commands.  The scripts can handle
@@ -113,9 +113,12 @@ To load a matrix into the processor, highlight its contents, (not
 including any \begin and \end commands), and press %KeyFor(InputMatrix ) .  For
 example you might highlight the following:
 
+1 & 2\\
+3 & 4\\
+
 CTRL+SHIFT+j, K, L, or I act as arrows that navigate the matrix 
 CTRL+SHIFT with a number reads that row 
-cTRL+ALT with anumber reads that column.  
+cTRL+ALT with a number reads that column.  
 
 Press %KeyFor(HotKeyHelp ) to redisplay this message 
 @@
