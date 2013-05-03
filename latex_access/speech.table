@@ -1,4 +1,4 @@
-; Basic arrithmetic functions
+; Basic arithmetic functions
 + plus
 - minus
 < less than
@@ -97,6 +97,7 @@
 ; set theory
 \bigcap  intersection 
 \bigcup  union 
+\setminus set minus
 \cap  intersection 
 \triangleleft  normal subgroup 
 \therefore  therefore 
