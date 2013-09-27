@@ -62,6 +62,7 @@ class preprocessor(latex_access.translator):
 class newcommands(latex_access.translator):
     '''Provides a translator to extract all \newcommand commands from a string.'''
     def __init__(self,preprocessor):
+        latex_access.translator.__init__(self)
         self.table={"\\newcommand":self.newcommand,"\\renewcommand":self.newcommand}
         self.preprocessor=preprocessor
         
