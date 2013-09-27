@@ -29,7 +29,7 @@ class ueb(latex_access.translator):
         self.load_files()
         new_table={"$":self.uebDollar,
                    "\\dot":("","`"),"\\ddot":("","``"),
-                   "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,
+                   "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,"\\dfrac":self.frac,"\\tfrac":self.frac,
                    "\\tag":self.tag,"\\mathbf":("_",""),"\\mathbb":("_",""),"\\colvec":("{"," ","o"),"\\tcolvec":("{"," "," ","o"),"\\bar":self.bar,"\\hat":self.bar,"\\overline":self.bar,".":self.dot,",":self.comma}
 
 # Ueb upper numbers follow start from j abc...i as j = 0 a = b =2 etc.

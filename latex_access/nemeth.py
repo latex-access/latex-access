@@ -29,7 +29,7 @@ class nemeth(latex_access.translator):
         new_table={"$":self.dollar,
 
                    "\\dot":("","`"),"\\ddot":("","``"),
-                   "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,
+                   "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,"\\dfrac":self.frac,"\\tfrac":self.frac,
                    "\\tag":self.tag,"\\mathbf":("_",""),"\\mathbb":("_",""),"\\colvec":("{"," ","o"),"\\tcolvec":("{"," "," ","o"),"\\bar":self.bar,"\\hat":self.bar,"\\widehat":self.bar,"\\overline":self.bar}
 
         # The upper case ascii letters
