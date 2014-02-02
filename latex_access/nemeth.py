@@ -26,9 +26,7 @@ class nemeth(latex_access.translator):
         latex_access.translator.__init__(self)
         self.files.append("nemeth.table")
         self.load_files()
-        new_table={"$":self.dollar,
-
-                   "\\dot":("","`"),"\\ddot":("","``"),
+        new_table={"\\dot":("","`"),"\\ddot":("","``"),
                    "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,"\\dfrac":self.frac,"\\tfrac":self.frac,
                    "\\tag":self.tag,"\\mathbf":("_",""),"\\mathbb":("_",""),"\\colvec":("{"," ","o"),"\\tcolvec":("{"," "," ","o"),"\\bar":self.bar,"\\hat":self.bar,"\\widehat":self.bar,"\\overline":self.bar}
 

@@ -27,8 +27,7 @@ class speech(latex_access.translator):
         latex_access.translator.__init__(self)
         self.files.append("speech.table")
         self.load_files()
-        new_table={"$":self.dollar,
-                   "^":self.super,"_":("<sub>","</sub>"),"\\pmod":("mod <sub>","</sub>"),"\\sqrt":self.sqrt,"\\frac":self.frac,"\\tfrac":self.frac,"\\dfrac":self.frac,"\\int":self.integral,"\\mathbf":("<bold>","</bold>"),"\\mathbb":("<bold>","</bold>"),"\\mathcal":("<mathcal>","</mathcal>"),
+        new_table={"^":self.super,"_":("<sub>","</sub>"),"\\pmod":("mod <sub>","</sub>"),"\\sqrt":self.sqrt,"\\frac":self.frac,"\\tfrac":self.frac,"\\dfrac":self.frac,"\\int":self.integral,"\\mathbf":("<bold>","</bold>"),"\\mathbb":("<bold>","</bold>"),"\\mathcal":("<mathcal>","</mathcal>"),
                    "\\log":self.log,"\\ang":self.ang,"\\tag":self.tag,"\\hat":("","hat"),"\\widehat":("","hat"),"\\bar":("","bar"),"\\overline":("","bar"),"\\dot":("","dot"),"\\ddot":("","double dot")}
 
         for (k,v) in new_table.iteritems():
