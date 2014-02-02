@@ -31,7 +31,7 @@ class translator:
     '''Class from which all translators will inherit.'''
     def __init__(self):
         self.depth=0
-        self.table={"\\mbox":self.text,"\\text":self.text,"\\textrm":self.text,"\\textit":self.text,"\\mathrm":self.text,"\\textbf":self.text,"\\displaystyle":self.displaystyle,"\\phantom":self.remove,"\\index":self.remove}
+        self.table={"\\mbox":self.text,"\\text":self.text,"\\textrm":self.text,"\\textit":self.text,"\\mathrm":self.text,"\\textbf":self.text,"\\displaystyle":self.displaystyle,"\\phantom":self.remove,"\\index":self.remove,"\\hspace":self.remove,"\\vspace":self.remove}
         
         self.remove_dollars=False
         self.space=""
