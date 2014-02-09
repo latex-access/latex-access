@@ -57,7 +57,7 @@ class EditableText (NVDAObjects.behaviors.EditableText):
 	row = None
 	column = None
 
-	def _caretScriptPostMovedHelper(self, speakUnit, info = None):
+	def _caretScriptPostMovedHelper(self, speakUnit, gesture, info = None):
 		"""
 This method ensures that LaTeX translation occurs when the system caret moves, and also makes sure that normal behaviour occurs when l{processMaths} is off.
 		"""
