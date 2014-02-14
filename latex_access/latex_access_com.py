@@ -25,8 +25,8 @@ class latex_access_com:
     def __init__(self):
         self.filename = os.path.join(os.path.expandvars("%appdata%"), "latex-access.conf")
         self.speech_translator=speech.speech()
-        self.activateSettings()
         self.preprocessor=preprocessor.preprocessor()
+        self.activateSettings()
         self.newcommands=preprocessor.newcommands(self.preprocessor)
     _reg_progid_ = "latex_access"
     _public_methods_ =["nemeth","speech","preprocessor_add","preprocessor_from_string","preprocessor_write","preprocessor_read","toggle_dollars_nemeth","toggle_dollars_speech", "activateSettings"]
@@ -76,7 +76,7 @@ class latex_access_com:
         and documentation."""
         settings.loadSettings (os.path.expanduser(self.filename))
         self.nemeth_translator=settings.brailleTableToUse ()
-        return settings.activateSettings ({"braille":self.nemeth_translator,"speak":self.speech_translator})
+        return settings.activateSettings ({"braille":self.nemeth_translator,"speak":self.speech_translator,"preprocessor":self.preprocessor})
 
 #Register the object
 if __name__=='__main__':
