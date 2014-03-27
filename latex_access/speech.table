@@ -96,6 +96,11 @@
 \chi  chi 
 \omega  omega 
 
+\varphi var phi
+\vartheta var theta
+\varepsilon var epsilon 
+
+
 ; set theory
 \bigcap  intersection 
 \bigcup  union 
