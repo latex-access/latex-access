@@ -14,7 +14,7 @@ filename = ''
 if len(sys.argv) > 1:
     filename = os.path.expanduser(sys.argv[1])
     if not os.path.exists(filename):
-        print "Config file you specified doesn't exist, continuing anyway with defaults."
+        print("Config file you specified doesn't exist, continuing anyway with defaults.")
         filename=''
 
 def activateSettings ():
@@ -32,8 +32,8 @@ activateSettings ()
 while True:
     input = sys.stdin.readline()
     output=b.translate(input)
-    print output
+    print(output)
 
     output=s.translate(input)
-    print output
+    print(output)
     
