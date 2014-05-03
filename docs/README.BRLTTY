@@ -41,6 +41,15 @@ Next make the latex-access.ctb contraction table executable:
 chmod +x /etc/brltty/latex-access.ctb
 (as root)
 
+Note that on Arch Linux, and possibly other distributions, the path to latex-access.ctb is 
+/usr/share/brltty/latex-access.ctb
+
+On some systems it may be necessary to modify latex-access.ctb so that python 2 is used rather than python 3.  For example, on Arch linux the first line of the file should be changed to 
+#!/usr/bin/python2
+
+The above changes to latex-access.ctb will be lost when updating Brltty so they should be repeated whenever you, or your package manager, updates Brltty.
+
+
 Now start brltty, consult the brltty documentation for usage and
 configuration instructions:
 brltty
@@ -49,7 +58,7 @@ brltty
 USAGE:
 
 * Enable 6 dot contracted Braille in the brltty settings, either via
-  /etc/brltty.conf of the preferences menu. 
+  /etc/brltty.conf or the preferences menu. 
 * Set the contraction table to latex-access.ctb either via the
   preferences menu or by setting it in /etc/brltty.conf. 
 
