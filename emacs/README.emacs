@@ -83,7 +83,6 @@ speak the line in question as a latex-access translation. Editing works as usual
 You can call most of the latex-access- functions interactively through
 m-x. There are also key bindings see below. 
 
-* toggle speech on/off use m-x latex-access-toggle-speech
 * toggle dollars (speech) use m-x latex-access-toggle-dollars-speech
 * The preprocessor functions are under latex-access-preprocessor-* --
   use tab completion to find out what functions are available.
@@ -123,7 +122,7 @@ Recently, now that latex-access is a minor mode we have a comprehensive
 set of key bindings to execute most commonly used functions. You can
 still of course, use m-x though. 
 
-C-c C-t		latex-access-toggle-speech
+
 C-c d		latex-access-toggle-dollars-speech
 C-c w		latex-access-table-location
 
