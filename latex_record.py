@@ -73,9 +73,9 @@ for line in latexFile.readlines ():
   startRecording = True
   if line == '' or line.isspace ():
     continue # ignore blank lines which produce no audio 
-  os.system('espeak -s 225 "'+s.translate(line.replace("$","\\$"))+'" -w temp'+str(count))
+  os.system("espeak -w temp%s -s 225 '%s'" % (str(count),s.translate(line)))
   count+=1
-  os.system ('espeak -s 500 -p 95 "newline" -w temp'+str(count))
+  os.system ("espeak -s 500 -p 95 'newline' -w temp%s" % str(count))
   count+=1  
 
 compileFiles (count)
