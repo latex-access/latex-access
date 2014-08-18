@@ -27,6 +27,7 @@ from latex_access import speech
 import os
 import sys
 import wave
+import subprocess
 
 if len (sys.argv) < 2:
   print "Usage: %s <path-to-latex-document.text>" % (sys.argv[0])
@@ -73,9 +74,8 @@ for line in latexFile.readlines ():
   startRecording = True
   if line == '' or line.isspace ():
     continue # ignore blank lines which produce no audio 
-  os.system("espeak -w temp%s -s 225 '%s'" % (str(count),s.translate(line)))
+  subprocess.call(["espeak","-w", "temp%s" % str(count), "-s","225", s.translate(line)])
   count+=1
-  os.system ("espeak -s 500 -p 95 'newline' -w temp%s" % str(count))
-  count+=1  
+
 
 compileFiles (count)
