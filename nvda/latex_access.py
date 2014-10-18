@@ -33,7 +33,8 @@ import config
 import controlTypes
 import globalPluginHandler
 import NVDAObjects
-import scriptHandler
+from scriptHandler import isScriptWaiting, willSayAllResume, getLastScriptRepeatCount
+import review
 import textInfos# to get information such as caret position and the current line.
 
 class EditableText (NVDAObjects.behaviors.EditableText):
@@ -62,7 +63,7 @@ class EditableText (NVDAObjects.behaviors.EditableText):
 This method ensures that LaTeX translation occurs when the system caret moves, and also makes sure that normal behaviour occurs when l{processMaths} is off.
 		"""
 
-		if scriptHandler.isScriptWaiting ():
+		if isScriptWaiting ():
 			return
 
 		if not info:
@@ -70,9 +71,8 @@ This method ensures that LaTeX translation occurs when the system caret moves, a
 				info = self.makeTextInfo (textInfos.POSITION_CARET)
 			except:
 				return
-		if config.conf["reviewCursor"]["followCaret"] and api.getNavigatorObject() is self:
-			api.setReviewPosition (info)
-		if speakUnit == textInfos.UNIT_LINE and EditableText.processMaths:
+		review.handleCaretMove(info)
+		if speakUnit == textInfos.UNIT_LINE and EditableText.processMaths and not willSayAllResume(gesture):
 			spokenLine = GetLine ()
 			brailledLine = GetLine ()
 			if not spokenLine and not brailledLine:# Is it a blank line?
@@ -84,9 +84,10 @@ This method ensures that LaTeX translation occurs when the system caret moves, a
 			speech.speakMessage (spokenLine)
 			braille.handler.message (brailledLine)
 		else:
-			if speakUnit:
+			if speakUnit and not willSayAllResume(gesture):
 				info.expand(speakUnit)
 				speech.speakTextInfo(info, unit=speakUnit, reason=controlTypes.REASON_CARET)
+		braille.handler.handleCaretMove(self)
 
 	def script_reportCurrentLine (self, gesture):
 		"""
@@ -104,7 +105,7 @@ This method ensures that LaTeX translation occurs when the system caret moves, a
 		except (NotImplementedError, RuntimeError):
 			info=obj.makeTextInfo(textInfos.POSITION_FIRST)
 		info.expand(textInfos.UNIT_LINE)
-		if scriptHandler.getLastScriptRepeatCount()==0:
+		if getLastScriptRepeatCount()==0:
 			if EditableText.processMaths:
 				spokenLine = GetLine ()
 				brailledLine = GetLine ()
