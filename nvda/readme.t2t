@@ -29,15 +29,15 @@ Thursday, 1st December 2011
 Latex-access is a set of python scripts that provides realtime translation of a line of LaTeX into nemeth braille and speech, making the mathematics more readable to the blind user.  To find out more, [visit this webpage http://latex-access.sf.net], although you have probably already been there if you are viewing this readme file.
 
 ++What is this globalPlugin for?++[gpfor]
-This global plugin implements Communication between NVDA 2011.1 or later and the latex-access COM objects, letting the user read translated LaTeX documents in an easier fashion.
+This global plugin implements Communication between NVDA 2014.3 or later and the latex-access COM objects, letting the user read translated LaTeX documents in an easier fashion.
 
 +Requirements.+[require]
 To use this plugin, you will need to install the following software/libraries:
 
-- NVDA, version 2011.1 or later.  The NVDA website can be found at http://www.nvda-project.org, and the download page can be found [here http://www.nvda-project.org/download/].
+- NVDA, version 2014.3 or later.  The NVDA website can be found at http://www.nvda-project.org/, and the download page can be found [here http://www.nvda-project.org/download/].
 - The latest build of version 2 of the python programming language.  Official website: http://www.python.org/.  I am currently using python 2.7.
 - The python for windows extentions, which can be downloaded at http://sourceforge.net/projects/pywin32/.  This package is required to registor the latex-access COM object, the matrix and perhaps the table COM object if that gets created.
-- The latex-access scripts.  You probably already have these, but if not, you will need subversion.  How to use this VCS is beyond the scope of this readme, but the svn repository can be found at: https://latex-access.svn.sourceforge.net/svnroot/latex-access.  Please remember the exact location where you installed the scripts!  I recommend using [tortoise svn http://tortoisesvn.net/] as your subversion client, it's accessible, and easy to use.
+- The latex-access scripts.  You probably already have these, but if not, you will need subversion.  How to use this VCS is beyond the scope of this readme, but the svn repository can be found at: https://svn.code.sf.net/p/latex-access/code/.  Please remember the exact location where you installed the scripts!  I recommend using [tortoise svn http://tortoisesvn.net/] as your subversion client, it's accessible, and easy to use.
 -
 
 +Registering the COM object and installing the globalPlugin.+[Register]

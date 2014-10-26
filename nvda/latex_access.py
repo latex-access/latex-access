@@ -274,7 +274,7 @@ class GlobalPlugin (globalPluginHandler.GlobalPlugin):
 # Useful functions:
 def GetLine ():
 	"""Retrieves the line of text that the current navigator object is focussed on, then returns it.
-	@tryutndz; The current line under the cursor.
+	@returns: The current line under the cursor.
 	@rtype: STR
 	"""
 
