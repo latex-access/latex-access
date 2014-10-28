@@ -1,6 +1,7 @@
 ; latex.jsm
 ;    A part of the latex-access project at http://latex-access.sourceforge.net/
 ;    Author: Alastair Irving <alastair.irving@sjc.ox.ac.uk>
+; Modified by: Istvan Velegi <ivelegi@gmail.com>
 ;    Copyright (C) 2011 Alastair Irving/latex-access Contributors
 ;
 ;    This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation;
@@ -39,6 +40,12 @@ sFileNoExist = "File does not exist",
 ks1 = "control+shift+d"  ;open default file
 
 messages
+@msgReInit_s
+Re-initialised
+@@
+@msgReInit_l
+LaTeX addon has been re-initialised.
+@@
 @msgProcessingOn_S
 Processing on
 @@
