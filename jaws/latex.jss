@@ -1,6 +1,7 @@
 ; latex.jss
 ;    A part of the latex-access project at http://latex-access.sourceforge.net/
 ;    Author: Alastair Irving <alastair.irving@sjc.ox.ac.uk>
+; Modified by: Istvan Velegi <ivelegi@gmail.com>
 ;    Copyright (C) 2011 Alastair Irving/latex-access Contributors
 ;
 ;    This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation;
@@ -48,6 +49,7 @@ EndFunction
 
 Script reInitialise ()
 let latex_access=CreateObject (o_latexAccess)
+sayMessage(ot_status, msgReInit_l, msgReInit_s);
 EndScript
 
 
