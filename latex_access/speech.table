@@ -5,124 +5,124 @@
 = equals
 > greater than
 \times times
-\div divided by 
+\div divided by
 \pm plus or minus
-\leq  less than or equal to 
-\le less than or equal to 
-\geq  greater than or equal to 
-\ge  greater than or equal to 
+\leq  less than or equal to
+\le less than or equal to
+\geq  greater than or equal to
+\ge  greater than or equal to
 \equiv equiv
 \neq not equals
 \ne not equals
-\ll less than less than 
+\ll less than less than
 \gg greater than greater than
 \sum  sum 
 \prod  product 
 \pm plus or minus
 \mp minus or plus
-\leftrightarrow  if and only if 
+\leftrightarrow  if and only if
 \Rightarrow  goes to
-\rightarrow  goes to  
+\rightarrow  goes to
 \to goes to
-\Leftrightarrow  if and only if 
+\Leftrightarrow  if and only if
 \longrightarrow  goes to
 \longleftrightarrow  if and only if
 \wedge  and
-\vee or 
-\lnot not 
+\vee or
+\lnot not
 \propto  proportional to
-\min min 
+\min min
 \max max
 
 
 ; trigonometric and hyperbolic functions
-\tanh  thann 
+\tanh  thann
 \tan tan
-\sinh  shine 
-\sin  sine 
-\cosh  cosh 
-\cos  coz 
+\sinh  shine
+\sin  sine
+\cosh  cosh
+\cos  coz
 
 ; capital greek letters
-\Alpha  cap alpha 
-\Beta  cap beta 
-\Gamma  cap gamma 
-\Delta  cap delta 
-\Epsilon  cap epsilon 
-\Zeta  cap zeta 
-\Eta  cap eta 
-\Theta  cap theta 
+\Alpha  cap alpha
+\Beta  cap beta
+\Gamma  cap gamma
+\Delta  cap delta
+\Epsilon  cap epsilon
+\Zeta  cap zeta
+\Eta  cap eta
+\Theta  cap theta
 \Iota  cap iota
 \Kappa  cap kappa
-\Lambda   cap lambda 
+\Lambda   cap lambda
 \Mu  cap mu
 \Nu  cap nu
 \Xi  cap xi
 \Omicron  cap omicron
 \Pi  cap pi
 \Rho  cap rho
-\Sigma  cap sigma 
-\Tau  cap tau 
-\Upsilon  cap upsilon 
-\Phi  cap phi 
+\Sigma  cap sigma
+\Tau  cap tau
+\Upsilon  cap upsilon
+\Phi  cap phi
 \Psi  cap psi
-\Chi  cap chi 
-\Omega  cap omega 
+\Chi  cap chi
+\Omega  cap omega
 
 ; small greek letters
-\alpha  alpha 
-\beta  beta 
-\gamma  gamma 
-\delta  delta 
-\epsilon  epsilon 
-\zeta  zeta 
-\eta   eta 
-\theta  theta 
+\alpha  alpha
+\beta  beta
+\gamma  gamma
+\delta  delta
+\epsilon  epsilon
+\zeta  zeta
+\eta   eta
+\theta  theta
 \iota  iota
 \kappa  kappa
-\lambda  lambda 
-\mu  mu 
-\nu  nu 
-\xi  xi 
-\omicron  omicron 
-\pi  pi 
+\lambda  lambda
+\mu  mu
+\nu  nu
+\xi  xi
+\omicron  omicron
+\pi  pi
 \varpi var pi
-\rho  rho 
-\sigma  sigma 
-\tau  tau 
-\upsilon  upsilon 
-\phi  phi 
-\psi  psi 
-\chi  chi 
-\omega  omega 
+\rho  rho
+\sigma  sigma
+\tau  tau
+\upsilon  upsilon
+\phi  phi
+\psi  psi
+\chi  chi
+\omega  omega
 
 \varphi var phi
 \vartheta var theta
-\varepsilon var epsilon 
+\varepsilon var epsilon
 
 
 ; set theory
 \bigcap  intersection 
 \bigcup  union 
 \setminus set minus
-\cap  intersection 
-\triangleleft  normal subgroup 
-\therefore  therefore 
-\supseteq  superset or equal to 
-\supset  superset 
-\subseteq  subset or equal to 
-\subset  subset 
-\in  in 
-\forall  for all 
-\exists there exists 
-\emptyset  empty set 
-\cup  union 
-\lim  limit 
+\cap  intersection
+\triangleleft  normal subgroup
+\therefore  therefore
+\supseteq  superset or equal to
+\supset  superset
+\subseteq  subset or equal to
+\subset  subset
+\in  in
+\forall  for all
+\exists there exists
+\emptyset  empty set
+\cup  union
+\lim  limit
 \{ open brace
 \} close brace
 ; standard LaTeX commands for better reading
-\cdot  dot 
-\cdots  dot dot dot 
+\cdot  dot
+\cdots  dot dot dot
 \right 
 \quad 
 \qquad 
@@ -134,11 +134,11 @@
 \!  
 \:  
 \textbackslash \
-\textdegree degrees 
+\textdegree degrees
 
 ; calculus
-\partial  partial 
-\nabla  nabla 
+\partial  partial
+\nabla  nabla
 
 
 ; special characters
@@ -146,6 +146,6 @@
 \perp perpendicular
 ; Probability and permutations
 
-\Pr probability of 
+\Pr probability of
 
 
