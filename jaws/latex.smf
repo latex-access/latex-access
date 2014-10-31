@@ -1,8 +1,8 @@
 [Attribute Behavior Table]
 default=0|MessageVoice|||
 3=3|||BoldVoice|
-1025=3|||SuperscriptVoice|
-2049=3|||SubscriptVoice|
+1025=3|||DoubleStrikeoutVoice|
+2049=3|||SuperscriptVoice|
 4097=3|||SubscriptVoice|
 5=3|||ItalicVoice|
 [Indentation Behavior Table]

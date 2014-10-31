@@ -1,7 +1,0 @@
-[Braille]
-Grade2Translation=0
-BrailleMoveActiveCursor=1
-BrailleTranslationType=1
-ContractedBrailleInput=0
-[Options]
-Scheme=latex
