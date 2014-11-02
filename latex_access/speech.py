@@ -1,6 +1,7 @@
 # speech.py
 #    A part of the latex-access project at http://latex-access.sourceforge.net/
 #    Author: Alastair Irving <alastair.irving@sjc.ox.ac.uk>
+#    Modified by: Istvan Velegi <ivelegi@gmail.com>
 #    Copyright (C) 2011 Alastair Irving/latex-access Contributors
 #
 #    This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation;
@@ -53,7 +54,7 @@ class speech(latex_access.translator):
         elif latex_access.primes.match(arg[0]):
             translation=" prime "*arg[0].count("\\prime")
         else:
-            translation = " to the %s end super " % self.translate(arg[0])  
+            translation = " to the <sup> %s </sup> " % self.translate(arg[0])  
         return (translation,arg[1])
 
 
