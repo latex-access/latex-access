@@ -62,11 +62,20 @@ class speech(latex_access.translator):
         '''Translates squareroots into speech.
         
         returns touple.'''
-        arg=get_arg(input,start)
-        if arg[0].isdigit() or len(arg[0])==1:
-            translation=" root "+arg[0]
+        opt_arg=latex_access.get_optional_arg(input, start)
+        if opt_arg:
+            arg=get_arg(input,opt_arg[1])
+            if opt_arg[0]=="2": opt="square"
+            elif opt_arg[0]=="3": opt="cube"
+            elif opt_arg[0]=="": opt=""
+            else: opt=opt_arg[0]+"th"
         else:
-            translation=" begin root "+self.translate(arg[0])+" end root "
+            arg=get_arg(input,start)
+            opt=""
+        if arg[0].isdigit() or len(arg[0])==1:
+            translation="%s root %s" %(opt,arg[0])
+        else:
+            translation=" begin %s root %s end root" % (opt,self.translate(arg[0]))
         return (translation,arg[1])
 
 
