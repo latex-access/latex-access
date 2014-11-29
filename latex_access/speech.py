@@ -107,13 +107,10 @@ class speech(latex_access.translator):
         Returns touple.'''
         (lower,upper,i)=latex_access.get_subsuper(input,start)
         output=" integral "
-        if lower is not None:
-            output+="from "
-            output+=self.translate(lower[0])
-        if upper is not None:
-            output+=" to "
-            output+=self.translate(upper[0])
-        output+=" of "
+        if lower is not None and upper is not None and len(lower[0]) !=0 and len(upper[0]) !=0:
+            output+="from %s to %s of " % (self.translate(lower[0]),self.translate(upper[0]))
+        elif lower is not None and len(lower[0]) !=0:
+            output +="<sub>%s</sub>" % self.translate(lower[0])
         return (output,i)
 
     def tag(self,input,start):
