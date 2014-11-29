@@ -12,6 +12,8 @@
 \geq  greater than or equal to
 \ge  greater than or equal to
 \equiv equiv
+\approx approximately equal to
+\sim asymptotic to 
 \neq not equals
 \ne not equals
 \ll less than less than
@@ -28,18 +30,24 @@
 \wedge  and
 \vee or
 \lnot not
+\not not
+\neg not
 \propto  proportional to
 \min min
 \max max
-
+\lfloor left floor
+\rfloor right floor
 
 ; trigonometric and hyperbolic functions
 \tanh  thann
 \tan tan
+\arctan arc tan
 \sinh  shine
 \sin  sine
+\arcsin arc sine
 \cosh  cosh
 \cos  coz
+\arccos arc coz
 
 ; capital greek letters
 \Alpha  cap alpha
@@ -109,6 +117,8 @@
 \subseteq  subset or equal to
 \subset  subset
 \in  in
+\notin not in
+\ni not in
 \forall  for all
 \exists there exists
 \emptyset  empty set
@@ -143,5 +153,8 @@
 ; Probability and permutations
 
 \Pr probability of
+\choose choose
+\Choose choose
+
 
 
