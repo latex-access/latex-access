@@ -16,8 +16,6 @@
 \ne not equals
 \ll less than less than
 \gg greater than greater than
-\sum  sum 
-\prod  product 
 \pm plus or minus
 \mp minus or plus
 \leftrightarrow  if and only if
@@ -102,8 +100,6 @@
 
 
 ; set theory
-\bigcap  intersection 
-\bigcup  union 
 \setminus set minus
 \cap  intersection
 \triangleleft  normal subgroup
@@ -139,7 +135,7 @@
 ; calculus
 \partial  partial
 \nabla  nabla
-
+\oint contour integral 
 
 ; special characters
 \infty  infinity

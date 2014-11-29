@@ -28,8 +28,8 @@ class speech(latex_access.translator):
         latex_access.translator.__init__(self)
         self.files.append("speech.table")
         self.load_files()
-        new_table={"^":self.super,"_":("<sub>","</sub>"),"\\pmod":("mod <sub>","</sub>"),"\\sqrt":self.sqrt,"\\frac":self.frac,"\\tfrac":self.frac,"\\dfrac":self.frac,"\\int":self.integral,"\\mathbf":("<bold>","</bold>"),"\\mathbb":("<bold>","</bold>"),"\\mathcal":("<mathcal>","</mathcal>"),
-                   "\\log":self.log,"\\ang":self.ang,"\\tag":self.tag,"\\hat":("","hat"),"\\widehat":("","hat"),"\\bar":("","bar"),"\\overline":("","bar"),"\\dot":("","dot"),"\\ddot":("","double dot")}
+        new_table={"^":self.super,"_":("<sub>","</sub>"),"\\pmod":("mod <sub>","</sub>"),"\\sqrt":self.sqrt,"\\frac":self.frac,"\\tfrac":self.frac,"\\dfrac":self.frac,"\\int":self.integral,"\\iint":self.iintegral,"\\iiint":self.iiintegral,"\\mathbf":("<bold>","</bold>"),"\\mathbb":("<bold>","</bold>"),"\\mathcal":("<mathcal>","</mathcal>"),
+                   "\\log":self.log,"\\ang":self.ang,"\\tag":self.tag,"\\hat":("","hat"),"\\widehat":("","hat"),"\\bar":("","bar"),"\\overline":("","bar"),"\\dot":("","dot"),"\\ddot":("","double dot"),"\\sum":self.sum,"\\prod":self.prod,"\\bigcup":self.union,"\\bigcap":self.intersection}
 
         for (k,v) in new_table.iteritems():
             self.table[k]=v        
@@ -107,6 +107,78 @@ class speech(latex_access.translator):
         Returns touple.'''
         (lower,upper,i)=latex_access.get_subsuper(input,start)
         output=" integral "
+        if lower is not None and upper is not None and len(lower[0]) !=0 and len(upper[0]) !=0:
+            output+="from %s to %s of " % (self.translate(lower[0]),self.translate(upper[0]))
+        elif lower is not None and len(lower[0]) !=0:
+            output +="<sub>%s</sub>" % self.translate(lower[0])
+        return (output,i)
+
+    def iintegral(self,input,start):
+        '''Translate double integrals, including limits of integration.
+    
+        Returns touple.'''
+        (lower,upper,i)=latex_access.get_subsuper(input,start)
+        output=" double integral "
+        if lower is not None and upper is not None and len(lower[0]) !=0 and len(upper[0]) !=0:
+            output+="from %s to %s of " % (self.translate(lower[0]),self.translate(upper[0]))
+        elif lower is not None and len(lower[0]) !=0:
+            output +="<sub>%s</sub>" % self.translate(lower[0])
+        return (output,i)
+
+    def iiintegral(self,input,start):
+        '''Translate triple integrals, including limits of integration.
+        
+        Returns touple.'''
+        (lower,upper,i)=latex_access.get_subsuper(input,start)
+        output=" triple integral "
+        if lower is not None and upper is not None and len(lower[0]) !=0 and len(upper[0]) !=0:
+            output+="from %s to %s of " % (self.translate(lower[0]),self.translate(upper[0]))
+        elif lower is not None and len(lower[0]) !=0:
+            output +="<sub>%s</sub>" % self.translate(lower[0])
+        return (output,i)
+
+    def sum(self,input,start):
+        '''Translate sums, including limits.
+    
+        Returns touple.'''
+        (lower,upper,i)=latex_access.get_subsuper(input,start)
+        output=" sum "
+        if lower is not None and upper is not None and len(lower[0]) !=0 and len(upper[0]) !=0:
+            output+="from %s to %s of " % (self.translate(lower[0]),self.translate(upper[0]))
+        elif lower is not None and len(lower[0]) !=0:
+            output +="<sub>%s</sub>" % self.translate(lower[0])
+        return (output,i)
+    
+    def prod(self,input,start):
+        '''Translate products, including limits of. integration.
+    
+        Returns touple.'''
+        (lower,upper,i)=latex_access.get_subsuper(input,start)
+        output=" product "
+        if lower is not None and upper is not None and len(lower[0]) !=0 and len(upper[0]) !=0:
+            output+="from %s to %s of " % (self.translate(lower[0]),self.translate(upper[0]))
+        elif lower is not None and len(lower[0]) !=0:
+            output +="<sub>%s</sub>" % self.translate(lower[0])
+        return (output,i)
+
+    def union(self,input,start):
+        '''Translate unions.
+    
+        Returns touple.'''
+        (lower,upper,i)=latex_access.get_subsuper(input,start)
+        output=" union "
+        if lower is not None and upper is not None and len(lower[0]) !=0 and len(upper[0]) !=0:
+            output+="from %s to %s of " % (self.translate(lower[0]),self.translate(upper[0]))
+        elif lower is not None and len(lower[0]) !=0:
+            output +="<sub>%s</sub>" % self.translate(lower[0])
+        return (output,i)
+
+    def intersection(self,input,start):
+        '''Translate intersections.
+    
+        Returns touple.'''
+        (lower,upper,i)=latex_access.get_subsuper(input,start)
+        output=" intersection "
         if lower is not None and upper is not None and len(lower[0]) !=0 and len(upper[0]) !=0:
             output+="from %s to %s of " % (self.translate(lower[0]),self.translate(upper[0]))
         elif lower is not None and len(lower[0]) !=0:
