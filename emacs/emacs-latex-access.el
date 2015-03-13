@@ -41,12 +41,15 @@
 			      "Voice used for bold commands")
 			    (defvoice latex-access-voice-subscript (list nil 3 nil nil nil)
 			      "Voice used for subscripts")
+			    (defvoice latex-access-voice-superscript (list nil 7 nil nil nil)
+			      "Voice used for superscripts")			    
 			    (defvoice latex-access-voice-mathcal (list nil 9  nil nil  nil)
 			      "Voice used for mathcal commands")
 			    
 			    (setq latex-access-personality-alist (list (list "bold" 'latex-access-voice-bold)
 								       (list "mathcal" 'latex-access-voice-mathcal)
-								       (list "sub" 'latex-access-voice-subscript)))
+								       (list "sub" 'latex-access-voice-subscript)
+								       (list "sup" 'latex-access-voice-superscript)))								       
 
 ; latex-access advice 
 ; Advise emacspeak to speak the latex-access (nicely spoken
