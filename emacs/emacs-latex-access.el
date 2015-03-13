@@ -36,20 +36,22 @@
 (setq latex-access-mode nil)
 (setq latex-access-matrix-mode nil)
 ; Voice definitions, customize these by customizing the <voice_name>-settings variable.
-(if (featurep 'emacspeak) (progn 
-			    (defvoice latex-access-voice-bold (list nil 1 6 6  nil)
-			      "Voice used for bold commands")
-			    (defvoice latex-access-voice-subscript (list nil 3 nil nil nil)
-			      "Voice used for subscripts")
-			    (defvoice latex-access-voice-superscript (list nil 7 nil nil nil)
-			      "Voice used for superscripts")			    
-			    (defvoice latex-access-voice-mathcal (list nil 9  nil nil  nil)
-			      "Voice used for mathcal commands")
-			    
-			    (setq latex-access-personality-alist (list (list "bold" 'latex-access-voice-bold)
-								       (list "mathcal" 'latex-access-voice-mathcal)
-								       (list "sub" 'latex-access-voice-subscript)
-								       (list "sup" 'latex-access-voice-superscript)))								       
+(if (featurep 'emacspeak)
+    (progn 
+      (defvoice latex-access-voice-bold (list nil 1 6 6  nil)
+	"Voice used for bold commands")
+      (defvoice latex-access-voice-subscript (list nil 3 nil nil nil)
+	"Voice used for subscripts")
+      (defvoice latex-access-voice-superscript (list nil 7 nil nil nil)
+	"Voice used for superscripts")			    
+      (defvoice latex-access-voice-mathcal (list nil 9  nil nil  nil)
+	"Voice used for mathcal commands")
+      
+      (setq latex-access-personality-alist
+	    (list (list "bold" 'latex-access-voice-bold)
+		  (list "mathcal" 'latex-access-voice-mathcal)
+		  (list "sub" 'latex-access-voice-subscript)
+		  (list "sup" 'latex-access-voice-superscript)))								       
 
 ; latex-access advice 
 ; Advise emacspeak to speak the latex-access (nicely spoken
@@ -57,37 +59,33 @@
 ; This will hook into the emacspeak-speak-line function, and is called
 ; for all line navigations, c-e l, c-e up/down,  up/down, c-p, c-n
 ; etc. c-u args are fully supported as the navigation is left to emacs.
-			    (defadvice emacspeak-speak-line (around latex-access-speak-line)
-			      "Intercept Say line function of emacspeak.
+      (defadvice emacspeak-speak-line (around latex-access-speak-line)
+	"Intercept Say line function of emacspeak.
 If latex-access-speech enabled, speak with speech provided by
 latex-access. Otherwise pass straight through to the default
 emacspeak-speak-line function. This means all line navigation with
 emacs/emacspeak will call this function, hence, providing latex-access
 output when applicable"
-			      (make-local-variable 'latex-access-speech)
-			      (when (listp arg) (setq arg (car arg )))
-			      (if latex-access-mode
-				  (cond 
-				   ((null arg) (latex-access-speak (latex_access_emacstranssp
-								    (thing-at-point 'line)))) ; Speech to pass to
-				   ((> arg 0)
-				    (save-excursion 
-				      (let ((begposs (point))) 
-					(end-of-line)
-					(latex-access-speak (latex_access_emacstranssp
-							     (buffer-substring-no-properties begposs (point))))))) ; Speak from (point) to end of line
-				   ((< arg 0)
-				    (save-excursion 
-				      (let ((endposs (point))) 
-					(beginning-of-line)
-					(latex-access-speak (latex_access_emacstranssp
-							     (buffer-substring-no-properties (point) endposs))))))) ; Speak from start of line to point 
-				ad-do-it)))) ; else call default emacspeak line handler 
+	(make-local-variable 'latex-access-speech)
+	(when (listp arg) (setq arg (car arg )))
+	(if latex-access-mode
+	    (cond 
+	     ((null arg) (latex-access-speak (latex_access_emacstranssp (thing-at-point 'line)))) ; Speech to pass to
+	     ((> arg 0)
+	      (save-excursion 
+		(let ((begposs (point))) 
+		  (end-of-line)
+		  (latex-access-speak (latex_access_emacstranssp (buffer-substring-no-properties begposs (point))))))) ; Speak from (point) to end of line
+	     ((< arg 0)
+	      (save-excursion 
+		(let ((endposs (point))) 
+		  (beginning-of-line)
+		  (latex-access-speak (latex_access_emacstranssp (buffer-substring-no-properties (point) endposs))))))) ; Speak from start of line to point 
+	  ad-do-it)))) ; else call default emacspeak line handler 
 
 (defun latex-access ()
   "Set up latex-access." 
-					; Enable speech (emacspeak advice)
-  (if (featurep 'emacspeak) ; Load emacspeak...
+  (if (featurep 'emacspeak) 
       (progn 
 	(ad-enable-advice 'emacspeak-speak-line 'around 'latex-access-speak-line) 
 	(ad-activate 'emacspeak-speak-line))) ; Enable the advice. 
@@ -189,8 +187,7 @@ two points of a buffer though when calling from lisp."
       (erase-buffer) ; clear our workspace
       (insert "Braille translation of math in region follows:\n\n"))
     (let ((latex-access-currline (latex_access_emacstransbrl
-				  (buffer-substring-no-properties beg
-								  end)))) ; get the translation 
+				  (buffer-substring-no-properties beg end)))) ; get the translation 
 					; Write our work to the workspace buffer ready for reading in Braille
       (save-excursion
 	(set-buffer latex-access-buff)
@@ -212,8 +209,9 @@ two points of a buffer though when calling from lisp."
       "Provide information of current location in table."
       (interactive)
       (save-excursion 
-	(let ((end (point)) (beg (progn (search-backward "\\begin")
-					(move-end-of-line nil) (point))))
+	(let ((end (point))
+	      (beg (progn (search-backward "\\begin")
+			  (move-end-of-line nil) (point))))
 	  (let ((table (buffer-substring-no-properties beg end)))
 	    (dtk-speak (latex_access_emacsWhereAmI
 			(latex_access_emacsGetTableCurrentRow table)
@@ -236,8 +234,7 @@ two points of a buffer though when calling from lisp."
 (defun latex-access-matrix (beg end)
   "initialise the matrix."
   (interactive "r")
-  (message (latex_access_emacsmatrixInit (buffer-substring-no-properties beg
-								end))))
+  (message (latex_access_emacsmatrixInit (buffer-substring-no-properties beg end))))
 
 (defun latex-access-matrix-up ()
   "Move up a row."
