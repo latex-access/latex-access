@@ -118,7 +118,7 @@ This method ensures that LaTeX translation occurs when the system caret moves, a
 				speech.speakMessage (spokenLine)
 				braille.handler.message (brailledLine)
 			else:
-				speech.speakTextInfo(info,unit=textInfos.UNIT_LINE,reason=speech.REASON_CARET)
+				speech.speakTextInfo(info,unit=textInfos.UNIT_LINE,reason=controlTypes.REASON_CARET)
 		else:
 			speech.speakSpelling(info.text)
 	script_reportCurrentLine.__doc__ = _("If latex-access translation is on, Translates the current line into nemeth braille and speech.  If translation is turned off, the current line is spoken as normal.  If this keystroke is pressed twice, the current line is spellt out.")
