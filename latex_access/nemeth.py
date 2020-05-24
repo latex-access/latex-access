@@ -34,7 +34,7 @@ class nemeth(latex_access.translator):
         for letter in range (65,91):
             new_table["%c" % (letter)] = self.upperLetter
             
-        for (k,v) in new_table.iteritems():
+        for (k,v) in new_table.items():
             self.table[k]=v
 
 
