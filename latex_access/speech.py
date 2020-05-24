@@ -31,7 +31,7 @@ class speech(latex_access.translator):
         new_table={"^":self.super,"_":("<sub>","</sub>"),"\\pmod":("mod <sub>","</sub>"),"\\sqrt":self.sqrt,"\\frac":self.frac,"\\tfrac":self.frac,"\\dfrac":self.frac,"\\int":self.integral,"\\iint":self.iintegral,"\\iiint":self.iiintegral,"\\mathbf":("<bold>","</bold>"),"\\mathbb":("<bold>","</bold>"),"\\mathcal":("<mathcal>","</mathcal>"),
                    "\\log":self.log,"\\ang":self.ang,"\\tag":self.tag,"\\hat":("","hat"),"\\widehat":("","hat"),"\\bar":("","bar"),"\\overline":("","bar"),"\\dot":("","dot"),"\\ddot":("","double dot"),"\\sum":self.sum,"\\prod":self.prod,"\\bigcup":self.union,"\\bigcap":self.intersection}
 
-        for (k,v) in new_table.iteritems():
+        for (k,v) in new_table.items():
             self.table[k]=v        
         self.space=" "
     
