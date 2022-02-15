@@ -1,13 +1,13 @@
-LaTeX-access
+# LaTeX-access
 
 Python scripts for processing LaTeX source into Nemeth or UEB braille and
 audible speech.
 
-Scripts written by Alastair Irving: alastair.irving@sjc.ox.ac.uk
+Scripts written by Alastair Irving <alastair.irving@sjc.ox.ac.uk>
 
-Website: http://latex-access.sourceforge.net
+[Website](https://latex-access.github.io/)
 
-Overview
+## Overview
 
 These scripts, written in the Python language, are designed to
 process a line of LaTeX source, and translate it into braille on a refreshable braille display. They only handle a single
