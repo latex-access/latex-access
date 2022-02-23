@@ -9,7 +9,7 @@ on:
     branches:
       - "master"
       - "CI"
-  workflow_dispatch
+  workflow_dispatch:
 
 jobs:
   test:
