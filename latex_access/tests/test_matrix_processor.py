@@ -51,3 +51,16 @@ class TestMatrixProcessor(unittest.TestCase):
         """Tests that blank row is properly deleted."""
         self.matrix.tex_init(r'1&2\\3&4\\')
         self.assertEqual(self.matrix.rows, 2)
+
+    def test_tex_init_resets_members(self):
+        """Tests that `tex_init` clears instance members before parsing
+        the provided string.
+        """
+        sampleMatrix = matrix()
+        sampleMatrix.rows = -13
+        sampleMatrix.columns = -22
+        sampleMatrix.elements = "xyz"
+        sampleMatrix.tex_init(r'1&2\\3&4')
+        self.assertEqual(sampleMatrix.rows, 2)
+        self.assertEqual(sampleMatrix.columns, 2)
+        self.assertEqual(sampleMatrix.elements, [['1', '2'], ['3', '4']])
