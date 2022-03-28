@@ -34,15 +34,15 @@ class TestMatrixProcessor(unittest.TestCase):
 
     def test_initialised_stats(self):
         """Tests that statistics about matrix are properly initialised."""
-        self.assertEqual(self.matrix.initialisedStats(), "Initialised %d by %d matrix" % (self.matrix.rows, self.matrix.columns))
+        self.assertEqual(self.matrix.initialisedStats(), 'Initialised 2 by 2 matrix')
 
     def test_tex_init(self):
         """Tests that tex_init returns the statistics provided by initialisedStats."""
-        self.assertEqual(self.matrix.tex_init(r'1&2\\3&4'), self.matrix.initialisedStats())
+        self.assertEqual(self.matrix.tex_init(r'1&2\\3&4'), 'Initialised 2 by 2 matrix')
 
-    def test_manformed_matrix(self):
-        """Tests that manformed matrix is properly handled."""
-        self.assertIn('error', self.matrix.tex_init(r'1&2\\3'))
+    def test_malformed_matrix(self):
+        """Tests that malformed matrix is properly handled."""
+        self.assertEqual('Rows 1 and 2 have a different number of columns, error.', self.matrix.tex_init(r'1&2\\3'))
         self.assertEqual(self.matrix.elements, [])
         self.assertEqual(self.matrix.rows, 0)
         self.assertEqual(self.matrix.columns, 0)
