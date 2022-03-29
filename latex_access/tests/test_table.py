@@ -33,4 +33,4 @@ class TestTable(unittest.TestCase):
 
     def test_get_table_current_row(self):
         """Tests that table's current row is properly retrieved"""
-        self.assertEqual(table_module.GetTableCurrentRow('1&2&3\\4&5&6\\7&8&9'), '7&8&9')
+        self.assertEqual(table_module.GetTableCurrentRow('1&2&3\\\\4&5&6\\\\7&8&9'), '7&8&9')
