@@ -1,4 +1,8 @@
+import os
+import subprocess
+import sys
 import unittest
+
 try:
     import latex_access.table as table_module
 except SyntaxError:
@@ -47,4 +51,23 @@ class TestTable(unittest.TestCase):
 
     def test_two_letter_coordinate(self):
         """Tests that cell location is provided as a coordinate with two-letter column definition."""
-        self.assertEqual(table_module.GetTablePosition('1&'*26, '1&'*26), 'A A 1')
+        self.assertEqual(
+            table_module.GetTablePosition('1&'*26, '1&'*26), 'A A 1'
+        )
+
+    def test_module_running_as_file(self):
+        """Test that the `table` module shows a warning when
+        running innteractively.
+        """
+        modFilePath = os.path.abspath(table_module.__file__)
+        tableSubprocess = subprocess.Popen(
+            (sys.executable, modFilePath),
+            stdout=subprocess.PIPE,
+            universal_newlines=True
+        )
+        tableSubprocess.wait()
+        self.assertEqual(tableSubprocess.returncode, -1)
+        self.assertEqual(
+            tableSubprocess.stdout.read(),
+            "This can only be used as a module, and does nothing when called interactively.\n"
+        )
