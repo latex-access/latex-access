@@ -94,7 +94,12 @@ class TestTable(unittest.TestCase):
             universal_newlines=True
         )
         tableSubprocess.wait()
-#        self.assertEqual(tableSubprocess.returncode, -1)
+        # The table module exits with exit code set to -1.
+        # On *nix based systems negative exit codes are invalid.
+        # Therefore exit code set to -1 is converted to 255
+        # which represents exit code out of range.
+        # To remain compatible with Windows check for both -1 and 255.
+        self.assertIn(tableSubprocess.returncode, (-1, 255))
         self.assertEqual(
             tableSubprocess.stdout.read(),
             (
