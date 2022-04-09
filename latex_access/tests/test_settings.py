@@ -15,7 +15,7 @@ class TestSettings(unittest.TestCase):
     def test_load_settings(self):
         """Tests that settings are read from a file."""
         settings_module.settings = {}
-        settings_module.loadSettings('test_settings.txt')
+        settings_module.loadSettings('latex_access/tests/test_settings.txt')
         self.assertEqual(settings_module.settings, {'brailledollars': 'true', 'speakdollars': 'true', 'capitalisation':'6dot'})
 
     def test_booleanise_setting(self):
