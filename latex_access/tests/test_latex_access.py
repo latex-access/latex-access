@@ -15,7 +15,7 @@ class TestTranslatorConstructor(unittest.TestCase):
         self.assertIn(tr.text, tr.table.values())
 
     def test_translator_initial_values(self):
-        """Test that translatores constructor sets its members
+        """Test that translators constructor sets its members
         to an expected values.
         """
         tr = la_main_module.translator()
