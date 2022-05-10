@@ -1,15 +1,17 @@
 import unittest
 import os
-import latex_access
 from latex_access import settings as settings_module
 from latex_access import  nemeth
 from latex_access import ueb
 
 try:
-    translator = ueb.ueb()
+    ueb.ueb()
     incompatible = False
 except AttributeError:
     incompatible = True
+
+HERE = os.path.abspath(os.path.dirname(__file__))
+
 
 class TestSettings(unittest.TestCase):
     def setUp(self):
@@ -20,23 +22,20 @@ class TestSettings(unittest.TestCase):
 
     def test_load_settings(self):
         """Tests that settings are loaded from an existing file."""
-        tests_directory = os.path.abspath(os.path.dirname(__file__))
-        sample_config_path = os.path.join(tests_directory, 'test_settings_correct.txt')
+        sample_config_path = os.path.join(HERE, 'test_settings_correct.txt')
         self.assertTrue(settings_module.loadSettings(sample_config_path))
-        self.assertFalse(settings_module.loadSettings(os.path.join(tests_directory, 'foo.txt')))
+        self.assertFalse(settings_module.loadSettings(os.path.join(HERE, 'foo.txt')))
 
     def test_read_settings(self):
         """Tests that settings are read from a file."""
         settings_module.settings = {}
-        tests_directory = os.path.abspath(os.path.dirname(__file__))
-        sample_config_path = os.path.join(tests_directory, 'test_settings_correct.txt')
+        sample_config_path = os.path.join(HERE, 'test_settings_correct.txt')
         settings_module.loadSettings(sample_config_path)
         self.assertEqual(settings_module.settings, {'brailledollars': 'true', 'speakdollars': 'true', 'capitalisation': '6dot'})
 
     def test_incorrect_input(self):
         """Tests that a file with incorrect data doesn't modify settings."""
-        tests_directory = os.path.abspath(os.path.dirname(__file__))
-        sample_config_path = os.path.join(tests_directory, 'test_settings_incorrect.txt')
+        sample_config_path = os.path.join(HERE, 'test_settings_incorrect.txt')
         settings_module.loadSettings(sample_config_path)
         self.assertEqual(settings_module.settings, self.settings_copy)
 
@@ -63,3 +62,30 @@ class TestSettings(unittest.TestCase):
         """Tests that an instance of ueb is returned based on setting's                 value."""
         settings_module.settings['brailletable'] = 'ueb'
         self.assertIsInstance(settings_module.brailleTableToUse(), ueb.ueb)
+
+    def test_preprocessor_table_loaded_after_activation(self):
+        """Test that table entries for the proprocessor are loaded."""
+
+        class _FakePreprocessor(object):
+            """Implements minimal interface
+            necessary to mockup a preprocessor instance.
+            """
+
+            loadedTables = list()
+
+            def read(self, path):
+                self.loadedTables.append(path)
+
+        fakePreprocessor = _FakePreprocessor()
+        preprocessorEntriesPath = os.path.join(HERE, "preprocFile")
+        open(preprocessorEntriesPath, "a").close()
+        settings_module.settings["preprocessorfile"] = preprocessorEntriesPath
+        settingsLoaded = settings_module.activateSettings(
+            {"preprocessor": fakePreprocessor}
+        )
+        self.assertTrue(settingsLoaded)
+        self.assertEqual(
+            fakePreprocessor.loadedTables,
+            [preprocessorEntriesPath]
+        )
+        os.unlink(preprocessorEntriesPath)
