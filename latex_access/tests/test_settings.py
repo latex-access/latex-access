@@ -19,7 +19,9 @@ class _FakePreprocessor(object):
     necessary to mockup a preprocessor instance.
     """
 
-    loadedTables = list()
+    def __init__(self):
+        super(_FakePreprocessor, self).__init__()
+        self.loadedTables = list()
 
     def read(self, path):
         self.loadedTables.append(path)
@@ -111,4 +113,41 @@ class TestSettings(unittest.TestCase):
         self.assertTrue(settingsLoaded)
         # Not sure why the value from settings is negated!
         self.assertFalse(fakeSpeechTranslator.remove_dollars )
+
+    def test_dollar_presentation_modified_in_braille(self):
+        fakeBrailleTranslator = FakeTranslator({"remove_dollars": None})
+        settings_module.settings["brailledollars"] = True
+        settingsLoaded = settings_module.activateSettings(
+            {"braille": fakeBrailleTranslator}
+        )
+        self.assertTrue(settingsLoaded)
+        # Not sure why the value from settings is negated!
+        self.assertFalse(fakeBrailleTranslator.remove_dollars )
+
+    def test_capitalization_from_settings_set_onbraillle_translator(self):
+        fakeBrailleTranslator = FakeTranslator({"capitaliation": ""})
+        settings_module.settings["capitalisation"] = "8dot"
+        settingsLoaded = settings_module.activateSettings(
+            {"braille": fakeBrailleTranslator}
+        )
+        self.assertTrue(settingsLoaded)
+        self.assertEqual(fakeBrailleTranslator.capitalisation, "8dot")
+
+    def test_preprocessor_no_change_when_loading_from_non_existent_file(self):
+        """Ensures that when the file
+        containing preprocessor entries does not exist
+        no entries are loaded,
+        and there is no exception raised.
+        """
+        #Even though `tempfile.mktemp` is deprecatedd it does exactly what
+        # we need i.e. returns name of a temporary file which does not exist
+        # at the time of the call.
+        preprocFileName = tempfile.mktemp()
+        fakePreprocessor = _FakePreprocessor()
+        settings_module.settings["preprocessorfile"] = preprocFileName
+        settingsLoaded = settings_module.activateSettings(
+            {"preprocessor": fakePreprocessor}
+        )
+        self.assertTrue(settingsLoaded)
+        self.assertEqual(fakePreprocessor.loadedTables, [])
 
