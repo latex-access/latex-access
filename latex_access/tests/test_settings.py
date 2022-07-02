@@ -1,7 +1,8 @@
 import unittest
 import os
+import tempfile
 from latex_access import settings as settings_module
-from latex_access import  nemeth
+from latex_access import nemeth
 from latex_access import ueb
 
 try:
@@ -11,6 +12,17 @@ except AttributeError:
     incompatible = True
 
 HERE = os.path.abspath(os.path.dirname(__file__))
+
+
+class _FakePreprocessor(object):
+    """Implements minimal interface
+    necessary to mockup a preprocessor instance.
+    """
+
+    loadedTables = list()
+
+    def read(self, path):
+        self.loadedTables.append(path)
 
 
 class TestSettings(unittest.TestCase):
@@ -63,29 +75,16 @@ class TestSettings(unittest.TestCase):
         settings_module.settings['brailletable'] = 'ueb'
         self.assertIsInstance(settings_module.brailleTableToUse(), ueb.ueb)
 
-    def test_preprocessor_table_loaded_after_activation(self):
-        """Test that table entries for the proprocessor are loaded."""
-
-        class _FakePreprocessor(object):
-            """Implements minimal interface
-            necessary to mockup a preprocessor instance.
-            """
-
-            loadedTables = list()
-
-            def read(self, path):
-                self.loadedTables.append(path)
-
+    def test_preprocessor_entries_loaded_after_activation(self):
+        """Test that entries for the preprocessor are loaded from a file."""
         fakePreprocessor = _FakePreprocessor()
-        preprocessorEntriesPath = os.path.join(HERE, "preprocFile")
-        open(preprocessorEntriesPath, "a").close()
-        settings_module.settings["preprocessorfile"] = preprocessorEntriesPath
-        settingsLoaded = settings_module.activateSettings(
-            {"preprocessor": fakePreprocessor}
-        )
-        self.assertTrue(settingsLoaded)
-        self.assertEqual(
-            fakePreprocessor.loadedTables,
-            [preprocessorEntriesPath]
-        )
-        os.unlink(preprocessorEntriesPath)
+        with tempfile.NamedTemporaryFile() as preprocFakeFile:
+            settings_module.settings["preprocessorfile"] = preprocFakeFile.name
+            settingsLoaded = settings_module.activateSettings(
+                {"preprocessor": fakePreprocessor}
+            )
+            self.assertTrue(settingsLoaded)
+            self.assertEqual(
+                fakePreprocessor.loadedTables,
+                [preprocFakeFile.name]
+            )
