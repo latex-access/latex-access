@@ -25,6 +25,19 @@ class _FakePreprocessor(object):
         self.loadedTables.append(path)
 
 
+class FakeTranslator(object):
+    """Minimal interface necessary to mockup a braille / speech translator."""
+
+    def __init__(self, attrsToSet):
+        for attrName, attrInitialVal in attrsToSet.items():
+            setattr(self, attrName, attrInitialVal)
+
+    loaded_files = list()
+
+    def load_file(self, pathToLoad):
+        self.loaded_files.append(pathToLoad)
+
+
 class TestSettings(unittest.TestCase):
     def setUp(self):
         self.settings_copy = dict(settings_module.settings)
@@ -88,3 +101,14 @@ class TestSettings(unittest.TestCase):
                 fakePreprocessor.loadedTables,
                 [preprocFakeFile.name]
             )
+
+    def test_dollar_announcement_modified_in_speech(self):
+        fakeSpeechTranslator = FakeTranslator({"remove_dollars": None})
+        settings_module.settings["speakdollars"] = True
+        settingsLoaded = settings_module.activateSettings(
+            {"speak": fakeSpeechTranslator}
+        )
+        self.assertTrue(settingsLoaded)
+        # Not sure why the value from settings is negated!
+        self.assertFalse(fakeSpeechTranslator.remove_dollars )
+
