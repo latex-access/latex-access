@@ -3,7 +3,7 @@
 Python scripts for processing LaTeX source into Nemeth or UEB braille and
 audible speech.
 
-Scripts written by Alastair Irving <alastair.irving@sjc.ox.ac.uk>
+Scripts written by [Alastair Irving](https://github.com/ajirving)
 
 [Website](https://latex-access.github.io/)
 
@@ -15,7 +15,7 @@ line of LaTeX at any one time, however when scrolling through a
 LaTeX document the braille is refreshed on the fly.  Currently, support for cursor routing buttons on Braille displays is only provided when working with Brltty under Linux.
 
 
-The scripts also translate the current line into English speech which
+The scripts also translate the current line into English speech wghich
   is then spoken by JAWS/emacspeak/NVDA.
 
 The Python scripts provide output in a large area of
