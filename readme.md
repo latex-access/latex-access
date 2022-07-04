@@ -26,4 +26,4 @@ mathematical symbols.
 The scripts currently interface to Jaws for Windows, (version 5 and
 above), NVDA, (2011.1 or later), Brltty and Emacspeak.  For documentation regarding any 
 of the interfaces to the previously mentioned screen readers/editors,
-please refer to any of the readme files in the appropriate folder, or consult the latex-access manual.
+please refer to any of the readme files in the appropriate folder, or consult the [Latex-access manual](/docs/manual.html).
