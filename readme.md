@@ -14,8 +14,7 @@ process a line of LaTeX source, and translate it into braille on a refreshable b
 line of LaTeX at any one time, however when scrolling through a
 LaTeX document the braille is refreshed on the fly.  Currently, support for cursor routing buttons on Braille displays is only provided when working with Brltty under Linux.
 
-
-The scripts also translate the current line into English speech wghich
+The scripts also translate the current line into English speech which
   is then spoken by JAWS/emacspeak/NVDA.
 
 The Python scripts provide output in a large area of
