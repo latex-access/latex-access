@@ -1,0 +1,326 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\title{The LaTeX-access manual}
+\author{Alastair Irving <\href{mailto:alastair.irving@sjc.ox.ac.uk}{alastair.irving@sjc.ox.ac.uk}>\\
+  Robin  Williams <\href{mailto:rmw205@exeter.ac.uk}{rmw205@exeter.ac.uk}>\\
+  Daniel Dalton <\href{mailto:<daniel.dalton10@gmail.com}{daniel.dalton10@gmail.com}>\\
+  Nathaniel Schmidt <\href{mailto:schmidty2244@gmail.com}{schmidty2244@gmail.com}>\\
+  Stefan Moisei <\href{mailto:vortex37@gmail.com}{vortex37@gmail.com}>}
+  \begin{document}
+\maketitle
+
+\tableofcontents
+
+Latex-access -- provides a blind person with a more efficient means of
+interacting with LaTeX for mathematical and scientific documents.
+
+\chapter{Introduction}
+\label{ch-introduction}
+
+The latex-access project is designed to provide a realtime
+translation of a line of LaTeX in to braille, concentrating
+on the Nemeth and UEB codes, whichh can be read on a refreshable braille
+display. This will greatly improve the ease of use of
+LaTeX for many blind mathematicians and scientists. The project also
+translates the current line into speech which is
+easier to listen to than LaTeX source.
+
+Note that this project is largely aimed at people wishing
+to read LaTeX using a refreshable braille display and/or
+speech synthesiser, and people who will probably
+want to edit LaTeX documents. For example, as a
+university student,
+one may receive their worksheets in LaTeX format and
+produce their work using LaTeX. Using the latex\_access
+package, the student would be able to
+get a fairly good translation of the question
+and then an on-the-fly translation of their work as
+they produce it. But if you are
+not concerned with editing LaTeX documents
+and simply want a braille translation of an
+entire laTeX document, then this
+project is not for you.
+
+There is also a very low traffic mailing list, which is worth subscribing to if you have any
+queries, problems, suggestions or ideas. All current developers are
+subscribed to this list and are very willing to assist. To subscribe
+send an email with the word ``subscribe'' in the subject to:
+\href{mailto:latex-access-devel-request@lists.sourceforge.net}{latex-access-devel-request@lists.sourceforge.net}. To
+post to the list send emails to \href{mailto:latex-access-devel@lists.sourceforge.net}{latex-access-devel@lists.sourceforge.net}
+
+\section{Purpose}
+\label{subchap-purpose}
+It is widely thought that LaTeX is a good system for a blind
+mathematician or scientist to use to create and read
+scientific documents, as it is a linear code and so the user does
+not have to perceive two-dimensional concepts, such
+as fractions and column vectors.
+By reading this linear code, a blind person can take in and
+understand scientific documents in the same way that a
+sighted person would do by studying a printed document.
+It should be noted that normally, laTeX is just a source from which
+documents are converted in to an
+attractive-looking, typeset document that can be printed or viewed
+on screen, often in a .pdf, .dvi or .ps format. For
+various technical reasons, documents in such formats are
+currently inaccessible with current screen-reading technology.
+The best current solution therefore is not to concern
+ourselves with documents in these formats, but rather to
+read
+and interpret the LaTeX source code itself.
+
+\section{Reading a LaTeX document}
+\label{subchap-reading-latex-document}
+
+It is entirely possible to read a LaTeX document simply by reading
+the LaTeX source itself. This however, is often a
+time-consuming and pain-staking process, and it is often not
+particularly nice to read. For example, the LaTeX source
+for the quadratic formula is\\
+\begin{lstlisting}[language = tex]
+$$x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}$$
+\end{lstlisting}
+
+It is therefore the aim of the project to translate a
+line of LaTeX in to a line of Niemeth braille code, which
+can be
+read using a refreshable braille display. The project
+also provides an audible translation of the
+LaTeX source
+which can be output through current screen-reading
+technology.          
+
+\section{Current features}
+\label{subchap-current-features}
+
+latex-access currently contains the following features.
+
+\begin{itemize}
+\item Translation of several mathematical expressions from LaTeX to
+Niemeth braille. These include, but are not confined
+to:
+\begin{itemize}
+\item Translation of fractions, both numerical and
+algebraic.
+\item Translation of trigonometric
+functions and hyperbolic functions.
+\item Translation of powers,
+including square roots.
+\item Translation of
+expressions used in calculus, including partial derivatives.
+\item Translation of two component and three component column vectors,
+  not in to Niemeth braille format but in to a row vector so that they
+  can be read on a single line braille display.
+\item Translation of several mathematical symbols, such as the Greek letters.
+\item Many commands used to create a visually attractive document are
+  either translated or ignored, often it is not necessary to see some
+  formatting commands.
+\end{itemize}
+
+\item Translation of several of the above to audible speech.
+\item A matrix browser feature to enable easier reading of larger
+  matrices in LaTeX, see the description below.
+\item Support for custom defined LaTeX commands.
+\end{itemize}
+
+\chapter{Installation}
+\label{ch-installation}
+
+\section{Obtaining the source}
+\label{subchap-obtaining-source}
+The package is hosted by Git at,
+\url{https://github.com/latex-access/latex-access}.
+
+This link will take you to a web interface of the git repository tree, but you'll
+probably want to clone (checkout) the code so you can install it. If you run
+windows see section~\ref{subsubchap-windows}, and if you run linux
+see section~\ref{subsubchap-linux}.
+
+\subsection{Linux}
+\label{subsubchap-linux}
+
+Under Linux, the standard git command-line client works
+well, or you can use Subversion to checkout the Git repository. One of these can usually be installed on debian based distros by running
+\begin{verbatim}
+apt-get install git
+\end{verbatim}
+or
+\begin{verbatim}
+apt-get install subversion
+\end{verbatim}
+\# (as root)\\
+Then type (whether using Git or svn respectively)
+\begin{verbatim}
+git clone https://github.com/latex-access/latex-access.git
+\end{verbatim}
+or
+\begin{verbatim}
+svn co https://github.com/latex-access/latex-access latex-access
+\end{verbatim}
+
+This will check the package out into the directory latex-access.
+
+In future feel free to run
+\begin{verbatim}
+git pull
+\end{verbatim}
+or
+\begin{verbatim}
+svn up
+\end{verbatim}
+(from within the latex-access directory) to pull the latest updates from
+the server.
+
+\subsection{Windows}
+\label{subsubchap-windows}
+
+It is recommended to use Git for Windows,, which you can download for the command line at the following link:\\
+\url{https://git-scm.com/download/win}
+
+On windows, if you prefer a graphical user interface (GUI), you also have the potential compromise of using the Tortoise SVN client.\\
+\url{http://tortoisesvn.tigris.org/}
+
+Once you have checked out the source code from\\
+\url{https://github.com/latex-access/latex-access.git}\\
+continue with the installation
+process.
+
+Note, you should periodically pull the latest updates from the server to
+get the latest and greatest features of latex-access. You can do this by simply typing
+\begin{verbatim}
+git pull
+\end{verbatim}
+within the directory you cloned the Latex-access repository to.
+
+\section{Installing the package}
+
+Currently latex-access interacts with three different
+programs. Therefore, the installation process varies slightly.
+
+\begin{description}
+\item [Jaws for Windows] most developed front-end to the project, and
+  allows Jaws to interact with latex-access within most editors.
+\item [Emacs/Emacspeak] Provides both Braille (via BRLTTY) and speech access when
+    working with latex under the emacs editor. This means anyone using a
+    Linux system can use the project. Usage under Linux is very stable,
+    but there are still a few little things to be done, see the README
+    in the emacs sub-directory for details. Currently has not been tested with
+    the Windows emacs version.
+\item [NVDA] provides latex-access for usage with most
+      editors. Under heavy development still, but it provides many
+      features of latex-access. See section~\ref{subsubchap-nvda} for
+      installation instructions.
+\end{description}
+
+For specific notes on each individual front-end it is recommended looking at the
+READMEs in their respective sub-directories, as these are much more likely to be up-to-date. You can also find details about
+contacting the developer of the specific front-end in question from the readme.
+
+\subsection{Emacs/emacspeak}
+\label{subsubchap-emacs}
+
+I assume you have downloaded or checked out the package from
+subversion. If not, please see section~\ref{subchap-obtaining-source}
+
+Installing emacs/emacspeak support for latex-access.
+
+\begin{enumerate}
+\item
+\begin{itemize}
+  \item A. Automated installation script.
+  I have built an installation script titled ``setup.py'' found in the emacs
+branch of this svn checkout.
+
+Invoking with no arguments will install to
+\begin{verbatim}
+~/.emacs
+\end{verbatim}, otherwise if you know
+what your doing and use an init file somewhere else, feel free to invoke
+the script as follows:
+\begin{verbatim}
+python setup.py <path-to-init-file>
+\end{verbatim}
+
+Most users who are happy with the default (
+\begin{verbatim}
+~/.emacs
+\end{verbatim}
+), may just invoke
+the script as follows:
+\begin{verbatim}
+python setup.py
+\end{verbatim}
+
+You may as well say yes to the prompt (y), to byte-compile
+emacs-latex-access... This should improve the speed slightly. If it
+fails or you do not want to byte compile the script can handle this
+fine. (It modifies your init file according to whether it could
+byte-compile or not.)
+
+Continue following the prompts until the script has finished.
+\item B. Manual installation. If you used the script, then skip to step
+  2.
+  Add the following to
+  \begin{verbatim}
+~/.emacs
+\end{verbatim}. Change /path/to/svnroot to the actual
+path to your svn local checkout. Eg. the directory containing the bulk
+of the *.py files and the general readme.txt file.
+Below lines should be appended to your .emacs.\\
+
+; Emacs latex-access:\\
+(setq latex-access-path "/path/to/svnroot")\\
+(load (concat latex-access-path "/emacs/emacs-latex-access.el"))\\
+(add-hook 'LaTeX-mode-hook 'latex-access-speech-on) ; comment this if you don't have emacspeak\\
+(add-hook 'LaTeX-mode-hook 'latex-access-braille-on) ; comment if you don't have Braille \\
+; End emacs Latex-access.\\
+
+Note: Keep this structure if you wish to have the uninstall script work
+with this installation.
+
+See the comments if you don't have Braille or emacspeak present.
+
+If you wish to use a byte-compiled file, for improved speed, replace .el
+with .elc in the line:\\
+(load (concat latex-access-path "/emacs/emacs-latex-access.el"))\\
+
+To byte-compile the emacs-latex-access.el file, do:\\
+emacs -batch -f batch-byte-compile emacs-latex-access.el\\
+(From the emacs branch of the svn checkout)
+\end{itemize}
+\item 
+Append to the PYTHONPATH environment variable the directory
+/path/to/svnroot, replacing /path/to/svnroot with the actual path to
+your svn checkout of latex-access if you used the manual
+installation. Otherwise copy and paste the export path output by the
+installation script.
+This is usually done by an export line in .bash\_profile.
+Ensure the variable is set before starting emacs.
+\item Please install pymacs. 
+On debian/ubuntu you may do:
+\begin{verbatim}
+sudo apt-get install pymacs
+\end{verbatim}
+Otherwise follow the instructions provided at:
+\url{http://pymacs.progiciels-bpi.ca/}
+\item Restart emacs!
+Now emacs should communicate correctly with latex-access.
+\item If you wish to place any settings in your .emacs for latex-access,
+place them under the line \\
+; end latex-access\\
+\begin{itemize}
+\item A. To set how many linesabove the currently selected line should also be
+translated add this line anywhere below\\
+; end latex-access \\
+(setq latex-access-linesabove 1)\\
+This would Braille the current line and the one above, change 1 to
+whatever setting you desire. 0 is just the current line.
+\end{itemize}
+\end{enumerate}
+
+\chapter{For developers}
+\label{ch-for-devs}
+
+\end{document}
