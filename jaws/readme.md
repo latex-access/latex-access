@@ -10,15 +10,15 @@ To install the scripts on a machine running windows and Jaws version 5 or higher
 2. Download the [pywin32 package](https://sourceforge.net/projects/pywin32), ensuring you have the correct file to match your version of python. Install this.
 3. Git clone or svn checkout the latest version of latex-access from SVN to a directory on your computer. Any directory will work, but for the purposes of this readme we will assume it is
    ```
-c:\latex-access
+   c:\latex-access
    ```
 4. Copy all of the files from within the jaws folder to the folder where your jaws scripts are located, with the exception of this readme file. On the now legacy Windows XP, These are/were usually in a path such as
    ```
-c:\documents and settings\%username%\application data\freedom scientific\jaws\%jaws version%\settings\enu
+   c:\documents and settings\%username%\application data\freedom scientific\jaws\%jaws version%\settings\enu
    ```
    But on machines running Windows Vista and beyond, it is in
    ```
-C:\Users\Nathaniel\AppData\Roaming\Freedom Scientific\JAWS\2022\Settings\enu
+   C:\Users\Nathaniel\AppData\Roaming\Freedom Scientific\JAWS\2022\Settings\enu
    ```
    (This can be reached using the explore jaws submenu of the jaws menu in your start menu).
 5. Now open a command prompt by going to run, and typing 'cmd'. Switch to the latex-access directory by typing
