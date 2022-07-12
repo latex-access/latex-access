@@ -1,4 +1,5 @@
 import unittest
+from parameterized import parameterized
 from latex_access import speech
 
 class TestSpeech(unittest.TestCase):
@@ -43,3 +44,12 @@ class TestSpeech(unittest.TestCase):
         """Tests translations of logarithms."""
         self.assertEqual(self.speech.log(' 5', 0), (' log ', 1))
         self.assertEqual(self.speech.log('_{2}8', 0), (' log base 2 of ', 4))
+
+    @parameterized.expand([(speech.speech.integral, "integral"), (speech.speech.iintegral, "double integral"), (speech.speech.iiintegral, "triple integral"),
+    (speech.speech.sum, "sum"), (speech.speech.prod, "product"), (speech.speech.union, "union"), (speech.speech.intersection, "intersection")])
+    def test_other_functions(self, function, result):
+        """Tests different types of integrals as well as sums, products, unions and intersections.
+        Because these functions are quite similar only one test is used which is parametrized to check all of them."""
+        self.assertEqual(function(self.speech, '_{2}^{4}', 0), (' %s from 2 to 4 of ' % (result), 8))
+        self.assertEqual(function(self.speech, '_{2}', 0), (' %s <sub>2</sub>' %(result), 4))
+        self.assertEqual(function(self.speech, '', 0), (' %s ' %(result), 0))
