@@ -8,6 +8,20 @@ class TestSpeech(unittest.TestCase):
         """Creates a speech instance."""
         self.speech = speech.speech()
 
+    def test_adding_file(self):
+        """Tests adding of speechtable file."""
+        self.assertEqual(self.speech.files, ['speech.table'])
+
+    def test_adding_to_table(self):
+        """Tests adding of new elements to speech table."""
+        self.assertEqual(self.speech.table['^'], self.speech.super)
+        self.assertEqual(self.speech.table['\\int'], self.speech.integral)
+        self.assertEqual(self.speech.table['\mathbb'], ("<bold>","</bold>"))
+
+    def test_space(self):
+        """Tests creation of space attribute."""
+        self.assertEqual(self.speech.space, ' ')
+
     def test_super(self):
         """Tests translation of superscripts."""
         self.assertEqual(self.speech.super('2', 0), (' squared ', 1))
