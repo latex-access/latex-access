@@ -2,6 +2,13 @@ import unittest
 from parameterized import parameterized
 from latex_access import speech
 
+try:
+    test_speech = speech.speech()
+    test_speech.sqrt('{2^2}', 0)
+    incompatible = False
+except AttributeError:
+    incompatible = True
+
 class TestSpeech(unittest.TestCase):
 
     def setUp(self):
@@ -35,7 +42,11 @@ class TestSpeech(unittest.TestCase):
         self.assertEqual(self.speech.sqrt('{16}', 0), (' root 16', 4))
         self.assertEqual(self.speech.sqrt('[3]{27}', 0), ('cube root 27', 7))
         self.assertEqual(self.speech.sqrt('[5]{32}', 0), ('5th root 32', 7))
-        #self.assertEqual(self.speech.sqrt('{2^2}', 0), (' begin  root 2 squared  end root', 5))
+
+    @unittest.skipIf(incompatible, "This test fails in Python 3 because of StringType attribute not available in Types module.")
+    def test_complex_roots(self):
+        """Tests translation of complex roots. Separated from other tests because it fails on Python 3."""
+        self.assertEqual(self.speech.sqrt('{2^2}', 0), (' begin  root 2 squared  end root', 5))
 
     def test_frac(self):
         """Tests translactions of fractions."""
