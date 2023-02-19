@@ -1,0 +1,5 @@
+brailledollars true
+; Next line consists of white spaces
+   
+speakdollars true
+capitalisation 6dot

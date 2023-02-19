@@ -33,8 +33,7 @@ class FakeTranslator(object):
     def __init__(self, attrsToSet):
         for attrName, attrInitialVal in attrsToSet.items():
             setattr(self, attrName, attrInitialVal)
-
-    loaded_files = list()
+        self.loaded_files = list()
 
     def load_file(self, pathToLoad):
         self.loaded_files.append(pathToLoad)
@@ -65,6 +64,24 @@ class TestSettings(unittest.TestCase):
         sample_config_path = os.path.join(HERE, 'test_settings_incorrect.txt')
         settings_module.loadSettings(sample_config_path)
         self.assertEqual(settings_module.settings, self.settings_copy)
+
+    def test_settings_file_lines_ignored(self):
+        """Test that lines which consist only of white spaces
+        are ignored when reading settings file."""
+        settings_module.settings = {}
+        sample_config_path = os.path.join(
+            HERE,
+            'test_settings_white_spaces_only_lines.txt'
+        )
+        settings_module.loadSettings(sample_config_path)
+        self.assertEqual(
+            settings_module.settings,
+            {
+                'brailledollars': 'true',
+                'speakdollars': 'true',
+                'capitalisation': '6dot'
+            }
+        )
 
     def test_booleanise_setting(self):
         """Tests that setting's value is converted to boolean."""
@@ -151,3 +168,25 @@ class TestSettings(unittest.TestCase):
         self.assertTrue(settingsLoaded)
         self.assertEqual(fakePreprocessor.loadedTables, [])
 
+    def test_table_for_ueb_loaded(self):
+        """Ensure that when UEB is used the correct file is loaded."""
+        fakeBrailleTranslator = FakeTranslator({})
+        settings_module.settings["brailletable"] = "ueb"
+        with tempfile.NamedTemporaryFile() as ueb_fake_table:
+            settings_module.settings["uebfile"] = ueb_fake_table.name
+            settingsLoaded = settings_module.activateSettings(
+                {"braille": fakeBrailleTranslator}
+            )
+            self.assertTrue(settingsLoaded)
+            self.assertEqual(fakeBrailleTranslator.loaded_files, [ueb_fake_table.name])
+
+    def test_table_for_speech_loaded(self):
+        """Ensure that when speech table exists it is loaded."""
+        fakeSpeechTranslator = FakeTranslator({})
+        with tempfile.NamedTemporaryFile() as speech_fake_table:
+            settings_module.settings["speechfile"] = speech_fake_table.name
+            settingsLoaded = settings_module.activateSettings(
+                {"speak": fakeSpeechTranslator}
+            )
+            self.assertTrue(settingsLoaded)
+            self.assertEqual(fakeSpeechTranslator.loaded_files, [speech_fake_table.name])
