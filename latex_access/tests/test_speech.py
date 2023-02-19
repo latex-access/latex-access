@@ -30,7 +30,7 @@ class TestSpeech(unittest.TestCase):
         self.assertEqual(self.speech.space, ' ')
 
     def test_super(self):
-        """Tests translation of superscripts."""
+        """Tests translations of superscripts."""
         self.assertEqual(self.speech.super('2', 0), (' squared ', 1))
         self.assertEqual(self.speech.super('3', 0), (' cubed ', 1))
         self.assertEqual(self.speech.super('{\prime}', 0), (' prime ', 8))
@@ -49,7 +49,7 @@ class TestSpeech(unittest.TestCase):
         self.assertEqual(self.speech.sqrt('{2^2}', 0), (' begin  root 2 squared  end root', 5))
 
     def test_frac(self):
-        """Tests translactions of fractions."""
+        """Tests translations of fractions."""
         self.assertEqual(self.speech.frac('{1}{2}', 0), ('1 half ', 6))
         self.assertEqual(self.speech.frac('{3}{4}', 0), ('3 quarters ', 6))
         self.assertEqual(self.speech.frac('{x}{y}', 0), (' x over y ', 6))
