@@ -142,7 +142,7 @@ class TestSettings(unittest.TestCase):
         self.assertFalse(fakeBrailleTranslator.remove_dollars )
 
     def test_capitalization_from_settings_set_onbraillle_translator(self):
-        fakeBrailleTranslator = FakeTranslator({"capitaliation": ""})
+        fakeBrailleTranslator = FakeTranslator({"capitalisation": ""})
         settings_module.settings["capitalisation"] = "8dot"
         settingsLoaded = settings_module.activateSettings(
             {"braille": fakeBrailleTranslator}
