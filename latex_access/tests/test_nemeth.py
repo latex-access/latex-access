@@ -1,5 +1,4 @@
 import unittest
-from parameterized import parameterized
 from latex_access import nemeth
 
 class NemethTests(unittest.TestCase):
