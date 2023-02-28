@@ -51,6 +51,7 @@ class TestSpeech(unittest.TestCase):
     def test_frac(self):
         """Tests translations of fractions."""
         self.assertEqual(self.speech.frac('{1}{2}', 0), ('1 half ', 6))
+        self.assertEqual(self.speech.frac('{1}', 0), (' begin frac 1 over  end frac ', 3))
         self.assertEqual(self.speech.frac('{3}{4}', 0), ('3 quarters ', 6))
         self.assertEqual(self.speech.frac('{x}{y}', 0), (' x over y ', 6))
         self.assertEqual(self.speech.frac('{5}{11}', 0), (' begin frac 5 over 11 end frac ', 7))
@@ -64,6 +65,7 @@ class TestSpeech(unittest.TestCase):
         self.assertEqual(self.speech.ang('{30}', 0), ('30 degrees', 4))
         self.assertEqual(self.speech.ang('{45;10}', 0), ('45 degrees 10 minutes', 7))
         self.assertEqual(self.speech.ang('{60;15;20}', 0), ('60 degrees 15 minutes 20 seconds', 10))
+        self.assertEqual(self.speech.ang('{60;15;20;25}', 0), ('60 degrees 15 minutes 20 seconds 25', 13))
 
     def test_log(self):
         """Tests translations of logarithms."""

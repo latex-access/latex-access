@@ -73,6 +73,7 @@ class TestHungarianSpeech(unittest.TestCase):
         self.assertEqual(self.speech.frac('{1}{2}', 0), ('1 ketted ', 6))
         self.assertEqual(self.speech.frac('{x}{y}', 0), (' x per y ', 6))
         self.assertEqual(self.speech.frac('{2x}{3y}', 0), (u' tört, 2x per 3y, tört zár ', 8))
+        self.assertEqual(self.speech.frac('{1}', 0), (u' tört, 1 per , tört zár ', 3))
 
     @parameterized.expand([(hungarian_speech.speech.integral, u"integrál"), (hungarian_speech.speech.dbintegral, u"kettős integrál"),
     (hungarian_speech.speech.ddintegral, u"hármas integrál"), (hungarian_speech.speech.ointegral, u"hurokintegrál")])
@@ -97,6 +98,7 @@ class TestHungarianSpeech(unittest.TestCase):
         self.assertEqual(self.speech.ang('{30}', 0), ('30 degrees', 4))
         self.assertEqual(self.speech.ang('{45;10}', 0), ('45 degrees 10 minutes', 7))
         self.assertEqual(self.speech.ang('{60;15;20}', 0), ('60 degrees 15 minutes 20 seconds', 10))
+        self.assertEqual(self.speech.ang('{60;15;20;25}', 0), ('60 degrees 15 minutes 20 seconds 25', 13))
 
     def test_log(self):
         """Tests translations of logarithms."""
@@ -131,3 +133,4 @@ class TestHungarianSpeech(unittest.TestCase):
         """Tests translations of binomials."""
         self.assertEqual(self.speech.binom('{n}{k}', 0), (' n alatt k ', 6))
         self.assertEqual(self.speech.binom('{n+1}{k+1}', 0), (u' binom, n plus 1 alatt k plus 1, binom zár ', 10))
+        self.assertEqual(self.speech.binom('{n+1}', 0), (u' binom, n plus 1 alatt , binom zár ', 5))
