@@ -1,9 +1,10 @@
 # -*- coding: utf8 -*-
 import unittest
 from parameterized import parameterized
+from .hungarian_speech_wrapper import hungarian_speech
 try:
-    from latex_access import hungarian_speech
-except ImportError:
+    hungarian_speech.speech()
+except AttributeError:
     failed_to_import = True
 else:
     failed_to_import = False

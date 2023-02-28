@@ -1,8 +1,9 @@
 import unittest
 from parameterized import parameterized
+from .speech_modifed_wrapper import speech_modified
 try:
-    from latex_access import speech_modified
-except ImportError:
+    speech_modified.speech()
+except AttributeError:
     failed_to_import = True
 else:
     failed_to_import = False
