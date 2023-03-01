@@ -42,9 +42,46 @@ class TestSpeechModified(unittest.TestCase):
         self.assertEqual(self.speech.super('{10}', 0), (' to the <sup> 10 </sup> ', 4))
         self.assertEqual(self.speech.super('{-4}', 0), (u' to the <sup>  minus 4 </sup> ', 4))
 
-#    def test_sqrt(self):
-#        """Tests translations of roots."""
-#        self.assertEqual
+    def test_square_roots(self):
+        """Tests translations of square roots."""
+        self.assertEqual(self.speech.sqrt("{2}", 0), (u" root 2 ", 3))
+        self.assertEqual(self.speech.sqrt("{x}", 0), (u" root x ", 3))
+        self.assertEqual(self.speech.sqrt("{\\frac{1}{2}}", 0), (u" root of 1 half  end root ", 13))
+
+    def test_roots_degree_specified_explicitly(self):
+        """Test for roots where degree is specified by the user."""
+        self.assertEqual(
+            self.speech.sqrt("\\sqrt[2]{16}", 5),
+            (u" square root of 16 end root ", 12)
+        )
+        self.assertEqual(
+            self.speech.sqrt("\\sqrt[3]{27}", 5),
+            (u" cube root of 27 end root ", 12)
+        )
+        self.assertEqual(
+            self.speech.sqrt("\\sqrt[N]{27}", 5),
+            (u"enth root of 27 end root ", 12)
+        )
+        self.assertEqual(
+            self.speech.sqrt("\\sqrt[x]{27}", 5),
+            (u"exth root of 27 end root ", 12)
+        )
+        self.assertEqual(
+            self.speech.sqrt("\\sqrt[]{27}", 5),  # Is this even valid LaTeX?
+            (u"root of 27 end root ", 11)
+        )
+        self.assertEqual(
+            self.speech.sqrt("\\sqrt[4]{16}", 5),
+            (u"4th root of 16 end root ", 12)
+        )
+        self.assertEqual(
+            self.speech.sqrt("\\sqrt[3]{8}", 5),
+            (u" cube root 8", 11)
+        )
+
+    def test_dsfrac(self):
+        """Unclear what `\\dsfrac`` does"""
+        self.assertEqual(self.speech.dsfrac("{1}", 0), (u" begin frac 1 end frac ", 3))
 
     def test_frac(self):
         """Tests translactions of fractions."""
