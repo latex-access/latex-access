@@ -68,6 +68,10 @@ class TestHungarianSpeech(unittest.TestCase):
         """Tests translations of roots."""
         self.assertEqual(self.speech.sqrt('2', 0), (u' gyök 2', 1))
         self.assertEqual(self.speech.sqrt('{2x}', 0), (u' gyök alatt, 2x, gyök zár', 4))
+        self.assertEqual(self.speech.sqrt('\\sqrt[2]{16}', 5), (u'2.  gyök alatt, 16, gyök zár ', 12))
+        self.assertEqual(self.speech.sqrt('\\sqrt[3]{27}', 5), (u' köb  gyök alatt, 27, gyök zár ', 12))
+        self.assertEqual(self.speech.sqrt('\\sqrt[N]{27}', 5), (u'n-edik  gyök alatt, 27, gyök zár ', 12))
+        self.assertEqual(self.speech.sqrt('\\sqrt[x]{27}', 5), (u'x-edik  gyök alatt, 27, gyök zár ', 12))
 
     def test_frac(self):
         """Tests translations of fractions."""
@@ -75,6 +79,10 @@ class TestHungarianSpeech(unittest.TestCase):
         self.assertEqual(self.speech.frac('{x}{y}', 0), (' x per y ', 6))
         self.assertEqual(self.speech.frac('{2x}{3y}', 0), (u' tört, 2x per 3y, tört zár ', 8))
         self.assertEqual(self.speech.frac('{1}', 0), (u' tört, 1 per , tört zár ', 3))
+
+    def test_dsfrac(self):
+        """Unclear what `\\dsfrac`` does"""
+        self.assertEqual(self.speech.dsfrac("{1}", 0), (u" tört 1 tört zár ", 3))
 
     @parameterized.expand([(hungarian_speech.speech.integral, u"integrál"), (hungarian_speech.speech.dbintegral, u"kettős integrál"),
     (hungarian_speech.speech.ddintegral, u"hármas integrál"), (hungarian_speech.speech.ointegral, u"hurokintegrál")])
