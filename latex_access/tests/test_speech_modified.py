@@ -1,6 +1,6 @@
 import unittest
 from parameterized import parameterized
-from .speech_modifed_wrapper import speech_modified
+from .speech_modified_wrapper import speech_modified
 try:
     speech_modified.speech()
 except AttributeError:
