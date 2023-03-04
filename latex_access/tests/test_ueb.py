@@ -92,27 +92,54 @@ class UebTests(unittest.TestCase):
         self.braille.lastnumber = 1
         self.assertEqual(self.braille.numbers('{11}', 2), ('a', 2))
 
+    def test_dot_in_the_middle_of_a_number(self):
+        """Tests translations of dots between numbers."""
+        # Simulate a case when dot is directly after a digit.
+        self.braille.lastnumber = 0 
+        self.assertEqual(self.braille.dot('1', 1), ('4', 1))
+        # Ensure that last number is set to the starting position.
+        self.assertEqual(self.braille.lastnumber, 1)
+
     def test_dot(self):
         """Tests translations of dots."""
-        self.braille.lastnumber = 0
+        # We need to call `before` manually,
+        # to set position of the last encountered number.
+        # Normally this is taken care of by the base `translate` method.
+        self.braille.before()
         self.assertEqual(self.braille.dot('1', 1), ('4', 1))
+        # Ensure that start number remains unchanged.
+        self.assertEqual(self.braille.lastnumber, -1)
+
+    def test_comma_between_digits(self):
+        """Tests translations of commas when they are between digits."""
+        # Simulate a case when comma is directly after a digit.
+        self.braille.lastnumber = 0
+        self.assertEqual(self.braille.comma('1', 1), ('1', 1))
+        # Ensure that last number is set to the starting position.
+        self.assertEqual(self.braille.lastnumber, 1)
 
     def test_comma(self):
         """Tests translations of commas."""
-        self.braille.lastnumber = 0
+        # We need to call `before` manually,
+        # to set position of the last encountered number.
+        # Normally this is taken care of by the base `translate` method.
+        self.braille.before()
         self.assertEqual(self.braille.comma('1', 1), ('1', 1))
+        # Ensure that start number remains unchanged.
+        self.assertEqual(self.braille.lastnumber, -1)
 
     def test_letterSign(self):
         """Tests translations of letter sign."""
         self.braille.lastnumber = 0
         self.assertFalse(self.braille.letterSign('A', 0))
         self.assertTrue(self.braille.letterSign('B', 0))
-        self.braille.lastnumber = None
+        self.braille.lastnumber = 1
         self.assertTrue(self.braille.letterSign('{ B }', 2))
         self.assertTrue(self.braille.letterSign('{ }', 0))
         self.assertTrue(self.braille.letterSign('{,}', 2))
         self.assertTrue(self.braille.letterSign('{b,}', 1))
         self.assertTrue(self.braille.letterSign('{,b }', 2))
+        self.assertTrue(self.braille.letterSign(' b', 1))
 
     def test_lowerLetter(self):
         """Tests translations of lower letters."""

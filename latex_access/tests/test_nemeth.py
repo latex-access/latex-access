@@ -62,3 +62,7 @@ class NemethTests(unittest.TestCase):
         self.assertEqual(self.braille.upperLetter('X', 0), ('X', 0))
         self.braille.capitalisation='6dot'
         self.assertEqual(self.braille.upperLetter('X', 0), (',x', 0))
+
+    def test_cap_at_beginning_of_line_cap_sign_added(self):
+        self.braille.capitalisation='6dot'
+        self.assertEqual(self.braille.upperLetter('XY', 1), (',x', 1))
