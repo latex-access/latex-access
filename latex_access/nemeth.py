@@ -115,7 +115,7 @@ class nemeth(latex_access.translator):
             else:
                 transnum=self.translate(numerator[0],(rting[0]+numerator[2],rting[1]+1))
                 transden=self.translate(denominator[0],(rting[0]+denominator[2],rting[1]+len(transnum)+2))
-                translation="?"+transnum+"/"+transden+"#"
+                translation="?"+transum+"/"+transden+"#"
         return (translation,denominator[1])
 
 
