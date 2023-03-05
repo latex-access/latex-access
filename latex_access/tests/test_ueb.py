@@ -63,8 +63,11 @@ class UebTests(unittest.TestCase):
         self.assertEqual(self.braille.lastnumber, 6)
         self.assertEqual(self.braille.frac('{x}{y}', 0), (';(;x./;y;)', 6))
         self.assertEqual(self.braille.lastnumber, -1)
-        #Disabled because of typo in tested code
-        #self.assertEqual(self.braille.frac('{x}{y}', 0, (1, 1)), (';(;x./;y;)', 6))
+
+    @unittest.expectedFailure
+    def test_frac_failing(self):
+        """Fails because of typo in tested code."""
+        self.assertEqual(self.braille.frac('{x}{y}', 0, (1, 1)), (';(;x./;y;)', 6))
 
     def test_bar(self):
         """Tests translations of bars."""
@@ -143,18 +146,19 @@ class UebTests(unittest.TestCase):
 
     def test_lowerLetter(self):
         """Tests translations of lower letters."""
-        self.braille.lastnumber = None
+        self.braille.lastnumber = 1
         self.assertEqual(self.braille.lowerLetter('b', 0), (';b', 0))
-        self.assertEqual(self.braille.lowerLetter('{b}', 2), ('b', 2))
+        self.assertEqual(self.braille.lowerLetter('{b}', 2), (';b', 2))
         self.assertEqual(self.braille.lowerLetter('{ABc}', 4), (',c', 4))
 
     def test_upperLetter(self):
         """Tests translations of upper letters."""
-        self.braille.lastnumber = None
+        self.braille.lastnumber = 1
         self.braille.capitalisation = '8dot'
         self.assertEqual(self.braille.upperLetter('A', 0), ('A', 0))
         self.braille.capitalisation = '6dot'
         self.assertEqual(self.braille.upperLetter('A', 0), (',a', 0))
-        self.assertEqual(self.braille.upperLetter('{AB}', 2), (',,a', 2))
+        self.assertEqual(self.braille.upperLetter('{AB}', 2), (';,,a', 2))
         self.assertEqual(self.braille.upperLetter('{A}', 1), (',,{', 1))
         self.assertEqual(self.braille.upperLetter('B', 0), (';,b', 0))
+        self.assertEqual(self.braille.upperLetter('{ABC}', 3), ('b', 3))
