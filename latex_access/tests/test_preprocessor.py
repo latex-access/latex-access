@@ -1,12 +1,16 @@
+import os
 import unittest
 import tempfile
 import pickle
+
 try:
     from latex_access import preprocessor
-except ModuleNotFoundError:
+except ImportError:
     incompatible = True
 else:
     incompatible = False
+
+HERE = os.path.abspath(os.path.dirname(__file__))
 
 
 @unittest.skipIf(incompatible, "This module is not compatible with version 3 of Python.")
@@ -31,22 +35,16 @@ class TestPreprocessor(unittest.TestCase):
 
     def test_write(self):
         """Tests that preprocessor entries can be saved to a file."""
-        file = tempfile.NamedTemporaryFile(delete=False)
-        self.preprocessor.table['foo'] = 'bar'
-        self.preprocessor.write(file.name)
-        f = open(file.name)
-        temp_table = pickle.load(f)
-        f.close()
+        with tempfile.NamedTemporaryFile(delete=False) as file:
+            self.preprocessor.table['foo'] = 'bar'
+            self.preprocessor.write(file.name)
+        with open(file.name, "r") as f:
+            temp_table = pickle.load(f)
         self.assertEqual(temp_table['foo'], 'bar')
 
     def test_read(self):
         """Tests that preprocessor entries can be read from a file."""
-        file = tempfile.NamedTemporaryFile(delete=False)
-        temp_table = {'foo': 'bar'}
-        f = open(file.name,"w")
-        pickle.dump(temp_table, f)
-        f.close()
-        self.preprocessor.read(file.name)
+        self.preprocessor.read(os.path.join(HERE, 'test_preprocessor_file'))
         self.assertEqual(self.preprocessor.table['foo'], 'bar')
 
 
