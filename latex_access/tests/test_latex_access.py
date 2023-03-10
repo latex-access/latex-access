@@ -210,3 +210,19 @@ class TestGetSubSuper(unittest.TestCase):
         """Verify the behaviour when the given command has neither sub nor super."""
         get_sub_super_res = la_main_module.get_subsuper("\\frac{1}{2}", 5)
         self.assertEqual(get_sub_super_res, (None, None, 5))
+
+    def test_integral_lower_limit_missing_eol(self):
+        """Ensure that integral with the missing lower limit and line break at the end is handled."""
+        get_sub_super_res = la_main_module.get_subsuper(r"\int^{b}\\", 4)
+        self.assertEqual(
+            get_sub_super_res,
+            (None, ("b", 8, 6), 8)
+        )
+
+    def test_integral_upper_limit_missing_eol(self):
+        """Ensure that integral with the missing upper limit and line break at the end is handled."""
+        get_sub_super_res = la_main_module.get_subsuper(r"\int_{a}\\", 4)
+        self.assertEqual(
+            get_sub_super_res,
+            (("a", 8, 6), None, 8)
+        )
