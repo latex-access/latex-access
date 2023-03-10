@@ -44,7 +44,7 @@ class TestPreprocessor(unittest.TestCase):
 
     def test_read(self):
         """Tests that preprocessor entries can be read from a file."""
-        self.preprocessor.read(os.path.join(HERE, 'test_preprocessor_file'))
+        self.preprocessor.read(os.path.join(HERE, 'preprocessor_file'))
         self.assertEqual(self.preprocessor.table['foo'], 'bar')
 
 
