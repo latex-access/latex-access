@@ -138,3 +138,75 @@ class TestGetOptionalAr(unittest.TestCase):
         """Verify that optional arg can be extracted from correctly written cube root."""
         get_opt_arg_res = la_main_module.get_optional_arg("\\sqrt[3]{8}", 5)
         self.assertEqual(get_opt_arg_res, ("3", 8))
+
+
+class TestGetSubSuper(unittest.TestCase):
+
+    """Set of tests for `get_subsuper` function."""
+
+    def test_starting_position_outside_range(self):
+        """Verify the behaviour when the provided string is shorter than the starting pos."""
+        get_sub_super_res = la_main_module.get_subsuper("\\int_{a}^{b}", 13)
+        self.assertEqual(get_sub_super_res, (None, None, 13))
+
+    def test_spaces_skipped(self):
+        """Verify that white space before limits of integral is skipped."""
+        get_sub_super_res = la_main_module.get_subsuper("\\int   _{a}^{b}", 4)
+        self.assertEqual(
+            get_sub_super_res,
+            (("a", 11, 9), ("b", 15, 13), 15)
+        )
+
+
+    def test_spaces_before_upper_limit_skipped(self):
+        """Ensure that spaces after lower limit and before upper are skipped."""
+        get_sub_super_res = la_main_module.get_subsuper("\\int_{a}   ^{b}", 4)
+        self.assertEqual(
+            get_sub_super_res,
+            (("a", 8, 6), ("b", 15, 13), 15)
+        )
+
+    def test_spaces_before_lower_limit_skipped(self):
+        """Ensure that spaces after upper limit and before lower are skipped."""
+        get_sub_super_res = la_main_module.get_subsuper("\\int^{b}   _{a}", 4)
+        self.assertEqual(
+            get_sub_super_res,
+            (("a", 15, 13), ("b", 8, 6), 15)
+        )
+
+    def test_integral_upper_limit_first(self):
+        """Ensure that correct integral where upper limit is first is handled.."""
+        get_sub_super_res = la_main_module.get_subsuper("\\int^{b}_{a}", 4)
+        self.assertEqual(
+            get_sub_super_res,
+            (("a", 12, 10), ("b", 8, 6), 12)
+        )
+
+    def test_integral_lower_limit_first(self):
+        """Ensure that correct integral where lower limit is first is handled."""
+        get_sub_super_res = la_main_module.get_subsuper("\\int_{a}^{b}", 4)
+        self.assertEqual(
+            get_sub_super_res,
+            (("a", 8, 6), ("b", 12, 10), 12)
+        )
+
+    def test_integral_upper_limit_missing(self):
+        """Ensure that integral with the missing upper limit is handled."""
+        get_sub_super_res = la_main_module.get_subsuper("\\int_{a}", 4)
+        self.assertEqual(
+            get_sub_super_res,
+            (("a", 8, 6), None, 8)
+        )
+
+    def test_integral_lower_limit_missing(self):
+        """Ensure that integral with the missing lower limit is handled."""
+        get_sub_super_res = la_main_module.get_subsuper("\\int^{b}", 4)
+        self.assertEqual(
+            get_sub_super_res,
+            (None, ("b", 8, 6), 8)
+        )
+
+    def test_no_sub_no_super(self):
+        """Verify the behaviour when the given command has neither sub nor super."""
+        get_sub_super_res = la_main_module.get_subsuper("\\frac{1}{2}", 5)
+        self.assertEqual(get_sub_super_res, (None, None, 5))
