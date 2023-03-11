@@ -1,9 +1,12 @@
 import os
+import subprocess
+import sys
 import unittest
 import pickle
 import tempfile
 try:
     from latex_access.latex_access_emacs import *
+    import latex_access.latex_access_emacs as la_emacs
 except SyntaxError:
     incompatible = True
 else:
@@ -104,3 +107,33 @@ class TestsLatexAccessEmacsMatrix(unittest.TestCase):
         """Tests that matrix is properly created."""
         self.assertEqual(matrix.row, 1)
         self.assertEqual(matrix.column, 1)
+
+
+@unittest.skipIf(incompatible, "This module is not compatible with version 3 of python.")
+class TestAsModule(unittest.TestCase):
+
+    @unittest.expectedFailure
+    def test_module_running_as_file(self):
+        """Test that the `latex_access_emacs` module shows a warning when
+        running innteractively.
+        This test currently fails due to usage of relative imports.
+        """
+        modFilePath = os.path.abspath(la_emacs.__file__)
+        la_emacsSubprocess = subprocess.Popen(
+            (sys.executable, modFilePath),
+            stdout=subprocess.PIPE,
+            universal_newlines=True
+        )
+        la_emacsSubprocess.wait()
+        # The la_emacs module exits with exit code set to -1.
+        # On *nix based systems negative exit codes are invalid.
+        # Therefore exit code set to -1 is converted to 255
+        # which represents exit code out of range.
+        # To remain compatible with Windows check for both -1 and 255.
+        self.assertIn(la_emacsSubprocess.returncode, (-1, 255))
+        self.assertEqual(
+            la_emacsSubprocess.stdout.read(),
+            (
+                "This is just a module.\n"
+            )
+        )
