@@ -173,7 +173,6 @@ class TestGetSubSuper(unittest.TestCase):
             (("a", 11, 9), ("b", 15, 13), 15)
         )
 
-
     def test_spaces_before_upper_limit_skipped(self):
         """Ensure that spaces after lower limit and before upper are skipped."""
         get_sub_super_res = la_main_module.get_subsuper("\\int_{a}   ^{b}", 4)
@@ -191,7 +190,7 @@ class TestGetSubSuper(unittest.TestCase):
         )
 
     def test_integral_upper_limit_first(self):
-        """Ensure that correct integral where upper limit is first is handled.."""
+        """Ensure that correct integral where upper limit is first is handled."""
         get_sub_super_res = la_main_module.get_subsuper("\\int^{b}_{a}", 4)
         self.assertEqual(
             get_sub_super_res,
