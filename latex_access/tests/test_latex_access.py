@@ -1,4 +1,10 @@
+import os
 import unittest
+
+try:
+    import unittest.mock as mock_lib
+except ImportError:  # Python 2 - use mock backport
+    import mock as mock_lib
 
 import latex_access.latex_access as la_main_module
 
@@ -25,7 +31,12 @@ class TestTranslatorConstructor(unittest.TestCase):
         self.assertEqual(tr.files, [])
 
 
-class TestDollarsTranslation(unittest.TestCase):
+class TestSimpleMethods(unittest.TestCase):
+
+    """Verifies behaviour of various simple translator methods.
+
+    By simple we mean these which do not rely on the `translate` method.
+    """
 
     def test_dollars_preserved_by_default(self):
         """Test that by default dollars are not removed when translating.
@@ -48,6 +59,11 @@ class TestDollarsTranslation(unittest.TestCase):
         trDollarsKept = la_main_module.translator()
         trDollarsKept.remove_dollars = False
         self.assertEqual(trDollarsKept.dollar("\\alpha$", 1), ("$", 1))
+
+    def test_remove_method(self):
+        """Verify that `remove` method removes both command and its argument."""
+        tr = la_main_module.translator()
+        self.assertEqual(tr.remove(r"\hspace{1in}", 7), ("", 12))
 
 
 class TestGet_arg(unittest.TestCase):
@@ -226,3 +242,90 @@ class TestGetSubSuper(unittest.TestCase):
             get_sub_super_res,
             (("a", 8, 6), None, 8)
         )
+
+
+FAKE_GET_PATH = mock_lib.create_autospec(
+    la_main_module.get_path,
+    spec_set=True,
+    return_value=os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "test_tables")
+    )
+)
+
+
+class TestTableFilesParsingAndLoading(unittest.TestCase):
+
+    """Set of tests for loading table entries from files. """
+
+    def setUp(self):
+        """Create fresh translator instance for each of the tests.
+
+        In addition replaces `get_path` function with a mock,
+        which returns path to a directory containing test tables.
+        Ideally this would be done only once inside
+        `SetUpClass`, but in that case we would not be able to stop the patch
+        (`addClassCleanup` was added in Python 3.8, and we need to be backwards 
+        compatible with 2.7 and 3.7).
+        Note that having to mock this function is rather unfortunate,
+        when refactoring this code should be modified,
+        so that parsing of table content is not coupled with the logic
+        responsible for locating and opening files.
+        """
+        self.translator = la_main_module.translator()
+        patcher = mock_lib.patch(
+            "latex_access.latex_access.get_path",
+            FAKE_GET_PATH
+        )
+        self.addCleanup(patcher.stop)
+        patcher.start()
+
+    def test_commented_and_empty_lines_skipped(self):
+        """Ensure that lines starting with ; (semicolon)
+        which are comments, and empty lines are skipped when loading content of the table.
+        Note that this works only for files with Unix line endings (LF)
+        `test_crlf_not_skipped_for_empty_lines`  demonstrates
+        the incorrect behaviour for files with Windows line endings.
+        """
+        table_entries_before_file_load = set(self.translator.table.keys())
+        self.translator.load_file("empty_lines_and_comments.table")
+        self.assertEqual(
+            table_entries_before_file_load,
+            set(self.translator.table.keys())
+        )
+
+    def test_crlf_not_skipped_for_empty_lines(self):
+        """Demonstrates that empty lines in files with Windows line endings are not ignored when reading tables."""
+        table_entries_before_file_load = set(self.translator.table.keys())
+        self.translator.load_file("empty_lines_and_comments_crlf.table")
+        keys_after_loading_table = set(self.translator.table.keys())
+        self.assertEqual(
+            (keys_after_loading_table- table_entries_before_file_load),
+            set((u"\r\n",))
+        )
+        self.assertEqual(self.translator.table["\r\n"], "")
+
+    def test_single_word_entries_added(self):
+        """Verify the behaviour for adding entries where the translation is a single word."""
+        self.translator.load_file("single_word.table")
+        self.assertEqual(self.translator.table[u"+"], u"plus")
+
+    def test_multiple_word_entries_added(self):
+        """Verify the behaviour for adding entries where the translation consists of multiple words."""
+        self.translator.load_file("multi_word.table")
+        self.assertEqual(self.translator.table[u"\\pm"], u"plus or minus")
+
+    def test_multiple_spaces_in_table_entry(self):
+        """Verify the behaviour for adding entries where there are multiple spaces in the translation."""
+        self.translator.load_file("multiple_spaces.table")
+        self.assertEqual(
+            self.translator.table[u"<"],
+            u' "k '  # Space before and after
+            )
+
+    def test_all_files_from_file_list_loaded(self):
+        """Ensure that entries from all added files are loaded."""
+        self.translator.files.append("multi_word.table")
+        self.translator.files.append("single_word.table")
+        self.translator.load_files()
+        self.assertEqual(self.translator.table[u"+"], u"plus")
+        self.assertEqual(self.translator.table[u"\\pm"], u"plus or minus")
