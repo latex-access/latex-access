@@ -40,9 +40,8 @@ class speech(latex_access.translator):
 		self.load_files()
 		
 		new_table={"\\cap":self.cap, "\\bigcap":self.cap, "\\binom":self.binom,"\\vec":self.vect,"\\underline":self.underline,"$":self.dollar,"^":self.super,"_":("<sub>","</sub>"),"\\pmod":("mod <sub>","</sub>"),"\\widetilde":self.tilde,"\\tilde":self.tilde,"\\sqrt":self.sqrt,"\\frac":self.frac,"\\dfrac":self.frac,"\\ds":self.dsfrac,"\\int":self.integral,"\\dbint":self.dbintegral,"\\ddint":self.ddintegral,"\\oint":self.ointegral,"\\cup":self.union,"\\bigcup":self.union,"\\sum":self.sum,"\\prod":self.prod,"\\bf":("<bold>","</bold>"),"\\mathbf":("<bold>","</bold>"),"\\mathbb":("<bold>","</bold>"),"\\mathcal":("<mathcal>","</mathcal>"), "\\em":("<em>","</em>"), "\\it":("<em>","</em>"), "\\log":self.log,"\\ang":self.ang,"\\tag":self.tag,"\\hat":self.hat,"\\widehat":self.hat,"\\bar":("",u" felülvonás "),"\\overline":self.overline,"\\dot":("","pont"),"\\ddot":("","duplapont")}
-		for (k,v) in new_table.iteritems():
-			self.table[k]=v
-			self.space=" "
+		self.table.update(new_table)
+		self.space=" "
 
 
 	def correct(self, inputstr):

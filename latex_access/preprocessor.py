@@ -62,8 +62,7 @@ class preprocessor(latex_access.translator):
         f = open(filename, "rb")
         newtable=pickle.load(f)
         f.close()
-        for (k,v) in newtable.iteritems():
-            self.table[k]=v
+        self.table.update(newtable)
 
 class newcommands(latex_access.translator):
     '''Provides a translator to extract all \newcommand commands from a string.'''

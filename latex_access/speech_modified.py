@@ -41,8 +41,7 @@ class speech(latex_access.translator):
                 "\\tag":self.tag,"\\hat":("","hat"),"\\widehat":("","hat"),"\\bar":("","bar"),
                 "\\overline":("","bar"),"\\dot":("","dot"),"\\ddot":("","double dot"),"\\sum":self.sum,"\\prod":self.prod,"\\cup":self.union,"\\bigcup":self.union}
         
-        for (k,v) in new_table.iteritems():
-            self.table[k]=v
+        self.table.update(new_table)
         self.space=" "
         
     sqrt_with_two_args =re.compile(r".*\\sqrt\[(.*)\]+.*")

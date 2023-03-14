@@ -44,9 +44,8 @@ class ueb(latex_access.translator):
 
         for letter in range (97,123): # Ascii, lower case
             new_table["%c" % (letter)] = self.lowerLetter
-    
-        for (k,v) in new_table.iteritems():
-            self.table[k]=v
+
+        self.table.update(new_table)
 
     def before (self):
         """Method ran before the translator at depth = 0.
