@@ -119,7 +119,7 @@ def GetTablePosition (table,currrow):
   alph=("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z")
   position = "" # Null to begin 
   if column >= 26: # Need two letter column identification 
-    position=position+alph[(column/26)-1] 
+    position = position + alph[(column // 26) -1]
     position=position+" "+alph[column%26]
   else: # less than 26 cols (one letter identifier)
     position=position+alph[column]
