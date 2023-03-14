@@ -17,8 +17,8 @@
 '''Module to provide speech output for latex_access.'''
 
 
-import latex_access
-from latex_access import get_arg
+from latex_access import latex_access
+from latex_access.latex_access import get_arg
 import re
 
 #Define a list of words to use as denominators of simple fractions

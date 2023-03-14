@@ -16,8 +16,8 @@
 module.'''
 
 
-from . import latex_access
-from .latex_access import get_arg
+from latex_access import latex_access
+from latex_access.latex_access import get_arg
 
 class nemeth(latex_access.translator):
     '''Class for nemeth translations.'''

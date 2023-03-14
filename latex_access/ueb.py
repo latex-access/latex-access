@@ -16,9 +16,9 @@
 module.'''
 
 
-from . import latex_access
-from .latex_access import get_arg
-from .latex_access import get_optional_arg
+from latex_access import latex_access
+from latex_access.latex_access import get_arg
+from latex_access.latex_access import get_optional_arg
 
 class ueb(latex_access.translator):
     '''Class for ueb translations.'''

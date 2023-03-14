@@ -17,9 +17,10 @@
 import re
 import types
 import os.path
-from .path import get_path
+
+from latex_access.path import get_path
 import codecs
-from . import routing
+from latex_access import routing
 
 # Regular expression to match LaTeX commands
 latex_command=re.compile(r"\\(([a-zA-Z]+)|[,!;\{\}\[\];:])")

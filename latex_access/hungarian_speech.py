@@ -14,8 +14,8 @@
 #
 '''Module to provide speech output for latex_access.'''
 
-import latex_access
-from latex_access import get_arg
+from latex_access import latex_access
+from latex_access.latex_access import get_arg
 import re
 
 primes=re.compile(r"^\s*(\\p+rime\s*)+$")

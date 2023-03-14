@@ -17,7 +17,7 @@
 For example it can be used to handle commands defined by \newcommand.'''
 
 import cPickle as pickle
-import latex_access
+from latex_access import latex_access
 
 
 class preprocessor(latex_access.translator):

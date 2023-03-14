@@ -13,8 +13,8 @@
 #    You should have received a copy of the GNU General Public License along with this program; if not, visit <http://www.gnu.org/licenses>
 
 import os
-from . import ueb
-from . import nemeth
+from latex_access import ueb
+from latex_access import nemeth
 
 globals
 # Global settings for latex-access, these are the default values
