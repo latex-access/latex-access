@@ -18,7 +18,11 @@ For example it can be used to handle commands defined by \newcommand.'''
 
 from __future__ import absolute_import
 
-import cPickle as pickle
+try:
+    import cPickle as pickle  # Python 2
+except ImportError:
+    import pickle  # Python 3
+
 from latex_access import latex_access
 
 
