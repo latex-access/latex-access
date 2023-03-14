@@ -43,7 +43,7 @@ matrix.row=1
 matrix.column=1
 
 if __name__ == "__main__":
-    print "This is just a module."
+    print("This is just a module.")
     exit (-1)
 
 def activateSettings ():

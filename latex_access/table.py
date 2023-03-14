@@ -43,7 +43,7 @@ from a LaTeX tabular environment, providing useful information to the
 document author when working with tables."""
 
 if __name__ == "__main__":
-  print "This can only be used as a module, and does nothing when called interactively."
+  print("This can only be used as a module, and does nothing when called interactively.")
   exit (-1)
   
 def BuildHeaderString (text):
