@@ -14,6 +14,8 @@
 #
 '''Module to provide speech output for latex_access.'''
 
+from __future__ import absolute_import
+
 from latex_access import latex_access
 from latex_access.latex_access import get_arg
 import re

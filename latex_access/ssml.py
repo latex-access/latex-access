@@ -14,6 +14,7 @@
 #
 '''Experimental Module to provide speech output in SSML for latex_access.'''
 
+from __future__ import absolute_import
 
 from latex_access import speech
 from latex_access.latex_access import get_arg

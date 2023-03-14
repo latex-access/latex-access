@@ -15,6 +15,7 @@
 '''Module to provide Nemeth translations for the latex_access
 module.'''
 
+from __future__ import absolute_import
 
 from latex_access import latex_access
 from latex_access.latex_access import get_arg

@@ -12,6 +12,8 @@
 #
 #    You should have received a copy of the GNU General Public License along with this program; if not, visit <http://www.gnu.org/licenses>
 
+from __future__ import absolute_import
+
 import os
 from latex_access import ueb
 from latex_access import nemeth

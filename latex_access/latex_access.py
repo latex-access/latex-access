@@ -14,6 +14,8 @@
 
 '''This module provides translations of lines of LaTeX into either braille or spoken output.'''
 
+from __future__ import absolute_import
+
 import re
 import types
 import os.path

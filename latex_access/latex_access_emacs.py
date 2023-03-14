@@ -22,6 +22,8 @@
 """Silly hack to access translate functions as pymacs was difficult to
 interact with classes."""
 
+from __future__ import absolute_import
+
 import sys
 import os.path
 from latex_access import settings
