@@ -16,13 +16,14 @@
 
 from __future__ import absolute_import
 
+import inspect
 import re
-import types
 import os.path
 
 from latex_access.path import get_path
 import codecs
 from latex_access import routing
+from latex_access import back_compat
 
 # Regular expression to match LaTeX commands
 latex_command=re.compile(r"\\(([a-zA-Z]+)|[,!;\{\}\[\];:])")
@@ -133,16 +134,16 @@ class translator:
             if curr in self.table:
                 i+=len(curr)
                 result=self.table[curr]
-                if type(result) in (types.StringType,types.UnicodeType):
+                if isinstance(result, back_compat.STR_AND_UNICODE):
                     output+=self.space
                     output += result
                     output+=self.space
-                elif type(result)==types.TupleType or type(result)==types.ListType:
+                elif isinstance(result, (tuple, list)):
                     if rting==(): translation=self.general_command(input,i,result)
                     else: translation=self.general_command(input,i,result,(rting[0],rting[1]+len(output)))
                     output+=translation[0]
                     i=translation[1]                    
-                elif type(result) == types.MethodType:
+                elif inspect.ismethod(result):
                     if rting!=():
                         try: translation=result(input,i,(rting[0],rting[1]+len(output)))
                         except: translation=result(input,i)
@@ -208,7 +209,7 @@ class translator:
         An integer refers to the corresponding argument which is translated and inserted into the string.
 
         Returns usual tuple.'''
-        if type(delimitors[0])==types.StringType:
+        if isinstance(delimitors[0], back_compat.STR_TYPE):
             translation=self.space
             translation+=delimitors[0]
             translation+=self.space
@@ -228,7 +229,7 @@ class translator:
                 start=arg[1]
             translation=self.space
             for x in delimitors[1:]:
-                if type(x) in (types.StringType,types.UnicodeType):
+                if isinstance(x, back_compat.STR_AND_UNICODE):
                     translation+=x
                     translation+=self.space
                 else:
