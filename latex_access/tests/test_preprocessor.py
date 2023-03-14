@@ -1,7 +1,6 @@
 import os
 import unittest
 import tempfile
-import pickle
 
 try:
     from latex_access import preprocessor
@@ -38,9 +37,9 @@ class TestPreprocessor(unittest.TestCase):
         with tempfile.NamedTemporaryFile(delete=False) as file:
             self.preprocessor.table['foo'] = 'bar'
             self.preprocessor.write(file.name)
-        with open(file.name, "r") as f:
-            temp_table = pickle.load(f)
-        self.assertEqual(temp_table['foo'], 'bar')
+        clean_preproc = preprocessor.preprocessor()
+        clean_preproc.read(file.name)
+        self.assertEqual(clean_preproc.table["foo"], "bar")
 
     def test_read(self):
         """Tests that preprocessor entries can be read from a file."""

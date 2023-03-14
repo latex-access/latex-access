@@ -2,7 +2,6 @@ import os
 import subprocess
 import sys
 import unittest
-import pickle
 import tempfile
 try:
     from latex_access.latex_access_emacs import *
@@ -44,9 +43,10 @@ class TestsLatexAccessEmacs(unittest.TestCase):
         with tempfile.NamedTemporaryFile(delete=False) as file:
             p.table['foo'] = 'bar'
             preprocessor_write(file.name)
-        with open(file.name, "r") as f:
-            temp_table = pickle.load(f)
-        self.assertEqual(temp_table['foo'], 'bar')
+        del p.table["foo"]
+        self.assertNotIn("foo", p.table)
+        preprocessor_read(file.name)
+        self.assertEqual(p.table['foo'], 'bar')
 
     def test_read(self):
         """Tests that preprocessor entries can be read from a file."""
