@@ -16,9 +16,10 @@
 #
 '''Module to provide speech output for latex_access.'''
 
+from __future__ import absolute_import
 
-import latex_access
-from latex_access import get_arg
+from latex_access import latex_access
+from latex_access.latex_access import get_arg
 import re
 
 #Define a list of words to use as denominators of simple fractions
@@ -40,8 +41,7 @@ class speech(latex_access.translator):
                 "\\tag":self.tag,"\\hat":("","hat"),"\\widehat":("","hat"),"\\bar":("","bar"),
                 "\\overline":("","bar"),"\\dot":("","dot"),"\\ddot":("","double dot"),"\\sum":self.sum,"\\prod":self.prod,"\\cup":self.union,"\\bigcup":self.union}
         
-        for (k,v) in new_table.iteritems():
-            self.table[k]=v
+        self.table.update(new_table)
         self.space=" "
         
     sqrt_with_two_args =re.compile(r".*\\sqrt\[(.*)\]+.*")

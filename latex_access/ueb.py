@@ -15,10 +15,11 @@
 '''Module to provide UEB translations for the latex_access
 module.'''
 
+from __future__ import absolute_import
 
-from . import latex_access
-from .latex_access import get_arg
-from .latex_access import get_optional_arg
+from latex_access import latex_access
+from latex_access.latex_access import get_arg
+from latex_access.latex_access import get_optional_arg
 
 class ueb(latex_access.translator):
     '''Class for ueb translations.'''
@@ -43,9 +44,8 @@ class ueb(latex_access.translator):
 
         for letter in range (97,123): # Ascii, lower case
             new_table["%c" % (letter)] = self.lowerLetter
-    
-        for (k,v) in new_table.iteritems():
-            self.table[k]=v
+
+        self.table.update(new_table)
 
     def before (self):
         """Method ran before the translator at depth = 0.

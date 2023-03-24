@@ -16,8 +16,14 @@
 
 For example it can be used to handle commands defined by \newcommand.'''
 
-import cPickle as pickle
-import latex_access
+from __future__ import absolute_import
+
+try:
+    import cPickle as pickle  # Python 2
+except ImportError:
+    import pickle  # Python 3
+
+from latex_access import latex_access
 
 
 class preprocessor(latex_access.translator):
@@ -47,17 +53,16 @@ class preprocessor(latex_access.translator):
 
     def write(self, filename):
         '''Saves the preprocessor entries to a file.'''
-        f=open(filename,"w")
-        pickle.dump(self.table,f)
+        f = open(filename, "wb")
+        pickle.dump(self.table, f, protocol=0)
         f.close()
 
     def read(self, filename):
         '''Reads preprocessor entries from a file and appends them to the dictionary.'''
-        f=open(filename)
+        f = open(filename, "rb")
         newtable=pickle.load(f)
         f.close()
-        for (k,v) in newtable.iteritems():
-            self.table[k]=v
+        self.table.update(newtable)
 
 class newcommands(latex_access.translator):
     '''Provides a translator to extract all \newcommand commands from a string.'''

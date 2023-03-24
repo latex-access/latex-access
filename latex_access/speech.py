@@ -15,9 +15,10 @@
 #
 '''Module to provide speech output for latex_access.'''
 
+from __future__ import absolute_import
 
-from . import latex_access
-from .latex_access import get_arg
+from latex_access import latex_access
+from latex_access.latex_access import get_arg
 
 #Define a list of words to use as denominators of simple fractions
 denominators=[" over zero"," over1 "," half"," third"," quarter"," fifth"," sixth"," seventh"," eight"," ninth"]

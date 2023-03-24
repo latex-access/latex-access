@@ -43,7 +43,7 @@ from a LaTeX tabular environment, providing useful information to the
 document author when working with tables."""
 
 if __name__ == "__main__":
-  print "This can only be used as a module, and does nothing when called interactively."
+  print("This can only be used as a module, and does nothing when called interactively.")
   exit (-1)
   
 def BuildHeaderString (text):
@@ -119,7 +119,7 @@ def GetTablePosition (table,currrow):
   alph=("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z")
   position = "" # Null to begin 
   if column >= 26: # Need two letter column identification 
-    position=position+alph[(column/26)-1] 
+    position = position + alph[(column // 26) -1]
     position=position+" "+alph[column%26]
   else: # less than 26 cols (one letter identifier)
     position=position+alph[column]

@@ -22,15 +22,17 @@
 """Silly hack to access translate functions as pymacs was difficult to
 interact with classes."""
 
+from __future__ import absolute_import
+
 import sys
 import os.path
-import settings
-import speech
-import nemeth
-import ueb
-import preprocessor
-import matrix_processor
-import table as t
+from latex_access import settings
+from latex_access import speech
+from latex_access import nemeth
+from latex_access import ueb
+from latex_access import preprocessor
+from latex_access import matrix_processor
+from latex_access import table as t
 
 s=speech.speech()
 n=''
@@ -41,7 +43,7 @@ matrix.row=1
 matrix.column=1
 
 if __name__ == "__main__":
-    print "This is just a module."
+    print("This is just a module.")
     exit (-1)
 
 def activateSettings ():
