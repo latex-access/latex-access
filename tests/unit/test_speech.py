@@ -23,7 +23,7 @@ class TestSpeech(unittest.TestCase):
         """Tests adding of new elements to speech table."""
         self.assertEqual(self.speech.table['^'], self.speech.super)
         self.assertEqual(self.speech.table['\\int'], self.speech.integral)
-        self.assertEqual(self.speech.table['\mathbb'], ("<bold>","</bold>"))
+        self.assertEqual(self.speech.table[r'\mathbb'], ("<bold>","</bold>"))
 
     def test_space(self):
         """Tests creation of space attribute."""
@@ -33,15 +33,8 @@ class TestSpeech(unittest.TestCase):
         """Tests translations of superscripts."""
         self.assertEqual(self.speech.super('2', 0), (' squared ', 1))
         self.assertEqual(self.speech.super('3', 0), (' cubed ', 1))
-        self.assertEqual(self.speech.super('{\prime}', 0), (' prime ', 8))
+        self.assertEqual(self.speech.super(r'{\prime}', 0), (' prime ', 8))
         self.assertEqual(self.speech.super('{10}', 0), (' to the <sup> 10 </sup> ', 4))
-
-    def test_sqrt(self):
-        """Tests translations of roots."""
-        self.assertEqual(self.speech.sqrt('2', 0), (' root 2', 1))
-        self.assertEqual(self.speech.sqrt('{16}', 0), (' root 16', 4))
-        self.assertEqual(self.speech.sqrt('[3]{27}', 0), ('cube root 27', 7))
-        self.assertEqual(self.speech.sqrt('[5]{32}', 0), ('5th root 32', 7))
 
     @unittest.skipIf(incompatible, "This test fails in Python 3 because of StringType attribute not available in Types module.")
     def test_complex_roots(self):
@@ -60,13 +53,6 @@ class TestSpeech(unittest.TestCase):
         """Tests translations of tags."""
         self.assertEqual(self.speech.tag('{10}', 0), (' tag left paren 10 right paren ', 4))
 
-    def test_ang(self):
-        """Tests translations of angles."""
-        self.assertEqual(self.speech.ang('{30}', 0), ('30 degrees', 4))
-        self.assertEqual(self.speech.ang('{45;10}', 0), ('45 degrees 10 minutes', 7))
-        self.assertEqual(self.speech.ang('{60;15;20}', 0), ('60 degrees 15 minutes 20 seconds', 10))
-        self.assertEqual(self.speech.ang('{60;15;20;25}', 0), ('60 degrees 15 minutes 20 seconds 25', 13))
-
     def test_log(self):
         """Tests translations of logarithms."""
         self.assertEqual(self.speech.log(' 5', 0), (' log ', 1))
@@ -80,3 +66,99 @@ class TestSpeech(unittest.TestCase):
         self.assertEqual(function(self.speech, '_{2}^{4}', 0), (' %s from 2 to 4 of ' % (result), 8))
         self.assertEqual(function(self.speech, '_{2}', 0), (' %s <sub>2</sub>' %(result), 4))
         self.assertEqual(function(self.speech, '', 0), (' %s ' %(result), 0))
+
+    def test_angle_no_coordinates(self):
+        """Check translation for angles without degrees, minutes and seconds."""
+        self.assertEqual(self.speech.ang(r"\ang{30}", 4), ("30 degrees", 8))
+
+    def test_angle_minutes_present(self):
+        """Check translation for angles where minutes are present.
+
+        Note that behaviour of ang method in this case seems incorrect
+        the trailing semicolon after minutes
+        causes unnecesary seconds to be added.
+        """
+        self.assertEqual(
+            self.speech.ang(r"\ang{52;58.110;}", 4),
+            ("52 degrees 58.110 minutes  seconds", 16)
+        )
+
+    def test_angle_minutes_present_no_trailing_semicolon(self):
+        """Check translation for angles where minutes are present."""
+        self.assertEqual(
+            self.speech.ang(r"\ang{52;58.110}", 4),
+            ("52 degrees 58.110 minutes", 15)
+        )
+
+    def test_angle_minutes_and_seconds_present(self):
+        """Check translation for angles with both minutes and seconds."""
+        self.assertEqual(
+            self.speech.ang(r"\ang{52;58;13}", 4),
+            ("52 degrees 58 minutes 13 seconds", 14)
+        )
+
+    def test_angle_minutes_and_seconds_present_trailing_semicolon(self):
+        """Check translation for angles with both minutes and seconds + semicolon at the end."""
+        self.assertEqual(
+            self.speech.ang(r"\ang{52;58;13;}", 4),
+            ("52 degrees 58 minutes 13 seconds ", 15)
+        )
+
+    def test_angle_semicolon_after_seconds_kept_verbatim(self):
+        """Check translation for angles with minutes, seconds and additional semicolon at the end.
+
+        Note that it is unclear how exactly such coordinate looks when compiled.
+        It is also unclear if keeping the part after semicolon
+        which ends seconds is the best translation possible.
+        """
+        self.assertEqual(
+            self.speech.ang(r"\ang{52;58;13;22;}", 4),
+            ("52 degrees 58 minutes 13 seconds 22;", 18)
+        )
+
+    def test_simple_root_single_digit_num(self):
+        """Check translation for a square root of two."""
+        self.assertEqual(self.speech.sqrt(r"\sqrt{2}", 5), (" root 2", 8))
+
+    def test_simple_root_multi_digit_num(self):
+        """Check translation for a square root for number with multiple digits."""
+        self.assertEqual(self.speech.sqrt(r"\sqrt{16}", 5), (" root 16", 9))
+
+    def test_simple_root_single_letter_alphabetic_var_as_a_number(self):
+        """Check translation of square root where number is an alphabetic variable consisting of a single letter."""
+        self.assertEqual(self.speech.sqrt(r"\sqrt{x}", 5), (" root x", 8))
+
+    def test_simple_root_multi_letter_alphabetic_var_as_a_number(self):
+        """Check translation of square root where number is an alphabetic variable composed of multiple letters."""
+        self.assertEqual(
+            self.speech.sqrt(r"\sqrt{xy}", 5),
+            (" begin  root xy end root", 9)
+        )
+
+    def test_square_root_degree_specified_explicitly(self):
+        """Test for square root where degree is specified by the user."""
+        self.assertEqual(
+            self.speech.sqrt(r"\sqrt[2]{16}", 5),
+            ("square root 16", 12)
+        )
+
+    def test_cube_root(self):
+        """Test translation of cube root."""
+        self.assertEqual(
+            self.speech.sqrt(r"\sqrt[3]{27}", 5),
+            ("cube root 27", 12)
+        )
+
+    def test_root_empty_degree(self):
+        """Test translation of root where degree was kept empty, but provided."""
+        self.assertEqual(
+            self.speech.sqrt(r"\sqrt[]{27}", 5),  # Is this even valid LaTeX?
+            (" root 27", 11)
+        )
+
+    def test_root_with_a_numeric_degree(self):
+        """Test translation of a root with a numeric degre."""
+        self.assertEqual(
+            self.speech.sqrt(r"\sqrt[4]{16}", 5),
+            ("4th root 16", 12)
+        )
