@@ -127,6 +127,7 @@ class TestPolishBraille(unittest.TestCase):
         self.assertEqual(self.braille.upperLetter('{A}', 1), (u'⠨⠨{', 1))
         self.assertEqual(self.braille.upperLetter('B', 0), (u'⠨b', 0))
         self.assertEqual(self.braille.upperLetter('{ABC}', 3), ('b', 3))
+        self.assertEqual(self.braille.upperLetter("A", 1), ("⠨a", 1))
 
     def test_numbers(self):
         """Tests translations of numbers."""
@@ -134,7 +135,23 @@ class TestPolishBraille(unittest.TestCase):
         self.assertEqual(self.braille.numbers('0', 0), ('#j', 0))
         self.braille.lastnumber = 1
         self.assertEqual(self.braille.numbers('{11}', 2), ('a', 2))
-    def test_comma(self):
-        """Tests translations of commas."""
+
+    def test_comma_in_text(self):
+        """When comma (,) occurs in the text,
+        position of the last number should not be updated."""
+        self.braille.before()  # Set lastnumber to default
+        self.assertEqual(
+            self.braille.comma("There is a comma, here", 15),
+            (",", 15)
+        )
+        self.assertEqual(self.braille.lastnumber, -1)
+
+    def test_comma_between_numbers(self):
+        """When comma (,) occurs between digits,
+        position of lastnumber should be set to the position of the comma.
+        While this is admittedly a hack
+        it ensures that we would not add a number sign in cases where comma is used as a decimal separator.
+        """
         self.braille.lastnumber = 0
-        self.assertEqual(self.braille.comma(' ,', 1), (',', 1))
+        self.assertEqual(self.braille.comma("1,25", 1), (",", 1))
+        self.assertEqual(self.braille.lastnumber, 1)

@@ -33,8 +33,8 @@ class TestPolishSpeech(unittest.TestCase):
         """Tests translations of superscripts."""
         self.assertEqual(self.speech.super('2', 0), (' kwadrat ', 1))
         self.assertEqual(self.speech.super('3', 0), (u' sześcian ', 1))
-        self.assertEqual(self.speech.super('{\circ}', 0), (u'stopni', 7))
-        self.assertEqual(self.speech.super('{\prime}', 0), (' prim ', 8))
+        self.assertEqual(self.speech.super(r'{\circ}', 0), (u'stopni', 7))
+        self.assertEqual(self.speech.super(r'{\prime}', 0), (' prim ', 8))
         self.assertEqual(self.speech.super('{10}', 0), (u' do potęgi 10 ', 4))
         self.assertEqual(self.speech.super('{-4}', 0), (u' do potęgi  minus 4 ', 4))
 
@@ -88,13 +88,6 @@ class TestPolishSpeech(unittest.TestCase):
         """Tests translations of tags."""
         self.assertEqual(self.speech.tag('{10}', 0), (' tag lewy nawias 10 prawy nawias ', 4))
 
-    def test_ang(self):
-        """Tests translations of angles."""
-        self.assertEqual(self.speech.ang('{30}', 0), ('30 stopni', 4))
-        self.assertEqual(self.speech.ang('{45;10}', 0), ('45 stopni 10 minut', 7))
-        self.assertEqual(self.speech.ang('{60;15;20}', 0), ('60 stopni 15 minut 20 sekund', 10))
-        self.assertEqual(self.speech.ang('{60;15;20;25}', 0), ('60 stopni 15 minut 20 sekund 25', 13))
-
     def test_log(self):
         """Tests translations of logarithms."""
         self.assertEqual(self.speech.log(' 5', 0), (' logarytm z ', 1))
@@ -115,3 +108,52 @@ class TestPolishSpeech(unittest.TestCase):
         """Tests translations of natural logarithms."""
         self.assertEqual(self.speech.ln(' x', 0), (' logarytm naturalny ', 1))
         self.assertEqual(self.speech.ln('_{e}x', 0), (u' logarytm naturalny o podstawie e z ', 4))
+
+    def test_angle_no_coordinates(self):
+        """Check translation for angles without degrees, minutes and seconds."""
+        self.assertEqual(self.speech.ang(r"\ang{30}", 4), ("30 stopni", 8))
+
+    def test_angle_minutes_present(self):
+        """Check translation for angles where minutes are present.
+
+        Note that behaviour of ang method in this case seems incorrect
+        the trailing semicolon after minutes
+        causes unnecesary seconds to be added.
+        """
+        self.assertEqual(
+            self.speech.ang(r"\ang{52;58.110;}", 4),
+            ("52 stopni 58.110 minut  sekund", 16)
+        )
+
+    def test_angle_minutes_present_no_trailing_semicolon(self):
+        """Check translation for angles where minutes are present."""
+        self.assertEqual(
+            self.speech.ang(r"\ang{52;58.110}", 4),
+            ("52 stopni 58.110 minut", 15)
+        )
+
+    def test_angle_minutes_and_seconds_present(self):
+        """Check translation for angles with both minutes and seconds."""
+        self.assertEqual(
+            self.speech.ang(r"\ang{52;58;13}", 4),
+            ("52 stopni 58 minut 13 sekund", 14)
+        )
+
+    def test_angle_minutes_and_seconds_present_trailing_semicolon(self):
+        """Check translation for angles with both minutes and seconds + semicolon at the end."""
+        self.assertEqual(
+            self.speech.ang(r"\ang{52;58;13;}", 4),
+            ("52 stopni 58 minut 13 sekund ", 15)
+        )
+
+    def test_angle_semicolon_after_seconds_kept_verbatim(self):
+        """Check translation for angles with minutes, seconds and additional semicolon at the end.
+
+        Note that it is unclear how exactly such coordinate looks when compiled.
+        It is also unclear if keeping the part after semicolon
+        which ends seconds is the best translation possible.
+        """
+        self.assertEqual(
+            self.speech.ang(r"\ang{52;58;13;22;}", 4),
+            ("52 stopni 58 minut 13 sekund 22;", 18)
+        )
