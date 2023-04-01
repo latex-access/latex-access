@@ -127,7 +127,7 @@ class TestPolishBraille(unittest.TestCase):
         self.assertEqual(self.braille.upperLetter('{A}', 1), (u'⠨⠨{', 1))
         self.assertEqual(self.braille.upperLetter('B', 0), (u'⠨b', 0))
         self.assertEqual(self.braille.upperLetter('{ABC}', 3), ('b', 3))
-        self.assertEqual(self.braille.upperLetter("A", 1), ("⠨a", 1))
+        self.assertEqual(self.braille.upperLetter("A", 1), (u"⠨a", 1))
 
     def test_numbers(self):
         """Tests translations of numbers."""
