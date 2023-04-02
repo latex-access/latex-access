@@ -39,7 +39,7 @@ class TestPolishSpeech(unittest.TestCase):
         self.assertEqual(self.speech.super('{-4}', 0), (u' do potęgi  minus 4 ', 4))
 
     def test_sub(self):
-        """Tests translatios of subscripts."""
+        """Tests translations of subscripts."""
         self.assertEqual(self.speech.sub('1', 0), (u' indeks dolny 1', 1))
         self.assertEqual(self.speech.sub('{x+1}', 0), (u' indeks dolny x dodać 1 koniec indeksu ', 5))
 
@@ -79,7 +79,7 @@ class TestPolishSpeech(unittest.TestCase):
     @parameterized.expand([(polish_speech.speech.sum, "suma"), (polish_speech.speech.prod, "iloczyn"),
                            (polish_speech.speech.union, "suma"), (polish_speech.speech.cap, "iloczyn")])
     def test_other_functions(self, function, result):
-        """Tests translatios of sums, products, unions and intersections."""
+        """Tests translations of sums, products, unions and intersections."""
         self.assertEqual(function(self.speech, '_{2}^{4}', 0), (u' %s  od 2 do 4 z ' % (result), 8))
         self.assertEqual(function(self.speech, '_{2}', 0), (' %s <sub>2</sub>' % (result), 4))
         self.assertEqual(function(self.speech, '', 0), (' %s ' % (result), 0))

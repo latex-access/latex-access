@@ -2,7 +2,6 @@
 # speech.py
 #    A part of the latex-access project at http://latex-access.sourceforge.net/
 #    Author: Alastair Irving <alastair.irving@sjc.ox.ac.uk>
-#    Author: Alastair Irving <alastair.irving@sjc.ox.ac.uk>
 #    Modified by: Istvan Velegi <ivelegi@gmail.com>
 #    Translation to polish speech created by Łukasz Golonka and Jakub Lukowicz
 #    Copyright (C) 2011 Alastair Irving/latex-access Contributors
@@ -71,7 +70,7 @@ class speech(latex_access.translator):
     def super(self, input, start):
         '''Translate  superscripts into speech.
 
-        Returns a touple with translated string and index of
+        Returns a tuple with translated string and index of
         first char after end of super.'''
 
         arg_with_minus = re.compile(r"-.?")
@@ -93,7 +92,7 @@ class speech(latex_access.translator):
     def sub(self, input, start):
         '''Translates subscripts into speech.
 
-        Returns a touple, as above'''
+        Returns a tuple, as above'''
         arg = get_arg(input, start)
         if arg[0].isdigit() or len(arg[0]) == 1:
             translation = u" indeks dolny " + self.translate(arg[0])
@@ -103,7 +102,7 @@ class speech(latex_access.translator):
 
     def sqrt(self, input, start):
         '''Translates roots into speech.
-        returns touple.'''
+        returns tuple.'''
 
         first_arg = latex_access.get_optional_arg(input, start)
         if first_arg:
@@ -141,7 +140,7 @@ class speech(latex_access.translator):
     def frac(self, input, start):
         '''Translate fractions into speech.
 
-        Returns touple.'''
+        Returns tuple.'''
         numerator = get_arg(input, start)
         if numerator[1] < len(input):
             denominator = get_arg(input, numerator[1])
@@ -149,14 +148,12 @@ class speech(latex_access.translator):
             denominator = ("", numerator[1])
         if len(numerator[0]) == 1 and len(denominator[0]) == 1:
             if numerator[0].isdigit() and denominator[0].isdigit():  # Vulgar fraction
-                if input[start - 6].isdigit() and start > 5:
+                if start > 5 and input[start - 6].isdigit():
                     # Check for a character before the fraction. If it is a number say "1 and 1 over two".
                     # This check should probably be extended to account for situations like "1 \frac{1}{2}".
                     translation = "i " + numerator[0] + denominators[int(denominator[0])]
                 else:
                     translation = numerator[0] + denominators[int(denominator[0])]
-                if int(numerator[0]) > 1:
-                    translation += ""
                 translation += " "
             else:
                 translation = u" %s  przez %s " % (numerator[0], denominator[0])
@@ -172,7 +169,7 @@ class speech(latex_access.translator):
 
     def integral(self, input, start):
         '''Translate integrals, including limits of integration.
-        Returns touple.'''
+        Returns tuple.'''
 
         (lower, upper, i) = latex_access.get_subsuper(input, start)
         output = u" całka "
@@ -190,7 +187,7 @@ class speech(latex_access.translator):
 
     def dbintegral(self, input, start):
         '''Translate double integrals, including limits of integration.
-        Returns touple.'''
+        Returns tuple.'''
 
         (lower, upper, i) = latex_access.get_subsuper(input, start)
         output = u" całka podwójna "
@@ -208,7 +205,7 @@ class speech(latex_access.translator):
 
     def ddintegral(self, input, start):
         '''Translate triple integrals, including limits of integration.
-        Returns touple.'''
+        Returns tuple.'''
 
         (lower, upper, i) = latex_access.get_subsuper(input, start)
         output = u" całka potrójna "
@@ -226,7 +223,7 @@ class speech(latex_access.translator):
 
     def ointegral(self, input, start):
         '''Translate double integrals, including limits of integration.
-        Returns touple.'''
+        Returns tuple.'''
 
         (lower, upper, i) = latex_access.get_subsuper(input, start)
         output = u" loop integral "
@@ -244,7 +241,7 @@ class speech(latex_access.translator):
 
     def sum(self, input, start):
         '''Translate summas, including limits of summarization.
-        Returns touple.'''
+        Returns tuple.'''
 
         (lower, upper, i) = latex_access.get_subsuper(input, start)
         output = u" suma "
@@ -262,8 +259,7 @@ class speech(latex_access.translator):
 
     def prod(self, input, start):
         '''Translate products, including limits of production.
-        Returns touple.
-        This is not currently translated to Polish.'''
+        Returns tuple.'''
 
         (lower, upper, i) = latex_access.get_subsuper(input, start)
         output = u" iloczyn "
@@ -281,7 +277,7 @@ class speech(latex_access.translator):
 
     def union(self, input, start):
         '''Translate unions, including limits of unition.
-        Returns touple.'''
+        Returns tuple.'''
 
         (lower, upper, i) = latex_access.get_subsuper(input, start)
         output = u" suma "
@@ -299,7 +295,7 @@ class speech(latex_access.translator):
 
     def cap(self, input, start):
         '''Translate intersections, including limits of intersection.
-        Returns touple.'''
+        Returns tuple.'''
         (lower, upper, i) = latex_access.get_subsuper(input, start)
         output = u" iloczyn "
         # Statement to prevent the translator from empty boundaries:
@@ -317,7 +313,7 @@ class speech(latex_access.translator):
     def tag(self, input, start):
         '''Translate tags into speech.
 
-        Returns a touple with translated string and index of
+        Returns a tuple with translated string and index of
         first char after end of tag.'''
 
         arg = get_arg(input, start)
@@ -327,7 +323,7 @@ class speech(latex_access.translator):
     def ang(self, input, start):
         '''Translate angles into speech.
 
-        Returns a touple with translated string and index of
+        Returns a tuple with translated string and index of
         first char after end of angle.'''
 
         translation = ""
@@ -365,7 +361,7 @@ class speech(latex_access.translator):
         determine the base, we shall translate as just "log" followed by
         any usual translation.
         
-        Returns a touple with translated string and index of
+        Returns a tuple with translated string and index of
         first char after end of entire logarithm.'''
 
         log = get_arg(input, start)
@@ -391,7 +387,7 @@ class speech(latex_access.translator):
 
     def binom(self, input, start):
         '''Translate binomials into speech.
-        Returns touple.'''
+        Returns tuple.'''
 
         arg_1 = get_arg(input, start)
         if arg_1[1] < len(input):
@@ -415,7 +411,7 @@ class speech(latex_access.translator):
 
 The natural log is correctly pronounced as loen and not as ln. 
         
-        Returns a touple with translated string and index of
+        Returns a tuple with translated string and index of
         first char after end of entire logarithm.'''
 
         ln = get_arg(input, start)

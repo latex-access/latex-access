@@ -33,9 +33,8 @@ class Braille(latex_access.translator):
         self.load_files()
         new_table={"\\dot":("","`"),"\\ddot":("","``"),
                    "^":self.super,"_":self.sub,"\\sqrt":self.sqrt,"\\frac":self.frac,"\\dfrac":self.frac,"\\tfrac":self.frac,
-                   "\\tag":self.tag,"\\mathbf":("_",""),"\\mathbb":("_",""),"\\colvec":("{"," ","o"),"\\abs":(u"⠈l",u"⠸"),"\\tcolvec":("{"," "," ","o"),"\\bar":self.bar,"\\hat":self.bar,"\\widehat":self.bar,"\\overline":self.bar,",":self.comma,
-                   "L0":u"⠴","L1":u"⠂","L2":u"⠆","L3":u"⠒","L4":u"⠲","L5":u"⠢","L6":u"⠖",
-                   "L7":u"⠶","L8":u"⠦","L9":u"⠔","\\pmod":self.pmod,"\\log":self.log}
+                   "\\mathbf":("_",""),"\\mathbb":("_",""),"\\colvec":("{"," ","o"),"\\abs":(u"⠈l",u"⠸"),"\\tcolvec":("{"," "," ","o"),
+                   "\\bar":self.bar,"\\hat":self.bar,"\\widehat":self.bar,"\\overline":self.bar,",":self.comma,"\\pmod":self.pmod,"\\log":self.log}
 
         self.upperNumbers=('j','a','b','c','d','e','f','g','h','i')
         for number in range (0,10): # add the numbers
@@ -46,6 +45,7 @@ class Braille(latex_access.translator):
             new_table["%c" % (letter)] = self.lowerLetter
 
         self.table.update(new_table)
+        self.lowered_digits = {"L0":u"⠴","L1":u"⠂","L2":u"⠆","L3":u"⠒","L4":u"⠲","L5":u"⠢","L6":u"⠖", "L7":u"⠶","L8":u"⠦","L9":u"⠔"}
 
     sqrt_with_two_args =re.compile(r".*\\sqrt\[(.*)\]+.*")
 
@@ -59,10 +59,10 @@ class Braille(latex_access.translator):
     def super(self,input,start,rting=()):
         '''Translate  superscripts into polish braille.
 
-        Returns a touple with translated string and index of
+        Returns a tuple with translated string and index of
         first char after end of super.'''
         arg=get_arg(input,start)
-		#Handle squared, degrees  and cubed as special cases
+        #Handle squared, degrees  and cubed as special cases
         if arg[0] == "2":
             translation=u"⠬⠆"
         elif arg[0]=="3":
@@ -76,19 +76,19 @@ class Braille(latex_access.translator):
             if rting==():
                 translation=u"ó"
                 if arg[0].isdigit():
-                    for k in range(len(arg[0])) : translation+=self.table["L"+arg[0][k]]
+                    for k in range(len(arg[0])) : translation+=self.lowered_digits["L"+arg[0][k]]
                 elif arg[0][0] == "-" and arg[0][1].isdigit(): 
                     translation+= u"-"
-                    for k in range(1,len(arg[0])) : translation+=self.table["L"+arg[0][k]]
+                    for k in range(1,len(arg[0])) : translation+=self.lowered_digits["L"+arg[0][k]]
                 else:
                     translation+= self.translate(arg[0]) 
             else:
                 translation=u"ó"
                 if arg[0][0] != "-" and arg[0][1].isdigit():
-                    for k in range(len(arg[0])) : translation+=self.table["L"+arg[0][k]]
+                    for k in range(len(arg[0])) : translation+=self.lowered_digits["L"+arg[0][k]]
                 elif arg[0][0] == "-" and arg[0][1].isdigit(): 
                     translation+= u"-"
-                    for k in range(1,len(arg[0])) : translation+=self.table["L"+arg[0][k]]
+                    for k in range(1,len(arg[0])) : translation+=self.lowered_digits["L"+arg[0][k]]
                 elif arg[0][0] == "-" and not (arg[0][1].isdigit()) and arg[0][1] !="\\":
                     translation+= u"-"
                     translation+= u"⠠"
@@ -108,11 +108,11 @@ class Braille(latex_access.translator):
     def sub(self,input,start,rting=()):
         '''Translates subscripts to Polish braille.
 
-        Returns a touple, as above'''
+        Returns a tuple, as above'''
         arg=get_arg(input,start)
         if arg[0].isdigit():
             translation = u"ą"
-            for k in range(len(arg[0])) : translation+=self.table["L"+arg[0][k]]
+            for k in range(len(arg[0])) : translation+=self.lowered_digits["L"+arg[0][k]]
         elif not arg[0].isdigit() and len(arg[0]) ==1:
             translation = u"ą" +self.translate(arg[0])
         #With two lines below uncommented translation doesn't work as expected
@@ -129,7 +129,7 @@ class Braille(latex_access.translator):
     def sqrt(self,input,start,rting=()):
         '''Translatesroots in latex.
 
-        Returns a touple as above.'''
+        Returns a tuple as above.'''
         first_arg =latex_access.get_optional_arg(input, start)
         if first_arg:
             second_arg=get_arg(input, first_arg[1])
@@ -145,7 +145,7 @@ class Braille(latex_access.translator):
                 translation =u""
             else:
                 translation =u"⠌"
-                for k in range(len(first_arg[0])) : translation+=self.table["L"+first_arg[0][k]]
+                for k in range(len(first_arg[0])) : translation+=self.lowered_digits["L"+first_arg[0][k]]
             if len(second_arg[0]) ==1 or second_arg[0].isdigit():
                 self.lastnumber=-1
                 translation +=u"ć" +self.translate(second_arg[0])
@@ -167,24 +167,23 @@ class Braille(latex_access.translator):
     def frac(self,input,start,rting=()):
         '''Translates fractions into polish braille.
 
-        Returns touple as above'''
+        Returns tuple as above'''
         numerator=get_arg(input,start)
         if numerator[1]<len(input):
             denominator=get_arg(input,numerator[1])
         else:
             denominator=("",numerator[1],numerator[1])
         if numerator[0].isdigit() and denominator[0].isdigit():
-            if input[start-6].isdigit() and start>5:
+            if start > 5 and input[start-6].isdigit():
                 translation = "#"
                 if len(numerator[0]) <= 1:
                     translation += self.upperNumbers[int(numerator[0])]
                 else:
                     if numerator[0][0] != "-" and numerator[0][1].isdigit():
                         for k in range(len(numerator[0])) : translation+=self.upperNumbers[int(numerator[0][k])]
-#                    translation = self.translate(translation,(rting[0]+numerator[2],rting[1]+1))
             else:
                 translation=numerator[0]
-            for k in range(len(denominator[0])) : translation+=self.table["L"+denominator[0][k]]
+            for k in range(len(denominator[0])) : translation+=self.lowered_digits["L"+denominator[0][k]]
             if rting!=():
                 for j in range(len(numerator[0])): self.rt.append((rting[1]+j,rting[0]+numerator[2]+j))
                 for j in range(len(denominator[0])): self.rt.append((rting[1]+j+1+len(numerator[0]),rting[0]+denominator[2]+j))
@@ -221,19 +220,10 @@ class Braille(latex_access.translator):
             else: translation=":{%so" % self.translate(arg[0],(rting[0]+arg[2],rting[1]+2))
         return (translation,arg[1])
 
-    def tag(self,input,start):
-        '''Translate  tags into Nemeth.
-
-        Returns a touple with translated string and index of
-        first char after end of tag.'''
-        arg=get_arg(input,start)
-        translation="  {"+arg[0]+"}"
-        return (translation,arg[1])
-
     def log(self,input,start,rting=()):
         '''Translate logs into polish braille.
 
-        Returns a touple with translated string and index of
+        Returns a tuple with translated string and index of
         first char after end of entire logarithm.'''
         log=get_arg(input,start)
         translation=u"⠫l"
@@ -243,7 +233,7 @@ class Braille(latex_access.translator):
         translation=u"⠌"
         base=get_arg(input, log[1])
         if base[0].isdigit():
-            for k in range(len(base[0])) : translation+=self.table["L"+base[0][k]]
+            for k in range(len(base[0])) : translation+=self.lowered_digits["L"+base[0][k]]
         else:
             translation+= self.translate(base[0])
         translation+=u"⠫l"
@@ -252,7 +242,7 @@ class Braille(latex_access.translator):
     def pmod(self,input,start,rting=()):
         '''Translates modules into polish braille.
 
-        Returns a touple, as above'''
+        Returns a tuple, as above'''
         arg=get_arg(input,start)
         if arg[0].isdigit():
             translation=u"⠈l"+self.translate(arg[0])+u"⠸"
@@ -270,7 +260,10 @@ class Braille(latex_access.translator):
 
         Returns a boolean.'''
         lettersign = False # no lettersign yet
-        if input[start].lower () in 'aiouwz' and (self.lastnumber <= 0 or start != self.lastnumber) and ((start > 0 and len(input)-start>1 and input[start-1] == ' ' and input[start+1] == ' ') or (start == 0 and len(input)>1 and input[start+1] == ' ')): # special case no letter sign required, because these letter's are used as a separate words in polish
+        if input[start].lower() in 'aiouwz' and \
+                (self.lastnumber <= 0 or start != self.lastnumber) and \
+                ((start > 0 and len(input)-start>1 and input[start-1] == ' ' and input[start+1] == ' ') or
+                (start == 0 and len(input)>1 and input[start+1] == ' ')): # special case no letter sign required, because these letter's are used as a separate words in polish
             return lettersign
 # Last character was part of a number and letters are within range a-j 
         if self.lastnumber >= 0 and start == self.lastnumber and input[start].lower() in 'abcdefghij':
@@ -316,7 +309,7 @@ class Braille(latex_access.translator):
     def lowerLetter (self,input,start):
         '''Translates lower case letters in latex.
 
-        Returns a touple as above.'''
+        Returns a tuple as above.'''
         start=start-1 # We are manipulating current char
         if self.letterSign(input,start): # add the letter sign 
           translation = u"⠠"
@@ -330,18 +323,18 @@ class Braille(latex_access.translator):
     def upperLetter (self, input, start):
         '''Translates upper case letters in latex.
 
-        Returns a touple as above.'''
+        Returns a tuple as above.'''
         if self.capitalisation == '8dot':
             return (input[start-1], start)
         start=start-1 # We are focused on current char 
         translation= "" # The brf translation 
         cap = True # Provide a capital sign unless special case (below)
-        doublecap = False # Do we represent consecutive capital letters by ,,
-        lettersign = self.letterSign (input,start) # Do we provide a lettersign (;)
-        try: # Letter before wasn't a cap, but letter after is so start consecutive capitals (,,)
+        doublecap = False # Do we represent consecutive capital letters by ⠨⠨
+        lettersign = self.letterSign (input,start) # Do we provide a lettersign (⠠)
+        try: # Letter before wasn't a cap, but letter after is so start consecutive capitals (⠨⠨)
             if input[start+1].isupper () and not input[start-1].isupper ():
                 doublecap = True
-                cap = False # And no need for single , 
+                cap = False # And no need for single ⠨
         except:
             pass
         try: # Handle double Cap on start of line 
@@ -350,7 +343,7 @@ class Braille(latex_access.translator):
                 cap = False # No single cap necessary 
         except:
             pass
-        try: # the double ,, has already been provided for this set of consecutive capital letters 
+        try: # the double ⠨⠨ has already been provided for this set of consecutive capital letters
             if start > 0 and input[start-1].isupper ():
                 cap = False
                 doublecap =False
@@ -370,7 +363,7 @@ class Braille(latex_access.translator):
     def numbers(self,input,start):
         '''Translates numbers in latex.
 
-        Returns a touple as above.'''
+        Returns a tuple as above.'''
         numberstart = start-1 # since it's not a latex command we are interested in the current char
         if self.lastnumber >= 0 and numberstart == self.lastnumber:
             translation ="" #inside a  number no hash "#" sign necessary
@@ -384,7 +377,7 @@ class Braille(latex_access.translator):
     def comma (self, input, start):
         '''Translates commas (,) in latex.
 
-        Returns a touple as above.'''
+        Returns a tuple as above.'''
         if self.lastnumber >= 0 and start-1 == self.lastnumber:
             self.lastnumber = start
         translation=','

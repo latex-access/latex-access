@@ -20,7 +20,10 @@ class TestPolishBraille(unittest.TestCase):
         self.assertEqual(self.braille.table['0'], self.braille.numbers)
         self.assertEqual(self.braille.table['A'], self.braille.upperLetter)
         self.assertEqual(self.braille.table['a'], self.braille.lowerLetter)
-        self.assertEqual(self.braille.table['L0'], u'⠴')
+
+    def test_lowered_digits(self):
+        """Tests creation of lowered digits dictionary."""
+        self.assertEqual(self.braille.lowered_digits['L0'], u'⠴')
 
     def test_before(self):
         """Tests before method."""
@@ -77,10 +80,6 @@ class TestPolishBraille(unittest.TestCase):
         self.assertEqual(self.braille.bar('1', 0), (':1', 1))
         self.assertEqual(self.braille.bar('{11}', 0), (':{#aao', 4))
         self.assertEqual(self.braille.bar('{11}', 0, (0, 0)), (':{#aao', 4))
-
-    def test_tag(self):
-        """Tests translations of tags."""
-        self.assertEqual(self.braille.tag('x', 0), ('  {x}', 1))
 
     def test_log(self):
         """Tests translations of logarithms."""
