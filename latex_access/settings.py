@@ -18,7 +18,7 @@ import os
 from latex_access import ueb
 from latex_access import nemeth
 
-globals
+
 # Global settings for latex-access, these are the default values
 settings={"brailledollars":"True","speakdollars":"True","brailletable":"nemeth","capitalisation":"6dot","preprocessorfile":"~/.latex-access-preprocessor.strings", "speechfile":"","nemethfile":"","uebfile":""}
 
@@ -97,16 +97,6 @@ def booleaniseSetting (setting):
     else:
         return False
 
-def getSetting (setting):
-    """Get the value of setting.
-
-    This function searches for the particular setting in the settings
-    dict, and if found, returns the settings' value."""
-
-    if setting in settings.keys():
-        return booleaniseSetting(setting)
-    else: # setting not found
-        return False
 
 def brailleTableToUse ():
     """Return the instance of the braille module to use.

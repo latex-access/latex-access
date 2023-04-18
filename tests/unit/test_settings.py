@@ -90,12 +90,6 @@ class TestSettings(unittest.TestCase):
         self.assertTrue(settings_module.booleaniseSetting('brailledollars'))
         self.assertFalse(settings_module.booleaniseSetting('foo'))
 
-    def test_get_setting(self):
-        """Tests that value is returned for given setting."""
-        settings_module.settings['speakdollars'] = True
-        self.assertTrue(settings_module.getSetting('speakdollars'))
-        self.assertFalse(settings_module.getSetting('foo'))
-
     def test_nemeth_is_used(self):
         """Tests that an instance of nemeth is returned based on setting's                 value."""
         settings_module.settings['brailletable'] = 'nemeth'
