@@ -67,9 +67,9 @@ class Braille(latex_access.translator):
             translation=u"⠬⠆"
         elif arg[0]=="3":
             translation=u"⠬⠒"
-        elif arg[0]=="\circ":
+        elif arg[0] == r"\circ":
             translation=u"⠴"
-		#Handle primes
+        #Handle primes
         elif latex_access.primes.match(arg[0]):
             translation=u"⠔"*arg[0].count("\\prime")
         else:
@@ -84,26 +84,25 @@ class Braille(latex_access.translator):
                     translation+= self.translate(arg[0]) 
             else:
                 translation=u"ó"
-                if arg[0][0] != "-" and arg[0][1].isdigit():
-                    for k in range(len(arg[0])) : translation+=self.lowered_digits["L"+arg[0][k]]
-                elif arg[0][0] == "-" and arg[0][1].isdigit(): 
-                    translation+= u"-"
-                    for k in range(1,len(arg[0])) : translation+=self.lowered_digits["L"+arg[0][k]]
-                elif arg[0][0] == "-" and not (arg[0][1].isdigit()) and arg[0][1] !="\\":
-                    translation+= u"-"
+                start = 0  # Point to the first character of the index
+                if arg[0][start] == "-":
+                    translation += u"-"
+                    start = 1  # Skip - sign
+                if arg[0][start:].isdigit():
+                    # The entire index of the power is numeric, so just lower all the digits.
+                    for k in range(len(arg[0][start:])) : translation+=self.lowered_digits["L"+arg[0][start:][k]]
+                elif arg[0][start] == "\\":
+                    # We have a LaTeX command - for example 2^{\frac{1}{2}}
+                    # Just keep the index as is.
+                    translation += arg[0][start:]
+                else:
+                    # If index is neither numeric nor a LaTeX command,
+                    # it has to be prefixed by dot six
+                    # to make sure whatever follows would not be mistaken for a number.
                     translation+= u"⠠"
-                    translation+=  arg[0][1:]
-                elif arg[0][0] == "-" and arg[0][1] =="\\":
-                    translation+= u"-"
-                    translation+=  arg[0][1:]
-                elif arg[0][0] != "-" and arg[0][0] !="\\": 
-                    translation+= u"⠠"
-                    translation+=  arg[0]
-                elif arg[0][0] != "-" and arg[0][0] =="\\":
-                    translation+= arg[0]
+                    translation+=  arg[0][start:]
                 translation = self.translate(translation,(rting[0]+arg[2],rting[1]+1))
         return (translation,arg[1])
-
 
     def sub(self,input,start,rting=()):
         '''Translates subscripts to Polish braille.
