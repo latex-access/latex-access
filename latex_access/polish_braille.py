@@ -209,7 +209,7 @@ class Braille(latex_access.translator):
     def bar(self, input, start,rting=()):
         '''Handles bar/overline.
 
-        Returns toutple'''
+        Returns tuple'''
         arg=get_arg(input,start)
         if len(arg[0])==1:
             translation=":%s" % arg[0]
