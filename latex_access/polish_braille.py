@@ -341,16 +341,12 @@ class Braille(latex_access.translator):
                 cap = False # No single cap necessary 
         except:
             pass
-        try: # the double ⠨⠨ has already been provided for this set of consecutive capital letters
-            if start > 0 and input[start-1].isupper ():
-                cap = False
-                doublecap =False
-        except:
-            pass
+        # the double ⠨⠨ has already been provided for this set of consecutive capital letters
+        if start > 0 and input[start-1].isupper ():
+            cap = False
+            doublecap =False
         if start == 0: # Handle cap at start of line 
             cap = True
-        if lettersign: # Add a lettersign first 
-            translation+= u""
         if doublecap: # we add double capital sign 
             translation += u"⠨⠨"
         elif cap: # Otherwise just add single cap sign 
