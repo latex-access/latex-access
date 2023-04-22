@@ -209,7 +209,7 @@ class translator:
         An integer refers to the corresponding argument which is translated and inserted into the string.
 
         Returns usual tuple.'''
-        if isinstance(delimitors[0], back_compat.STR_TYPE):
+        if isinstance(delimitors[0], back_compat.STR_AND_UNICODE):
             translation=self.space
             translation+=delimitors[0]
             translation+=self.space
