@@ -179,8 +179,7 @@ class Braille(latex_access.translator):
                 if len(numerator[0]) <= 1:
                     translation += self.upperNumbers[int(numerator[0])]
                 else:
-                    if numerator[0][0] != "-" and numerator[0][1].isdigit():
-                        for k in range(len(numerator[0])) : translation+=self.upperNumbers[int(numerator[0][k])]
+                    for k in range(len(numerator[0])) : translation+=self.upperNumbers[int(numerator[0][k])]
             else:
                 translation=numerator[0]
             for k in range(len(denominator[0])) : translation+=self.lowered_digits["L"+denominator[0][k]]

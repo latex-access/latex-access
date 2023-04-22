@@ -74,6 +74,10 @@ class TestPolishBraille(unittest.TestCase):
         self.assertEqual(self.braille.frac('2\\frac{11}{2}', 6), (u'#aa⠆', 13))
         self.assertEqual(self.braille.frac('{-1}{2}', 0), (u'⠆-#a⠳#b⠰', 7))
         self.assertEqual(self.braille.frac('{2x}{3y}', 0, (1, 1)), (u'⠆#bx⠳#cy⠰', 8))
+        self.assertEqual(
+            self.braille.frac('2\\frac{-1}{2}', 6),
+            (u'⠆-#a⠳#b⠰', 13)
+        )
 
     def test_bar(self):
         """Tests translations of bars."""
