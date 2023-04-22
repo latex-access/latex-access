@@ -26,7 +26,7 @@ from latex_access import routing
 from latex_access import back_compat
 
 # Regular expression to match LaTeX commands
-latex_command=re.compile(r"\\(([a-zA-Z]+)|[,!;\{\}\[\];:])")
+latex_command = re.compile(r"\\(([a-zA-Z]+)|[,!;\{\}\[\];:\%])")
 #Regexp for testing if a string contains only primes
 primes=re.compile(r"^\s*(\\prime\s*)+$")
 
