@@ -22,8 +22,9 @@ class TestPolishBraille(unittest.TestCase):
         self.assertEqual(self.braille.table['a'], self.braille.lowerLetter)
 
     def test_lowered_digits(self):
-        """Tests creation of lowered digits dictionary."""
-        self.assertEqual(self.braille.lowered_digits['L0'], u'⠴')
+        """Tests that digits are properly converted to the lowered form."""
+        self.assertEqual(self.braille.lower_digits('0'), u'⠴')
+        self.assertEqual(self.braille.lower_digits(''), u'')
 
     def test_before(self):
         """Tests before method."""

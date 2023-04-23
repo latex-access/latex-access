@@ -27,6 +27,14 @@ sqrt_with_two_args =re.compile(r".*\\sqrt\[(.?)\]")
 class Braille(latex_access.translator):
     '''Class for translations to braille.'''
 
+    upperNumbers = ('j', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i')
+    _LOWERED_DIGITS = {
+        "0": u"⠴", "1": u"⠂", "2": u"⠆",
+        "3": u"⠒", "4": u"⠲", "5": u"⠢",
+        "6": u"⠖", "7": u"⠶", "8": u"⠦",
+        "9": u"⠔"
+    }
+
     def __init__(self):
         latex_access.translator.__init__(self)
         self.files.append("polish_braille.table")
@@ -36,7 +44,6 @@ class Braille(latex_access.translator):
                    "\\mathbf":("_",""),"\\mathbb":("_",""),"\\colvec":("{"," ","o"),"\\abs":(u"⠈l",u"⠸"),"\\tcolvec":("{"," "," ","o"),
                    "\\bar":self.bar,"\\hat":self.bar,"\\widehat":self.bar,"\\overline":self.bar,",":self.comma,"\\pmod":self.pmod,"\\log":self.log}
 
-        self.upperNumbers=('j','a','b','c','d','e','f','g','h','i')
         for number in range (0,10): # add the numbers
             new_table[str(number)]=self.numbers
         for letter in range (65,91): # Ascii upper case
@@ -45,9 +52,14 @@ class Braille(latex_access.translator):
             new_table["%c" % (letter)] = self.lowerLetter
 
         self.table.update(new_table)
-        self.lowered_digits = {"L0":u"⠴","L1":u"⠂","L2":u"⠆","L3":u"⠒","L4":u"⠲","L5":u"⠢","L6":u"⠖", "L7":u"⠶","L8":u"⠦","L9":u"⠔"}
 
     sqrt_with_two_args =re.compile(r".*\\sqrt\[(.*)\]+.*")
+
+    def lower_digits(self, to_lower):
+        """Converts provided digits to their lowered form.
+        Used for example for degrees of rotts and indexes of powers.
+        """
+        return u"".join((self._LOWERED_DIGITS[digit] for digit in to_lower))
 
     def before (self):
         """Method ran before the translator at depth = 0.
@@ -62,45 +74,39 @@ class Braille(latex_access.translator):
         Returns a tuple with translated string and index of
         first char after end of super.'''
         arg=get_arg(input,start)
-        #Handle squared, degrees  and cubed as special cases
-        if arg[0] == "2":
+        index = arg[0]
+        # Handle squared, degrees  and cubed as special cases
+        if index == "2":
             translation=u"⠬⠆"
-        elif arg[0]=="3":
+        elif index == "3":
             translation=u"⠬⠒"
-        elif arg[0] == r"\circ":
+        elif index == r"\circ":
             translation=u"⠴"
-        #Handle primes
-        elif latex_access.primes.match(arg[0]):
+        # Handle primes
+        elif latex_access.primes.match(index):
             translation=u"⠔"*arg[0].count("\\prime")
         else:
+            translation = u"ó"
+            if index[0] == "-":
+                translation += u"-"
+                index = index[1:]  # Skip minus sign
+            if index.isdigit():
+                # The entire index of the power is numeric, so just lower all the digits.
+                translation += self.lower_digits(index)
+                # Return early - the entire index was translated.
+                return (translation, arg[1])
             if rting==():
-                translation=u"ó"
-                if arg[0].isdigit():
-                    for k in range(len(arg[0])) : translation+=self.lowered_digits["L"+arg[0][k]]
-                elif arg[0][0] == "-" and arg[0][1].isdigit(): 
-                    translation+= u"-"
-                    for k in range(1,len(arg[0])) : translation+=self.lowered_digits["L"+arg[0][k]]
-                else:
-                    translation+= self.translate(arg[0]) 
+                translation+= self.translate(index)
             else:
-                translation=u"ó"
-                start = 0  # Point to the first character of the index
-                if arg[0][start] == "-":
-                    translation += u"-"
-                    start = 1  # Skip - sign
-                if arg[0][start:].isdigit():
-                    # The entire index of the power is numeric, so just lower all the digits.
-                    for k in range(len(arg[0][start:])) : translation+=self.lowered_digits["L"+arg[0][start:][k]]
-                elif arg[0][start] == "\\":
-                    # We have a LaTeX command - for example 2^{\frac{1}{2}}
-                    # Just keep the index as is.
-                    translation += arg[0][start:]
-                else:
+                if not index.startswith("\\"):
                     # If index is neither numeric nor a LaTeX command,
                     # it has to be prefixed by dot six
                     # to make sure whatever follows would not be mistaken for a number.
+                    # Note that we don't need to check if index was not numeric here,
+                    # since numeric indexes
+                    # cause this method to return earlier.
                     translation+= u"⠠"
-                    translation+=  arg[0][start:]
+                translation += index
                 translation = self.translate(translation,(rting[0]+arg[2],rting[1]+1))
         return (translation,arg[1])
 
@@ -111,7 +117,7 @@ class Braille(latex_access.translator):
         arg=get_arg(input,start)
         if arg[0].isdigit():
             translation = u"ą"
-            for k in range(len(arg[0])) : translation+=self.lowered_digits["L"+arg[0][k]]
+            translation += self.lower_digits(arg[0])
         elif not arg[0].isdigit() and len(arg[0]) ==1:
             translation = u"ą" +self.translate(arg[0])
         #With two lines below uncommented translation doesn't work as expected
@@ -144,13 +150,12 @@ class Braille(latex_access.translator):
                 translation =u""
             else:
                 translation =u"⠌"
-                for k in range(len(first_arg[0])) : translation+=self.lowered_digits["L"+first_arg[0][k]]
-            if len(second_arg[0]) ==1 or second_arg[0].isdigit():
-                self.lastnumber=-1
-                translation +=u"ć" +self.translate(second_arg[0])
-            else:
-                self.lastnumber=-1
-                translation +=u"ć" +self.translate(second_arg[0])
+                translation += self.lower_digits(first_arg[0])
+            self.lastnumber = -1
+            translation += u"ć" + self.translate(second_arg[0])
+            if len(second_arg[0]) > 1 and not second_arg[0].isdigit():
+                # If the root is not numeric, or longer than a single char
+                # We need to indicate where exactly it ends.
                 translation +=u"ę"
             return (translation,second_arg[1])
         else:
@@ -161,7 +166,6 @@ class Braille(latex_access.translator):
         else:
             translation =u"ć" +self.translate(arg[0]) +u"ę"
         return (translation,arg[1])
-
 
     def frac(self,input,start,rting=()):
         '''Translates fractions into polish braille.
@@ -181,7 +185,7 @@ class Braille(latex_access.translator):
                     for k in range(len(numerator[0])) : translation+=self.upperNumbers[int(numerator[0][k])]
             else:
                 translation=numerator[0]
-            for k in range(len(denominator[0])) : translation+=self.lowered_digits["L"+denominator[0][k]]
+            translation += self.lower_digits(denominator[0])
             if rting!=():
                 for j in range(len(numerator[0])): self.rt.append((rting[1]+j,rting[0]+numerator[2]+j))
                 for j in range(len(denominator[0])): self.rt.append((rting[1]+j+1+len(numerator[0]),rting[0]+denominator[2]+j))
@@ -231,7 +235,7 @@ class Braille(latex_access.translator):
         translation=u"⠌"
         base=get_arg(input, log[1])
         if base[0].isdigit():
-            for k in range(len(base[0])) : translation+=self.lowered_digits["L"+base[0][k]]
+            translation += self.lower_digits(base[0])
         else:
             translation+= self.translate(base[0])
         translation+=u"⠫l"
