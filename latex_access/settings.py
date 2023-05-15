@@ -17,11 +17,23 @@ from __future__ import absolute_import
 import os
 
 import latex_access.braille_translators
+import latex_access.speech_translators
 import latex_access.import_utils as imp_utils
 
 
 # Global settings for latex-access, these are the default values
-settings={"brailledollars":"True","speakdollars":"True","brailletable":"nemeth","capitalisation":"6dot","preprocessorfile":"~/.latex-access-preprocessor.strings", "speechfile":"","nemethfile":"","uebfile":""}
+settings = {
+    "brailledollars": "True",
+    "speakdollars": "True",
+    "brailletable": "nemeth",
+    "capitalisation": "6dot",
+    "preprocessorfile": "~/.latex-access-preprocessor.strings",
+    "speechfile": "",
+    "nemethfile": "",
+    "uebfile": "",
+    "speechtranslator": "speech",
+}
+
 
 def loadSettings (file):
     """Read settings from file.
@@ -120,3 +132,23 @@ def brailleTableToUse ():
             latex_access.braille_translators
         )
     return braille_translator.BrailleTranslator()
+
+
+def get_configured_speech_translator():
+    """Return the instance of the speech translator to use."""
+    DEFAULT_speech_TRANSLATOR_NAME = "speech"
+    configured_speech_translator_name = settings["speechtranslator"].lower()
+    if imp_utils.module_exists(
+        configured_speech_translator_name,
+        latex_access.speech_translators
+    ):
+        speech_translator = imp_utils.import_module(
+            configured_speech_translator_name,
+            latex_access.speech_translators
+        )
+    else:
+        speech_translator = imp_utils.import_module(
+            DEFAULT_speech_TRANSLATOR_NAME,
+            latex_access.speech_translators
+        )
+    return speech_translator.speech()
