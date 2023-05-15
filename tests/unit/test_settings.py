@@ -2,14 +2,7 @@ import unittest
 import os
 import tempfile
 from latex_access import settings as settings_module
-from latex_access import nemeth
-from latex_access import ueb
 
-try:
-    ueb.ueb()
-    incompatible = False
-except AttributeError:
-    incompatible = True
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 
@@ -90,16 +83,47 @@ class TestSettings(unittest.TestCase):
         self.assertTrue(settings_module.booleaniseSetting('brailledollars'))
         self.assertFalse(settings_module.booleaniseSetting('foo'))
 
-    def test_nemeth_is_used(self):
-        """Tests that an instance of nemeth is returned based on setting's                 value."""
-        settings_module.settings['brailletable'] = 'nemeth'
-        self.assertIsInstance(settings_module.brailleTableToUse(), nemeth.nemeth)
+    def test_nemeth_translator_used_when_configured(self):
+        """Tests that translator for Nemeth is used when configured.
 
-    @unittest.skipIf(incompatible, 'This test fails in Python 3 because of iteritems being used.')
-    def test_ueb_is_used(self):
-        """Tests that an instance of ueb is returned based on setting's                 value."""
+        Previously we used to check if the returned object
+        is of a particular type, but from the end user perspective
+        it is more interesting,
+        if the translations matches their expectations
+        i.e. correct Braille notation is used.
+        """
+        settings_module.settings['brailletable'] = 'nemeth'
+        translator = settings_module.brailleTableToUse()
+        self.assertEqual(translator.translate(r"\frac{1}{2}"), "1/2")
+        # Let's also check if correct table file was loaded.
+        self.assertEqual(translator.translate(r"\Chi"), ".,&")
+
+    def test_ueb_translator_used_when_configured(self):
+        """Tests that translator for UEB is used when configured.
+
+        For more comments on the used approach
+        see docstring of `test_nemeth_translator_used_when_configured`.
+        """
         settings_module.settings['brailletable'] = 'ueb'
-        self.assertIsInstance(settings_module.brailleTableToUse(), ueb.ueb)
+        translator = settings_module.brailleTableToUse()
+        self.assertEqual(translator.translate(r"\frac{1}{2}"), "#a/b")
+        # Let's also check if correct table file was loaded.
+        self.assertEqual(translator.translate(r"\Chi"), ",.c")
+
+    def test_default_braille_translator_used_as_a_fallback(self):
+        """Translator for Nemeth should be used when configured one does not exist.
+
+        This checks for a corner case, where the name of a Braille translator
+        specified in a config file is invalid
+        (there is no such module in the ``braille_translators`` package).
+        The translator used as a fallback is the one for Nemeth
+        which was always the default one.
+        """
+        settings_module.settings['brailletable'] = 'foobar'
+        translator = settings_module.brailleTableToUse()
+        self.assertEqual(translator.translate(r"\frac{1}{2}"), "1/2")
+        # Let's also check if correct table file was loaded.
+        self.assertEqual(translator.translate(r"\Chi"), ".,&")
 
     def test_preprocessor_entries_loaded_after_activation(self):
         """Test that entries for the preprocessor are loaded from a file."""

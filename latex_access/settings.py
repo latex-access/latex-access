@@ -15,8 +15,9 @@
 from __future__ import absolute_import
 
 import os
-from latex_access import ueb
-from latex_access import nemeth
+
+import latex_access.braille_translators
+import latex_access.import_utils as imp_utils
 
 
 # Global settings for latex-access, these are the default values
@@ -103,7 +104,19 @@ def brailleTableToUse ():
 
     This function return the instance of the Braille table that should be
     used."""
-    if settings["brailletable"].lower() == "ueb":
-        return ueb.ueb()
+    DEFAULT_BRAILLE_TRANSLATOR_NAME = "nemeth"
+    configured_braille_table_name = settings["brailletable"].lower()
+    if imp_utils.module_exists(
+        configured_braille_table_name,
+        latex_access.braille_translators
+    ):
+        braille_translator = imp_utils.import_module(
+            configured_braille_table_name,
+            latex_access.braille_translators
+        )
     else:
-        return nemeth.nemeth()
+        braille_translator = imp_utils.import_module(
+            DEFAULT_BRAILLE_TRANSLATOR_NAME,
+            latex_access.braille_translators
+        )
+    return braille_translator.BrailleTranslator()

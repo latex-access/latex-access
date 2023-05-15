@@ -28,8 +28,6 @@ import sys
 import os.path
 from latex_access import settings
 from latex_access import speech
-from latex_access import nemeth
-from latex_access import ueb
 from latex_access import preprocessor
 from latex_access import matrix_processor
 from latex_access import table as t

@@ -21,7 +21,8 @@ from latex_access import latex_access
 from latex_access.latex_access import get_arg
 from latex_access.latex_access import get_optional_arg
 
-class ueb(latex_access.translator):
+
+class BrailleTranslator(latex_access.translator):
     '''Class for ueb translations.'''
 
     def __init__(self):
@@ -307,4 +308,3 @@ class ueb(latex_access.translator):
             translation += ','
         translation+=input[start].lower () # Now add the lowercase equivilant to avoid dot 7 in some tables 
         return (translation, start+1)
-    

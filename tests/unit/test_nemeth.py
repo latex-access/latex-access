@@ -1,10 +1,12 @@
 import unittest
-from latex_access import nemeth
+
+from latex_access.braille_translators import nemeth
+
 
 class NemethTests(unittest.TestCase):
     def setUp(self):
         """Creates a nemeth instance."""
-        self.braille = nemeth.nemeth()
+        self.braille = nemeth.BrailleTranslator()
 
     def test_adding_file(self):
         """Tests adding of nemeth table file."""
