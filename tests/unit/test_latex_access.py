@@ -1,4 +1,5 @@
 import os
+import platform
 import unittest
 import sys
 
@@ -253,14 +254,17 @@ class TestTableFilesLocating(unittest.TestCase):
 
     def test_absolute_path_to_tables_dir_not_modified(self):
         """When the provided path is absolute it is returned unchanged."""
-        self.assertEqual(
-            "/home/user/documents/table_file.table",
-            la_main_module.translator.make_table_file_path("/home/user/documents/table_file.table")
-        )
-        self.assertEqual(
-            r"c:\users\user\documents\table_file.table",
-            la_main_module.translator.make_table_file_path(r"c:\users\user\documents\table_file.table")
-        )
+        # We can safely test with Unix path on all systems,
+        # since Windows's `os.path` is smart enough to handle it.
+        paths_to_test = ["/home/user/documents/table_file.table"]
+        if platform.system() == "Windows":
+            # Unfortunately Python's `posixpath` fails to recognize Windows Path,
+            # so test with it only if we are on Windows.
+            paths_to_test.append(r"c:\users\user\documents\table_file.table")
+        for path in paths_to_test:
+            self.assertEqual(
+                path,la_main_module.translator.make_table_file_path(path)
+            )               
 
     def test_path_to_table_made_absolute(self):
         """When only name of the table file is given, path should be made absolute based on the cwd."""
