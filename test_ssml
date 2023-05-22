@@ -3,14 +3,14 @@
 
 
 import sys
-import latex_access.ssml as ssml
+import latex_access.settings
 
 
-s=ssml.ssml()
+s = latex_access.settings.get_speech_translator("ssml", experimental=True)()
 
 
 while True:
     input = sys.stdin.readline()
     output=s.translate(input)
-    print output
+    print (output)
     sys.stdout.flush()

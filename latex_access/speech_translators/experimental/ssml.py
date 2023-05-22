@@ -16,16 +16,18 @@
 
 from __future__ import absolute_import
 
-from latex_access import speech
+import os.path
+
+from latex_access.speech_translators import speech as base_translator
 from latex_access.latex_access import get_arg
 
 sb='<break strength="strong">'
 
-class ssml(speech.speech):
-    def __init__(self):
-        speech.speech.__init__(self)
-        self.table["_"]=('<prosody pitch="-15%">','</prosody>')
 
+class speech(base_translator.speech):
+    def __init__(self):
+        base_translator.speech.__init__(self)
+        self.table["_"]=('<prosody pitch="-15%">','</prosody>')
 
     def sqrt(self,input,start):
         '''Translates squareroots into speech.
@@ -37,3 +39,7 @@ class ssml(speech.speech):
         else:
             translation=" begin root "+sb+self.translate(arg[0])+" end root "+sb
         return (translation,arg[1])
+
+    def get_buildin_tables_dir(self):
+        """Since this translator uses table of its base class let's return path to the parent directory"""
+        return os.path.join(base_translator.speech.get_buildin_tables_dir(self), "..")

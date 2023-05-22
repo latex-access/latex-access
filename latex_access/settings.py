@@ -134,6 +134,16 @@ def brailleTableToUse ():
     return braille_translator.BrailleTranslator()
 
 
+def get_speech_translator(translator_name, experimental=False):
+    """Return module where speech translator with a given name is defined."""
+    if experimental:
+        translator_name = "experimental.{}".format(translator_name)
+    return imp_utils.import_module(
+        translator_name,
+        latex_access.speech_translators
+    ).speech
+
+
 def get_configured_speech_translator():
     """Return the instance of the speech translator to use."""
     DEFAULT_speech_TRANSLATOR_NAME = "speech"
@@ -142,13 +152,7 @@ def get_configured_speech_translator():
         configured_speech_translator_name,
         latex_access.speech_translators
     ):
-        speech_translator = imp_utils.import_module(
-            configured_speech_translator_name,
-            latex_access.speech_translators
-        )
+        speech_translator = get_speech_translator(configured_speech_translator_name)
     else:
-        speech_translator = imp_utils.import_module(
-            DEFAULT_speech_TRANSLATOR_NAME,
-            latex_access.speech_translators
-        )
-    return speech_translator.speech()
+        speech_translator = get_speech_translator(DEFAULT_speech_TRANSLATOR_NAME)
+    return speech_translator()
