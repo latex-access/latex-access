@@ -1,5 +1,6 @@
 import os
 import unittest
+import sys
 
 try:
     import unittest.mock as mock_lib
@@ -243,13 +244,45 @@ class TestGetSubSuper(unittest.TestCase):
         )
 
 
-FAKE_GET_PATH = mock_lib.create_autospec(
-    la_main_module.get_path,
-    spec_set=True,
-    return_value=os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "test_tables")
-    )
-)
+TEST_TABLES_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "test_tables"))
+
+
+class TestTableFilesLocating(unittest.TestCase):
+
+    """Set of tests for methods locating buildin table files."""
+
+    def test_absolute_path_to_tables_dir_not_modified(self):
+        """When the provided path is absolute it is returned unchanged."""
+        self.assertEqual(
+            "/home/user/documents/table_file.table",
+            la_main_module.translator.make_table_file_path("/home/user/documents/table_file.table")
+        )
+        self.assertEqual(
+            r"c:\users\user\documents\table_file.table",
+            la_main_module.translator.make_table_file_path(r"c:\users\user\documents\table_file.table")
+        )
+
+    def test_path_to_table_made_absolute(self):
+        """When only name of the table file is given, path should be made absolute based on the cwd."""
+        saved_cwd = la_main_module.translator.CWD
+        path = la_main_module.translator.make_table_file_path("tbl_file.table")
+        self.assertTrue(os.path.isabs(path))
+        self.assertTrue(path.endswith("tbl_file.table"))
+        self.assertTrue(path.startswith(saved_cwd))
+
+    def test_table_files_located_relative_to_translator_class(self):
+        """Ensure that build-in ntables can be located relative to the translator class."""
+        sys.path.append(TEST_TABLES_PATH)
+        import testTranslator
+        translator = testTranslator.TestTranslator()
+        tables_dir = translator.get_buildin_tables_dir()
+        self.assertEqual(
+            tables_dir,
+            TEST_TABLES_PATH
+        )
+        sys.path.remove(TEST_TABLES_PATH)
+        self.assertTrue(os.path.isdir(tables_dir))
+        self.assertTrue(os.path.isabs(tables_dir))
 
 
 class TestTableFilesParsingAndLoading(unittest.TestCase):
@@ -257,26 +290,11 @@ class TestTableFilesParsingAndLoading(unittest.TestCase):
     """Set of tests for loading table entries from files. """
 
     def setUp(self):
-        """Create fresh translator instance for each of the tests.
-
-        In addition replaces `get_path` function with a mock,
-        which returns path to a directory containing test tables.
-        Ideally this would be done only once inside
-        `SetUpClass`, but in that case we would not be able to stop the patch
-        (`addClassCleanup` was added in Python 3.8, and we need to be backwards 
-        compatible with 2.7 and 3.7).
-        Note that having to mock this function is rather unfortunate,
-        when refactoring this code should be modified,
-        so that parsing of table content is not coupled with the logic
-        responsible for locating and opening files.
-        """
-        self.translator = la_main_module.translator()
-        patcher = mock_lib.patch(
-            "latex_access.latex_access.get_path",
-            FAKE_GET_PATH
-        )
-        self.addCleanup(patcher.stop)
-        patcher.start()
+        """Create fresh translator instance for each of the tests."""
+        sys.path.append(TEST_TABLES_PATH)
+        import testTranslator
+        self.translator = testTranslator.TestTranslator()
+        sys.path.remove(TEST_TABLES_PATH)
 
     def test_commented_and_empty_lines_skipped(self):
         """Ensure that lines starting with ; (semicolon)
