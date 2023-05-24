@@ -159,3 +159,11 @@ class TestPolishBraille(unittest.TestCase):
         self.braille.lastnumber = 0
         self.assertEqual(self.braille.comma("1,25", 1), (",", 1))
         self.assertEqual(self.braille.lastnumber, 1)
+
+    def test_percent(self):
+        """Tests translation of percent sign."""
+        self.assertEqual(self.braille.translate('2\%', 0), (u'#b⠼⠚⠴'))
+
+    def test_abs(self):
+        """Tests translation of absolute value."""
+        self.assertEqual(self.braille.translate(r'\abs{2}', 0), (u'⠈l#b⠸'))

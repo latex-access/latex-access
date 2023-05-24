@@ -157,3 +157,11 @@ class TestPolishSpeech(unittest.TestCase):
             self.speech.ang(r"\ang{52;58;13;22;}", 4),
             ("52 stopni 58 minut 13 sekund 22;", 18)
         )
+
+    def test_percent(self):
+        """Tests translation of percent sign."""
+        self.assertEqual(self.speech.translate('2\%', 0), ('2  procent '))
+
+    def test_abs(self):
+        """Tests translation of absolute value."""
+        self.assertEqual(self.speech.translate('\\abs{2}', 0), (u' wartość bezwzględna  2  koniec wartości '))
