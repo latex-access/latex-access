@@ -17,14 +17,12 @@
 
 
 from latex_access import preprocessor
-from latex_access import speech
 from latex_access import settings
 import os
 
 class latex_access_com:
     def __init__(self):
         self.filename = os.path.join(os.path.expandvars("%appdata%"), "latex-access.conf")
-        self.speech_translator=speech.speech()
         self.preprocessor=preprocessor.preprocessor()
         self.activateSettings()
         self.newcommands=preprocessor.newcommands(self.preprocessor)
@@ -76,6 +74,7 @@ class latex_access_com:
         and documentation."""
         settings.loadSettings (os.path.expanduser(self.filename))
         self.nemeth_translator=settings.brailleTableToUse ()
+        self.speech_translator = settings.get_configured_speech_translator()
         return settings.activateSettings ({"braille":self.nemeth_translator,"speak":self.speech_translator,"preprocessor":self.preprocessor})
 
 #Register the object

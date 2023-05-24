@@ -27,14 +27,11 @@ from __future__ import absolute_import
 import sys
 import os.path
 from latex_access import settings
-from latex_access import speech
-from latex_access import nemeth
-from latex_access import ueb
 from latex_access import preprocessor
 from latex_access import matrix_processor
 from latex_access import table as t
 
-s=speech.speech()
+s = ''  # A currently active instance of speech translator
 n=''
 p=preprocessor.preprocessor()
 nc=preprocessor.newcommands(p)
@@ -51,7 +48,15 @@ def activateSettings ():
 
     Consult the actual function definition in settings.py for details
     and documentation."""
+    # Ideally this function should be refactored,  so that it returns active translators,
+    # which can then be used  on the Elisp side, rather than rely on these global values,
+    # but this should be sufficient for now.
+    # It is also worth pointing out that the return value from settings.activateSettings 
+    # Is always True, unless it raises an exception, so using it to check if setting were in fact loaded correctly is unwise.
+    # I have no idea how Emacs would react to a potential exception thrown on the Python side, so that should be checked as well.
+
     global n # handle to the braille translator
+    global s  # Handle to the speech translator
     # Paths pointing to potential configuration files.
     configFilePaths=(os.path.expanduser("~/.latex-access"), "/etc/latex-access.conf")
     for configFile in configFilePaths:
@@ -60,6 +65,7 @@ def activateSettings ():
 
     settings.loadSettings (configFile)
     n=settings.brailleTableToUse ()
+    s = settings.get_configured_speech_translator()
     return settings.activateSettings ({"braille":n,"speak":s,"preprocessor":p})
 
 def transbrl (arg):

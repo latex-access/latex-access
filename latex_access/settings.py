@@ -15,12 +15,25 @@
 from __future__ import absolute_import
 
 import os
-from latex_access import ueb
-from latex_access import nemeth
 
-globals
+import latex_access.braille_translators
+import latex_access.speech_translators
+import latex_access.import_utils as imp_utils
+
+
 # Global settings for latex-access, these are the default values
-settings={"brailledollars":"True","speakdollars":"True","brailletable":"nemeth","capitalisation":"6dot","preprocessorfile":"~/.latex-access-preprocessor.strings", "speechfile":"","nemethfile":"","uebfile":""}
+settings = {
+    "brailledollars": "True",
+    "speakdollars": "True",
+    "brailletable": "nemeth",
+    "capitalisation": "6dot",
+    "preprocessorfile": "~/.latex-access-preprocessor.strings",
+    "speechfile": "",
+    "nemethfile": "",
+    "uebfile": "",
+    "speechtranslator": "speech",
+}
+
 
 def loadSettings (file):
     """Read settings from file.
@@ -97,23 +110,49 @@ def booleaniseSetting (setting):
     else:
         return False
 
-def getSetting (setting):
-    """Get the value of setting.
-
-    This function searches for the particular setting in the settings
-    dict, and if found, returns the settings' value."""
-
-    if setting in settings.keys():
-        return booleaniseSetting(setting)
-    else: # setting not found
-        return False
 
 def brailleTableToUse ():
     """Return the instance of the braille module to use.
 
     This function return the instance of the Braille table that should be
     used."""
-    if settings["brailletable"].lower() == "ueb":
-        return ueb.ueb()
+    DEFAULT_BRAILLE_TRANSLATOR_NAME = "nemeth"
+    configured_braille_table_name = settings["brailletable"].lower()
+    if imp_utils.module_exists(
+        configured_braille_table_name,
+        latex_access.braille_translators
+    ):
+        braille_translator = imp_utils.import_module(
+            configured_braille_table_name,
+            latex_access.braille_translators
+        )
     else:
-        return nemeth.nemeth()
+        braille_translator = imp_utils.import_module(
+            DEFAULT_BRAILLE_TRANSLATOR_NAME,
+            latex_access.braille_translators
+        )
+    return braille_translator.BrailleTranslator()
+
+
+def get_speech_translator(translator_name, experimental=False):
+    """Return module where speech translator with a given name is defined."""
+    if experimental:
+        translator_name = "experimental.{}".format(translator_name)
+    return imp_utils.import_module(
+        translator_name,
+        latex_access.speech_translators
+    ).speech
+
+
+def get_configured_speech_translator():
+    """Return the instance of the speech translator to use."""
+    DEFAULT_speech_TRANSLATOR_NAME = "speech"
+    configured_speech_translator_name = settings["speechtranslator"].lower()
+    if imp_utils.module_exists(
+        configured_speech_translator_name,
+        latex_access.speech_translators
+    ):
+        speech_translator = get_speech_translator(configured_speech_translator_name)
+    else:
+        speech_translator = get_speech_translator(DEFAULT_speech_TRANSLATOR_NAME)
+    return speech_translator()

@@ -3,12 +3,9 @@
 
 
 import sys
-import latex_access.speech as speech
 import latex_access.settings as settings
 import os
 
-s=speech.speech()
-b=''
 filename = ''
 
 if len(sys.argv) > 1:
@@ -22,12 +19,14 @@ def activateSettings ():
 
     Consult the actual function definition in settings.py for details
     and documentation."""
-    global b # handle to the braille translator 
     settings.loadSettings (os.path.expanduser(filename))
     b=settings.brailleTableToUse ()
-    return settings.activateSettings ({"braille":b, "speak":s})
+    s = settings.get_configured_speech_translator()
+    settings.activateSettings ({"braille":b, "speak":s})
+    return b, s
 
-activateSettings ()
+b, s = activateSettings ()
+
 
 while True:
     input = sys.stdin.readline()
@@ -36,4 +35,3 @@ while True:
 
     output=s.translate(input)
     print(output)
-    

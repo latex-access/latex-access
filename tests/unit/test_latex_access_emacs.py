@@ -27,6 +27,7 @@ class TestsLatexAccessEmacs(unittest.TestCase):
 
     def test_toggle_dolars_speech(self):
         """Tests toggling of dollar signs."""
+        activateSettings()
         self.assertTrue(toggle_dollars_speech())
 
     def test_preprocessor_add(self):

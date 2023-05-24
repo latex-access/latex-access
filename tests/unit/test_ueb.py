@@ -1,18 +1,12 @@
 import unittest
-from latex_access import ueb
 
-try:
-    ueb.ueb()
-    incompatible = False
-except AttributeError:
-    incompatible = True
+from latex_access.braille_translators import ueb
 
 
-@unittest.skipIf(incompatible, 'This module is not compatible with version 3 of Python.')
 class UebTests(unittest.TestCase):
     def setUp(self):
         """Creates a ueb instance."""
-        self.braille = ueb.ueb()
+        self.braille = ueb.BrailleTranslator()
 
     def test_adding_file(self):
         """Tests adding of nemeth table file."""
