@@ -1,0 +1,171 @@
+; Basic arithmetic functions
++ dodać
+- minus
+< mniejsze od
+\lt mniejsze od
+= równe
+> większe od
+\gt większe od
+\times razy
+\div podzielić przez
+\pm dodać lub odjąć
+\leq  mniejsze lub równe
+\le mniejsze lub równe
+\geq  większe lub równe
+\ge  większe lub równe
+\equiv  identyczny
+\approx równe w przybliżeniu
+\sim  prawie równy
+\neq nie równe
+\ne nie równe
+\ll  dużo dużo mniejsze
+\gg  dużo dużo większe
+\pm dodać lub odjąć
+\mp odjąć lub dodać
+\leftrightarrow  wtedy i tylko wtedy
+\Rightarrow  dąży do
+\rightarrow  dąży do
+\to dąży do
+\Leftrightarrow  wtedy i tylko wtedy
+\longrightarrow  dąży do
+\longleftrightarrow  wtedy i tylko wtedy
+\wedge  i
+\vee lub
+\lnot nie
+\not nie
+\neg  nie
+\propto  proporcjonalne do
+\min minimum
+\max maksimum
+\lfloor  lewa podłoga
+\rfloor  prawa podłoga
+
+; trigonometric and hyperbolic functions
+\tanh  tangens hiperboliczny
+\tan tangens
+\tg tangens
+\arctan  arcus tangens
+\sinh  sinus hiperboliczny
+\sin  sinus
+\arcsin  arcus sinus
+\cosh  cosinus hiperboliczny
+\cos  cosinus
+\arccos  arcus cosinus
+\cot kotangens
+\arccot arkus kotangens
+
+; capital greek letters
+\Alpha  duża alfa
+\Beta  duża beta
+\Gamma  duża gamma
+\Delta  duża delta
+\Epsilon  duży epsilon
+\Zeta  duża zeta
+\Eta  duża eta
+\Theta  duża teta
+\Iota  duża iota
+\Kappa  duża kappa
+\Lambda  duża lambda
+\Mu  duże mi
+\Nu  duże ni
+\Xi  duże xi
+\Omicron  duży omikron
+\Pi  duże pi
+\Rho  duże ro
+\Sigma  duża siigma
+\Tau  duże tau
+\Upsilon  duży ypsilon
+\Phi  duże fi
+\Psi  duże psi
+\Chi  jduże hi
+\Omega  duża omega
+
+; small greek letters
+\alpha  alfa
+\beta  beta
+\gamma  gamma
+\delta  delta
+\epsilon  epsilon
+\zeta  zeta
+\eta  eta
+\theta  theta
+\iota  iota
+\kappa  kappa
+\lambda  lambda
+\mu  mi
+\nu  ni
+\xi  xi
+\omicron  omikron
+\pi  pi
+\varpi var pi
+\rho  ro
+\sigma  sigma
+\tau  tau
+\upsilon  ypsilon
+\phi  fi
+\psi  psi
+\chi  chi
+\omega  omega
+
+\varphi var fi
+\vartheta var teta
+\varepsilon var epsilon
+
+; set theory
+\setminus  rużnica
+\cap  część wspólna
+\triangleleft  dzielnik normalny
+\therefore  stąd
+\supseteq  nadzbiór lub równy
+\supset  nadzbiór
+\subseteq  podzbiór lub równy
+\subset  podzbiór
+\in  należy do
+\notin nie należy do
+\ni  zawierający
+\forall  dla każdego
+\exists istnieje
+\emptyset  zbiór pusty
+\cup  suma
+\{ lewa klamra
+\} prawa klamra
+\langle  lewy zamknięty
+\rangle  prawy zamknięty
+
+; standard LaTeX commands for better reading
+\cdot  razy
+\cdots  wielokropek
+\right 
+\quad 
+\qquad 
+\left 
+\ldots  wielokropek
+\dots  wielokropek
+\;  
+\,  
+\!  
+\:  
+\textbackslash \
+\textdegree  stopnie
+\circ  stopni
+\angle  kąt
+\sphericalangle  kąt
+
+; calculus
+\lim  granica
+' prim
+" bis
+\partial  cząstkowy
+\nabla  nabla
+\oint  całka krzywoliniowa
+
+; special characters
+\infty  nieskończoność
+\perp  prostopadły
+
+; Probability and permutations
+\Pr  prawdopodobieństwo
+\choose  brane po
+\Choose  brane po
+! silnia
+\%  procent

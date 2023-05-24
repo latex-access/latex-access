@@ -25,7 +25,7 @@ from latex_access import routing
 from latex_access import back_compat
 
 # Regular expression to match LaTeX commands
-latex_command=re.compile(r"\\(([a-zA-Z]+)|[,!;\{\}\[\];:])")
+latex_command = re.compile(r"\\(([a-zA-Z]+)|[,!;\{\}\[\];:\%])")
 #Regexp for testing if a string contains only primes
 primes=re.compile(r"^\s*(\\prime\s*)+$")
 
@@ -247,7 +247,7 @@ class translator:
         An integer refers to the corresponding argument which is translated and inserted into the string.
 
         Returns usual tuple.'''
-        if isinstance(delimitors[0], back_compat.STR_TYPE):
+        if isinstance(delimitors[0], back_compat.STR_AND_UNICODE):
             translation=self.space
             translation+=delimitors[0]
             translation+=self.space
