@@ -23,9 +23,10 @@ class _FakePreprocessor(object):
 class FakeTranslator(object):
     """Minimal interface necessary to mockup a braille / speech translator."""
 
-    def __init__(self, attrsToSet):
-        for attrName, attrInitialVal in attrsToSet.items():
-            setattr(self, attrName, attrInitialVal)
+    def __init__(self, remove_dollars=False, capitalisation="6dot"):
+        super(FakeTranslator, self).__init__()
+        self.remove_dollars = remove_dollars
+        self.capitalisation = capitalisation
         self.loaded_files = list()
 
     def load_file(self, pathToLoad):
@@ -57,6 +58,19 @@ class TestSettings(unittest.TestCase):
         sample_config_path = os.path.join(HERE, 'test_settings_incorrect.txt')
         settings_module.loadSettings(sample_config_path)
         self.assertEqual(settings_module.settings, self.settings_copy)
+
+    def test_no_change_to_settings_when_empty_file_provided(self):
+        """Test that empty config file causes no change in settings."""
+        sample_config_path = os.path.join(
+            HERE,
+            'test_settings_empty_file.txt'
+        )
+        settings_loaded = settings_module.loadSettings(sample_config_path)
+        self.assertTrue(settings_loaded)
+        self.assertEqual(
+            settings_module.settings,
+            self.settings_copy
+        )
 
     def test_settings_file_lines_ignored(self):
         """Test that lines which consist only of white spaces
@@ -140,8 +154,8 @@ class TestSettings(unittest.TestCase):
             )
 
     def test_dollar_announcement_modified_in_speech(self):
-        fakeSpeechTranslator = FakeTranslator({"remove_dollars": None})
-        settings_module.settings["speakdollars"] = True
+        fakeSpeechTranslator = FakeTranslator(remove_dollars=True)
+        settings_module.settings["speakdollars"] = "true"
         settingsLoaded = settings_module.activateSettings(
             {"speak": fakeSpeechTranslator}
         )
@@ -150,8 +164,8 @@ class TestSettings(unittest.TestCase):
         self.assertFalse(fakeSpeechTranslator.remove_dollars )
 
     def test_dollar_presentation_modified_in_braille(self):
-        fakeBrailleTranslator = FakeTranslator({"remove_dollars": None})
-        settings_module.settings["brailledollars"] = True
+        fakeBrailleTranslator = FakeTranslator(remove_dollars=True)
+        settings_module.settings["brailledollars"] = "true"
         settingsLoaded = settings_module.activateSettings(
             {"braille": fakeBrailleTranslator}
         )
@@ -160,7 +174,7 @@ class TestSettings(unittest.TestCase):
         self.assertFalse(fakeBrailleTranslator.remove_dollars )
 
     def test_capitalization_from_settings_set_onbraillle_translator(self):
-        fakeBrailleTranslator = FakeTranslator({"capitalisation": ""})
+        fakeBrailleTranslator = FakeTranslator()  # Create with default params
         settings_module.settings["capitalisation"] = "8dot"
         settingsLoaded = settings_module.activateSettings(
             {"braille": fakeBrailleTranslator}
@@ -188,7 +202,7 @@ class TestSettings(unittest.TestCase):
 
     def test_table_for_ueb_loaded(self):
         """Ensure that when UEB is used the correct file is loaded."""
-        fakeBrailleTranslator = FakeTranslator({})
+        fakeBrailleTranslator = FakeTranslator()
         settings_module.settings["brailletable"] = "ueb"
         with tempfile.NamedTemporaryFile() as ueb_fake_table:
             settings_module.settings["uebfile"] = ueb_fake_table.name
@@ -200,7 +214,7 @@ class TestSettings(unittest.TestCase):
 
     def test_table_for_speech_loaded(self):
         """Ensure that when speech table exists it is loaded."""
-        fakeSpeechTranslator = FakeTranslator({})
+        fakeSpeechTranslator = FakeTranslator()
         with tempfile.NamedTemporaryFile() as speech_fake_table:
             settings_module.settings["speechfile"] = speech_fake_table.name
             settingsLoaded = settings_module.activateSettings(
@@ -208,3 +222,22 @@ class TestSettings(unittest.TestCase):
             )
             self.assertTrue(settingsLoaded)
             self.assertEqual(fakeSpeechTranslator.loaded_files, [speech_fake_table.name])
+
+    def test_speech_translator_imported_by_name(self):
+        """Non-experimental speech translator can be imported by name."""
+        translator = settings_module.get_speech_translator("hungarian_speech")()
+        self.assertEqual(translator.table[r"\ddot"], ("", "duplapont"))
+
+    def test_experimental_speech_translator_imported_by_name_experimental_requested(self):
+        """When experimental modules are explicitly requested,
+        experimental speech translator can be imported by name.
+        """
+        translator = settings_module.get_speech_translator("ssml", experimental=True)()
+        self.assertEqual(translator.table["_"], ('<prosody pitch="-15%">','</prosody>'))
+
+    def test_experimental_speech_translator_imported_by_name(self):
+        """Even though experimental module is not requested,
+        it can be imported by an smart user, by appropriately prepared name.
+        """
+        translator = settings_module.get_speech_translator("experimental.ssml", experimental=False)()
+        self.assertEqual(translator.table["_"], ('<prosody pitch="-15%">','</prosody>'))
