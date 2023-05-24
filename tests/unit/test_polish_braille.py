@@ -1,12 +1,12 @@
 # -*- coding: utf8 -*-
 import unittest
-from latex_access import polish_braille
+from latex_access.braille_translators import polish_braille
 
 
 class TestPolishBraille(unittest.TestCase):
     def setUp(self):
         """Creates a braille instance."""
-        self.braille = polish_braille.Braille()
+        self.braille = polish_braille.BrailleTranslator()
 
     def test_adding_file(self):
         """Tests adding of braille table file."""

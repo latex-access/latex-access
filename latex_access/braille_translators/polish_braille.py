@@ -24,7 +24,7 @@ import re
 
 sqrt_with_two_args =re.compile(r".*\\sqrt\[(.?)\]")
 
-class Braille(latex_access.translator):
+class BrailleTranslator(latex_access.translator):
     '''Class for translations to braille.'''
 
     upperNumbers = ('j', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i')

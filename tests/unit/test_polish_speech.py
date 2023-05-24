@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 import unittest
 from parameterized import parameterized
-from latex_access import polish_speech
+from latex_access.speech_translators import polish_speech
 
 
 class TestPolishSpeech(unittest.TestCase):
