@@ -1,15 +1,10 @@
 import unittest
+
 from parameterized import parameterized
-from .speech_modified_wrapper import speech_modified
-try:
-    speech_modified.speech()
-except AttributeError:
-    failed_to_import = True
-else:
-    failed_to_import = False
+
+from latex_access.speech_translators import speech_modified
 
 
-@unittest.skipIf(failed_to_import, "Speech modified module is incompatible with current version of python.")
 class TestSpeechModified(unittest.TestCase):
     def setUp(self):
         """Creates a speech instance."""

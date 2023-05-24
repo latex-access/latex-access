@@ -20,7 +20,6 @@ import inspect
 import re
 import os.path
 
-from latex_access.path import get_path
 import codecs
 from latex_access import routing
 from latex_access import back_compat
@@ -42,12 +41,51 @@ class translator:
         self.space=""
         self.files=[]
 
+    CWD = os.getcwd()
+    """Holds directory from which the interpreter importing the library was started.
+
+    It is important to create this variable on import,
+    rather than calling `getcwd` when the path is needed,
+    since cwd may be changed by the user.
+    We use this value only on Python 2 (or before Python 3.4 to be exact),
+    since `__file__` is not always an absolute path there.
+    While normally library is imported from some location
+    present on `sys.path` explicitly,
+    (in which case `__file__` attribute will be an absolute path)
+    this is not the case when testing interactively in Python's interpreter,
+    and in unit tests where, contrary to what Python's 2 documentation states,
+    current directory is not added to `PYTHONPATH` when starting Pytest as a module.
+    """
+
+    @classmethod
+    def make_table_file_path(cls, tbl_file_name):
+        """Create an absolute path to the table file specified by name."""
+        if not os.path.isabs(tbl_file_name):
+            tbl_file_name = os.path.join(cls.CWD, tbl_file_name)
+        return tbl_file_name
+
+    def get_buildin_tables_dir(self):
+        """Return path  to the directory in which table files for this translator are placed.
+
+        by build-in we mean these included in the library itself.
+        Some notes how to handle this for frozen vesion of LA i.e. one for JAWS.
+        Use sys.frozen to detect if we are frozen executable or not.
+        If we are then determine the base path using sys.baseprefix,
+        Since the path returned from inspect.getfile would point inside library.zip where .pyc files are placed
+        We would need to take the package from its end, and combine it with the base path retrieved above.
+        """
+        return os.path.normpath(
+            self.make_table_file_path(
+                os.path.dirname(inspect.getfile(self.__class__))
+            )
+        )
+
     def load_file(self,filename):
         '''Loads simple string table entries from a file.
 
         The file is a simple text file, lines beginning with ; are ignored.
         Other lines are split at the first space into a command and translation.'''
-        f=codecs.open(os.path.join(get_path(),filename),"r","utf-8")
+        f = codecs.open(os.path.join(self.get_buildin_tables_dir(), filename),"r","utf-8")
         for l in f.readlines():
             if l[0]==";" or l[0]=="\n": continue
             words=l.split(" ")

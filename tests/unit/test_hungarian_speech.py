@@ -1,16 +1,11 @@
 # -*- coding: utf8 -*-
 import unittest
+
 from parameterized import parameterized
-from .hungarian_speech_wrapper import hungarian_speech
-try:
-    hungarian_speech.speech()
-except AttributeError:
-    failed_to_import = True
-else:
-    failed_to_import = False
+
+from latex_access.speech_translators import hungarian_speech
 
 
-@unittest.skipIf(failed_to_import, "Hungarian speech module is incompatible with current version of python.")
 class TestHungarianSpeech(unittest.TestCase):
     def setUp(self):
         """Creates a speech instance."""
