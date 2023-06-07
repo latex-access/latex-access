@@ -70,3 +70,65 @@ It should be used as follows:
   <summary> Refactoring notes: </summary>
     As above newcommands should inherit from the translator's interface, not from the implementation, since mapping of all translating methods is removed in the initializer anyway.
 </details>
+
+## Loading user settings
+
+Latex-access has some settings, which are set independently from the screen reader in use.
+They should be respected by your interface, since user may use latex-access with several different screen readers, or, as is the case under Linux, with different program for speech and Braille output at the same time.
+The format of the config file is documented in the sample configuration file called `latex-access.conf` in the root of the repository, so this section would only describe how to access, and load configuration programmatically.
+All functions and variables described in this section are placed in the `latex_access.settings` module, and therefore this prefix would be omitted for brevity.
+To load user settings from a  file, you should call `loadSettings` with a path to the file in which latex-access configuration for the current user should be placed.
+The function returns `True` when settings are loaded successfully, or `False` if the specified file does not exist, or could not be opened for some reason.
+While you may want to alert user to the fact that settings could not be loaded, the library is functional in that case - default settings are used.
+
+<details>
+
+  <summary> Refactoring notes: </summary>
+  
+  * When loading settings empty lines are ignored only for file with LF (Unix line endings) - this should be fixed.
+  * When adding  settings values to the dictionary the values are converted to lower  case, and everything after the first space is ignored. This is problematic for file names on case-sensitive file systems, and for file paths containing spaces.
+</details>
+
+The definition of the default settings are in the dictionary `latex_access.settings.settings`, you may want to inspect it to see what values are the default.
+Note that this dictionary is changed in place, so after user settings are loaded, it reflects the content of the user settings file, and no longer the default configuration.
+This dictionary is intentionally public, to allow making temporary changes to settings from your application.
+As to when you should modify it that depends on what effect you want to achieve:
+* If you want to configure some setting, but let user preference override the choice, you should set them before calling `loadSettings` - in that case your setting would be used if and only if given setting is not present in the user level configuration file.
+* If you want to enforce particular setting (perhaps you have a configuration GUI in your application, or you offer a command line options to set some parameters) then you can modify the `settings` dictionary after settings are loaded. Note that removing values from the map is not supported, and it is assumed that all default keys are always in the dictionary.
+
+User settings are then applied to a particular translators (classes which convert a line of LaTeX to a different representation).
+Applying of these settings is done by passing translator instances to the ` activateSettings` function, however these instances must be created first.
+To do this you should:
+* Create preprocessor instance as described above
+* Create instance of a speech translator requested by the user by calling ` get_configured_speech_translator`
+* Create instance of Braille translator requested by the user by calling ` brailleTableToUse`
+
+Note that these functions don't warn when the configured translator does not exist- instance of the default Braille and speech translator  is returned.
+
+<details>
+<summary> Todo:</summary>
+In future they probably should write a warning to a logger - raising exception in that case seems too drastic.
+</details>
+
+`activateSettings` accepts a dictionary which should be constructed as follows:
+```python
+{
+    "preprocessor": your_preprocessor_instance,
+    "braille": your_braille_translator_instance,
+    "speak": your_speech_translator_instance
+}
+```
+If your application has no use for a particular translator (perhaps it only supports translating to Braille) any of these keys can be omitted from the dictionary.
+`activateSettings` always returns `True`, so its return value can be safely ignored.
+Settings are applied to the passed instances, so they are configured according to the user expectations, and ready to use when translating.
+Note that instances you have configured should then be used throughout your  application and you should not re-create them for every translation as that would be extremely wasteful.
+
+<details>
+<summary> Refactoring notes: </summary>
+
+This process is way too complicated.
+Ideally we would just have a `Settings` class which accepts path to the file name, and can return all configured instances when requested.
+It may eventually allow to overwrite some settings (that seems to be required by the BRLTTY table, which allows to specify  Braille translator from the CLI) and pass different preprocessor instance )I'm not sure if re-using preprocessor created earlier should be a supported use case or not).
+It should also maintain list of default settings, so that we would not have to repeat the default values for speech and Braille translator in the code.
+An alternative, though not mutually exclusive to the above, idea would be to place responsibility for loading settings to a translator base classes, by creating base `SpeechTranslator` and `BrailleTranslator` classes, and adding to them a  method like `configure_from_user_settings` (obviously preprocessor should be threated similarly).
+</details>
