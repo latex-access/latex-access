@@ -132,3 +132,21 @@ It may eventually allow to overwrite some settings (that seems to be required by
 It should also maintain list of default settings, so that we would not have to repeat the default values for speech and Braille translator in the code.
 An alternative, though not mutually exclusive to the above, idea would be to place responsibility for loading settings to a translator base classes, by creating base `SpeechTranslator` and `BrailleTranslator` classes, and adding to them a  method like `configure_from_user_settings` (obviously preprocessor should be threated similarly).
 </details>
+
+## Translating
+When translator instance are configured you  can finally use them to translate some LaTeX.
+For the simple usages, i.e. cases where you just need to speak / present in Braille a translated string, it is sufficient to call `translate` method on a translator instance with the line of LaTeX you want to translate.
+The returned string is suitable to speak via speech synthesizer when translated by a speech translator, or for displaying in Braille when translated by the one for Braille.
+Translators can optionally remove dollars, which are used only to mark mathematical content, from the translation.
+To control this you should change the value of a Boolean variable  ` remove_dollars` on a translator instance.
+Note that you should not make any assumptions about its initial value, since it can be configured in the user configuration file.
+If you offer a control which toggles between two states (dollars translated or discarded) the recommended pattern is to negate the current value, and then present the new value of ` remove_dollars`.
+For Braille translators you can additionally control how to present capital letters.
+While this too can be set in the configuration file, it is important to make it modifiable from the screen reader side, to keep presentation of capitals consistent with whatever is set in the screen reader preferences.
+There are two capitalization modes:
+* `6dot` - the library is responsible for marking letters as capitals, by adding whatever presentation is appropriate for the currently used Braille code. It is assumed the current notation is a literary Braille i.e. one not using dots 7 and 8. Note that with this setting capital letters are intentionally converted to lower case when translating, to avoid double capital sign added by the screen reader.
+* `8dot` - the translation of capital letters is left to the screen reader. Note that this setting is best used when the screen reader is set to 8-dot Braille, to avoid ambiguities between numbers and first 10 letters of the alphabet.
+
+For the best presentation it is important to keep the capitalization mode in sync with whatever is set in the screen reader.
+Ideally, your frontend to the library should react to settings change on the screen reader side, and then configure the translator appropriately.
+Since none of the screen readers currently supported offer such facility, the most common alternative is to set the capitalization mode on a translator instance before translating each line to Braille.
